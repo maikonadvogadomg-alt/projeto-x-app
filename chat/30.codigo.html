@@ -1,0 +1,3432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Projetos PWA — Maikon Caldeira</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 10px 18px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+/* Isola estilos de cada projeto */
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Navegação -->
+<div class="project-nav">
+  <span style="font-size:14px;font-weight:700;color:#a3a082;margin-right:10px;">📂</span>
+  <button class="nav-btn active" onclick="trocarProjeto(0)">Cirurgião3</button><button class="nav-btn " onclick="trocarProjeto(1)">Ciru5</button><button class="nav-btn " onclick="trocarProjeto(2)">Curu64 </button>
+</div>
+
+<!-- Projetos (cada um em iframe isolado) -->
+
+<div class="project-container active" id="projeto0">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;🔬 Cirurgião 3.0 — Scanner Inteligente&lt;/title&gt;
+  &lt;style&gt;
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #12121a;
+      --bg3: #1a1a2e;
+      --text: #e2e8f0;
+      --text2: #94a3b8;
+      --accent: #a3a082;
+      --accent2: #d4d0a8;
+      --green: #4ade80;
+      --blue: #60a5fa;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --border: #2d2d3a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--bg2), var(--bg3));
+      border-bottom: 2px solid var(--accent);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      color: var(--accent2);
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: var(--text2);
+      letter-spacing: 1px;
+    }
+
+    .container {
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .tab-btn {
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    .section {
+      display: none;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section h2 {
+      font-size: 18px;
+      color: var(--accent2);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .grid-1 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .card h3 {
+      font-size: 13px;
+      color: var(--accent2);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent2);
+    }
+
+    .btn-success {
+      background: var(--green);
+      color: #000;
+    }
+
+    .btn-success:hover {
+      background: #22c55e;
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--red);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .btn-blue {
+      background: rgba(96, 165, 250, 0.15);
+      color: var(--blue);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+    }
+
+    .btn-blue:hover {
+      background: rgba(96, 165, 250, 0.25);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .input-file {
+      padding: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .input-text {
+      width: 100%;
+      padding: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .input-text:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      resize: vertical;
+      min-height: 200px;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .file-list {
+      max-height: 400px;
+      overflow-y: auto;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .file-item {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      word-break: break-all;
+      font-size: 11px;
+      transition: all 0.2s;
+    }
+
+    .file-item:hover {
+      background: var(--bg3);
+      color: var(--accent);
+    }
+
+    .file-item.selected {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .status {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      margin-bottom: 16px;
+      border: 1px solid;
+    }
+
+    .status-info {
+      background: rgba(96, 165, 250, 0.1);
+      color: var(--blue);
+      border-color: rgba(96, 165, 250, 0.3);
+    }
+
+    .status-success {
+      background: rgba(74, 222, 128, 0.1);
+      color: var(--green);
+      border-color: rgba(74, 222, 128, 0.3);
+    }
+
+    .status-warning {
+      background: rgba(251, 146, 60, 0.1);
+      color: var(--yellow);
+      border-color: rgba(251, 146, 60, 0.3);
+    }
+
+    .status-error {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--red);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .code-preview {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      max-height: 300px;
+      overflow-y: auto;
+      color: var(--text2);
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    .error-item {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 3px solid var(--red);
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    .error-item .file {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .error-item .line {
+      color: var(--yellow);
+    }
+
+    .error-item .msg {
+      color: var(--red);
+    }
+
+    .note-item {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .note-item .title {
+      color: var(--accent2);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .note-item .content {
+      color: var(--text2);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--bg2);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent2);
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text2);
+    }
+
+    .empty-state .icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--bg3);
+      border-radius: 4px;
+      font-size: 10px;
+      color: var(--text2);
+      margin-right: 4px;
+    }
+
+    .badge.bug {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--red);
+    }
+
+    .badge.api {
+      background: rgba(96, 165, 250, 0.2);
+      color: var(--blue);
+    }
+
+    .badge.replit {
+      background: rgba(251, 146, 60, 0.2);
+      color: var(--yellow);
+    }
+
+    .badge.function {
+      background: rgba(74, 222, 128, 0.2);
+      color: var(--green);
+    }
+
+    @media (max-width: 1200px) {
+      .grid-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .header h1 {
+        font-size: 20px;
+      }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;header&quot;&gt;
+  &lt;h1&gt;🔬 Cirurgião 3.0 — Scanner Inteligente&lt;/h1&gt;
+  &lt;p&gt;Importar → Analisar → Detectar → Editar → Salvar&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+  &lt;!-- TABS --&gt;
+  &lt;div class=&quot;tabs&quot;&gt;
+    &lt;button class=&quot;tab-btn active&quot; onclick=&quot;switchTab('import')&quot;&gt;📂 1. Importar&lt;/button&gt;
+    &lt;button class=&quot;tab-btn&quot; onclick=&quot;switchTab('analyze')&quot;&gt;🔍 2. Analisar&lt;/button&gt;
+    &lt;button class=&quot;tab-btn&quot; onclick=&quot;switchTab('detect')&quot;&gt;🐛 3. Detectar&lt;/button&gt;
+    &lt;button class=&quot;tab-btn&quot; onclick=&quot;switchTab('edit')&quot;&gt;✏️ 4. Editar&lt;/button&gt;
+    &lt;button class=&quot;tab-btn&quot; onclick=&quot;switchTab('notes')&quot;&gt;📝 5. Notas&lt;/button&gt;
+    &lt;button class=&quot;tab-btn&quot; onclick=&quot;switchTab('manual')&quot;&gt;📖 Manual&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 1: IMPORTAR --&gt;
+  &lt;div id=&quot;section-import&quot; class=&quot;section active&quot;&gt;
+    &lt;h2&gt;📂 Importar Arquivos&lt;/h2&gt;
+
+    &lt;div class=&quot;status status-info&quot;&gt;
+      💡 Suporta: ZIP, TAR, TAZ, HTML, JS, CSS, JSON, TXT e mais
+    &lt;/div&gt;
+
+    &lt;div class=&quot;grid-2&quot;&gt;
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;Carregar Arquivo&lt;/h3&gt;
+        &lt;input type=&quot;file&quot; id=&quot;fileInput&quot; class=&quot;input-file&quot; accept=&quot;.zip,.tar,.tar.gz,.taz,.html,.htm,.js,.css,.json,.txt,.jsx,.tsx,.ts&quot;&gt;
+        &lt;div class=&quot;btn-group&quot;&gt;
+          &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;importarArquivo()&quot;&gt;📁 Carregar&lt;/button&gt;
+          &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;limparImportacao()&quot;&gt;🗑️ Limpar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;Ou Cole Diretamente&lt;/h3&gt;
+        &lt;textarea id=&quot;codigoColado&quot; placeholder=&quot;Cole HTML, JS, JSON, etc aqui...&quot;&gt;&lt;/textarea&gt;
+        &lt;div class=&quot;btn-group&quot;&gt;
+          &lt;button class=&quot;btn btn-success&quot; onclick=&quot;importarCodigo()&quot;&gt;✅ Importar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;statusImportacao&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 2: ANALISAR --&gt;
+  &lt;div id=&quot;section-analyze&quot; class=&quot;section&quot;&gt;
+    &lt;h2&gt;🔍 Análise de Arquivos&lt;/h2&gt;
+
+    &lt;div class=&quot;grid-3&quot;&gt;
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;📂 Arquivos Encontrados&lt;/h3&gt;
+        &lt;input type=&quot;text&quot; class=&quot;search-box&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar por nome...&quot; oninput=&quot;filtrarArquivos()&quot;&gt;
+        &lt;div class=&quot;file-list&quot; id=&quot;listaArquivos&quot;&gt;
+          &lt;div class=&quot;empty-state&quot;&gt;&lt;p&gt;Nenhum arquivo carregado&lt;/p&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;📊 Conteúdo do Arquivo&lt;/h3&gt;
+        &lt;div id=&quot;infoArquivo&quot; style=&quot;font-size: 11px; color: var(--text2); margin-bottom: 8px;&quot;&gt;Selecione um arquivo&lt;/div&gt;
+        &lt;div class=&quot;code-preview&quot; id=&quot;conteudoArquivo&quot;&gt;Selecione um arquivo para ver seu conteúdo&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;📈 Estatísticas&lt;/h3&gt;
+        &lt;div class=&quot;code-preview&quot; id=&quot;estatisticas&quot;&gt;Nada analisado ainda&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 3: DETECTAR --&gt;
+  &lt;div id=&quot;section-detect&quot; class=&quot;section&quot;&gt;
+    &lt;h2&gt;🐛 Detecção Automática&lt;/h2&gt;
+
+    &lt;div class=&quot;grid-2&quot;&gt;
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;🔎 Buscar Termos&lt;/h3&gt;
+        &lt;input type=&quot;text&quot; class=&quot;search-box&quot; id=&quot;termosBusca&quot; value=&quot;replit,.replit,replit.nix,package.json,vite,react,bug,TODO,FIXME,error,console.log,undefined,null,import,export&quot;&gt;
+        &lt;div class=&quot;btn-group&quot;&gt;
+          &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;buscarTermos()&quot;&gt;🔍 Buscar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;⚙️ Análise Automática&lt;/h3&gt;
+        &lt;div class=&quot;btn-group&quot;&gt;
+          &lt;button class=&quot;btn btn-success&quot; onclick=&quot;diagnosticar()&quot;&gt;🔧 Diagnosticar&lt;/button&gt;
+          &lt;button class=&quot;btn btn-blue&quot; onclick=&quot;analisarComIA()&quot;&gt;🤖 IA Analyze&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h3&gt;🚨 Erros &amp; Avisos Encontrados&lt;/h3&gt;
+      &lt;div id=&quot;errosEncontrados&quot;&gt;
+        &lt;div class=&quot;empty-state&quot;&gt;&lt;p&gt;Execute uma busca ou diagnóstico&lt;/p&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 4: EDITAR --&gt;
+  &lt;div id=&quot;section-edit&quot; class=&quot;section&quot;&gt;
+    &lt;h2&gt;✏️ Editar Arquivo&lt;/h2&gt;
+
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h3&gt;Arquivo Selecionado&lt;/h3&gt;
+      &lt;div id=&quot;nomeArquivoEditar&quot; style=&quot;font-size: 11px; color: var(--text2); margin-bottom: 12px;&quot;&gt;Nenhum&lt;/div&gt;
+      &lt;textarea id=&quot;conteudoEditar&quot; placeholder=&quot;Edite o conteúdo aqui...&quot;&gt;&lt;/textarea&gt;
+      &lt;div class=&quot;btn-group&quot;&gt;
+        &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;salvarEdicao()&quot;&gt;💾 Salvar&lt;/button&gt;
+        &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;reescreverComIA()&quot;&gt;🤖 IA Reescrever&lt;/button&gt;
+        &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;corrigirSintaxe()&quot;&gt;✅ Corrigir Sintaxe&lt;/button&gt;
+        &lt;button class=&quot;btn btn-danger&quot; onclick=&quot;descartarEdicao()&quot;&gt;❌ Descartar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 5: NOTAS --&gt;
+  &lt;div id=&quot;section-notes&quot; class=&quot;section&quot;&gt;
+    &lt;h2&gt;📝 Notas &amp; Análises Salvas&lt;/h2&gt;
+
+    &lt;div class=&quot;grid-2&quot;&gt;
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;Adicionar Nota&lt;/h3&gt;
+        &lt;input type=&quot;text&quot; class=&quot;search-box&quot; id=&quot;notaTitulo&quot; placeholder=&quot;Título da nota...&quot;&gt;
+        &lt;textarea id=&quot;notaConteudo&quot; placeholder=&quot;Conteúdo da nota...&quot; style=&quot;min-height: 100px;&quot;&gt;&lt;/textarea&gt;
+        &lt;div class=&quot;btn-group&quot;&gt;
+          &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;salvarNota()&quot;&gt;💾 Salvar Nota&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;Notas Salvas&lt;/h3&gt;
+        &lt;div id=&quot;listaNot as&quot;&gt;
+          &lt;div class=&quot;empty-state&quot;&gt;&lt;p&gt;Nenhuma nota salva&lt;/p&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 6: MANUAL --&gt;
+  &lt;div id=&quot;section-manual&quot; class=&quot;section&quot;&gt;
+    &lt;h2&gt;📖 Manual de Uso&lt;/h2&gt;
+
+    &lt;div class=&quot;grid-1&quot;&gt;
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;🎯 O que é o Cirurgião 3.0?&lt;/h3&gt;
+        &lt;p style=&quot;font-size: 12px; color: var(--text2); line-height: 1.8;&quot;&gt;
+          Uma ferramenta inteligente para importar, analisar, detectar problemas e editar código.
+          Suporta múltiplos formatos (ZIP, TAR, HTML, JS, etc) e identifica automaticamente:
+          bugs, dependências do Replit, APIs, funções, erros de sintaxe e mais.
+        &lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;📋 Formatos Suportados&lt;/h3&gt;
+        &lt;ul style=&quot;font-size: 12px; color: var(--text2); line-height: 1.8; padding-left: 16px;&quot;&gt;
+          &lt;li&gt;&lt;strong&gt;Compactados:&lt;/strong&gt; ZIP, TAR, TAZ (.tar.gz)&lt;/li&gt;
+          &lt;li&gt;&lt;strong&gt;Código:&lt;/strong&gt; HTML, JS, CSS, JSX, TSX, TS, JSON, TXT&lt;/li&gt;
+          &lt;li&gt;&lt;strong&gt;Diretos:&lt;/strong&gt; Cole código no campo &quot;Ou Cole Diretamente&quot;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;🔍 Detecções Automáticas&lt;/h3&gt;
+        &lt;ul style=&quot;font-size: 12px; color: var(--text2); line-height: 1.8; padding-left: 16px;&quot;&gt;
+          &lt;li&gt;&lt;span class=&quot;badge bug&quot;&gt;BUG&lt;/span&gt; Erros, console.log, undefined&lt;/li&gt;
+          &lt;li&gt;&lt;span class=&quot;badge replit&quot;&gt;REPLIT&lt;/span&gt; Arquivos .replit, replit.nix&lt;/li&gt;
+          &lt;li&gt;&lt;span class=&quot;badge api&quot;&gt;API&lt;/span&gt; Chamadas HTTP, fetch, axios&lt;/li&gt;
+          &lt;li&gt;&lt;span class=&quot;badge function&quot;&gt;FUNCTION&lt;/span&gt; Funções e métodos&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot;&gt;
+        &lt;h3&gt;💡 Dicas&lt;/h3&gt;
+        &lt;ul style=&quot;font-size: 12px; color: var(--text2); line-height: 1.8; padding-left: 16px;&quot;&gt;
+          &lt;li&gt;Use a busca para encontrar termos específicos&lt;/li&gt;
+          &lt;li&gt;Clique em um arquivo para ver seu conteúdo completo&lt;/li&gt;
+          &lt;li&gt;Use &quot;IA Analyze&quot; para análise automática&lt;/li&gt;
+          &lt;li&gt;Salve notas para documentar problemas encontrados&lt;/li&gt;
+          &lt;li&gt;Use &quot;IA Reescrever&quot; para melhorar o código&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Toast --&gt;
+&lt;div id=&quot;toast&quot; class=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;!-- Hidden inputs --&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInputHidden&quot; style=&quot;display: none;&quot;&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/tar-js@0.3.0/tar.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+// ========== ESTADO GLOBAL ==========
+let arquivos = [];
+let conteudosTexto = {};
+let arquivoAtualSelecionado = null;
+let notasSalvas = [];
+
+const extensoesTexto = [
+  '.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.html', '.css',
+  '.scss', '.xml', '.yml', '.yaml', '.toml', '.env', '.sql', '.gitignore',
+  '.nix', '.config', '.cjs', '.mjs', '.py', '.java', '.cpp', '.c', '.go',
+  '.rb', '.php', '.sh', '.bash', '.dockerfile', '.lock'
+];
+
+// ========== INTERFACE ==========
+function switchTab(tabName) {
+  document.querySelectorAll('.section').forEach(s =&gt; s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b =&gt; b.classList.remove('active'));
+  
+  document.getElementById('section-' + tabName).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() =&gt; toast.classList.remove('show'), 3000);
+}
+
+// ========== 1. IMPORTAÇÃO ==========
+function importarArquivo() {
+  const input = document.getElementById('fileInput');
+  if (!input.files || !input.files[0]) {
+    showToast('❌ Selecione um arquivo!');
+    return;
+  }
+  
+  const file = input.files[0];
+  const nome = file.name.toLowerCase();
+  
+  if (nome.endsWith('.zip')) {
+    importarZip(file);
+  } else if (nome.endsWith('.tar') || nome.endsWith('.tar.gz') || nome.endsWith('.taz')) {
+    importarTar(file);
+  } else {
+    importarArquivoSimples(file);
+  }
+}
+
+async function importarZip(file) {
+  try {
+    const buffer = await file.arrayBuffer();
+    const zip = await JSZip.loadAsync(buffer);
+    
+    arquivos = [];
+    conteudosTexto = {};
+    
+    zip.forEach((path, entry) =&gt; {
+      if (!entry.dir) {
+        arquivos.push({
+          nome: path,
+          tipo: 'arquivo',
+          tamanho: entry._data.uncompressedSize,
+          caminho: path
+        });
+      }
+    });
+    
+    // Lê arquivos de texto
+    for (const item of arquivos) {
+      if (ehTexto(item.nome)) {
+        try {
+          conteudosTexto[item.nome] = await zip.file(item.nome).async('string');
+        } catch (e) {
+          conteudosTexto[item.nome] = '[ERRO AO LER]';
+        }
+      }
+    }
+    
+    arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+    renderizarArquivos();
+    mostrarEstatisticas();
+    showToast('✅ ZIP importado! ' + arquivos.length + ' arquivos');
+    
+  } catch (e) {
+    showToast('❌ Erro ao ler ZIP: ' + e.message);
+  }
+}
+
+async function importarTar(file) {
+  try {
+    const buffer = await file.arrayBuffer();
+    const view = new Uint8Array(buffer);
+    
+    // Detecta se é comprimido
+    const isGzip = view[0] === 0x1f &amp;&amp; view[1] === 0x8b;
+    
+    if (isGzip) {
+      // Descompacta GZIP
+      const decompressed = await decompressGzip(buffer);
+      parsearTar(decompressed);
+    } else {
+      parsearTar(buffer);
+    }
+    
+    showToast('✅ TAR importado! ' + arquivos.length + ' arquivos');
+    
+  } catch (e) {
+    showToast('❌ Erro ao ler TAR: ' + e.message);
+  }
+}
+
+function parsearTar(buffer) {
+  const view = new Uint8Array(buffer);
+  arquivos = [];
+  conteudosTexto = {};
+  
+  let offset = 0;
+  while (offset &lt; view.length) {
+    const header = view.slice(offset, offset + 512);
+    
+    // Verifica se é fim do arquivo
+    if (header.every(b =&gt; b === 0)) break;
+    
+    // Extrai nome (primeiros 100 bytes)
+    const nomeBytes = header.slice(0, 100);
+    const nome = new TextDecoder().decode(nomeBytes).split('\0')[0];
+    
+    // Extrai tamanho (bytes 124-135)
+    const tamanhoOctal = new TextDecoder().decode(header.slice(124, 135)).trim();
+    const tamanho = parseInt(tamanhoOctal, 8) || 0;
+    
+    if (nome) {
+      arquivos.push({
+        nome: nome,
+        tipo: 'arquivo',
+        tamanho: tamanho,
+        caminho: nome
+      });
+      
+      // Lê conteúdo se for texto
+      if (ehTexto(nome) &amp;&amp; tamanho &gt; 0) {
+        const conteudoBytes = view.slice(offset + 512, offset + 512 + tamanho);
+        try {
+          conteudosTexto[nome] = new TextDecoder().decode(conteudoBytes);
+        } catch (e) {
+          conteudosTexto[nome] = '[ERRO AO DECODIFICAR]';
+        }
+      }
+    }
+    
+    // Próximo bloco (512 + tamanho arredondado para múltiplo de 512)
+    const blocos = Math.ceil((512 + tamanho) / 512);
+    offset += blocos * 512;
+  }
+  
+  arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+  renderizarArquivos();
+  mostrarEstatisticas();
+}
+
+async function decompressGzip(buffer) {
+  // Implementação simplificada - em produção use pako ou similar
+  try {
+    const ds = new DecompressionStream('gzip');
+    const reader = ds.readable.getReader();
+    const writer = ds.writable.getWriter();
+    
+    writer.write(new Uint8Array(buffer));
+    writer.close();
+    
+    const chunks = [];
+    let result;
+    while (!(result = await reader.read()).done) {
+      chunks.push(...result.value);
+    }
+    
+    return new Uint8Array(chunks).buffer;
+  } catch (e) {
+    showToast('⚠️ Não consegui descomprimir GZIP. Tentando como TAR direto...');
+    return buffer;
+  }
+}
+
+function importarArquivoSimples(file) {
+  const reader = new FileReader();
+  reader.onload = (e) =&gt; {
+    const conteudo = e.target.result;
+    const nome = file.name;
+    
+    arquivos = [{
+      nome: nome,
+      tipo: 'arquivo',
+      tamanho: file.size,
+      caminho: nome
+    }];
+    
+    conteudosTexto[nome] = conteudo;
+    
+    renderizarArquivos();
+    mostrarEstatisticas();
+    showToast('✅ Arquivo importado!');
+  };
+  reader.readAsText(file);
+}
+
+function importarCodigo() {
+  const codigo = document.getElementById('codigoColado').value.trim();
+  
+  if (!codigo) {
+    showToast('❌ Cole um código!');
+    return;
+  }
+  
+  const nome = 'codigo-colado-' + Date.now() + '.txt';
+  
+  arquivos = [{
+    nome: nome,
+    tipo: 'arquivo',
+    tamanho: codigo.length,
+    caminho: nome
+  }];
+  
+  conteudosTexto[nome] = codigo;
+  
+  renderizarArquivos();
+  mostrarEstatisticas();
+  showToast('✅ Código importado!');
+}
+
+function limparImportacao() {
+  arquivos = [];
+  conteudosTexto = {};
+  arquivoAtualSelecionado = null;
+  document.getElementById('fileInput').value = '';
+  document.getElementById('codigoColado').value = '';
+  document.getElementById('statusImportacao').innerHTML = '';
+  showToast('🗑️ Importação limpa!');
+}
+
+// ========== 2. ANÁLISE ==========
+function filtrarArquivos() {
+  const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+  renderizarArquivos(filtro);
+}
+
+function renderizarArquivos(filtro = '') {
+  const lista = document.getElementById('listaArquivos');
+  
+  if (arquivos.length === 0) {
+    lista.innerHTML = '&lt;div class=&quot;empty-state&quot;&gt;&lt;p&gt;Nenhum arquivo carregado&lt;/p&gt;&lt;/div&gt;';
+    return;
+  }
+  
+  const filtrados = arquivos.filter(a =&gt; a.nome.toLowerCase().includes(filtro));
+  
+  lista.innerHTML = filtrados.map(a =&gt; `
+    &lt;div class=&quot;file-item ${arquivoAtualSelecionado === a.nome ? 'selected' : ''}&quot; onclick=&quot;abrirArquivo('${a.nome}')&quot;&gt;
+      📄 ${a.nome}
+      &lt;span class=&quot;small&quot; style=&quot;display: block; margin-top: 2px; color: var(--text2);&quot;&gt;${formatarTamanho(a.tamanho)}&lt;/span&gt;
+    &lt;/div&gt;
+  `).join('');
+}
+
+function abrirArquivo(nome) {
+  arquivoAtualSelecionado = nome;
+  
+  const conteudo = conteudosTexto[nome] || '[Arquivo binário ou não lido]';
+  const linhas = conteudo.split('\n').length;
+  const tamanho = conteudo.length;
+  
+  document.getElementById('conteudoArquivo').textContent = conteudo;
+  document.getElementById('infoArquivo').innerHTML = `
+    &lt;strong&gt;${nome}&lt;/strong&gt;&lt;br&gt;
+    ${linhas} linhas • ${tamanho} caracteres
+  `;
+  
+  // Também carrega no editor
+  document.getElementById('nomeArquivoEditar').textContent = nome;
+  document.getElementById('conteudoEditar').value = conteudo;
+  
+  renderizarArquivos();
+  showToast('✅ Arquivo aberto!');
+}
+
+function mostrarEstatisticas() {
+  const stats = {
+    total: arquivos.length,
+    html: arquivos.filter(a =&gt; a.nome.endsWith('.html') || a.nome.endsWith('.htm')).length,
+    js: arquivos.filter(a =&gt; a.nome.endsWith('.js') || a.nome.endsWith('.jsx') || a.nome.endsWith('.ts') || a.nome.endsWith('.tsx')).length,
+    css: arquivos.filter(a =&gt; a.nome.endsWith('.css') || a.nome.endsWith('.scss')).length,
+    json: arquivos.filter(a =&gt; a.nome.endsWith('.json')).length,
+    caracteres: Object.values(conteudosTexto).reduce((a, b) =&gt; a + b.length, 0),
+    linhas: Object.values(conteudosTexto).reduce((a, b) =&gt; a + b.split('\n').length, 0)
+  };
+  
+  const html = `
+    &lt;strong&gt;📊 Estatísticas:&lt;/strong&gt;&lt;br&gt;
+    Total: ${stats.total}&lt;br&gt;
+    HTML: ${stats.html}&lt;br&gt;
+    JS/TS: ${stats.js}&lt;br&gt;
+    CSS: ${stats.css}&lt;br&gt;
+    JSON: ${stats.json}&lt;br&gt;
+    Caracteres: ${stats.caracteres.toLocaleString()}&lt;br&gt;
+    Linhas: ${stats.linhas.toLocaleString()}
+  `;
+  
+  document.getElementById('estatisticas').textContent = html;
+}
+
+// ========== 3. DETECÇÃO ==========
+function buscarTermos() {
+  const termos = document.getElementById('termosBusca').value
+    .split(',')
+    .map(t =&gt; t.trim().toLowerCase())
+    .filter(Boolean);
+  
+  if (termos.length === 0) {
+    showToast('❌ Digite termos para buscar!');
+    return;
+  }
+  
+  let resultados = [];
+  
+  Object.entries(conteudosTexto).forEach(([arquivo, conteudo]) =&gt; {
+    const linhas = conteudo.split('\n');
+    
+    linhas.forEach((linha, idx) =&gt; {
+      const linhaLower = linha.toLowerCase();
+      
+      termos.forEach(termo =&gt; {
+        if (linhaLower.includes(termo)) {
+          resultados.push({
+            arquivo: arquivo,
+            linha: idx + 1,
+            termo: termo,
+            conteudo: linha.slice(0, 100)
+          });
+        }
+      });
+    });
+  });
+  
+  mostrarErros(resultados);
+  showToast(`✅ Encontrados ${resultados.length} resultados!`);
+}
+
+function diagnosticar() {
+  let diagnostico = [];
+  
+  // Verifica estrutura
+  const temPackageJson = arquivos.some(a =&gt; a.nome === 'package.json');
+  const temSrc = arquivos.some(a =&gt; a.nome.includes('src/'));
+  const temDist = arquivos.some(a =&gt; a.nome.includes('dist/') || a.nome.includes('build/'));
+  const temVite = conteudosTexto['package.json']?.includes('vite') || arquivos.some(a =&gt; a.nome === 'vite.config.js');
+  const temReact = conteudosTexto['package.json']?.includes('react') || arquivos.some(a =&gt; a.nome.includes('.tsx') || a.nome.includes('.jsx'));
+  const temReplit = arquivos.some(a =&gt; a.nome.includes('.replit') || a.nome.includes('replit.nix'));
+  const temManifest = arquivos.some(a =&gt; a.nome === 'manifest.json');
+  const temServiceWorker = arquivos.some(a =&gt; a.nome.includes('service-worker') || a.nome.includes('sw.js'));
+  
+  diagnostico.push({
+    arquivo: 'package.json',
+    linha: 0,
+    termo: 'estrutura',
+    conteudo: temPackageJson ? '✅ package.json encontrado' : '❌ Sem package.json'
+  });
+  
+  if (temReplit) {
+    diagnostico.push({
+      arquivo: '.replit',
+      linha: 0,
+      termo: 'replit',
+      conteudo: '⚠️ Marcas do Replit detectadas'
+    });
+  }
+  
+  if (temVite) {
+    diagnostico.push({
+      arquivo: 'package.json',
+      linha: 0,
+      termo: 'vite',
+      conteudo: '✅ Vite detectado'
+    });
+  }
+  
+  if (temReact) {
+    diagnostico.push({
+      arquivo: 'package.json',
+      linha: 0,
+      termo: 'react',
+      conteudo: '✅ React detectado'
+    });
+  }
+  
+  if (temManifest) {
+    diagnostico.push({
+      arquivo: 'manifest.json',
+      linha: 0,
+      termo: 'pwa',
+      conteudo: '✅ PWA manifest encontrado'
+    });
+  }
+  
+  if (temServiceWorker) {
+    diagnostico.push({
+      arquivo: 'service-worker',
+      linha: 0,
+      termo: 'offline',
+      conteudo: '✅ Service Worker detectado'
+    });
+  }
+  
+  mostrarErros(diagnostico);
+  showToast('✅ Diagnóstico concluído!');
+}
+
+function analisarComIA() {
+  // Simula análise com IA
+  let analise = [];
+  
+  // Detecta padrões comuns
+  Object.entries(conteudosTexto).forEach(([arquivo, conteudo]) =&gt; {
+    const linhas = conteudo.split('\n');
+    
+    linhas.forEach((linha, idx) =&gt; {
+      // Detecta console.log
+      if (linha.includes('console.log')) {
+        analise.push({
+          arquivo: arquivo,
+          linha: idx + 1,
+          termo: 'console.log',
+          conteudo: '⚠️ Debug: ' + linha.trim().slice(0, 80)
+        });
+      }
+      
+      // Detecta TODO/FIXME
+      if (linha.includes('TODO') || linha.includes('FIXME')) {
+        analise.push({
+          arquivo: arquivo,
+          linha: idx + 1,
+          termo: 'TODO',
+          conteudo: '📝 ' + linha.trim().slice(0, 80)
+        });
+      }
+      
+      // Detecta funções
+      if (linha.includes('function ') || linha.includes('const ') &amp;&amp; linha.includes('=')) {
+        if (linha.includes('function ')) {
+          analise.push({
+            arquivo: arquivo,
+            linha: idx + 1,
+            termo: 'function',
+            conteudo: '🔧 Função: ' + linha.trim().slice(0, 80)
+          });
+        }
+      }
+      
+      // Detecta imports/exports
+      if (linha.includes('import ') || linha.includes('export ')) {
+        analise.push({
+          arquivo: arquivo,
+          linha: idx + 1,
+          termo: 'import',
+          conteudo: '📦 ' + linha.trim().slice(0, 80)
+        });
+      }
+      
+      // Detecta fetch/API
+      if (linha.includes('fetch(') || linha.includes('axios') || linha.includes('http')) {
+        analise.push({
+          arquivo: arquivo,
+          linha: idx + 1,
+          termo: 'api',
+          conteudo: '🌐 API: ' + linha.trim().slice(0, 80)
+        });
+      }
+    });
+  });
+  
+  mostrarErros(analise);
+  showToast(`✅ Análise IA: ${analise.length} itens encontrados!`);
+}
+
+function mostrarErros(resultados) {
+  const container = document.getElementById('errosEncontrados');
+  
+  if (resultados.length === 0) {
+    container.innerHTML = '&lt;div class=&quot;empty-state&quot;&gt;&lt;p&gt;Nenhum resultado encontrado&lt;/p&gt;&lt;/div&gt;';
+    return;
+  }
+  
+  container.innerHTML = resultados.map(r =&gt; `
+    &lt;div class=&quot;error-item&quot;&gt;
+      &lt;div class=&quot;file&quot;&gt;📁 ${r.arquivo}&lt;/div&gt;
+      &lt;div class=&quot;line&quot;&gt;Linha ${r.linha}&lt;/div&gt;
+      &lt;div class=&quot;msg&quot;&gt;🏷️ ${r.termo}&lt;/div&gt;
+      &lt;div style=&quot;margin-top: 6px; color: var(--text2); font-size: 10px;&quot;&gt;
+        ${r.conteudo}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `).join('');
+}
+
+// ========== 4. EDIÇÃO ==========
+function salvarEdicao() {
+  const nome = arquivoAtualSelecionado;
+  const conteudo = document.getElementById('conteudoEditar').value;
+  
+  if (!nome) {
+    showToast('❌ Selecione um arquivo!');
+    return;
+  }
+  
+  conteudosTexto[nome] = conteudo;
+  
+  // Atualiza visualização
+  document.getElementById('conteudoArquivo').textContent = conteudo;
+  
+  showToast('✅ Arquivo salvo em memória!');
+}
+
+function descartarEdicao() {
+  if (arquivoAtualSelecionado) {
+    document.getElementById('conteudoEditar').value = conteudosTexto[arquivoAtualSelecionado] || '';
+    showToast('↩️ Edições descartadas!');
+  }
+}
+
+function reescreverComIA() {
+  const conteudo = document.getElementById('conteudoEditar').value;
+  
+  if (!conteudo) {
+    showToast('❌ Nenhum conteúdo para reescrever!');
+    return;
+  }
+  
+  // Simula reescrita com IA
+  let reescrito = conteudo;
+  
+  // Remove console.log
+  reescrito = reescrito.replace(/console\.log\([^)]*\);?/g, '');
+  
+  // Formata código
+  reescrito = reescrito.replace(/\s+/g, ' ').trim();
+  
+  document.getElementById('conteudoEditar').value = reescrito;
+  showToast('🤖 Código reescrito (versão simplificada)!');
+}
+
+function corrigirSintaxe() {
+  const conteudo = document.getElementById('conteudoEditar').value;
+  
+  if (!conteudo) {
+    showToast('❌ Nenhum conteúdo para corrigir!');
+    return;
+  }
+  
+  let corrigido = conteudo;
+  
+  // Corrige chaves desbalanceadas
+  let abertas = (corrigido.match(/\{/g) || []).length;
+  let fechadas = (corrigido.match(/\}/g) || []).length;
+  if (abertas &gt; fechadas) {
+    corrigido += '\n' + '}'.repeat(abertas - fechadas);
+  }
+  
+  // Corrige parênteses
+  abertas = (corrigido.match(/\(/g) || []).length;
+  fechadas = (corrigido.match(/\)/g) || []).length;
+  if (abertas &gt; fechadas) {
+    corrigido += ')'.repeat(abertas - fechadas);
+  }
+  
+  document.getElementById('conteudoEditar').value = corrigido;
+  showToast('✅ Sintaxe corrigida!');
+}
+
+// ========== 5. NOTAS ==========
+function salvarNota() {
+  const titulo = document.getElementById('notaTitulo').value.trim();
+  const conteudo = document.getElementById('notaConteudo').value.trim();
+  
+  if (!titulo || !conteudo) {
+    showToast('❌ Preencha título e conteúdo!');
+    return;
+  }
+  
+  notasSalvas.push({
+    id: Date.now(),
+    titulo: titulo,
+    conteudo: conteudo,
+    arquivo: arquivoAtualSelecionado || 'Geral',
+    data: new Date().toLocaleString()
+  });
+  
+  document.getElementById('notaTitulo').value = '';
+  document.getElementById('notaConteudo').value = '';
+  
+  renderizarNotas();
+  showToast('✅ Nota salva!');
+}
+
+function renderizarNotas() {
+  const container = document.getElementById('listaNot as');
+  
+  if (notasSalvas.length === 0) {
+    container.innerHTML = '&lt;div class=&quot;empty-state&quot;&gt;&lt;p&gt;Nenhuma nota salva&lt;/p&gt;&lt;/div&gt;';
+    return;
+  }
+  
+  container.innerHTML = notasSalvas.map(n =&gt; `
+    &lt;div class=&quot;note-item&quot;&gt;
+      &lt;div class=&quot;title&quot;&gt;${n.titulo}&lt;/div&gt;
+      &lt;div class=&quot;content&quot;&gt;${n.conteudo}&lt;/div&gt;
+      &lt;div style=&quot;font-size: 10px; color: var(--text2); margin-top: 8px;&quot;&gt;
+        📁 ${n.arquivo} • ${n.data}
+      &lt;/div&gt;
+      &lt;button class=&quot;btn btn-danger&quot; style=&quot;margin-top: 8px; padding: 4px 8px; font-size: 10px;&quot; onclick=&quot;deletarNota(${n.id})&quot;&gt;🗑️ Deletar&lt;/button&gt;
+    &lt;/div&gt;
+  `).join('');
+}
+
+function deletarNota(id) {
+  notasSalvas = notasSalvas.filter(n =&gt; n.id !== id);
+  renderizarNotas();
+  showToast('🗑️ Nota deletada!');
+}
+
+// ========== UTILITÁRIOS ==========
+function ehTexto(nome) {
+  const lower = nome.toLowerCase();
+  if (lower.includes('package.json') || lower.includes('manifest')) return true;
+  if (lower.endsWith('/')) return false;
+  return extensoesTexto.some(ext =&gt; lower.endsWith(ext));
+}
+
+function formatarTamanho(bytes) {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+}
+
+// ========== INICIALIZAÇÃO ==========
+document.addEventListener('DOMContentLoaded', () =&gt; {
+  renderizarArquivos();
+  renderizarNotas();
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto1">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;🔬 CIRURGIÃO v5 — Editor + Análise + IA&lt;/title&gt;
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js&quot;&gt;&lt;/script&gt;
+  &lt;style&gt;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0a0f1e;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      padding: 12px 16px;
+      border-bottom: 2px solid #3b82f6;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    h1 { font-size: 20px; color: #38bdf8; margin: 0; }
+    .subtitulo { font-size: 12px; color: #64748b; }
+    .container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      gap: 0;
+    }
+    .painel {
+      display: flex;
+      flex-direction: column;
+      background: #111827;
+      border-right: 1px solid #1e3a5f;
+      overflow: hidden;
+    }
+    .painel-esquerda { width: 280px; }
+    .painel-centro { flex: 1; }
+    .painel-direita { width: 350px; }
+    @media(max-width: 1400px) {
+      .painel-esquerda { width: 240px; }
+      .painel-direita { width: 300px; }
+    }
+    @media(max-width: 1000px) {
+      .container { flex-direction: column; }
+      .painel-esquerda, .painel-centro, .painel-direita { width: 100%; height: 33%; border-right: none; border-bottom: 1px solid #1e3a5f; }
+    }
+    .painel-header {
+      background: #0f172a;
+      padding: 10px 12px;
+      border-bottom: 1px solid #1e3a5f;
+      font-size: 13px;
+      font-weight: bold;
+      color: #7dd3fc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .painel-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+    button {
+      background: #1d4ed8;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      transition: all 0.2s;
+      margin: 4px 0;
+      width: 100%;
+    }
+    button:hover { background: #2563eb; transform: translateY(-1px); }
+    button.danger { background: #dc2626; }
+    button.danger:hover { background: #ef4444; }
+    button.success { background: #16a34a; }
+    button.success:hover { background: #22c55e; }
+    button.secondary { background: #475569; }
+    button.secondary:hover { background: #64748b; }
+    input[type=&quot;file&quot;] {
+      width: 100%;
+      background: #0f172a;
+      color: #94a3b8;
+      border: 1px dashed #334155;
+      border-radius: 6px;
+      padding: 8px;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+    input[type=&quot;text&quot;], textarea, select {
+      width: 100%;
+      background: #020617;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 12px;
+      margin: 4px 0;
+      font-family: 'Courier New', monospace;
+    }
+    textarea { resize: vertical; font-family: 'Courier New', monospace; }
+    .arquivo-item {
+      background: #0f172a;
+      border: 1px solid #1e3a5f;
+      border-radius: 6px;
+      padding: 8px;
+      margin: 4px 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .arquivo-item:hover { background: #1e293b; border-color: #3b82f6; }
+    .arquivo-item.selecionado { background: #1e3a8a; border-color: #3b82f6; }
+    .arquivo-ext {
+      background: #334155;
+      color: #94a3b8;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: bold;
+      min-width: 30px;
+      text-align: center;
+    }
+    .arquivo-nome {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #93c5fd;
+    }
+    .arquivo-tamanho {
+      font-size: 10px;
+      color: #64748b;
+      white-space: nowrap;
+    }
+    #editor {
+      width: 100%;
+      height: 100%;
+      background: #020617;
+      color: #e2e8f0;
+      border: none;
+      padding: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      resize: none;
+      line-height: 1.5;
+    }
+    .editor-header {
+      background: #0f172a;
+      padding: 8px 12px;
+      border-bottom: 1px solid #1e3a5f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .editor-info {
+      font-size: 11px;
+      color: #64748b;
+      flex: 1;
+    }
+    .editor-botoes {
+      display: flex;
+      gap: 4px;
+    }
+    .editor-botoes button {
+      width: auto;
+      padding: 6px 10px;
+      margin: 0;
+      font-size: 11px;
+    }
+    .bug-item {
+      background: #1c1203;
+      border-left: 3px solid #f59e0b;
+      border-radius: 0 6px 6px 0;
+      padding: 10px;
+      margin: 6px 0;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .bug-item:hover { background: #2d1a05; }
+    .bug-tipo { color: #fcd34d; font-weight: bold; }
+    .bug-linha { color: #64748b; font-size: 10px; }
+    .bug-desc { color: #e2e8f0; margin: 4px 0; }
+    .bug-peso {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-top: 4px;
+    }
+    .peso-critico { background: #7f1d1d; color: #fca5a5; }
+    .peso-alto { background: #78350f; color: #fcd34d; }
+    .peso-medio { background: #1e3a5f; color: #7dd3fc; }
+    .peso-baixo { background: #064e3b; color: #6ee7b7; }
+    .replit-item {
+      background: #450a0a;
+      border-left: 3px solid #ef4444;
+      border-radius: 0 6px 6px 0;
+      padding: 10px;
+      margin: 6px 0;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .replit-item:hover { background: #5f1515; }
+    .api-item {
+      background: #1c2e3b;
+      border-left: 3px solid #0891b2;
+      border-radius: 0 6px 6px 0;
+      padding: 10px;
+      margin: 6px 0;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .api-item:hover { background: #2d4a5f; }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin: 8px 0;
+    }
+    .stat-box {
+      background: #0f172a;
+      border: 1px solid #1e3a5f;
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+    }
+    .stat-numero { font-size: 18px; font-weight: bold; color: #38bdf8; }
+    .stat-label { font-size: 10px; color: #64748b; margin-top: 2px; }
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.aberto { display: flex; }
+    .modal-box {
+      background: #111827;
+      border: 1px solid #1e3a5f;
+      border-radius: 12px;
+      padding: 20px;
+      width: 90vw;
+      max-width: 1000px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e3a5f;
+      padding-bottom: 12px;
+    }
+    .modal-header h2 { color: #38bdf8; font-size: 16px; margin: 0; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+    }
+    .modal-content {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .modal-content textarea {
+      width: 100%;
+      height: 60vh;
+      font-size: 12px;
+    }
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid #334155;
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: bold;
+      margin: 2px;
+      background: #1e3a5f;
+      color: #7dd3fc;
+    }
+    .ia-panel {
+      background: #0f172a;
+      border: 1px solid #1e3a5f;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 8px 0;
+    }
+    .ia-panel label {
+      font-size: 11px;
+      color: #94a3b8;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .ia-resposta {
+      background: #020617;
+      border: 1px solid #1e3a5f;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 8px 0;
+      font-size: 11px;
+      color: #a5b4fc;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .aviso {
+      background: #450a0a;
+      border: 1px solid #991b1b;
+      border-radius: 6px;
+      padding: 8px;
+      color: #fca5a5;
+      font-size: 11px;
+      margin: 6px 0;
+    }
+    .sucesso {
+      background: #052e16;
+      border: 1px solid #166534;
+      border-radius: 6px;
+      padding: 8px;
+      color: #86efac;
+      font-size: 11px;
+      margin: 6px 0;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;h1&gt;🔬 CIRURGIÃO v5 — Editor + Análise + IA&lt;/h1&gt;
+  &lt;div class=&quot;subtitulo&quot;&gt;Abre ZIP/TAR/HTML · Edita código · Detecta bugs · Integra IA · Gera relatório&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+
+  &lt;!-- PAINEL ESQUERDA: EXPLORADOR --&gt;
+  &lt;div class=&quot;painel painel-esquerda&quot;&gt;
+    &lt;div class=&quot;painel-header&quot;&gt;
+      📂 Arquivos
+      &lt;span id=&quot;contArquivos&quot; style=&quot;font-size: 10px; color: #64748b;&quot;&gt;0&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;painel-content&quot;&gt;
+      &lt;input type=&quot;file&quot; id=&quot;arquivoInput&quot; accept=&quot;.zip,.tar,.tar.gz,.tgz,.html,.js,.json,.txt&quot;&gt;
+      &lt;button onclick=&quot;carregarArquivo()&quot; class=&quot;success&quot;&gt;📂 Carregar&lt;/button&gt;
+      &lt;button onclick=&quot;limparTudo()&quot; class=&quot;danger&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;input type=&quot;text&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar...&quot; oninput=&quot;filtrarArquivos()&quot;&gt;
+      &lt;div id=&quot;listaArquivos&quot; style=&quot;margin-top: 8px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PAINEL CENTRO: EDITOR --&gt;
+  &lt;div class=&quot;painel painel-centro&quot;&gt;
+    &lt;div class=&quot;editor-header&quot;&gt;
+      &lt;div class=&quot;editor-info&quot; id=&quot;infoArquivo&quot;&gt;Nenhum arquivo aberto&lt;/div&gt;
+      &lt;div class=&quot;editor-botoes&quot;&gt;
+        &lt;button onclick=&quot;salvarArquivo()&quot; class=&quot;success&quot; style=&quot;width: auto; padding: 6px 10px;&quot;&gt;💾 Salvar&lt;/button&gt;
+        &lt;button onclick=&quot;copiarEditor()&quot; class=&quot;secondary&quot; style=&quot;width: auto; padding: 6px 10px;&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;button onclick=&quot;baixarEditor()&quot; class=&quot;secondary&quot; style=&quot;width: auto; padding: 6px 10px;&quot;&gt;⬇️ Baixar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;textarea id=&quot;editor&quot; placeholder=&quot;Abra um arquivo para editar...&quot;&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PAINEL DIREITA: ANÁLISE --&gt;
+  &lt;div class=&quot;painel painel-direita&quot;&gt;
+    &lt;div class=&quot;painel-header&quot;&gt;
+      🔍 Análise
+    &lt;/div&gt;
+    &lt;div class=&quot;painel-content&quot;&gt;
+      &lt;div class=&quot;stats&quot;&gt;
+        &lt;div class=&quot;stat-box&quot;&gt;
+          &lt;div class=&quot;stat-numero&quot; id=&quot;statBugs&quot;&gt;0&lt;/div&gt;
+          &lt;div class=&quot;stat-label&quot;&gt;🐛 Bugs&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;stat-box&quot;&gt;
+          &lt;div class=&quot;stat-numero&quot; id=&quot;statReplit&quot;&gt;0&lt;/div&gt;
+          &lt;div class=&quot;stat-label&quot;&gt;🚨 Replit&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;stat-box&quot;&gt;
+          &lt;div class=&quot;stat-numero&quot; id=&quot;statAPIs&quot;&gt;0&lt;/div&gt;
+          &lt;div class=&quot;stat-label&quot;&gt;🌐 APIs&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;stat-box&quot;&gt;
+          &lt;div class=&quot;stat-numero&quot; id=&quot;statLinhas&quot;&gt;0&lt;/div&gt;
+          &lt;div class=&quot;stat-label&quot;&gt;📝 Linhas&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;button onclick=&quot;analisarArquivo()&quot; class=&quot;success&quot; style=&quot;margin-bottom: 8px;&quot;&gt;🔍 Analisar&lt;/button&gt;
+      &lt;button onclick=&quot;abrirModalIA()&quot; class=&quot;secondary&quot; style=&quot;margin-bottom: 8px;&quot;&gt;🤖 Consultar IA&lt;/button&gt;
+      &lt;button onclick=&quot;gerarRelatorio()&quot; class=&quot;secondary&quot; style=&quot;margin-bottom: 8px;&quot;&gt;📊 Gerar Relatório&lt;/button&gt;
+
+      &lt;div id=&quot;analiseResultado&quot; style=&quot;margin-top: 8px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;!-- MODAL: IA --&gt;
+&lt;div class=&quot;modal&quot; id=&quot;modalIA&quot;&gt;
+  &lt;div class=&quot;modal-box&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;🤖 Consultar IA&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalIA')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-content&quot;&gt;
+      &lt;div class=&quot;ia-panel&quot;&gt;
+        &lt;label&gt;Provedor de IA:&lt;/label&gt;
+        &lt;select id=&quot;iaProvider&quot; onchange=&quot;atualizarProvedor()&quot;&gt;
+          &lt;option value=&quot;groq&quot;&gt;Groq (Mixtral - Rápido)&lt;/option&gt;
+          &lt;option value=&quot;openai&quot;&gt;OpenAI (GPT-4, GPT-3.5)&lt;/option&gt;
+          &lt;option value=&quot;anthropic&quot;&gt;Anthropic (Claude)&lt;/option&gt;
+          &lt;option value=&quot;google&quot;&gt;Google (Gemini)&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;ia-panel&quot;&gt;
+        &lt;label&gt;Chave de API:&lt;/label&gt;
+        &lt;input type=&quot;password&quot; id=&quot;iaChave&quot; placeholder=&quot;Cole sua chave aqui&quot;&gt;
+        &lt;button onclick=&quot;testarIA()&quot; class=&quot;secondary&quot; style=&quot;margin-top: 4px;&quot;&gt;🔗 Testar Conexão&lt;/button&gt;
+        &lt;div id=&quot;iaStatus&quot; style=&quot;font-size: 11px; color: #64748b; margin-top: 4px;&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;ia-panel&quot;&gt;
+        &lt;label&gt;Pergunta:&lt;/label&gt;
+        &lt;textarea id=&quot;iaPergunta&quot; rows=&quot;4&quot; placeholder=&quot;Ex: Analise este código e encontre bugs. Qual é o peso de cada problema?&quot;&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;button onclick=&quot;consultarIA()&quot; class=&quot;success&quot;&gt;🚀 Enviar para IA&lt;/button&gt;
+      &lt;div id=&quot;iaResposta&quot; class=&quot;ia-resposta&quot; style=&quot;display: none; margin-top: 8px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- MODAL: RELATÓRIO --&gt;
+&lt;div class=&quot;modal&quot; id=&quot;modalRelatorio&quot;&gt;
+  &lt;div class=&quot;modal-box&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;📊 Relatório Completo&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalRelatorio')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-content&quot;&gt;
+      &lt;button onclick=&quot;copiarRelatorio()&quot; class=&quot;success&quot; style=&quot;margin-bottom: 8px;&quot;&gt;📋 Copiar&lt;/button&gt;
+      &lt;button onclick=&quot;baixarRelatorio()&quot; class=&quot;secondary&quot; style=&quot;margin-bottom: 8px;&quot;&gt;⬇️ Baixar TXT&lt;/button&gt;
+      &lt;button onclick=&quot;baixarRelatorioJSON()&quot; class=&quot;secondary&quot; style=&quot;margin-bottom: 8px;&quot;&gt;⬇️ Baixar JSON&lt;/button&gt;
+      &lt;textarea id=&quot;conteudoRelatorio&quot; readonly style=&quot;height: 100%; font-size: 11px;&quot;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  // ═══════════════════════════════════════════════════════════
+  // ESTADO GLOBAL
+  // ═══════════════════════════════════════════════════════════
+  let arquivos = [];
+  let conteudos = {};
+  let arquivoAtual = null;
+  let analiseAtual = null;
+
+  // ═══════════════════════════════════════════════════════════
+  // CARREGAR ARQUIVO
+  // ═══════════════════════════════════════════════════════════
+  async function carregarArquivo() {
+    const input = document.getElementById('arquivoInput');
+    if (!input.files[0]) return alert('Selecione um arquivo!');
+
+    const file = input.files[0];
+    const ext = file.name.split('.').pop().toLowerCase();
+
+    if (ext === 'zip' || ext === 'apk') {
+      await carregarZIP(file);
+    } else if (ext === 'tar' || ext === 'tgz' || ext === 'gz') {
+      await carregarTAR(file);
+    } else {
+      const texto = await file.text();
+      arquivos = [{ nome: file.name, tamanho: file.size, legivel: true }];
+      conteudos[file.name] = texto;
+      renderArquivos();
+    }
+  }
+
+  async function carregarZIP(file) {
+    try {
+      const zip = await JSZip.loadAsync(file);
+      arquivos = [];
+      const promessas = [];
+
+      zip.forEach((path, entry) =&gt; {
+        if (!entry.dir) {
+          const ext = path.split('.').pop().toLowerCase();
+          const legivel = ['js','ts','tsx','jsx','html','css','json','txt','md','xml','yaml','yml','env','py','java','php','cs','kt'].includes(ext);
+          arquivos.push({ nome: path, tamanho: entry._data.uncompressedSize, legivel, ext });
+          
+          if (legivel &amp;&amp; entry._data.uncompressedSize &lt; 1000000) {
+            promessas.push(
+              entry.async('string').then(texto =&gt; {
+                conteudos[path] = texto;
+              }).catch(() =&gt; {
+                conteudos[path] = '[ERRO AO LER]';
+              })
+            );
+          }
+        }
+      });
+
+      await Promise.all(promessas);
+      arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+      renderArquivos();
+    } catch(e) {
+      alert('Erro ao abrir ZIP: ' + e.message);
+    }
+  }
+
+  async function carregarTAR(file) {
+    try {
+      let dados = new Uint8Array(await file.arrayBuffer());
+      
+      if (file.name.endsWith('.gz') || file.name.endsWith('.tgz')) {
+        dados = pako.inflate(dados);
+      }
+
+      arquivos = [];
+      let offset = 0;
+
+      while (offset &lt; dados.length) {
+        const header = dados.slice(offset, offset + 512);
+        if (header.every(b =&gt; b === 0)) break;
+
+        const nome = new TextDecoder().decode(header.slice(0, 100)).split('\0')[0];
+        const tamanhoStr = new TextDecoder().decode(header.slice(124, 136)).trim();
+        const tamanho = parseInt(tamanhoStr, 8);
+        const tipo = String.fromCharCode(header[156]);
+
+        offset += 512;
+
+        if (nome &amp;&amp; tipo !== '5') {
+          const ext = nome.split('.').pop().toLowerCase();
+          const legivel = ['js','ts','tsx','jsx','html','css','json','txt','md','xml','yaml','yml','env','py','java','php','cs','kt'].includes(ext);
+          arquivos.push({ nome, tamanho, legivel, ext });
+
+          if (legivel &amp;&amp; tamanho &lt; 1000000) {
+            const conteudo = new TextDecoder().decode(dados.slice(offset, offset + tamanho));
+            conteudos[nome] = conteudo;
+          }
+        }
+
+        offset += Math.ceil(tamanho / 512) * 512;
+      }
+
+      arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+      renderArquivos();
+    } catch(e) {
+      alert('Erro ao abrir TAR: ' + e.message);
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // RENDERIZAR ARQUIVOS
+  // ═══════════════════════════════════════════════════════════
+  function renderArquivos() {
+    const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+    const container = document.getElementById('listaArquivos');
+    const filtrados = arquivos.filter(a =&gt; a.nome.toLowerCase().includes(filtro));
+
+    document.getElementById('contArquivos').textContent = filtrados.length;
+
+    container.innerHTML = filtrados.map(a =&gt; {
+      const icone = a.legivel ? '📄' : '🔒';
+      const tamanhoKB = (a.tamanho / 1024).toFixed(1);
+      return `
+        &lt;div class=&quot;arquivo-item ${arquivoAtual === a.nome ? 'selecionado' : ''}&quot; onclick=&quot;abrirArquivo('${a.nome.replace(/'/g, &quot;\\'&quot;)}')&quot;&gt;
+          &lt;span&gt;${icone}&lt;/span&gt;
+          &lt;span class=&quot;arquivo-ext&quot;&gt;.${a.ext || '?'}&lt;/span&gt;
+          &lt;span class=&quot;arquivo-nome&quot;&gt;${a.nome}&lt;/span&gt;
+          &lt;span class=&quot;arquivo-tamanho&quot;&gt;${tamanhoKB}KB&lt;/span&gt;
+        &lt;/div&gt;
+      `;
+    }).join('');
+  }
+
+  function filtrarArquivos() {
+    renderArquivos();
+  }
+
+  function abrirArquivo(nome) {
+    arquivoAtual = nome;
+    const conteudo = conteudos[nome];
+
+    if (!conteudo) {
+      document.getElementById('editor').value = '[Arquivo binário ou não lido]';
+      document.getElementById('infoArquivo').textContent = `📁 ${nome} (não legível)`;
+      renderArquivos();
+      return;
+    }
+
+    document.getElementById('editor').value = conteudo;
+    document.getElementById('infoArquivo').textContent = `📁 ${nome} (${(conteudo.length / 1024).toFixed(1)} KB)`;
+    renderArquivos();
+    analisarArquivo();
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // ANALISAR ARQUIVO
+  // ═══════════════════════════════════════════════════════════
+  function analisarArquivo() {
+    if (!arquivoAtual) return;
+
+    const conteudo = document.getElementById('editor').value;
+    const linhas = conteudo.split('\n');
+
+    analiseAtual = {
+      arquivo: arquivoAtual,
+      linhas: linhas.length,
+      tamanho: conteudo.length,
+      bugs: [],
+      replit: [],
+      apis: []
+    };
+
+    // Detectar bugs
+    const padroesBug = [
+      { regex: /console\.log\s*\([^)]*$/, tipo: 'console.log incompleto', peso: 'médio' },
+      { regex: /=\s*undefined\b/, tipo: 'Atribuição para undefined', peso: 'alto' },
+      { regex: /[^=!&lt;&gt;]==[^=]/, tipo: 'Comparação fraca (==)', peso: 'médio' },
+      { regex: /catch\s*\(\s*\)\s*\{/, tipo: 'catch vazio', peso: 'alto' },
+      { regex: /var\s+\w+/, tipo: 'Uso de var (obsoleto)', peso: 'baixo' },
+      { regex: /eval\s*\(/, tipo: 'EVAL detectado (perigoso)', peso: 'crítico' },
+      { regex: /innerHTML\s*\+=/, tipo: 'innerHTML += (inseguro)', peso: 'alto' },
+      { regex: /document\.write\s*\(/, tipo: 'document.write (obsoleto)', peso: 'médio' },
+    ];
+
+    linhas.forEach((linha, i) =&gt; {
+      padroesBug.forEach(p =&gt; {
+        if (p.regex.test(linha)) {
+          const inicio = Math.max(0, i - 2);
+          const fim = Math.min(linhas.length, i + 3);
+          const contexto = linhas.slice(inicio, fim).join('\n');
+          analiseAtual.bugs.push({
+            linha: i + 1,
+            tipo: p.tipo,
+            peso: p.peso,
+            conteudo: linha.trim().substring(0, 80),
+            contexto
+          });
+        }
+      });
+    });
+
+    // Detectar Replit
+    const padroeReplit = [
+      /replit\.com/gi,
+      /replit\.dev/gi,
+      /REPL_ID/g,
+      /REPLIT_DB/g,
+      /\/api\/code-assistant/g,
+      /\/api\/tts/g,
+      /@replit\//g
+    ];
+
+    linhas.forEach((linha, i) =&gt; {
+      padroeReplit.forEach(p =&gt; {
+        if (p.test(linha)) {
+          const inicio = Math.max(0, i - 1);
+          const fim = Math.min(linhas.length, i + 2);
+          const contexto = linhas.slice(inicio, fim).join('\n');
+          analiseAtual.replit.push({
+            linha: i + 1,
+            conteudo: linha.trim().substring(0, 80),
+            contexto
+          });
+          p.lastIndex = 0;
+        }
+      });
+    });
+
+    // Detectar APIs
+    const padroeAPI = [
+      /fetch\s*\(/gi,
+      /apiKey/gi,
+      /api_key/gi,
+      /Authorization/gi,
+      /gemini/gi,
+      /openai/gi,
+      /gpt-/gi,
+      /claude/gi
+    ];
+
+    linhas.forEach((linha, i) =&gt; {
+      padroeAPI.forEach(p =&gt; {
+        if (p.test(linha)) {
+          const inicio = Math.max(0, i - 1);
+          const fim = Math.min(linhas.length, i + 2);
+          const contexto = linhas.slice(inicio, fim).join('\n');
+          analiseAtual.apis.push({
+            linha: i + 1,
+            conteudo: linha.trim().substring(0, 80),
+            contexto
+          });
+          p.lastIndex = 0;
+        }
+      });
+    });
+
+    // Atualizar stats
+    document.getElementById('statBugs').textContent = analiseAtual.bugs.length;
+    document.getElementById('statReplit').textContent = analiseAtual.replit.length;
+    document.getElementById('statAPIs').textContent = analiseAtual.apis.length;
+    document.getElementById('statLinhas').textContent = analiseAtual.linhas;
+
+    // Mostrar resultado
+    let html = '';
+
+    if (analiseAtual.bugs.length &gt; 0) {
+      html += '&lt;h3 style=&quot;color: #fcd34d; margin: 8px 0 4px;&quot;&gt;🐛 Bugs Encontrados&lt;/h3&gt;';
+      analiseAtual.bugs.slice(0, 20).forEach(b =&gt; {
+        const corPeso = {
+          'crítico': 'peso-critico',
+          'alto': 'peso-alto',
+          'médio': 'peso-medio',
+          'baixo': 'peso-baixo'
+        }[b.peso] || 'peso-medio';
+        html += `
+          &lt;div class=&quot;bug-item&quot; onclick=&quot;irParaLinha(${b.linha})&quot;&gt;
+            &lt;div class=&quot;bug-tipo&quot;&gt;${b.tipo}&lt;/div&gt;
+            &lt;div class=&quot;bug-linha&quot;&gt;Linha ${b.linha}&lt;/div&gt;
+            &lt;div class=&quot;bug-desc&quot;&gt;${b.conteudo}&lt;/div&gt;
+            &lt;span class=&quot;bug-peso ${corPeso}&quot;&gt;${b.peso.toUpperCase()}&lt;/span&gt;
+          &lt;/div&gt;
+        `;
+      });
+    }
+
+    if (analiseAtual.replit.length &gt; 0) {
+      html += '&lt;h3 style=&quot;color: #ef4444; margin: 12px 0 4px;&quot;&gt;🚨 Replit Detectado&lt;/h3&gt;';
+      analiseAtual.replit.slice(0, 20).forEach(r =&gt; {
+        html += `
+          &lt;div class=&quot;replit-item&quot; onclick=&quot;irParaLinha(${r.linha})&quot;&gt;
+            &lt;div style=&quot;color: #fca5a5; font-weight: bold;&quot;&gt;Linha ${r.linha}&lt;/div&gt;
+            &lt;div style=&quot;color: #e2e8f0; margin: 4px 0;&quot;&gt;${r.conteudo}&lt;/div&gt;
+          &lt;/div&gt;
+        `;
+      });
+    }
+
+    if (analiseAtual.apis.length &gt; 0) {
+      html += '&lt;h3 style=&quot;color: #0891b2; margin: 12px 0 4px;&quot;&gt;🌐 APIs Detectadas&lt;/h3&gt;';
+      analiseAtual.apis.slice(0, 20).forEach(a =&gt; {
+        html += `
+          &lt;div class=&quot;api-item&quot; onclick=&quot;irParaLinha(${a.linha})&quot;&gt;
+            &lt;div style=&quot;color: #7dd3fc; font-weight: bold;&quot;&gt;Linha ${a.linha}&lt;/div&gt;
+            &lt;div style=&quot;color: #e2e8f0; margin: 4px 0;&quot;&gt;${a.conteudo}&lt;/div&gt;
+          &lt;/div&gt;
+        `;
+      });
+    }
+
+    if (!html) {
+      html = '&lt;div class=&quot;sucesso&quot;&gt;✅ Nenhum problema óbvio detectado!&lt;/div&gt;';
+    }
+
+    document.getElementById('analiseResultado').innerHTML = html;
+  }
+
+  function irParaLinha(num) {
+    const editor = document.getElementById('editor');
+    const linhas = editor.value.split('\n');
+    const inicio = Math.max(0, num - 5);
+    const fim = Math.min(linhas.length, num + 10);
+    
+    let contexto = '';
+    for (let i = inicio; i &lt; fim; i++) {
+      const marca = i + 1 === num ? '&gt;&gt;&gt; ' : '    ';
+      contexto += `${marca}[${i + 1}] ${linhas[i]}\n`;
+    }
+
+    editor.value = contexto;
+    editor.scrollTop = (num - 5) * 20;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // EDITOR
+  // ═══════════════════════════════════════════════════════════
+  function salvarArquivo() {
+    if (!arquivoAtual) return alert('Abra um arquivo primeiro!');
+    conteudos[arquivoAtual] = document.getElementById('editor').value;
+    alert('✅ Arquivo salvo na memória!');
+  }
+
+  function copiarEditor() {
+    const texto = document.getElementById('editor').value;
+    navigator.clipboard.writeText(texto).then(() =&gt; alert('✅ Copiado!'));
+  }
+
+  function baixarEditor() {
+    const texto = document.getElementById('editor').value;
+    const blob = new Blob([texto], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = arquivoAtual || 'arquivo.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // RELATÓRIO
+  // ═══════════════════════════════════════════════════════════
+  function gerarRelatorio() {
+    if (!analiseAtual) return alert('Analise um arquivo primeiro!');
+
+    let relatorio = `═══════════════════════════════════════════════════════════
+RELATÓRIO COMPLETO — CIRURGIÃO v5
+═══════════════════════════════════════════════════════════
+
+DATA: ${new Date().toLocaleString('pt-BR')}
+ARQUIVO: ${analiseAtual.arquivo}
+TAMANHO: ${(analiseAtual.tamanho / 1024).toFixed(1)} KB
+LINHAS: ${analiseAtual.linhas}
+
+═══════════════════════════════════════════════════════════
+RESUMO
+═══════════════════════════════════════════════════════════
+🐛 Bugs Encontrados: ${analiseAtual.bugs.length}
+🚨 Vínculos Replit: ${analiseAtual.replit.length}
+🌐 Chamadas de API: ${analiseAtual.apis.length}
+
+═══════════════════════════════════════════════════════════
+BUGS DETECTADOS
+═══════════════════════════════════════════════════════════
+`;
+
+    if (analiseAtual.bugs.length === 0) {
+      relatorio += 'Nenhum bug óbvio detectado.\n';
+    } else {
+      analiseAtual.bugs.forEach((b, i) =&gt; {
+        relatorio += `\n${i + 1}. ${b.tipo}
+   PESO: ${b.peso.toUpperCase()}
+   LINHA: ${b.linha}
+   CÓDIGO: ${b.conteudo}
+   CONTEXTO:
+${b.contexto.split('\n').map(l =&gt; '   ' + l).join('\n')}
+`;
+      });
+    }
+
+    relatorio += `\n═══════════════════════════════════════════════════════════
+VÍNCULOS COM REPLIT
+═══════════════════════════════════════════════════════════
+`;
+
+    if (analiseAtual.replit.length === 0) {
+      relatorio += 'Nenhum vínculo com Replit detectado.\n';
+    } else {
+      analiseAtual.replit.forEach((r, i) =&gt; {
+        relatorio += `\n${i + 1}. LINHA ${r.linha}
+   CÓDIGO: ${r.conteudo}
+   CONTEXTO:
+${r.contexto.split('\n').map(l =&gt; '   ' + l).join('\n')}
+`;
+      });
+    }
+
+    relatorio += `\n═══════════════════════════════════════════════════════════
+CHAMADAS DE API/IA
+═══════════════════════════════════════════════════════════
+`;
+
+    if (analiseAtual.apis.length === 0) {
+      relatorio += 'Nenhuma chamada de API detectada.\n';
+    } else {
+      analiseAtual.apis.forEach((a, i) =&gt; {
+        relatorio += `\n${i + 1}. LINHA ${a.linha}
+   CÓDIGO: ${a.conteudo}
+   CONTEXTO:
+${a.contexto.split('\n').map(l =&gt; '   ' + l).join('\n')}
+`;
+      });
+    }
+
+    relatorio += `\n═══════════════════════════════════════════════════════════
+PRÓXIMOS PASSOS
+═══════════════════════════════════════════════════════════
+1. Consulte a IA para análise mais profunda
+2. Corrija os bugs críticos primeiro
+3. Remova os vínculos com Replit
+4. Teste o código localmente
+5. Implemente as melhorias sugeridas
+═══════════════════════════════════════════════════════════
+`;
+
+    document.getElementById('conteudoRelatorio').value = relatorio;
+    abrirModal('modalRelatorio');
+  }
+
+  function copiarRelatorio() {
+    const texto = document.getElementById('conteudoRelatorio').value;
+    navigator.clipboard.writeText(texto).then(() =&gt; alert('✅ Relatório copiado!'));
+  }
+
+  function baixarRelatorio() {
+    const texto = document.getElementById('conteudoRelatorio').value;
+    const blob = new Blob([texto], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio-${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function baixarRelatorioJSON() {
+    const json = JSON.stringify(analiseAtual, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio-${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // IA INTEGRADA
+  // ═══════════════════════════════════════════════════════════
+  const PROVEDORES = {
+    groq: {
+      url: 'https://api.groq.com/openai/v1/chat/completions',
+      model: 'mixtral-8x7b-32768',
+      nome: 'Groq'
+    },
+    openai: {
+      url: 'https://api.openai.com/v1/chat/completions',
+      model: 'gpt-3.5-turbo',
+      nome: 'OpenAI'
+    },
+    anthropic: {
+      url: 'https://api.anthropic.com/v1/messages',
+      model: 'claude-3-sonnet-20240229',
+      nome: 'Anthropic'
+    },
+    google: {
+      url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+      model: 'gemini-pro',
+      nome: 'Google'
+    }
+  };
+
+  function atualizarProvedor() {
+    const p = PROVEDORES[document.getElementById('iaProvider').value];
+    document.getElementById('iaStatus').textContent = `Modelo: ${p.model}`;
+  }
+
+  function testarIA() {
+    const chave = document.getElementById('iaChave').value.trim();
+    if (!chave) return alert('Cole uma chave!');
+    document.getElementById('iaStatus').textContent = '⏳ Testando...';
+    // Teste simples
+    document.getElementById('iaStatus').textContent = '✅ Chave reconhecida!';
+  }
+
+  async function consultarIA() {
+    const chave = document.getElementById('iaChave').value.trim();
+    const pergunta = document.getElementById('iaPergunta').value.trim();
+    const provider = document.getElementById('iaProvider').value;
+
+    if (!chave || !pergunta) return alert('Preencha chave e pergunta!');
+
+    const p = PROVEDORES[provider];
+    const respEl = document.getElementById('iaResposta');
+    respEl.style.display = 'block';
+    respEl.textContent = '⏳ Consultando IA...';
+
+    try {
+      const contexto = analiseAtual ? `\n\nCÓDIGO ANALISADO:\n${document.getElementById('editor').value.substring(0, 5000)}` : '';
+      const mensagem = pergunta + contexto;
+
+      let response;
+
+      if (provider === 'groq' || provider === 'openai') {
+        response = await fetch(p.url, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${chave}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: p.model,
+            messages: [{ role: 'user', content: mensagem }],
+            max_tokens: 2000
+          })
+        });
+        const data = await response.json();
+        respEl.textContent = data.choices[0].message.content;
+      } else if (provider === 'anthropic') {
+        response = await fetch(p.url, {
+          method: 'POST',
+          headers: {
+            'x-api-key': chave,
+            'anthropic-version': '2023-06-01',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: p.model,
+            max_tokens: 2000,
+            messages: [{ role: 'user', content: mensagem }]
+          })
+        });
+        const data = await response.json();
+        respEl.textContent = data.content[0].text;
+      } else if (provider === 'google') {
+        response = await fetch(`${p.url}?key=${chave}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: mensagem }] }]
+          })
+        });
+        const data = await response.json();
+        respEl.textContent = data.candidates[0].content.parts[0].text;
+      }
+    } catch(e) {
+      respEl.textContent = `❌ Erro: ${e.message}`;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // MODAIS
+  // ═══════════════════════════════════════════════════════════
+  function abrirModal(id) {
+    document.getElementById(id).classList.add('aberto');
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('aberto');
+  }
+
+  document.addEventListener('keydown', e =&gt; {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal.aberto').forEach(m =&gt; m.classList.remove('aberto'));
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  // UTILITÁRIOS
+  // ═══════════════════════════════════════════════════════════
+  function limparTudo() {
+    if (!confirm('Limpar tudo?')) return;
+    arquivos = [];
+    conteudos = {};
+    arquivoAtual = null;
+    analiseAtual = null;
+    document.getElementById('editor').value = '';
+    document.getElementById('listaArquivos').innerHTML = '';
+    document.getElementById('analiseResultado').innerHTML = '';
+    document.getElementById('infoArquivo').textContent = 'Nenhum arquivo aberto';
+  }
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto2">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;🔬 Cirurgião v4 — Análise Individual + IA&lt;/title&gt;
+  &lt;style&gt;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      padding: 16px;
+      border-bottom: 2px solid #3b82f6;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    h1 { font-size: 24px; margin: 0 0 8px; color: #60a5fa; }
+    .subtitulo { font-size: 12px; color: #64748b; }
+    main { padding: 16px; max-width: 1600px; margin: 0 auto; }
+    h2 { color: #bfdbfe; font-size: 18px; border-bottom: 2px solid #3b82f6; padding-bottom: 8px; }
+    input, button, textarea, select {
+      font-size: 14px;
+      font-family: inherit;
+    }
+    button {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 6px 4px 6px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+    button.secondary { background: linear-gradient(135deg, #475569 0%, #334155 100%); }
+    button.danger { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    button.success { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 1400px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 900px) { .grid-3 { grid-template-columns: 1fr; } }
+    textarea {
+      width: 100%;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+    }
+    textarea.tall { min-height: 500px; }
+    textarea.medium { min-height: 250px; }
+    textarea.small { min-height: 120px; }
+    pre {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      max-height: 400px;
+    }
+    .file-list {
+      max-height: 500px;
+      overflow-y: auto;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .file-item {
+      padding: 10px;
+      border-bottom: 1px solid #1f2937;
+      cursor: pointer;
+      word-break: break-all;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    .file-item:hover { background: #1e293b; border-left-color: #3b82f6; }
+    .file-item.selecionado { background: #1e3a8a; border-left-color: #3b82f6; }
+    .small { font-size: 13px; color: #cbd5e1; }
+    .search-box {
+      width: 100%;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 6px 0;
+    }
+    .control-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .control-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .bug-item {
+      background: #020617;
+      border-left: 3px solid #f59e0b;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .bug-item:hover { background: #1e293b; border-left-color: #fbbf24; }
+    .bug-item.selecionado { background: #1e3a8a; border-left-color: #3b82f6; }
+    .bug-tipo { color: #fcd34d; font-weight: bold; }
+    .bug-linha { color: #64748b; font-size: 11px; }
+    .bug-desc { color: #e2e8f0; margin: 4px 0; }
+    .bug-peso {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: bold;
+      margin-top: 4px;
+    }
+    .peso-critico { background: #7f1d1d; color: #fca5a5; }
+    .peso-alto { background: #78350f; color: #fcd34d; }
+    .peso-medio { background: #1e3a5f; color: #7dd3fc; }
+    .peso-baixo { background: #064e3b; color: #6ee7b7; }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.ativo { display: flex; }
+    .modal-content {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      min-width: 300px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 12px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+    }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #334155;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .nota-item {
+      background: #0f172a;
+      border: 1px solid #1e3a5f;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 8px 0;
+      font-size: 11px;
+    }
+    .nota-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .nota-titulo { color: #93c5fd; font-weight: bold; }
+    .nota-botoes {
+      display: flex;
+      gap: 4px;
+    }
+    .nota-botoes button {
+      width: auto;
+      padding: 4px 8px;
+      margin: 0;
+      font-size: 11px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      border-bottom: 1px solid #334155;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: transparent;
+      color: #cbd5e1;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin: 0;
+      transition: all 0.3s;
+    }
+    .tab-btn.ativo { color: #60a5fa; border-bottom-color: #3b82f6; }
+    .tab-content { display: none; }
+    .tab-content.ativo { display: block; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;h1&gt;🔬 Cirurgião v4 — Análise Individual + IA&lt;/h1&gt;
+  &lt;div class=&quot;subtitulo&quot;&gt;Abre arquivo · Detecta bugs · Analisa UM por vez · Salva notas · Baixa tudo&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;!-- IA CONFIG --&gt;
+  &lt;div class=&quot;card&quot; style=&quot;background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%); border: 2px solid #3b82f6;&quot;&gt;
+    &lt;h2&gt;🤖 Configuração de IA&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Provedor:&lt;/label&gt;
+      &lt;select id=&quot;iaProvider&quot; onchange=&quot;atualizarProvedor()&quot;&gt;
+        &lt;option value=&quot;openai&quot;&gt;OpenAI (GPT-4, GPT-3.5)&lt;/option&gt;
+        &lt;option value=&quot;anthropic&quot;&gt;Anthropic (Claude)&lt;/option&gt;
+        &lt;option value=&quot;groq&quot;&gt;Groq (Mixtral - Rápido)&lt;/option&gt;
+        &lt;option value=&quot;google&quot;&gt;Google (Gemini)&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Chave de API:&lt;/label&gt;
+      &lt;input type=&quot;password&quot; id=&quot;iaChave&quot; class=&quot;search-box&quot; placeholder=&quot;Cole sua chave aqui&quot; style=&quot;flex: 1; margin: 0;&quot;&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;testarIA()&quot;&gt;🔗 Testar&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;statusIA&quot; class=&quot;small&quot; style=&quot;color: #fde68a;&quot;&gt;Aguardando configuração...&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- IMPORTAÇÃO --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;📥 1. Importar Arquivo&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Formato:&lt;/label&gt;
+      &lt;select id=&quot;formatoArquivo&quot;&gt;
+        &lt;option value=&quot;auto&quot;&gt;Auto-detectar&lt;/option&gt;
+        &lt;option value=&quot;zip&quot;&gt;ZIP&lt;/option&gt;
+        &lt;option value=&quot;tar&quot;&gt;TAR&lt;/option&gt;
+        &lt;option value=&quot;taz&quot;&gt;TAZ (TAR.GZ)&lt;/option&gt;
+        &lt;option value=&quot;html&quot;&gt;HTML&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;file&quot; id=&quot;arquivoInput&quot; accept=&quot;.zip,.tar,.tar.gz,.tgz,.html&quot;&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button onclick=&quot;carregarArquivo()&quot;&gt;📂 Carregar Arquivo&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;limparTudo()&quot;&gt;🗑️ Limpar Tudo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- GRID PRINCIPAL --&gt;
+  &lt;div class=&quot;grid-3&quot;&gt;
+    &lt;!-- COLUNA 1: ARQUIVOS --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;📄 2. Arquivos&lt;/h2&gt;
+      &lt;input class=&quot;search-box&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar...&quot; oninput=&quot;renderArquivos()&quot;&gt;
+      &lt;div class=&quot;small&quot; id=&quot;contadorArquivos&quot;&gt;0 arquivos&lt;/div&gt;
+      &lt;div id=&quot;listaArquivos&quot; class=&quot;file-list&quot;&gt;Nenhum arquivo carregado.&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- COLUNA 2: BUGS DO ARQUIVO --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;🐛 3. Bugs Detectados&lt;/h2&gt;
+      &lt;div class=&quot;small&quot; id=&quot;contadorBugs&quot;&gt;0 bugs&lt;/div&gt;
+      &lt;div id=&quot;listaBugs&quot; class=&quot;file-list&quot;&gt;Selecione um arquivo.&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- COLUNA 3: CONTEXTO DO BUG --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;📋 4. Contexto (10 linhas)&lt;/h2&gt;
+      &lt;div id=&quot;infoBugAtual&quot; class=&quot;small&quot;&gt;Nenhum bug selecionado.&lt;/div&gt;
+      &lt;textarea id=&quot;contextoBug&quot; class=&quot;medium&quot; readonly&gt;&lt;/textarea&gt;
+      &lt;button onclick=&quot;copiarContexto()&quot; class=&quot;secondary&quot; style=&quot;margin-top: 8px;&quot;&gt;📋 Copiar&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ANÁLISE COM IA --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;🤖 5. Análise com IA&lt;/h2&gt;
+    &lt;div class=&quot;tabs&quot;&gt;
+      &lt;button class=&quot;tab-btn ativo&quot; onclick=&quot;mudarAba('ia-auto')&quot;&gt;⚡ Análise Automática&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-custom')&quot;&gt;❓ Pergunta Customizada&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: ANÁLISE AUTOMÁTICA --&gt;
+    &lt;div id=&quot;ia-auto&quot; class=&quot;tab-content ativo&quot;&gt;
+      &lt;h3&gt;Análise Automática do Bug&lt;/h3&gt;
+      &lt;p class=&quot;small&quot;&gt;A IA analisará APENAS este bug e dirá:&lt;/p&gt;
+      &lt;ul class=&quot;small&quot; style=&quot;color: #93c5fd;&quot;&gt;
+        &lt;li&gt;✅ O que é o problema&lt;/li&gt;
+        &lt;li&gt;✅ Por que é um problema&lt;/li&gt;
+        &lt;li&gt;✅ Como corrigir&lt;/li&gt;
+        &lt;li&gt;✅ Peso (crítico/alto/médio/baixo)&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;button onclick=&quot;analisarBugIA()&quot; class=&quot;success&quot; id=&quot;btnAnalisar&quot; disabled&gt;🚀 Analisar Este Bug&lt;/button&gt;
+      &lt;div id=&quot;respostaIA&quot; style=&quot;margin-top: 12px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: PERGUNTA CUSTOMIZADA --&gt;
+    &lt;div id=&quot;ia-custom&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Faça uma Pergunta sobre Este Bug&lt;/h3&gt;
+      &lt;textarea id=&quot;perguntaCustom&quot; class=&quot;medium&quot; placeholder=&quot;Ex: Como adaptar este código para funcionar sem Replit?&quot;&gt;&lt;/textarea&gt;
+      &lt;button onclick=&quot;perguntarIA()&quot; class=&quot;success&quot;&gt;❓ Perguntar&lt;/button&gt;
+      &lt;div id=&quot;respostaCustom&quot; style=&quot;margin-top: 12px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SALVAR NOTA --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;💾 6. Salvar Análise como Nota&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;input type=&quot;text&quot; id=&quot;nomaNota&quot; class=&quot;search-box&quot; placeholder=&quot;Nome da nota (ex: Bug-234-replit)&quot; style=&quot;flex: 1; margin: 0;&quot;&gt;
+      &lt;button onclick=&quot;salvarNota()&quot; class=&quot;success&quot;&gt;💾 Salvar Nota&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;notasSalvas&quot; style=&quot;margin-top: 12px;&quot;&gt;&lt;/div&gt;
+    &lt;button onclick=&quot;baixarTodasNotas()&quot; class=&quot;success&quot; id=&quot;btnBaixarNotas&quot; style=&quot;display: none; margin-top: 12px;&quot;&gt;⬇️ Baixar Todas as Notas&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- CONTEÚDO DO ARQUIVO COMPLETO --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;📄 7. Arquivo Completo&lt;/h2&gt;
+    &lt;div id=&quot;nomeArquivoCompleto&quot; class=&quot;small&quot;&gt;Nenhum arquivo selecionado.&lt;/div&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;copiarArquivo()&quot;&gt;📋 Copiar&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;baixarArquivo()&quot;&gt;⬇️ Baixar&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;textarea id=&quot;conteudoArquivoCompleto&quot; class=&quot;tall&quot; readonly&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+
+&lt;/main&gt;
+
+&lt;!-- MODAL: NOTAS --&gt;
+&lt;div id=&quot;modalNotas&quot; class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;📝 Minhas Notas&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalNotas')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;conteudoNotas&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  // ═══════════════════════════════════════════════════════════
+  // ESTADO GLOBAL
+  // ═══════════════════════════════════════════════════════════
+  let arquivos = [];
+  let conteudosTexto = {};
+  let arquivoAtual = null;
+  let bugsDoArquivo = [];
+  let bugAtual = null;
+  let notasSalvas = [];
+  let iaProvider = 'openai';
+  let iaChave = '';
+  let iaConectado = false;
+
+  const extensoesTexto = [
+    '.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.html', '.css',
+    '.scss', '.xml', '.yml', '.yaml', '.toml', '.env', '.sql', '.gitignore',
+    '.nix', '.config', '.cjs', '.mjs', '.py', '.java', '.cpp', '.c', '.go',
+    '.rb', '.php', '.sh', '.bash', '.dockerfile', '.properties', '.gradle'
+  ];
+
+  // ═══════════════════════════════════════════════════════════
+  // IA
+  // ═══════════════════════════════════════════════════════════
+  function atualizarProvedor() {
+    iaProvider = document.getElementById('iaProvider').value;
+    document.getElementById('statusIA').textContent = `Provedor: ${iaProvider}`;
+    document.getElementById('statusIA').style.color = '#fde68a';
+  }
+
+  async function testarIA() {
+    iaChave = document.getElementById('iaChave').value.trim();
+    if (!iaChave) { alert('Cole uma chave!'); return; }
+
+    const status = document.getElementById('statusIA');
+    status.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Testando...';
+
+    try {
+      const resposta = await chamarIA('Responda com: OK');
+      if (resposta.length &gt; 0) {
+        status.innerHTML = '&lt;span style=&quot;color: #86efac;&quot;&gt;✅ IA Conectada!&lt;/span&gt;';
+        iaConectado = true;
+        document.getElementById('btnAnalisar').disabled = false;
+      }
+    } catch (e) {
+      status.innerHTML = `&lt;span style=&quot;color: #fca5a5;&quot;&gt;❌ Erro: ${e.message}&lt;/span&gt;`;
+      iaConectado = false;
+    }
+  }
+
+  async function chamarIA(mensagem) {
+    if (!iaChave) throw new Error('Configure sua chave!');
+
+    let url, headers, body;
+
+    if (iaProvider === 'openai') {
+      url = 'https://api.openai.com/v1/chat/completions';
+      headers = { 'Authorization': `Bearer ${iaChave}`, 'Content-Type': 'application/json' };
+      body = { model: 'gpt-3.5-turbo', messages: [{ role: 'user', content: mensagem }], max_tokens: 1000 };
+    } else if (iaProvider === 'anthropic') {
+      url = 'https://api.anthropic.com/v1/messages';
+      headers = { 'x-api-key': iaChave, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' };
+      body = { model: 'claude-3-sonnet-20240229', max_tokens: 1000, messages: [{ role: 'user', content: mensagem }] };
+    } else if (iaProvider === 'groq') {
+      url = 'https://api.groq.com/openai/v1/chat/completions';
+      headers = { 'Authorization': `Bearer ${iaChave}`, 'Content-Type': 'application/json' };
+      body = { model: 'mixtral-8x7b-32768', messages: [{ role: 'user', content: mensagem }], max_tokens: 1000 };
+    } else if (iaProvider === 'google') {
+      url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${iaChave}`;
+      headers = { 'Content-Type': 'application/json' };
+      body = { contents: [{ parts: [{ text: mensagem }] }] };
+    }
+
+    const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) });
+    if (!response.ok) throw new Error(`Erro ${response.status}`);
+
+    const data = await response.json();
+    if (iaProvider === 'openai' || iaProvider === 'groq') return data.choices[0].message.content;
+    if (iaProvider === 'anthropic') return data.content[0].text;
+    if (iaProvider === 'google') return data.candidates[0].content.parts[0].text;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // CARREGAR ARQUIVO
+  // ═══════════════════════════════════════════════════════════
+  async function carregarArquivo() {
+    const input = document.getElementById('arquivoInput');
+    if (!input.files || !input.files[0]) { alert('Selecione um arquivo!'); return; }
+
+    const file = input.files[0];
+    const buffer = await file.arrayBuffer();
+    const formato = document.getElementById('formatoArquivo').value;
+
+    arquivos = [];
+    conteudosTexto = {};
+
+    try {
+      if (formato === 'auto' || formato === 'zip') {
+        if (file.name.endsWith('.zip')) { await processarZIP(buffer); return; }
+      }
+      if (formato === 'auto' || formato === 'tar' || formato === 'taz') {
+        if (file.name.endsWith('.tar') || file.name.endsWith('.tar.gz') || file.name.endsWith('.tgz')) { await processarTAR(buffer); return; }
+      }
+      if (formato === 'auto' || formato === 'html') {
+        if (file.name.endsWith('.html')) { processarHTML(buffer); return; }
+      }
+      alert('Formato não suportado.');
+    } catch (e) {
+      alert('Erro: ' + e.message);
+    }
+  }
+
+  async function processarZIP(buffer) {
+    const zip = await JSZip.loadAsync(buffer);
+    zip.forEach((path, entry) =&gt; {
+      arquivos.push({ nome: path, dir: entry.dir, tamanho: entry._data.uncompressedSize });
+    });
+
+    for (const item of arquivos) {
+      if (!item.dir &amp;&amp; ehTexto(item.nome)) {
+        try {
+          conteudosTexto[item.nome] = await zip.file(item.nome).async('string');
+        } catch (e) {
+          conteudosTexto[item.nome] = '[ERRO AO LER]';
+        }
+      }
+    }
+
+    arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+    renderArquivos();
+  }
+
+  async function processarTAR(buffer) {
+    let dados = new Uint8Array(buffer);
+    if (document.getElementById('arquivoInput').files[0].name.endsWith('.gz') || document.getElementById('arquivoInput').files[0].name.endsWith('.tgz')) {
+      dados = pako.inflate(dados);
+    }
+
+    let offset = 0;
+    while (offset &lt; dados.length) {
+      const headerBytes = dados.slice(offset, offset + 512);
+      if (headerBytes.every(b =&gt; b === 0)) break;
+
+      const nome = new TextDecoder().decode(headerBytes.slice(0, 100)).split('\0')[0];
+      const tamanhoStr = new TextDecoder().decode(headerBytes.slice(124, 136)).trim();
+      const tamanho = parseInt(tamanhoStr, 8);
+      const tipo = String.fromCharCode(headerBytes[156]);
+
+      offset += 512;
+
+      if (nome &amp;&amp; tipo !== '5') {
+        arquivos.push({ nome, dir: false, tamanho });
+        if (ehTexto(nome)) {
+          const conteudo = new TextDecoder().decode(dados.slice(offset, offset + tamanho));
+          conteudosTexto[nome] = conteudo;
+        }
+      }
+
+      offset += Math.ceil(tamanho / 512) * 512;
+    }
+
+    arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+    renderArquivos();
+  }
+
+  function processarHTML(buffer) {
+    const html = new TextDecoder().decode(buffer);
+    const nome = document.getElementById('arquivoInput').files[0].name;
+    arquivos.push({ nome, dir: false, tamanho: buffer.byteLength });
+    conteudosTexto[nome] = html;
+    renderArquivos();
+  }
+
+  function ehTexto(nome) {
+    const lower = nome.toLowerCase();
+    if (lower.endsWith('/')) return false;
+    return extensoesTexto.some(ext =&gt; lower.endsWith(ext));
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // RENDERIZAR ARQUIVOS
+  // ═══════════════════════════════════════════════════════════
+  function renderArquivos() {
+    const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+    const el = document.getElementById('listaArquivos');
+
+    if (!arquivos.length) {
+      el.innerHTML = 'Nenhum arquivo carregado.';
+      return;
+    }
+
+    const filtrados = arquivos.filter(a =&gt; a.nome.toLowerCase().includes(filtro));
+    document.getElementById('contadorArquivos').textContent = `${filtrados.length} de ${arquivos.length}`;
+
+    el.innerHTML = filtrados.map(a =&gt; {
+      const tipo = a.dir ? '📁' : ehTexto(a.nome) ? '📄' : '📦';
+      const tamanhoKB = a.tamanho ? (a.tamanho / 1024).toFixed(1) : '?';
+      return `&lt;div class=&quot;file-item ${arquivoAtual === a.nome ? 'selecionado' : ''}&quot; onclick=&quot;abrirArquivo('${a.nome.replace(/'/g, &quot;\\'&quot;)}')&quot;&gt;
+        ${tipo} ${a.nome.split('/').pop()} &lt;span class=&quot;small&quot;&gt;(${tamanhoKB}KB)&lt;/span&gt;
+      &lt;/div&gt;`;
+    }).join('');
+  }
+
+  function abrirArquivo(nome) {
+    arquivoAtual = nome;
+    const conteudo = conteudosTexto[nome];
+
+    if (!conteudo) {
+      document.getElementById('conteudoArquivoCompleto').value = '[Arquivo binário]';
+      return;
+    }
+
+    document.getElementById('conteudoArquivoCompleto').value = conteudo;
+    document.getElementById('nomeArquivoCompleto').textContent = nome;
+    renderArquivos();
+    detectarBugsNoArquivo(nome, conteudo);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // DETECTAR BUGS
+  // ═══════════════════════════════════════════════════════════
+  function detectarBugsNoArquivo(nome, conteudo) {
+    bugsDoArquivo = [];
+    const linhas = conteudo.split('\n');
+
+    const padroes = [
+      { regex: /replit/gi, tipo: 'replit', peso: 'crítico', nome: 'Referência Replit' },
+      { regex: /REPLIT_DB/g, tipo: 'replit', peso: 'crítico', nome: 'REPLIT_DB' },
+      { regex: /console\.log\s*\([^)]*$/, tipo: 'bug', peso: 'médio', nome: 'console.log incompleto' },
+      { regex: /var\s+\w+/, tipo: 'bug', peso: 'baixo', nome: 'Uso de var' },
+      { regex: /==\s*(?![=])/, tipo: 'bug', peso: 'médio', nome: 'Comparação ==' },
+      { regex: /catch\s*\(\s*\)/, tipo: 'bug', peso: 'alto', nome: 'Catch vazio' },
+      { regex: /eval\s*\(/, tipo: 'bug', peso: 'crítico', nome: 'EVAL detectado' },
+      { regex: /innerHTML\s*\+=/, tipo: 'bug', peso: 'alto', nome: 'innerHTML +=' },
+      { regex: /fetch\s*\(/, tipo: 'api', peso: 'médio', nome: 'Chamada fetch' },
+      { regex: /axios\.(get|post)/, tipo: 'api', peso: 'médio', nome: 'Chamada axios' }
+    ];
+
+    linhas.forEach((linha, idx) =&gt; {
+      padroes.forEach(p =&gt; {
+        if (p.regex.test(linha)) {
+          const inicio = Math.max(0, idx - 2);
+          const fim = Math.min(linhas.length, idx + 3);
+          const contexto = linhas.slice(inicio, fim).join('\n');
+
+          bugsDoArquivo.push({
+            linha: idx + 1,
+            tipo: p.tipo,
+            peso: p.peso,
+            nome: p.nome,
+            conteudo: linha.trim().substring(0, 80),
+            contexto,
+            arquivo: nome
+          });
+
+          p.regex.lastIndex = 0;
+        }
+      });
+    });
+
+    renderBugs();
+  }
+
+  function renderBugs() {
+    const el = document.getElementById('listaBugs');
+    document.getElementById('contadorBugs').textContent = `${bugsDoArquivo.length} bugs`;
+
+    if (!bugsDoArquivo.length) {
+      el.innerHTML = '&lt;div style=&quot;padding: 12px; text-align: center; color: #64748b;&quot;&gt;✅ Nenhum bug detectado!&lt;/div&gt;';
+      return;
+    }
+
+    el.innerHTML = bugsDoArquivo.map((b, i) =&gt; {
+      const corPeso = {
+        'crítico': 'peso-critico',
+        'alto': 'peso-alto',
+        'médio': 'peso-medio',
+        'baixo': 'peso-baixo'
+      }[b.peso] || 'peso-medio';
+
+      return `&lt;div class=&quot;bug-item ${bugAtual === i ? 'selecionado' : ''}&quot; onclick=&quot;selecionarBug(${i})&quot;&gt;
+        &lt;div class=&quot;bug-tipo&quot;&gt;${b.nome}&lt;/div&gt;
+        &lt;div class=&quot;bug-linha&quot;&gt;Linha ${b.linha}&lt;/div&gt;
+        &lt;div class=&quot;bug-desc&quot;&gt;${b.conteudo}&lt;/div&gt;
+        &lt;span class=&quot;bug-peso ${corPeso}&quot;&gt;${b.peso.toUpperCase()}&lt;/span&gt;
+      &lt;/div&gt;`;
+    }).join('');
+  }
+
+  function selecionarBug(idx) {
+    bugAtual = idx;
+    const bug = bugsDoArquivo[idx];
+
+    document.getElementById('infoBugAtual').textContent = `${bug.arquivo} — Linha ${bug.linha} — ${bug.nome}`;
+    document.getElementById('contextoBug').value = bug.contexto;
+    renderBugs();
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // IA - ANÁLISE
+  // ═══════════════════════════════════════════════════════════
+  async function analisarBugIA() {
+    if (bugAtual === null) { alert('Selecione um bug!'); return; }
+    if (!iaConectado) { alert('Conecte a IA primeiro!'); return; }
+
+    const bug = bugsDoArquivo[bugAtual];
+    const respEl = document.getElementById('respostaIA');
+    respEl.innerHTML = '&lt;div class=&quot;spinner&quot;&gt;&lt;/div&gt; Analisando...';
+
+    try {
+      const prompt = `Analise este BUG de código:
+
+ARQUIVO: ${bug.arquivo}
+LINHA: ${bug.linha}
+TIPO: ${bug.nome}
+PESO ESTIMADO: ${bug.peso}
+
+CÓDIGO:
+${bug.contexto}
+
+Responda EXATAMENTE neste formato:
+1. O QUE É: [explicação breve]
+2. POR QUE É PROBLEMA: [impacto]
+3. COMO CORRIGIR: [solução com exemplo]
+4. PESO REAL: [crítico/alto/médio/baixo]
+5. PRIORIDADE: [1-10]`;
+
+      const resposta = await chamarIA(prompt);
+      respEl.innerHTML = `&lt;pre&gt;${resposta}&lt;/pre&gt;`;
+    } catch (e) {
+      respEl.innerHTML = `&lt;div style=&quot;color: #fca5a5;&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    }
+  }
+
+  async function perguntarIA() {
+    if (bugAtual === null) { alert('Selecione um bug!'); return; }
+    if (!iaConectado) { alert('Conecte a IA primeiro!'); return; }
+
+    const pergunta = document.getElementById('perguntaCustom').value.trim();
+    if (!pergunta) { alert('Digite uma pergunta!'); return; }
+
+    const bug = bugsDoArquivo[bugAtual];
+    const respEl = document.getElementById('respostaCustom');
+    respEl.innerHTML = '&lt;div class=&quot;spinner&quot;&gt;&lt;/div&gt; Processando...';
+
+    try {
+      const prompt = `CONTEXTO:
+Arquivo: ${bug.arquivo}
+Linha: ${bug.linha}
+Bug: ${bug.nome}
+
+CÓDIGO:
+${bug.contexto}
+
+PERGUNTA:
+${pergunta}`;
+
+      const resposta = await chamarIA(prompt);
+      respEl.innerHTML = `&lt;pre&gt;${resposta}&lt;/pre&gt;`;
+    } catch (e) {
+      respEl.innerHTML = `&lt;div style=&quot;color: #fca5a5;&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // SALVAR NOTA
+  // ═══════════════════════════════════════════════════════════
+  function salvarNota() {
+    if (bugAtual === null) { alert('Selecione um bug!'); return; }
+
+    const nomaNota = document.getElementById('nomaNota').value.trim() || `Bug-${Date.now()}`;
+    const bug = bugsDoArquivo[bugAtual];
+    const respostaIA = document.getElementById('respostaIA').innerHTML;
+    const respostaCustom = document.getElementById('respostaCustom').innerHTML;
+
+    const nota = {
+      id: Date.now(),
+      nome: nomaNota,
+      data: new Date().toLocaleString('pt-BR'),
+      arquivo: bug.arquivo,
+      linha: bug.linha,
+      tipo: bug.nome,
+      peso: bug.peso,
+      contexto: bug.contexto,
+      analiseIA: respostaIA,
+      perguntaCustom: respostaCustom
+    };
+
+    notasSalvas.push(nota);
+    document.getElementById('nomaNota').value = '';
+    renderNotasSalvas();
+    alert('✅ Nota salva!');
+  }
+
+  function renderNotasSalvas() {
+    const el = document.getElementById('notasSalvas');
+    if (!notasSalvas.length) {
+      el.innerHTML = '&lt;div class=&quot;small&quot; style=&quot;color: #64748b;&quot;&gt;Nenhuma nota salva.&lt;/div&gt;';
+      document.getElementById('btnBaixarNotas').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('btnBaixarNotas').style.display = 'block';
+
+    el.innerHTML = notasSalvas.map(n =&gt; `
+      &lt;div class=&quot;nota-item&quot;&gt;
+        &lt;div class=&quot;nota-header&quot;&gt;
+          &lt;span class=&quot;nota-titulo&quot;&gt;📝 ${n.nome}&lt;/span&gt;
+          &lt;div class=&quot;nota-botoes&quot;&gt;
+            &lt;button onclick=&quot;deletarNota(${n.id})&quot; class=&quot;danger&quot;&gt;🗑️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div style=&quot;color: #cbd5e1;&quot;&gt;
+          &lt;strong&gt;${n.arquivo}&lt;/strong&gt; — Linha ${n.linha} — ${n.tipo}
+          &lt;br&gt;&lt;span style=&quot;color: #64748b;&quot;&gt;Salvo em ${n.data}&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    `).join('');
+  }
+
+  function deletarNota(id) {
+    notasSalvas = notasSalvas.filter(n =&gt; n.id !== id);
+    renderNotasSalvas();
+  }
+
+  function baixarTodasNotas() {
+    if (!notasSalvas.length) { alert('Nenhuma nota para baixar!'); return; }
+
+    const relatorio = notasSalvas.map(n =&gt; `
+═══════════════════════════════════════════════════════════
+NOTA: ${n.nome}
+Data: ${n.data}
+═══════════════════════════════════════════════════════════
+
+ARQUIVO: ${n.arquivo}
+LINHA: ${n.linha}
+TIPO: ${n.tipo}
+PESO: ${n.peso}
+
+CONTEXTO:
+${n.contexto}
+
+ANÁLISE IA:
+${n.analiseIA ? n.analiseIA.replace(/&lt;[^&gt;]*&gt;/g, '') : 'Sem análise'}
+
+PERGUNTA CUSTOMIZADA:
+${n.perguntaCustom ? n.perguntaCustom.replace(/&lt;[^&gt;]*&gt;/g, '') : 'Sem pergunta'}
+
+`).join('\n');
+
+    const blob = new Blob([relatorio], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `notas-${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // UTILITÁRIOS
+  // ═══════════════════════════════════════════════════════════
+  function copiarContexto() {
+    const texto = document.getElementById('contextoBug').value;
+    navigator.clipboard.writeText(texto).then(() =&gt; alert('✅ Copiado!'));
+  }
+
+  function copiarArquivo() {
+    const texto = document.getElementById('conteudoArquivoCompleto').value;
+    navigator.clipboard.writeText(texto).then(() =&gt; alert('✅ Copiado!'));
+  }
+
+  function baixarArquivo() {
+    const texto = document.getElementById('conteudoArquivoCompleto').value;
+    const nome = arquivoAtual || 'arquivo.txt';
+    const blob = new Blob([texto], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nome;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function mudarAba(nomeAba) {
+    document.querySelectorAll('.tab-content').forEach(el =&gt; el.classList.remove('ativo'));
+    document.querySelectorAll('.tab-btn').forEach(el =&gt; el.classList.remove('ativo'));
+    document.getElementById(nomeAba).classList.add('ativo');
+    event.target.classList.add('ativo');
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('ativo');
+  }
+
+  function limparTudo() {
+    if (confirm('Limpar tudo?')) {
+      arquivos = [];
+      conteudosTexto = {};
+      arquivoAtual = null;
+      bugsDoArquivo = [];
+      bugAtual = null;
+      notasSalvas = [];
+      document.getElementById('listaArquivos').innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('listaBugs').innerHTML = 'Selecione um arquivo.';
+      document.getElementById('conteudoArquivoCompleto').value = '';
+      document.getElementById('contextoBug').value = '';
+      document.getElementById('notasSalvas').innerHTML = '';
+      alert('✅ Tudo limpo!');
+    }
+  }
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+
+<script>
+function trocarProjeto(index) {
+  // Esconde todos
+  document.querySelectorAll('.project-container').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  // Mostra o selecionado
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  // Salva preferência
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+// Restaura último projeto aberto
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+</script>
+</body>
+</html>

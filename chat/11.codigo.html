@@ -1,0 +1,4512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Maikon Caldeira — Advocacia Digital</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0a0a0f; font-family:system-ui,sans-serif; }
+
+.nav {
+  position:fixed;
+  top:0; left:0; right:0;
+  background:#12121a;
+  border-bottom:2px solid #a3a082;
+  padding:10px 16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  z-index:9999;
+  box-shadow:0 3px 15px rgba(0,0,0,0.6);
+}
+
+.nav-titulo {
+  font-size:12px;
+  font-weight:700;
+  color:#a3a082;
+  letter-spacing:2px;
+  margin-right:8px;
+  white-space:nowrap;
+}
+
+.nav-btn {
+  padding:8px 16px;
+  background:#1a1a2e;
+  border:1px solid #2d2d3a;
+  border-radius:8px;
+  color:#94a3b8;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+
+.nav-btn:hover { background:#a3a082; color:#000; border-color:#a3a082; }
+.nav-btn.active { background:#a3a082; color:#000; border-color:#d4d0a8; }
+
+.projeto { display:none; padding-top:110px; min-height:100vh; }
+.projeto.ativo { display:block; }
+
+.projeto iframe {
+  width:100%;
+  min-height:calc(100vh - 110px);
+  border:none;
+  display:block;
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-titulo">⚖️ MC</span>
+  <button class="nav-btn active" onclick="trocar(0)">🔷 Análise </button>
+  <button class="nav-btn " onclick="trocar(1)">🔶 Scnnar 5</button>
+  <button class="nav-btn " onclick="trocar(2)">🔸 Scanner mult</button>
+  <button class="nav-btn " onclick="trocar(3)">🟢 Scanner mult</button>
+  <button class="nav-btn " onclick="trocar(4)">🟣 Pwa Scanner Zip</button>
+</div>
+
+<div class="projeto ativo" id="p0"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>🚀 Analisador Inteligente de Projetos - Maikon Caldeira</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', monospace;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #e2e8f0;
+  padding: 20px;
+  min-height: 100vh;
+}
+.container { max-width: 1800px; margin: 0 auto; }
+h1 { color: #a3a082; margin-bottom: 5px; text-align: center; font-size: 28px; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 13px; }
+h2 { color: #4ade80; margin: 25px 0 15px 0; font-size: 16px; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+h3 { color: #60a5fa; margin: 12px 0 8px 0; font-size: 13px; }
+
+.top-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+}
+
+.upload-area {
+  background: #1e293b;
+  border: 2px dashed #334155;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex: 1;
+  min-width: 300px;
+}
+.upload-area:hover { border-color: #a3a082; background: #334155; }
+.upload-area.dragover { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+
+input[type=&quot;file&quot;] { display: none; }
+
+.btn {
+  background: #a3a082;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 5px;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+.btn:hover { background: #d4d0a8; transform: translateY(-2px); }
+.btn-secondary { background: #3b82f6; color: #fff; }
+.btn-secondary:hover { background: #2563eb; }
+.btn-danger { background: #f87171; color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-success { background: #4ade80; color: #000; }
+.btn-success:hover { background: #22c55e; }
+.btn-small { padding: 6px 12px; font-size: 11px; }
+
+.loading {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px;
+  font-size: 14px;
+}
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid #334155;
+  border-top-color: #a3a082;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.filters {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.filter-group input,
+.filter-group select {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: #a3a082;
+  box-shadow: 0 0 0 3px rgba(163, 160, 130, 0.1);
+}
+
+.results {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #334155;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.tab:hover { color: #e2e8f0; }
+.tab.active { color: #a3a082; border-bottom-color: #a3a082; }
+.tab .close-tab {
+  margin-left: 8px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.tab .close-tab:hover { opacity: 1; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.file-list {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.file-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-item:hover {
+  background: #334155;
+  border-color: #a3a082;
+}
+
+.file-item.js { border-left: 4px solid #60a5fa; }
+.file-item.html { border-left: 4px solid #f87171; }
+.file-item.css { border-left: 4px solid #fbbf24; }
+.file-item.json { border-left: 4px solid #4ade80; }
+.file-item.other { border-left: 4px solid #94a3b8; }
+
+.file-name {
+  flex: 1;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.file-size {
+  color: #94a3b8;
+  font-size: 11px;
+  margin-right: 10px;
+}
+
+.file-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.code-preview {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  max-height: 400px;
+  overflow: auto;
+  color: #60a5fa;
+}
+
+.code-line {
+  padding: 2px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.code-num {
+  color: #94a3b8;
+  min-width: 30px;
+  text-align: right;
+  user-select: none;
+}
+
+.code-content {
+  flex: 1;
+  word-break: break-all;
+}
+
+.card {
+  background: #0f172a;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat-box {
+  background: #334155;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-box strong {
+  display: block;
+  color: #a3a082;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.stat-box span {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.ai-analysis {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border: 1px solid #4ade80;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.ai-analysis h3 {
+  color: #4ade80;
+  margin-bottom: 10px;
+}
+
+.ai-section {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #334155;
+}
+
+.ai-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.suggestion {
+  background: #0f172a;
+  padding: 10px;
+  border-left: 3px solid #fbbf24;
+  margin: 8px 0;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.error {
+  background: #0f172a;
+  padding: 10px;
+  border-left: 3px solid #f87171;
+  margin: 8px 0;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #fca5a5;
+}
+
+.success {
+  background: #0f172a;
+  padding: 10px;
+  border-left: 3px solid #4ade80;
+  margin: 8px 0;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #86efac;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
+  width: 900px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #334155;
+}
+
+.modal-close {
+  background: #f87171;
+  color: #fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.search-results {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.search-result-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #334155;
+  border-radius: 4px;
+  border-left: 3px solid #60a5fa;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.search-result-item:hover {
+  background: #475569;
+  border-left-color: #a3a082;
+}
+
+.search-result-file {
+  color: #a3a082;
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.search-result-preview {
+  color: #94a3b8;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+}
+
+.notes-area {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.notes-area textarea {
+  width: 100%;
+  height: 200px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.notes-area textarea:focus {
+  outline: none;
+  border-color: #a3a082;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+@media (max-width: 1200px) {
+  .main-grid { grid-template-columns: 1fr; }
+  .filters { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class=&quot;container&quot;>
+  <h1>🚀 Analisador Inteligente de Projetos</h1>
+  <p class=&quot;subtitle&quot;>Maikon Caldeira — Análise, IA e Busca Global</p>
+
+  <div class=&quot;top-bar&quot;>
+    <div class=&quot;upload-area&quot; id=&quot;dropZone&quot;>
+      <p style=&quot;font-size: 16px; margin-bottom: 10px;&quot;>📦 Arraste seu projeto aqui</p>
+      <p style=&quot;color: #94a3b8; font-size: 12px; margin-bottom: 15px;&quot;>ZIP, TAR, TAR.GZ, HTML, JSON, TXT, JS, CSS</p>
+      <button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileInput').click()&quot;>Selecionar Arquivo</button>
+      <input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip,.tar,.tar.gz,.html,.json,.txt,.js,.css&quot; multiple />
+    </div>
+  </div>
+
+  <div id=&quot;loading&quot; class=&quot;loading&quot; style=&quot;display:none;&quot;>
+    <div class=&quot;spinner&quot;></div>
+    <p>Analisando projeto...</p>
+  </div>
+
+  <div id=&quot;results&quot;></div>
+</div>
+
+<!-- MODAL DE VISUALIZAÇÃO -->
+<div class=&quot;modal&quot; id=&quot;fileModal&quot;>
+  <div class=&quot;modal-content&quot;>
+    <div class=&quot;modal-header&quot;>
+      <h2 id=&quot;modalTitle&quot;>Arquivo</h2>
+      <button class=&quot;modal-close&quot; onclick=&quot;closeModal()&quot;>✕</button>
+    </div>
+    <div id=&quot;modalBody&quot;></div>
+    <div style=&quot;margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;&quot;>
+      <button class=&quot;btn btn-secondary&quot; onclick=&quot;downloadCurrentFile()&quot;>⬇️ Baixar</button>
+      <button class=&quot;btn btn-secondary&quot; onclick=&quot;copyCurrentFile()&quot;>📋 Copiar</button>
+      <button class=&quot;btn btn-success&quot; onclick=&quot;saveAsNote()&quot;>📝 Salvar como Nota</button>
+      <button class=&quot;btn&quot; onclick=&quot;closeModal()&quot;>Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const resultsDiv = document.getElementById('results');
+const loadingDiv = document.getElementById('loading');
+
+let allFiles = {};
+let fileMetadata = {};
+let currentFileContent = '';
+let currentFileName = '';
+let openTabs = {};
+let tabCounter = 0;
+
+// DRAG AND DROP
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+});
+
+fileInput.addEventListener('change', e => {
+  handleFiles(e.target.files);
+});
+
+async function handleFiles(files) {
+  loadingDiv.style.display = 'block';
+  
+  for (let file of files) {
+    try {
+      if (file.name.endsWith('.zip')) {
+        await handleZip(file);
+      } else if (file.name.endsWith('.tar.gz') || file.name.endsWith('.tgz')) {
+        await handleTarGz(file);
+      } else if (file.name.endsWith('.tar')) {
+        await handleTar(file);
+      } else {
+        await handleSingleFile(file);
+      }
+    } catch (err) {
+      console.error('Erro ao processar arquivo:', err);
+    }
+  }
+  
+  loadingDiv.style.display = 'none';
+  displayReport();
+}
+
+async function handleZip(file) {
+  const zip = new JSZip();
+  const content = await zip.loadAsync(file);
+  
+  for (let [path, zipEntry] of Object.entries(content.files)) {
+    if (!zipEntry.dir) {
+      try {
+        const data = await zipEntry.async('text');
+        const ext = path.split('.').pop().toLowerCase();
+        const size = zipEntry._data.uncompressedSize;
+        
+        allFiles[path] = data;
+        fileMetadata[path] = {
+          name: path.split('/').pop(),
+          path: path,
+          ext: ext,
+          size: size,
+          sizeKB: (size / 1024).toFixed(2),
+          type: getFileType(ext),
+          source: file.name
+        };
+      } catch (e) {
+        // Arquivo binário, pula
+      }
+    }
+  }
+}
+
+async function handleSingleFile(file) {
+  try {
+    const data = await file.text();
+    const ext = file.name.split('.').pop().toLowerCase();
+    
+    allFiles[file.name] = data;
+    fileMetadata[file.name] = {
+      name: file.name,
+      path: file.name,
+      ext: ext,
+      size: file.size,
+      sizeKB: (file.size / 1024).toFixed(2),
+      type: getFileType(ext),
+      source: file.name
+    };
+  } catch (e) {
+    console.error('Erro ao ler arquivo:', e);
+  }
+}
+
+async function handleTarGz(file) {
+  // Implementação simplificada - em produção usaria pako
+  console.log('TAR.GZ não suportado ainda nesta versão');
+}
+
+async function handleTar(file) {
+  // Implementação simplificada
+  console.log('TAR não suportado ainda nesta versão');
+}
+
+function getFileType(ext) {
+  if (['js', 'jsx', 'ts', 'tsx'].includes(ext)) return 'js';
+  if (['html', 'htm'].includes(ext)) return 'html';
+  if (['css', 'scss', 'sass'].includes(ext)) return 'css';
+  if (['json'].includes(ext)) return 'json';
+  return 'other';
+}
+
+function displayReport() {
+  const files = Object.values(fileMetadata);
+  
+  if (files.length === 0) {
+    resultsDiv.innerHTML = '<div class=&quot;card&quot; style=&quot;border-left-color: #f87171;&quot;><h3>❌ Nenhum arquivo encontrado</h3></div>';
+    return;
+  }
+  
+  let html = `
+    <div class=&quot;main-grid&quot;>
+      <div>
+        <div class=&quot;filters&quot;>
+          <div class=&quot;filter-group&quot;>
+            <label>🔍 Buscar em Todos</label>
+            <input type=&quot;text&quot; id=&quot;globalSearch&quot; placeholder=&quot;Digite para buscar...&quot; onkeyup=&quot;globalSearch()&quot;>
+          </div>
+          
+          <div class=&quot;filter-group&quot;>
+            <label>📝 Tipo</label>
+            <select id=&quot;typeFilter&quot; onchange=&quot;filterFiles()&quot;>
+              <option value=&quot;&quot;>-- Todos --</option>
+              <option value=&quot;js&quot;>JavaScript</option>
+              <option value=&quot;html&quot;>HTML</option>
+              <option value=&quot;css&quot;>CSS</option>
+              <option value=&quot;json&quot;>JSON</option>
+              <option value=&quot;other&quot;>Outros</option>
+            </select>
+          </div>
+          
+          <div class=&quot;filter-group&quot;>
+            <label>📊 Tamanho</label>
+            <select id=&quot;sizeFilter&quot; onchange=&quot;filterFiles()&quot;>
+              <option value=&quot;&quot;>-- Qualquer --</option>
+              <option value=&quot;small&quot;>&amp;lt;10KB</option>
+              <option value=&quot;medium&quot;>10-100KB</option>
+              <option value=&quot;large&quot;>&amp;gt;100KB</option>
+            </select>
+          </div>
+          
+          <div class=&quot;filter-group&quot;>
+            <label>&amp;nbsp;</label>
+            <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportAll()&quot;>📊 Exportar</button>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <div class=&quot;results&quot;>
+          <h2>📊 Resumo</h2>
+          <div class=&quot;stats-grid&quot;>
+            <div class=&quot;stat-box&quot;>
+              <strong>${files.length}</strong>
+              <span>Arquivos</span>
+            </div>
+            <div class=&quot;stat-box&quot;>
+              <strong>${files.filter(f => f.type === 'js').length}</strong>
+              <span>JS</span>
+            </div>
+            <div class=&quot;stat-box&quot;>
+              <strong>${files.filter(f => f.type === 'html').length}</strong>
+              <span>HTML</span>
+            </div>
+            <div class=&quot;stat-box&quot;>
+              <strong>${(files.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024).toFixed(2)}MB</strong>
+              <span>Total</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  html += `
+    <div class=&quot;results&quot;>
+      <h2>📁 Arquivos Abertos</h2>
+      <div class=&quot;tabs&quot; id=&quot;tabsContainer&quot;></div>
+      <div id=&quot;tabsContent&quot;></div>
+    </div>
+  `;
+  
+  html += `
+    <div class=&quot;results&quot;>
+      <h2>📋 Lista de Arquivos</h2>
+      <div class=&quot;file-list&quot; id=&quot;fileList&quot;>
+        ${files.map(f => `
+          <div class=&quot;file-item ${f.type}&quot; data-file=&quot;${f.path}&quot; data-type=&quot;${f.type}&quot; data-size=&quot;${f.size}&quot;>
+            <div>
+              <div class=&quot;file-name&quot;>${f.name}</div>
+              <div class=&quot;file-size&quot;>${f.sizeKB}KB</div>
+            </div>
+            <div class=&quot;file-actions&quot;>
+              <button class=&quot;btn btn-small btn-secondary&quot; onclick=&quot;openTab('${f.path}')&quot;>👁️</button>
+              <button class=&quot;btn btn-small btn-secondary&quot; onclick=&quot;analyzeWithAI('${f.path}')&quot;>🤖</button>
+              <button class=&quot;btn btn-small&quot; onclick=&quot;downloadFile('${f.path}')&quot;>⬇️</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  
+  html += `<div id=&quot;searchResults&quot;></div>`;
+  
+  resultsDiv.innerHTML = html;
+}
+
+function openTab(filePath) {
+  const meta = fileMetadata[filePath];
+  const content = allFiles[filePath];
+  
+  const tabId = 'tab-' + (tabCounter++);
+  openTabs[tabId] = { path: filePath, content: content, meta: meta };
+  
+  updateTabs();
+  selectTab(tabId);
+}
+
+function updateTabs() {
+  const tabsContainer = document.getElementById('tabsContainer');
+  const tabsContent = document.getElementById('tabsContent');
+  
+  if (!tabsContainer) return;
+  
+  tabsContainer.innerHTML = Object.entries(openTabs).map(([tabId, data]) => `
+    <button class=&quot;tab active&quot; onclick=&quot;selectTab('${tabId}')&quot;>
+      ${data.meta.name}
+      <span class=&quot;close-tab&quot; onclick=&quot;closeTab('${tabId}', event)&quot;>✕</span>
+    </button>
+  `).join('');
+  
+  tabsContent.innerHTML = Object.entries(openTabs).map(([tabId, data]) => `
+    <div class=&quot;tab-content active&quot; id=&quot;content-${tabId}&quot;>
+      <div class=&quot;code-preview&quot;>
+        ${data.content.split('\n').slice(0, 100).map((line, i) => `
+          <div class=&quot;code-line&quot;>
+            <span class=&quot;code-num&quot;>${i + 1}</span>
+            <span class=&quot;code-content&quot;>${escapeHtml(line)}</span>
+          </div>
+        `).join('')}
+        ${data.content.split('\n').length > 100 ? `<div style=&quot;color: #94a3b8; margin-top: 10px;&quot;>... ${data.content.split('\n').length - 100} linhas restantes</div>` : ''}
+      </div>
+      <div style=&quot;margin-top: 15px; display: flex; gap: 10px;&quot;>
+        <button class=&quot;btn btn-secondary&quot; onclick=&quot;viewFullFile('${data.path}')&quot;>👁️ Ver Completo</button>
+        <button class=&quot;btn btn-success&quot; onclick=&quot;saveAsNote('${data.path}')&quot;>📝 Salvar Nota</button>
+        <button class=&quot;btn btn-secondary&quot; onclick=&quot;copyToClipboard('${data.path}')&quot;>📋 Copiar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  
+  document.querySelector(`[onclick=&quot;selectTab('${tabId}')&quot;]`)?.classList.add('active');
+  document.getElementById(`content-${tabId}`)?.classList.add('active');
+}
+
+function closeTab(tabId, event) {
+  event.stopPropagation();
+  delete openTabs[tabId];
+  updateTabs();
+}
+
+async function analyzeWithAI(filePath) {
+  const content = allFiles[filePath];
+  const meta = fileMetadata[filePath];
+  
+  // Análise básica (sem API externa)
+  const analysis = {
+    linhas: content.split('\n').length,
+    caracteres: content.length,
+    funcoes: (content.match(/function\s+\w+|const\s+\w+\s*=\s*\(|async\s+\w+/g) || []).length,
+    comentarios: (content.match(/\/\/|\/\*|\*\//g) || []).length,
+    imports: (content.match(/import\s+|require\s*\(|from\s+/g) || []).length,
+    erros: detectErrors(content),
+    sugestoes: generateSuggestions(content, meta.type),
+    keywords: detectKeywords(content)
+  };
+  
+  currentFileContent = content;
+  currentFileName = meta.name;
+  
+  let html = `
+    <div class=&quot;ai-analysis&quot;>
+      <h3>🤖 Análise Inteligente: ${meta.name}</h3>
+      
+      <div class=&quot;ai-section&quot;>
+        <h4 style=&quot;color: #60a5fa; margin-bottom: 10px;&quot;>📊 Métricas</h4>
+        <div class=&quot;stats-grid&quot;>
+          <div class=&quot;stat-box&quot;>
+            <strong>${analysis.linhas}</strong>
+            <span>Linhas</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${analysis.funcoes}</strong>
+            <span>Funções</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${analysis.imports}</strong>
+            <span>Imports</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${analysis.comentarios}</strong>
+            <span>Comentários</span>
+          </div>
+        </div>
+      </div>
+      
+      ${analysis.erros.length > 0 ? `
+        <div class=&quot;ai-section&quot;>
+          <h4 style=&quot;color: #f87171; margin-bottom: 10px;&quot;>⚠️ Possíveis Problemas</h4>
+          ${analysis.erros.map(e => `<div class=&quot;error&quot;>🔴 ${e}</div>`).join('')}
+        </div>
+      ` : ''}
+      
+      ${analysis.sugestoes.length > 0 ? `
+        <div class=&quot;ai-section&quot;>
+          <h4 style=&quot;color: #fbbf24; margin-bottom: 10px;&quot;>💡 Sugestões</h4>
+          ${analysis.sugestoes.map(s => `<div class=&quot;suggestion&quot;>💡 ${s}</div>`).join('')}
+        </div>
+      ` : ''}
+      
+      ${analysis.keywords.length > 0 ? `
+        <div class=&quot;ai-section&quot;>
+          <h4 style=&quot;color: #4ade80; margin-bottom: 10px;&quot;>🏷️ Palavras-chave</h4>
+          <div style=&quot;display: flex; flex-wrap: wrap; gap: 8px;&quot;>
+            ${analysis.keywords.map(k => `<span style=&quot;background: #334155; padding: 5px 10px; border-radius: 4px; font-size: 11px;&quot;>${k}</span>`).join('')}
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+  
+  document.getElementById('modalTitle').textContent = `🤖 Análise: ${meta.name}`;
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('fileModal').classList.add('open');
+}
+
+function detectErrors(content) {
+  const errors = [];
+  
+  if (content.includes('console.log') &amp;&amp; content.includes('var ')) {
+    errors.push('Uso de var detectado - considere usar const ou let');
+  }
+  if ((content.match(/\=\=/g) || []).length > (content.match(/\=\=\=/g) || []).length) {
+    errors.push('Comparação com == detectada - use === para segurança');
+  }
+  if (content.includes('eval(')) {
+    errors.push('Uso de eval() detectado - evite por segurança');
+  }
+  if (!content.includes('use strict') &amp;&amp; content.endsWith('.js')) {
+    errors.push('Modo strict não ativado');
+  }
+  
+  return errors;
+}
+
+function generateSuggestions(content, type) {
+  const suggestions = [];
+  
+  if (type === 'js') {
+    if (!content.includes('async') &amp;&amp; content.includes('fetch')) {
+      suggestions.push('Considere usar async/await em vez de .then()');
+    }
+    if (content.includes('setTimeout') &amp;&amp; !content.includes('clearTimeout')) {
+      suggestions.push('Adicione limpeza de timeouts para evitar memory leaks');
+    }
+    if (content.length > 1000 &amp;&amp; !content.includes('//')) {
+      suggestions.push('Adicione comentários para melhor documentação');
+    }
+  }
+  
+  if (type === 'html') {
+    if (!content.includes('meta charset')) {
+      suggestions.push('Adicione meta charset UTF-8');
+    }
+    if (!content.includes('viewport')) {
+      suggestions.push('Adicione meta viewport para responsividade');
+    }
+  }
+  
+  return suggestions;
+}
+
+function detectKeywords(content) {
+  const keywords = [];
+  const patterns = {
+    'API': /fetch|axios|http|request/i,
+    'Database': /sql|mongodb|firebase|database/i,
+    'Auth': /auth|token|password|login/i,
+    'UI': /react|vue|angular|component/i,
+    'Backend': /express|node|server|api/i,
+    'Testing': /test|jest|mocha|chai/i,
+    'Async': /async|await|promise/i
+  };
+  
+  for (let [key, pattern] of Object.entries(patterns)) {
+    if (pattern.test(content)) {
+      keywords.push(key);
+    }
+  }
+  
+  return keywords;
+}
+
+function globalSearch() {
+  const query = document.getElementById('globalSearch').value.toLowerCase();
+  
+  if (!query) {
+    document.getElementById('searchResults').innerHTML = '';
+    return;
+  }
+  
+  const results = [];
+  
+  for (let [path, content] of Object.entries(allFiles)) {
+    const lines = content.split('\n');
+    lines.forEach((line, lineNum) => {
+      if (line.toLowerCase().includes(query)) {
+        results.push({
+          file: path,
+          line: lineNum + 1,
+          content: line.trim(),
+          meta: fileMetadata[path]
+        });
+      }
+    });
+  }
+  
+  let html = `
+    <div class=&quot;results&quot;>
+      <h2>🔍 Resultados da Busca (${results.length})</h2>
+      <div class=&quot;search-results&quot;>
+        ${results.slice(0, 50).map(r => `
+          <div class=&quot;search-result-item&quot; onclick=&quot;openTab('${r.file}')&quot;>
+            <div class=&quot;search-result-file&quot;>📄 ${r.meta.name} (linha ${r.line})</div>
+            <div class=&quot;search-result-preview&quot;>${escapeHtml(r.content.substring(0, 100))}</div>
+          </div>
+        `).join('')}
+        ${results.length > 50 ? `<div style=&quot;color: #94a3b8; padding: 10px;&quot;>... e mais ${results.length - 50} resultados</div>` : ''}
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('searchResults').innerHTML = html;
+}
+
+function filterFiles() {
+  const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
+  const typeFilter = document.getElementById('typeFilter')?.value || '';
+  const sizeFilter = document.getElementById('sizeFilter')?.value || '';
+  
+  const fileItems = document.querySelectorAll('.file-item');
+  fileItems.forEach(item => {
+    const type = item.dataset.type;
+    const size = parseInt(item.dataset.size);
+    
+    let show = true;
+    
+    if (typeFilter &amp;&amp; type !== typeFilter) show = false;
+    if (sizeFilter === 'small' &amp;&amp; size >= 10240) show = false;
+    if (sizeFilter === 'medium' &amp;&amp; (size < 10240 || size > 102400)) show = false;
+    if (sizeFilter === 'large' &amp;&amp; size <= 102400) show = false;
+    
+    item.style.display = show ? 'flex' : 'none';
+  });
+}
+
+function viewFullFile(filePath) {
+  const content = allFiles[filePath];
+  const meta = fileMetadata[filePath];
+  
+  currentFileContent = content;
+  currentFileName = meta.name;
+  
+  const lines = content.split('\n');
+  const preview = lines.map((line, i) => `
+    <div class=&quot;code-line&quot;>
+      <span class=&quot;code-num&quot;>${i + 1}</span>
+      <span class=&quot;code-content&quot;>${escapeHtml(line)}</span>
+    </div>
+  `).join('');
+  
+  document.getElementById('modalTitle').textContent = `📄 ${meta.name}`;
+  document.getElementById('modalBody').innerHTML = `<div class=&quot;code-preview&quot;>${preview}</div>`;
+  document.getElementById('fileModal').classList.add('open');
+}
+
+function saveAsNote(filePath) {
+  const content = allFiles[filePath];
+  const meta = fileMetadata[filePath];
+  
+  const note = {
+    title: meta.name,
+    content: content,
+    date: new Date().toLocaleString('pt-BR'),
+    type: meta.type
+  };
+  
+  const notes = JSON.parse(localStorage.getItem('projectNotes') || '[]');
+  notes.push(note);
+  localStorage.setItem('projectNotes', JSON.stringify(notes));
+  
+  alert('✅ Arquivo salvo como nota!');
+}
+
+function downloadFile(filePath) {
+  const content = allFiles[filePath];
+  const meta = fileMetadata[filePath];
+  
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = meta.name;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function downloadCurrentFile() {
+  const blob = new Blob([currentFileContent], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = currentFileName;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyCurrentFile() {
+  navigator.clipboard.writeText(currentFileContent).then(() => {
+    alert('✅ Copiado!');
+  });
+}
+
+function copyToClipboard(filePath) {
+  navigator.clipboard.writeText(allFiles[filePath]).then(() => {
+    alert('✅ Copiado!');
+  });
+}
+
+function closeModal() {
+  document.getElementById('fileModal').classList.remove('open');
+}
+
+function exportAll() {
+  const files = Object.values(fileMetadata);
+  
+  let md = `# Relatório de Projeto\n\n`;
+  md += `**Gerado em:** ${new Date().toLocaleString('pt-BR')}\n\n`;
+  md += `## 📊 Resumo\n`;
+  md += `- Total: ${files.length} arquivos\n`;
+  md += `- Tamanho: ${(files.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024).toFixed(2)}MB\n\n`;
+  md += `## 📁 Arquivos\n\n`;
+  
+  files.forEach(f => {
+    md += `- **${f.name}** (${f.sizeKB}KB)\n`;
+  });
+  
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `relatorio-${new Date().toISOString().split('T')[0]}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function escapeHtml(text) {
+  const map = { '&amp;': '&amp;amp;', '<': '&amp;lt;', '>': '&amp;gt;', '&quot;': '&amp;quot;', &quot;'&quot;: '&amp;#039;' };
+  return text.replace(/[&amp;<>&quot;']/g, m => map[m]);
+}
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p1"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+  <title>🔎 Scanner Multi-Formato + IA Jurídica v2</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      padding: 16px;
+      border-bottom: 2px solid #3b82f6;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    main {
+      padding: 16px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 8px;
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2 {
+      color: #bfdbfe;
+      font-size: 18px;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 8px;
+    }
+    input, button, textarea, select {
+      font-size: 14px;
+      font-family: inherit;
+    }
+    button {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 6px 4px 6px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    button.secondary { background: linear-gradient(135deg, #475569 0%, #334155 100%); }
+    button.danger { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    button.success { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 1200px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    textarea {
+      width: 100%;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+    }
+    textarea.tall { min-height: 400px; }
+    textarea.medium { min-height: 250px; }
+    textarea.small { min-height: 120px; }
+    pre {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .ok { color: #86efac; }
+    .warn { color: #fde68a; }
+    .bad { color: #fca5a5; }
+    .info { color: #93c5fd; }
+    .file-list {
+      max-height: 400px;
+      overflow-y: auto;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .file-item {
+      padding: 8px;
+      border-bottom: 1px solid #1f2937;
+      cursor: pointer;
+      word-break: break-all;
+      transition: background 0.2s;
+    }
+    .file-item:hover { background: #1e293b; }
+    .file-item.selected {
+      background: #1e3a8a;
+      border-left: 3px solid #3b82f6;
+    }
+    .small { font-size: 13px; color: #cbd5e1; }
+    .search-box {
+      width: 100%;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 6px 0;
+    }
+    .control-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .control-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      border-bottom: 1px solid #334155;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: transparent;
+      color: #cbd5e1;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin: 0;
+      transition: all 0.3s;
+    }
+    .tab-btn.active {
+      color: #60a5fa;
+      border-bottom-color: #3b82f6;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #334155;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin: 4px 4px 4px 0;
+    }
+    .status-badge.success { background: #065f46; color: #86efac; }
+    .status-badge.warning { background: #78350f; color: #fde68a; }
+    .status-badge.error { background: #7f1d1d; color: #fca5a5; }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      min-width: 300px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 12px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+    }
+    .result-item {
+      background: #020617;
+      border-left: 3px solid #3b82f6;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .result-item.replit { border-left-color: #dc2626; }
+    .result-item.api { border-left-color: #16a34a; }
+    .result-item.bug { border-left-color: #f59e0b; }
+    .result-item.function { border-left-color: #8b5cf6; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🔎 Scanner Multi-Formato + IA Jurídica v2</h1>
+  <div class=&quot;small&quot;>Importa ZIP, TAR, TAZ, HTML | Lê conteúdo COMPLETO | IA integrada | Salva notas</div>
+</header>
+
+<main>
+  <!-- SEÇÃO 0: CONFIGURAÇÃO DE IA -->
+  <div class=&quot;card&quot; style=&quot;background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%); border: 2px solid #3b82f6;&quot;>
+    <h2>🤖 Configuração de IA</h2>
+    <div class=&quot;control-group&quot;>
+      <label>Provedor de IA:</label>
+      <select id=&quot;iaProvider&quot; onchange=&quot;atualizarProvedor()&quot;>
+        <option value=&quot;openai&quot;>OpenAI (GPT-4, GPT-3.5)</option>
+        <option value=&quot;anthropic&quot;>Anthropic (Claude)</option>
+        <option value=&quot;groq&quot;>Groq (Mixtral - Rápido)</option>
+        <option value=&quot;google&quot;>Google (Gemini)</option>
+      </select>
+    </div>
+    <div class=&quot;control-group&quot;>
+      <label>Chave de API:</label>
+      <input type=&quot;password&quot; id=&quot;iaChave&quot; class=&quot;search-box&quot; placeholder=&quot;Cole sua chave de API aqui&quot; style=&quot;flex: 1; margin: 0;&quot;>
+      <button class=&quot;secondary&quot; onclick=&quot;testarConexaoIA()&quot;>🔗 Testar</button>
+    </div>
+    <div id=&quot;statusIA&quot; class=&quot;small&quot; style=&quot;color: #fde68a;&quot;>Aguardando configuração...</div>
+  </div>
+
+  <!-- SEÇÃO 1: IMPORTAÇÃO -->
+  <div class=&quot;card&quot;>
+    <h2>📥 1. Importar Arquivo</h2>
+    <div class=&quot;control-group&quot;>
+      <label>Formato:</label>
+      <select id=&quot;formatoArquivo&quot;>
+        <option value=&quot;auto&quot;>Auto-detectar</option>
+        <option value=&quot;zip&quot;>ZIP</option>
+        <option value=&quot;tar&quot;>TAR</option>
+        <option value=&quot;taz&quot;>TAZ (TAR.GZ)</option>
+        <option value=&quot;html&quot;>HTML</option>
+      </select>
+    </div>
+    <input type=&quot;file&quot; id=&quot;arquivoInput&quot; accept=&quot;.zip,.tar,.tar.gz,.tgz,.html&quot;>
+    <div class=&quot;control-group&quot;>
+      <button onclick=&quot;carregarArquivo()&quot;>📂 Carregar Arquivo</button>
+      <button class=&quot;secondary&quot; onclick=&quot;mostrarOpcoesSaida()&quot;>💾 Salvar Nota</button>
+      <button class=&quot;danger&quot; onclick=&quot;limparTudo()&quot;>🗑️ Limpar Tudo</button>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 2: GRID PRINCIPAL -->
+  <div class=&quot;grid&quot;>
+    <!-- COLUNA 1: LISTA DE ARQUIVOS -->
+    <div class=&quot;card&quot;>
+      <h2>📄 2. Arquivos Encontrados</h2>
+      <input class=&quot;search-box&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar arquivo...&quot; oninput=&quot;renderArquivos()&quot;>
+      <div class=&quot;small&quot; id=&quot;contadorArquivos&quot;>0 arquivos</div>
+      <div id=&quot;listaArquivos&quot; class=&quot;file-list&quot;>Nenhum arquivo carregado.</div>
+    </div>
+
+    <!-- COLUNA 2: CONTEÚDO DO ARQUIVO -->
+    <div class=&quot;card&quot;>
+      <h2>📋 3. Conteúdo do Arquivo (COMPLETO)</h2>
+      <div id=&quot;arquivoAtual&quot; class=&quot;small&quot;>Nenhum arquivo selecionado.</div>
+      <div class=&quot;control-group&quot;>
+        <button class=&quot;secondary&quot; onclick=&quot;copiarConteudo()&quot;>📋 Copiar</button>
+        <button class=&quot;secondary&quot; onclick=&quot;baixarConteudo()&quot;>⬇️ Baixar</button>
+      </div>
+      <textarea id=&quot;conteudoArquivo&quot; class=&quot;tall&quot; readonly></textarea>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 3: BUSCA INTELIGENTE -->
+  <div class=&quot;card&quot;>
+    <h2>🔍 4. Detectar Problemas</h2>
+    <div class=&quot;control-group&quot;>
+      <button class=&quot;success&quot; onclick=&quot;detectarReplit()&quot;>🚨 Replit</button>
+      <button class=&quot;success&quot; onclick=&quot;detectarAPIs()&quot;>🌐 APIs/Endpoints</button>
+      <button class=&quot;success&quot; onclick=&quot;detectarFuncoes()&quot;>🔧 Funções</button>
+      <button class=&quot;success&quot; onclick=&quot;detectarBugs()&quot;>🐛 Bugs Potenciais</button>
+      <button class=&quot;success&quot; onclick=&quot;detectarDependencias()&quot;>📦 Dependências</button>
+    </div>
+    <pre id=&quot;resultadoDeteccao&quot;>Clique em um botão para detectar.</pre>
+  </div>
+
+  <!-- SEÇÃO 4: IA INTEGRADA -->
+  <div class=&quot;card&quot;>
+    <h2>🤖 5. IA - Análise e Correção</h2>
+    <div class=&quot;tabs&quot;>
+      <button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('ia-analise')&quot;>📊 Análise</button>
+      <button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-correcao')&quot;>✏️ Correção</button>
+      <button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-orientacao')&quot;>💡 Orientação</button>
+    </div>
+
+    <!-- ABA: ANÁLISE -->
+    <div id=&quot;ia-analise&quot; class=&quot;tab-content active&quot;>
+      <h3>Análise do Projeto/Arquivo</h3>
+      <textarea id=&quot;promptAnalise&quot; class=&quot;medium&quot; placeholder=&quot;Digite sua pergunta...&quot;>Analise este projeto e me diga:
+1. Qual é a estrutura principal?
+2. Há erros óbvios?
+3. Recomendações de melhorias?
+4. Compatibilidade jurídica/segurança?</textarea>
+      <button onclick=&quot;enviarParaIA('analise')&quot;>🚀 Analisar com IA</button>
+      <div id=&quot;respostaAnalise&quot; style=&quot;margin-top: 12px;&quot;></div>
+    </div>
+
+    <!-- ABA: CORREÇÃO -->
+    <div id=&quot;ia-correcao&quot; class=&quot;tab-content&quot;>
+      <h3>Solicitar Correção Automática</h3>
+      <textarea id=&quot;promptCorrecao&quot; class=&quot;medium&quot; placeholder=&quot;Descreva o que precisa ser corrigido...&quot;>Corrija os seguintes problemas:
+1. Remover referências ao Replit
+2. Erros de sintaxe
+3. Imports não utilizados
+4. Melhorias de performance</textarea>
+      <button onclick=&quot;enviarParaIA('correcao')&quot;>🔧 Corrigir</button>
+      <div id=&quot;respostaCorrecao&quot; style=&quot;margin-top: 12px;&quot;></div>
+    </div>
+
+    <!-- ABA: ORIENTAÇÃO -->
+    <div id=&quot;ia-orientacao&quot; class=&quot;tab-content&quot;>
+      <h3>Orientação Jurídica/Técnica</h3>
+      <textarea id=&quot;promptOrientacao&quot; class=&quot;medium&quot; placeholder=&quot;Faça sua pergunta...&quot;>Como devo proceder com:
+1. Licenças de software?
+2. Proteção de dados?
+3. Conformidade legal?
+4. Publicação segura?</textarea>
+      <button onclick=&quot;enviarParaIA('orientacao')&quot;>❓ Obter Orientação</button>
+      <div id=&quot;respostaOrientacao&quot; style=&quot;margin-top: 12px;&quot;></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- MODAL: SALVAR NOTA -->
+<div id=&quot;modalNota&quot; class=&quot;modal&quot;>
+  <div class=&quot;modal-content&quot;>
+    <div class=&quot;modal-header&quot;>
+      <h2>📝 Salvar como Nota</h2>
+      <button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalNota')&quot;>✕</button>
+    </div>
+    <div style=&quot;display: grid; gap: 12px;&quot;>
+      <input type=&quot;text&quot; id=&quot;nomaNota&quot; class=&quot;search-box&quot; placeholder=&quot;Nome da nota&quot;>
+      <textarea id=&quot;conteudoNota&quot; class=&quot;medium&quot; placeholder=&quot;Adicione observações...&quot;></textarea>
+      <button class=&quot;success&quot; onclick=&quot;salvarNotaJSON()&quot;>💾 Salvar como JSON</button>
+      <button class=&quot;success&quot; onclick=&quot;salvarNotaTXT()&quot;>💾 Salvar como TXT</button>
+      <button class=&quot;secondary&quot; onclick=&quot;fecharModal('modalNota')&quot;>Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;></script>
+<script src=&quot;https://cdn.jsdelivr.net/npm/pako@2.0.4/dist/pako.min.js&quot;></script>
+
+<script>
+  // ═══════════════════════════════════════════════════════════
+  // ESTADO GLOBAL
+  // ═══════════════════════════════════════════════════════════
+  let arquivos = [];
+  let conteudosTexto = {};
+  let iaProvider = 'openai';
+  let iaChave = '';
+  let iaConectado = false;
+
+  const extensoesTexto = [
+    '.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.html', '.css',
+    '.scss', '.xml', '.yml', '.yaml', '.toml', '.env', '.sql', '.gitignore',
+    '.nix', '.config', '.cjs', '.mjs', '.py', '.java', '.cpp', '.c', '.go',
+    '.rb', '.php', '.sh', '.bash', '.dockerfile', '.properties', '.gradle'
+  ];
+
+  // ═══════════════════════════════════════════════════════════
+  // IA - CONFIGURAÇÃO
+  // ═══════════════════════════════════════════════════════════
+  function atualizarProvedor() {
+    iaProvider = document.getElementById('iaProvider').value;
+    document.getElementById('statusIA').textContent = `Provedor: ${iaProvider} - Cole sua chave`;
+    document.getElementById('statusIA').style.color = '#fde68a';
+  }
+
+  async function testarConexaoIA() {
+    iaChave = document.getElementById('iaChave').value.trim();
+    if (!iaChave) {
+      alert('Cole uma chave de API primeiro!');
+      return;
+    }
+
+    const status = document.getElementById('statusIA');
+    status.innerHTML = '<span class=&quot;spinner&quot;></span> Testando...';
+
+    try {
+      const resposta = await chamarIA('Responda com uma única palavra: OK');
+      if (resposta.includes('OK') || resposta.length > 0) {
+        status.innerHTML = '<span class=&quot;ok&quot;>✅ IA Conectada!</span>';
+        iaConectado = true;
+      }
+    } catch (e) {
+      status.innerHTML = `<span class=&quot;bad&quot;>❌ Erro: ${e.message}</span>`;
+      iaConectado = false;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // CARREGAR ARQUIVO
+  // ═══════════════════════════════════════════════════════════
+  async function carregarArquivo() {
+    const input = document.getElementById('arquivoInput');
+    if (!input.files || !input.files[0]) {
+      alert('Selecione um arquivo primeiro.');
+      return;
+    }
+
+    const file = input.files[0];
+    const buffer = await file.arrayBuffer();
+    const formato = document.getElementById('formatoArquivo').value;
+
+    arquivos = [];
+    conteudosTexto = {};
+
+    try {
+      if (formato === 'auto' || formato === 'zip') {
+        if (file.name.endsWith('.zip')) {
+          await processarZIP(buffer);
+          return;
+        }
+      }
+
+      if (formato === 'auto' || formato === 'tar' || formato === 'taz') {
+        if (file.name.endsWith('.tar') || file.name.endsWith('.tar.gz') || file.name.endsWith('.tgz')) {
+          await processarTAR(buffer);
+          return;
+        }
+      }
+
+      if (formato === 'auto' || formato === 'html') {
+        if (file.name.endsWith('.html')) {
+          processarHTML(buffer);
+          return;
+        }
+      }
+
+      alert('Formato não suportado.');
+    } catch (e) {
+      alert('Erro: ' + e.message);
+      console.error(e);
+    }
+  }
+
+  async function processarZIP(buffer) {
+    const zip = await JSZip.loadAsync(buffer);
+    zip.forEach((path, entry) => {
+      arquivos.push({ nome: path, dir: entry.dir, tamanho: entry._data.uncompressedSize });
+    });
+
+    for (const item of arquivos) {
+      if (!item.dir &amp;&amp; ehTexto(item.nome)) {
+        try {
+          conteudosTexto[item.nome] = await zip.file(item.nome).async('string');
+        } catch (e) {
+          conteudosTexto[item.nome] = '[ERRO AO LER]';
+        }
+      }
+    }
+
+    arquivos.sort((a, b) => a.nome.localeCompare(b.nome));
+    renderArquivos();
+  }
+
+  async function processarTAR(buffer) {
+    let dados = new Uint8Array(buffer);
+
+    if (document.getElementById('arquivoInput').files[0].name.endsWith('.gz') ||
+        document.getElementById('arquivoInput').files[0].name.endsWith('.tgz')) {
+      dados = pako.inflate(dados);
+    }
+
+    const view = new DataView(dados.buffer);
+    let offset = 0;
+
+    while (offset < dados.length) {
+      const headerBytes = dados.slice(offset, offset + 512);
+      if (headerBytes.every(b => b === 0)) break;
+
+      const nome = new TextDecoder().decode(headerBytes.slice(0, 100)).split('\0')[0];
+      const tamanhoStr = new TextDecoder().decode(headerBytes.slice(124, 136)).trim();
+      const tamanho = parseInt(tamanhoStr, 8);
+      const tipo = String.fromCharCode(headerBytes[156]);
+
+      offset += 512;
+
+      if (nome &amp;&amp; tipo !== '5') {
+        arquivos.push({ nome, dir: false, tamanho });
+
+        if (ehTexto(nome)) {
+          const conteudo = new TextDecoder().decode(dados.slice(offset, offset + tamanho));
+          conteudosTexto[nome] = conteudo;
+        }
+      }
+
+      offset += Math.ceil(tamanho / 512) * 512;
+    }
+
+    arquivos.sort((a, b) => a.nome.localeCompare(b.nome));
+    renderArquivos();
+  }
+
+  function processarHTML(buffer) {
+    const html = new TextDecoder().decode(buffer);
+    const nome = document.getElementById('arquivoInput').files[0].name;
+
+    arquivos.push({ nome, dir: false, tamanho: buffer.byteLength });
+    conteudosTexto[nome] = html;
+
+    renderArquivos();
+  }
+
+  function ehTexto(nome) {
+    const lower = nome.toLowerCase();
+    if (lower.endsWith('/')) return false;
+    return extensoesTexto.some(ext => lower.endsWith(ext));
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // RENDERIZAR ARQUIVOS
+  // ═══════════════════════════════════════════════════════════
+  function renderArquivos() {
+    const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+    const el = document.getElementById('listaArquivos');
+
+    if (!arquivos.length) {
+      el.innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('contadorArquivos').textContent = '0 arquivos';
+      return;
+    }
+
+    const filtrados = arquivos.filter(a => a.nome.toLowerCase().includes(filtro));
+    document.getElementById('contadorArquivos').textContent = `${filtrados.length} de ${arquivos.length} arquivos`;
+
+    el.innerHTML = filtrados.map(a => {
+      const tipo = a.dir ? '📁' : ehTexto(a.nome) ? '📄' : '📦';
+      const tamanhoKB = a.tamanho ? (a.tamanho / 1024).toFixed(1) : '?';
+      return `<div class=&quot;file-item&quot; onclick=&quot;abrirArquivo('${a.nome.replace(/'/g, &quot;\\'&quot;)}')&quot; title=&quot;${a.nome}&quot;>
+        ${tipo} ${a.nome} <span class=&quot;small&quot;>(${tamanhoKB} KB)</span>
+      </div>`;
+    }).join('');
+  }
+
+  function abrirArquivo(nome) {
+    document.getElementById('arquivoAtual').textContent = nome;
+    const area = document.getElementById('conteudoArquivo');
+
+    if (conteudosTexto[nome] !== undefined) {
+      area.value = conteudosTexto[nome]; // SEM TRUNCAR!
+    } else {
+      area.value = '[Arquivo binário, pasta, ou tipo não lido como texto]';
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // DETECTAR PROBLEMAS
+  // ═══════════════════════════════════════════════════════════
+  function detectarReplit() {
+    let resultado = '=== DETECÇÃO DE REPLIT ===\n\n';
+    let encontrados = 0;
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) => {
+      const linhas = conteudo.split(/\r?\n/);
+      linhas.forEach((linha, idx) => {
+        if (linha.toLowerCase().includes('replit')) {
+          encontrados++;
+          resultado += `📄 ${nome}:${idx + 1}\n`;
+          resultado += `   ${linha.trim().substring(0, 100)}\n\n`;
+          if (encontrados >= 20) return; // Limitar a 20
+        }
+      });
+    });
+
+    if (encontrados === 0) {
+      resultado += '✅ Nenhuma referência ao Replit encontrada!';
+    } else {
+      resultado += `\n🚨 Total: ${encontrados} referências (mostrando até 20)`;
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  function detectarAPIs() {
+    let resultado = '=== DETECÇÃO DE APIs/Endpoints ===\n\n';
+    const regexAPI = /(?:https?:\/\/[^\s'&quot;]+|\/api\/[^\s'&quot;]+|fetch\(['&quot;](.*?)['&quot;]\)|axios\.(get|post|put|delete)\(['&quot;](.*?)['&quot;]\))/gi;
+    let encontrados = 0;
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) => {
+      let match;
+      while ((match = regexAPI.exec(conteudo)) !== null &amp;&amp; encontrados < 20) {
+        encontrados++;
+        resultado += `📄 ${nome}\n`;
+        resultado += `   ${match[0].substring(0, 100)}\n\n`;
+      }
+    });
+
+    if (encontrados === 0) {
+      resultado += 'Nenhuma API/endpoint encontrada.';
+    } else {
+      resultado += `\n✅ Total: ${encontrados} APIs (mostrando até 20)`;
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  function detectarFuncoes() {
+    let resultado = '=== DETECÇÃO DE FUNÇÕES ===\n\n';
+    const regexFunc = /(?:function|const|let|var)\s+(\w+)\s*(?:=\s*)?(?:function|\(|async)/g;
+    let funcoes = new Set();
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) => {
+      let match;
+      while ((match = regexFunc.exec(conteudo)) !== null) {
+        funcoes.add(match[1]);
+      }
+    });
+
+    if (funcoes.size === 0) {
+      resultado += 'Nenhuma função encontrada.';
+    } else {
+      resultado += `✅ Total: ${funcoes.size} funções\n\n`;
+      Array.from(funcoes).slice(0, 30).forEach(f => {
+        resultado += `  • ${f}\n`;
+      });
+      if (funcoes.size > 30) {
+        resultado += `\n  ... e ${funcoes.size - 30} mais`;
+      }
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  function detectarBugs() {
+    let resultado = '=== DETECÇÃO DE BUGS POTENCIAIS ===\n\n';
+    const padroes = [
+      { regex: /console\.log\(/g, nome: 'console.log (debug)' },
+      { regex: /TODO|FIXME|BUG|HACK/gi, nome: 'Comentários de TODO/FIXME' },
+      { regex: /var\s+/g, nome: 'Uso de var (use let/const)' },
+      { regex: /==\s*(?![=])/g, nome: 'Comparação == (use ===)' },
+      { regex: /catch\s*\(\s*\)/g, nome: 'Catch vazio' },
+      { regex: /undefined/g, nome: 'Referências a undefined' }
+    ];
+
+    let totalBugs = 0;
+
+    padroes.forEach(padrao => {
+      let count = 0;
+      Object.values(conteudosTexto).forEach(conteudo => {
+        const matches = conteudo.match(padrao.regex);
+        if (matches) count += matches.length;
+      });
+
+      if (count > 0) {
+        resultado += `⚠️ ${padrao.nome}: ${count} ocorrências\n`;
+        totalBugs += count;
+      }
+    });
+
+    if (totalBugs === 0) {
+      resultado += '✅ Nenhum bug potencial detectado!';
+    } else {
+      resultado += `\n🐛 Total: ${totalBugs} problemas potenciais`;
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  function detectarDependencias() {
+    let resultado = '=== DETECÇÃO DE DEPENDÊNCIAS ===\n\n';
+
+    const packageJson = conteudosTexto['package.json'];
+    if (packageJson) {
+      try {
+        const pkg = JSON.parse(packageJson);
+        resultado += '📦 Dependências:\n';
+        if (pkg.dependencies) {
+          Object.entries(pkg.dependencies).slice(0, 15).forEach(([nome, versao]) => {
+            resultado += `  • ${nome}: ${versao}\n`;
+          });
+        }
+        resultado += '\n📦 Dev Dependências:\n';
+        if (pkg.devDependencies) {
+          Object.entries(pkg.devDependencies).slice(0, 15).forEach(([nome, versao]) => {
+            resultado += `  • ${nome}: ${versao}\n`;
+          });
+        }
+      } catch (e) {
+        resultado += '❌ Erro ao parsear package.json';
+      }
+    } else {
+      resultado += '⚠️ Nenhum package.json encontrado';
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // IA - CHAMAR API
+  // ═══════════════════════════════════════════════════════════
+  async function chamarIA(mensagem) {
+    if (!iaChave) {
+      throw new Error('Configure sua chave de IA primeiro!');
+    }
+
+    let url, headers, body;
+
+    if (iaProvider === 'openai') {
+      url = 'https://api.openai.com/v1/chat/completions';
+      headers = {
+        'Authorization': `Bearer ${iaChave}`,
+        'Content-Type': 'application/json'
+      };
+      body = {
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: mensagem }],
+        max_tokens: 2000
+      };
+    } else if (iaProvider === 'anthropic') {
+      url = 'https://api.anthropic.com/v1/messages';
+      headers = {
+        'x-api-key': iaChave,
+        'anthropic-version': '2023-06-01',
+        'Content-Type': 'application/json'
+      };
+      body = {
+        model: 'claude-3-sonnet-20240229',
+        max_tokens: 2000,
+        messages: [{ role: 'user', content: mensagem }]
+      };
+    } else if (iaProvider === 'groq') {
+      url = 'https://api.groq.com/openai/v1/chat/completions';
+      headers = {
+        'Authorization': `Bearer ${iaChave}`,
+        'Content-Type': 'application/json'
+      };
+      body = {
+        model: 'mixtral-8x7b-32768',
+        messages: [{ role: 'user', content: mensagem }],
+        max_tokens: 2000
+      };
+    } else if (iaProvider === 'google') {
+      url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${iaChave}`;
+      headers = { 'Content-Type': 'application/json' };
+      body = {
+        contents: [{
+          parts: [{ text: mensagem }]
+        }]
+      };
+    }
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    if (iaProvider === 'openai' || iaProvider === 'groq') {
+      return data.choices[0].message.content;
+    } else if (iaProvider === 'anthropic') {
+      return data.content[0].text;
+    } else if (iaProvider === 'google') {
+      return data.candidates[0].content.parts[0].text;
+    }
+  }
+
+  async function enviarParaIA(tipo) {
+    let prompt = '';
+    let respEl = '';
+
+    if (tipo === 'analise') {
+      prompt = document.getElementById('promptAnalise').value;
+      respEl = 'respostaAnalise';
+    } else if (tipo === 'correcao') {
+      prompt = document.getElementById('promptCorrecao').value;
+      respEl = 'respostaCorrecao';
+    } else if (tipo === 'orientacao') {
+      prompt = document.getElementById('promptOrientacao').value;
+      respEl = 'respostaOrientacao';
+    }
+
+    if (!prompt.trim()) {
+      alert('Digite um prompt primeiro.');
+      return;
+    }
+
+    if (!iaConectado) {
+      alert('Conecte a IA primeiro!');
+      return;
+    }
+
+    const resposta = document.getElementById(respEl);
+    resposta.innerHTML = '<div class=&quot;spinner&quot;></div> Processando...';
+
+    try {
+      // Construir contexto
+      let contexto = 'CONTEXTO DO PROJETO:\n\n';
+      const arquivosPrincipais = Object.keys(conteudosTexto)
+        .filter(a => a.includes('package.json') || a.includes('README') || a.includes('main') || a.includes('index'))
+        .slice(0, 3);
+
+      for (const arquivo of arquivosPrincipais) {
+        let conteudo = conteudosTexto[arquivo];
+        if (conteudo.length > 1500) {
+          conteudo = conteudo.substring(0, 1500) + '\n[... truncado]';
+        }
+        contexto += `\n--- ${arquivo} ---\n${conteudo}\n`;
+      }
+
+      const mensagemCompleta = `${contexto}\n\nPERGUNTA:\n${prompt}`;
+      const respostaIA = await chamarIA(mensagemCompleta);
+      resposta.innerHTML = `<pre>${respostaIA}</pre>`;
+    } catch (e) {
+      resposta.innerHTML = `<div class=&quot;bad&quot;>❌ Erro: ${e.message}</div>`;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // COPIAR/BAIXAR
+  // ═══════════════════════════════════════════════════════════
+  function copiarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    navigator.clipboard.writeText(area.value).then(() => {
+      alert('✅ Copiado!');
+    }).catch(() => alert('❌ Erro ao copiar.'));
+  }
+
+  function baixarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    const nome = document.getElementById('arquivoAtual').textContent || 'arquivo.txt';
+    const blob = new Blob([area.value], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nome;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // SALVAR NOTA
+  // ═══════════════════════════════════════════════════════════
+  function mostrarOpcoesSaida() {
+    if (!arquivos.length) {
+      alert('Carregue um arquivo primeiro.');
+      return;
+    }
+    document.getElementById('modalNota').classList.add('active');
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('active');
+  }
+
+  function salvarNotaJSON() {
+    const nome = document.getElementById('nomaNota').value || 'nota';
+    const obs = document.getElementById('conteudoNota').value;
+
+    const nota = {
+      data: new Date().toISOString(),
+      nome,
+      observacoes: obs,
+      arquivos: arquivos.map(a => ({ nome: a.nome, tamanho: a.tamanho })),
+      diagnostico: document.getElementById('resultadoDeteccao').textContent
+    };
+
+    const blob = new Blob([JSON.stringify(nota, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${nome}_${new Date().getTime()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalNota');
+    alert('✅ Nota salva!');
+  }
+
+  function salvarNotaTXT() {
+    const nome = document.getElementById('nomaNota').value || 'nota';
+    const obs = document.getElementById('conteudoNota').value;
+
+    let conteudo = `NOTA: ${nome}\nData: ${new Date().toLocaleString('pt-BR')}\n\n`;
+    conteudo += `OBSERVAÇÕES:\n${obs}\n\n`;
+    conteudo += `DIAGNÓSTICO:\n${document.getElementById('resultadoDeteccao').textContent}`;
+
+    const blob = new Blob([conteudo], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${nome}_${new Date().getTime()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalNota');
+    alert('✅ Nota salva!');
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // ABAS
+  // ═══════════════════════════════════════════════════════════
+  function mudarAba(nomeAba) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(nomeAba).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // LIMPAR
+  // ═══════════════════════════════════════════════════════════
+  function limparTudo() {
+    if (confirm('Limpar tudo?')) {
+      arquivos = [];
+      conteudosTexto = {};
+      document.getElementById('listaArquivos').innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('conteudoArquivo').value = '';
+      document.getElementById('resultadoDeteccao').textContent = 'Clique em um botão para detectar.';
+      alert('✅ Tudo limpo!');
+    }
+  }
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p2"><iframe srcdoc="<!doctype html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+  <title>PWA Scanner Multi-Formato + IA</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      padding: 16px;
+      border-bottom: 2px solid #3b82f6;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    main {
+      padding: 16px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 8px;
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2 {
+      color: #bfdbfe;
+      font-size: 18px;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 8px;
+    }
+    input, button, textarea, select {
+      font-size: 14px;
+      font-family: inherit;
+    }
+    button {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 6px 4px 6px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    button.secondary {
+      background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    }
+    button.danger {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    }
+    button.success {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 1200px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    textarea {
+      width: 100%;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+    }
+    textarea.tall {
+      min-height: 400px;
+    }
+    textarea.medium {
+      min-height: 250px;
+    }
+    textarea.small {
+      min-height: 120px;
+    }
+    pre {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .ok { color: #86efac; }
+    .warn { color: #fde68a; }
+    .bad { color: #fca5a5; }
+    .info { color: #93c5fd; }
+    .file-list {
+      max-height: 400px;
+      overflow-y: auto;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .file-item {
+      padding: 8px;
+      border-bottom: 1px solid #1f2937;
+      cursor: pointer;
+      word-break: break-all;
+      transition: background 0.2s;
+    }
+    .file-item:hover {
+      background: #1e293b;
+    }
+    .file-item.selected {
+      background: #1e3a8a;
+      border-left: 3px solid #3b82f6;
+    }
+    .small {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .search-box {
+      width: 100%;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 6px 0;
+    }
+    .control-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .control-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .control-group input[type=&quot;range&quot;] {
+      flex: 1;
+      min-width: 150px;
+    }
+    .control-group input[type=&quot;number&quot;] {
+      width: 80px;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 6px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      border-bottom: 1px solid #334155;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: transparent;
+      color: #cbd5e1;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin: 0;
+      transition: all 0.3s;
+    }
+    .tab-btn.active {
+      color: #60a5fa;
+      border-bottom-color: #3b82f6;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #334155;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin: 4px 4px 4px 0;
+    }
+    .status-badge.success {
+      background: #065f46;
+      color: #86efac;
+    }
+    .status-badge.warning {
+      background: #78350f;
+      color: #fde68a;
+    }
+    .status-badge.error {
+      background: #7f1d1d;
+      color: #fca5a5;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      min-width: 300px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 12px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🔎 Scanner Multi-Formato + IA Jurídica</h1>
+  <div class=&quot;small&quot;>Importa ZIP, TAR, TAZ, HTML | Lê conteúdo | Busca termos | Integra IA para análise e correção</div>
+</header>
+
+<main>
+  <!-- SEÇÃO 1: IMPORTAÇÃO -->
+  <div class=&quot;card&quot;>
+    <h2>📥 1. Importar Arquivo</h2>
+    <div class=&quot;control-group&quot;>
+      <label>Formato:</label>
+      <select id=&quot;formatoArquivo&quot;>
+        <option value=&quot;auto&quot;>Auto-detectar</option>
+        <option value=&quot;zip&quot;>ZIP</option>
+        <option value=&quot;tar&quot;>TAR</option>
+        <option value=&quot;taz&quot;>TAZ (TAR.GZ)</option>
+        <option value=&quot;html&quot;>HTML</option>
+      </select>
+    </div>
+    <input type=&quot;file&quot; id=&quot;arquivoInput&quot; accept=&quot;.zip,.tar,.tar.gz,.tgz,.html&quot;>
+    <div class=&quot;control-group&quot;>
+      <button onclick=&quot;carregarArquivo()&quot;>📂 Carregar Arquivo</button>
+      <button class=&quot;secondary&quot; onclick=&quot;mostrarOpcoesSaida()&quot;>💾 Opções de Saída</button>
+      <button class=&quot;danger&quot; onclick=&quot;limparTudo()&quot;>🗑️ Limpar Tudo</button>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 2: CONTROLE DE TAMANHO -->
+  <div class=&quot;card&quot;>
+    <h2>⚙️ 2. Configurações de Processamento</h2>
+    <div class=&quot;control-group&quot;>
+      <label>Tamanho máximo de arquivo (KB):</label>
+      <input type=&quot;range&quot; id=&quot;maxTamanho&quot; min=&quot;100&quot; max=&quot;50000&quot; value=&quot;5000&quot; oninput=&quot;atualizarTamanho()&quot;>
+      <input type=&quot;number&quot; id=&quot;maxTamanhoNum&quot; value=&quot;5000&quot; min=&quot;100&quot; max=&quot;50000&quot; oninput=&quot;sincronizarTamanho()&quot;>
+      <span class=&quot;small&quot; id=&quot;tamanhoInfo&quot;>5000 KB (~5 MB)</span>
+    </div>
+    <div class=&quot;control-group&quot;>
+      <label>Limite de resposta IA (caracteres):</label>
+      <input type=&quot;range&quot; id=&quot;maxRespostaIA&quot; min=&quot;500&quot; max=&quot;50000&quot; value=&quot;10000&quot; oninput=&quot;atualizarRespostaIA()&quot;>
+      <input type=&quot;number&quot; id=&quot;maxRespostaIANum&quot; value=&quot;10000&quot; min=&quot;500&quot; max=&quot;50000&quot; oninput=&quot;sincronizarRespostaIA()&quot;>
+      <span class=&quot;small&quot; id=&quot;respostaIAInfo&quot;>10000 caracteres</span>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 3: GRID PRINCIPAL -->
+  <div class=&quot;grid&quot;>
+    <!-- COLUNA 1: LISTA DE ARQUIVOS -->
+    <div class=&quot;card&quot;>
+      <h2>📄 3. Arquivos Encontrados</h2>
+      <input class=&quot;search-box&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar arquivo...&quot; oninput=&quot;renderArquivos()&quot;>
+      <div class=&quot;small&quot; id=&quot;contadorArquivos&quot;>0 arquivos</div>
+      <div id=&quot;listaArquivos&quot; class=&quot;file-list&quot;>Nenhum arquivo carregado.</div>
+    </div>
+
+    <!-- COLUNA 2: CONTEÚDO DO ARQUIVO -->
+    <div class=&quot;card&quot;>
+      <h2>📋 4. Conteúdo do Arquivo</h2>
+      <div id=&quot;arquivoAtual&quot; class=&quot;small&quot;>Nenhum arquivo selecionado.</div>
+      <div class=&quot;control-group&quot;>
+        <button class=&quot;secondary&quot; onclick=&quot;copiarConteudo()&quot;>📋 Copiar</button>
+        <button class=&quot;secondary&quot; onclick=&quot;baixarConteudo()&quot;>⬇️ Baixar</button>
+      </div>
+      <textarea id=&quot;conteudoArquivo&quot; class=&quot;tall&quot; readonly></textarea>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 4: BUSCA DE TERMOS -->
+  <div class=&quot;card&quot;>
+    <h2>🔍 5. Buscar Termos</h2>
+    <input class=&quot;search-box&quot; id=&quot;termosBusca&quot; value=&quot;replit,.replit,package.json,vite,react,error,TODO,FIXME,import,export,function,class&quot; placeholder=&quot;Termos separados por vírgula&quot;>
+    <button onclick=&quot;buscarTermos()&quot;>🔎 Buscar</button>
+    <pre id=&quot;resultadoBusca&quot;>Resultado da busca aparecerá aqui.</pre>
+  </div>
+
+  <!-- SEÇÃO 5: DIAGNÓSTICO -->
+  <div class=&quot;card&quot;>
+    <h2>🩺 6. Diagnóstico Automático</h2>
+    <button onclick=&quot;diagnosticar()&quot;>🔧 Executar Diagnóstico</button>
+    <button class=&quot;secondary&quot; onclick=&quot;gerarRelatorioCompleto()&quot;>📊 Gerar Relatório Completo</button>
+    <pre id=&quot;diagnostico&quot;>Carregue um arquivo para diagnosticar.</pre>
+  </div>
+
+  <!-- SEÇÃO 6: IA INTEGRADA -->
+  <div class=&quot;card&quot;>
+    <h2>🤖 7. IA Jurídica - Análise e Correção</h2>
+    <div class=&quot;tabs&quot;>
+      <button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('ia-analise')&quot;>📊 Análise</button>
+      <button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-correcao')&quot;>✏️ Correção</button>
+      <button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-orientacao')&quot;>💡 Orientação</button>
+    </div>
+
+    <!-- ABA: ANÁLISE -->
+    <div id=&quot;ia-analise&quot; class=&quot;tab-content active&quot;>
+      <h3>Análise do Projeto/Arquivo</h3>
+      <textarea id=&quot;promptAnalise&quot; class=&quot;medium&quot; placeholder=&quot;Digite sua pergunta sobre o projeto...&quot;>Analise este projeto e me diga:
+1. Qual é a estrutura principal?
+2. Há erros óbvios?
+3. Recomendações de melhorias?
+4. Compatibilidade jurídica/segurança?&quot;></textarea>
+      <button onclick=&quot;enviarParaIA('analise')&quot;>🚀 Analisar com IA</button>
+      <div id=&quot;respostaAnalise&quot; style=&quot;margin-top: 12px;&quot;></div>
+    </div>
+
+    <!-- ABA: CORREÇÃO -->
+    <div id=&quot;ia-correcao&quot; class=&quot;tab-content&quot;>
+      <h3>Solicitar Correção Automática</h3>
+      <textarea id=&quot;promptCorrecao&quot; class=&quot;medium&quot; placeholder=&quot;Descreva o que precisa ser corrigido...&quot;>Corrija os seguintes problemas:
+1. Erros de sintaxe
+2. Imports não utilizados
+3. Variáveis não declaradas
+4. Melhorias de performance</textarea>
+      <div class=&quot;control-group&quot;>
+        <label>
+          <input type=&quot;checkbox&quot; id=&quot;aplicarCorrecaoAuto&quot;> Aplicar correções automaticamente
+        </label>
+      </div>
+      <button onclick=&quot;enviarParaIA('correcao')&quot;>🔧 Corrigir</button>
+      <div id=&quot;respostaCorrecao&quot; style=&quot;margin-top: 12px;&quot;></div>
+    </div>
+
+    <!-- ABA: ORIENTAÇÃO -->
+    <div id=&quot;ia-orientacao&quot; class=&quot;tab-content&quot;>
+      <h3>Orientação Jurídica/Técnica</h3>
+      <textarea id=&quot;promptOrientacao&quot; class=&quot;medium&quot; placeholder=&quot;Faça sua pergunta...&quot;>Como devo proceder com:
+1. Licenças de software?
+2. Proteção de dados?
+3. Conformidade legal?
+4. Publicação segura?</textarea>
+      <button onclick=&quot;enviarParaIA('orientacao')&quot;>❓ Obter Orientação</button>
+      <div id=&quot;respostaOrientacao&quot; style=&quot;margin-top: 12px;&quot;></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- MODAL: OPÇÕES DE SAÍDA -->
+<div id=&quot;modalSaida&quot; class=&quot;modal&quot;>
+  <div class=&quot;modal-content&quot;>
+    <div class=&quot;modal-header&quot;>
+      <h2>💾 Opções de Saída</h2>
+      <button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalSaida')&quot;>✕</button>
+    </div>
+    <div style=&quot;display: grid; gap: 12px;&quot;>
+      <button class=&quot;success&quot; onclick=&quot;copiarRelatorio()&quot;>📋 Copiar Relatório</button>
+      <button class=&quot;success&quot; onclick=&quot;baixarRelatorio()&quot;>⬇️ Baixar Relatório (TXT)</button>
+      <button class=&quot;success&quot; onclick=&quot;salvarComoNota()&quot;>📝 Salvar como Nota (JSON)</button>
+      <button class=&quot;success&quot; onclick=&quot;exportarHTML()&quot;>🌐 Exportar como HTML</button>
+      <button class=&quot;secondary&quot; onclick=&quot;fecharModal('modalSaida')&quot;>Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;></script>
+<script src=&quot;https://cdn.jsdelivr.net/npm/pako@2.0.4/dist/pako.min.js&quot;></script>
+
+<script>
+  // ESTADO GLOBAL
+  let arquivoCarregado = null;
+  let arquivos = [];
+  let conteudosTexto = {};
+  let maxTamanhoByte = 5000 * 1024;
+  let maxRespostaIA = 10000;
+  let iaAPI = 'https://api.openai.com/v1/chat/completions'; // Será configurado
+  let iaToken = '';
+
+  const extensoesTexto = [
+    '.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.html', '.css',
+    '.scss', '.xml', '.yml', '.yaml', '.toml', '.env', '.sql', '.gitignore',
+    '.nix', '.config', '.cjs', '.mjs', '.py', '.java', '.cpp', '.c', '.go',
+    '.rb', '.php', '.sh', '.bash', '.dockerfile', '.properties', '.gradle'
+  ];
+
+  // ===== CONTROLES DE TAMANHO =====
+  function atualizarTamanho() {
+    const val = document.getElementById('maxTamanho').value;
+    document.getElementById('maxTamanhoNum').value = val;
+    maxTamanhoByte = val * 1024;
+    document.getElementById('tamanhoInfo').textContent = `${val} KB (~${(val/1024).toFixed(1)} MB)`;
+  }
+
+  function sincronizarTamanho() {
+    const val = document.getElementById('maxTamanhoNum').value;
+    document.getElementById('maxTamanho').value = val;
+    atualizarTamanho();
+  }
+
+  function atualizarRespostaIA() {
+    const val = document.getElementById('maxRespostaIA').value;
+    document.getElementById('maxRespostaIANum').value = val;
+    maxRespostaIA = val;
+    document.getElementById('respostaIAInfo').textContent = `${val} caracteres`;
+  }
+
+  function sincronizarRespostaIA() {
+    const val = document.getElementById('maxRespostaIANum').value;
+    document.getElementById('maxRespostaIA').value = val;
+    atualizarRespostaIA();
+  }
+
+  // ===== ABAS =====
+  function mudarAba(nomeAba) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(nomeAba).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // ===== MODAL =====
+  function mostrarModal(id) {
+    document.getElementById(id).classList.add('active');
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('active');
+  }
+
+  function mostrarOpcoesSaida() {
+    if (!arquivos.length) {
+      alert('Carregue um arquivo primeiro.');
+      return;
+    }
+    mostrarModal('modalSaida');
+  }
+
+  // ===== CARREGAR ARQUIVO =====
+  async function carregarArquivo() {
+    const input = document.getElementById('arquivoInput');
+    if (!input.files || !input.files[0]) {
+      alert('Selecione um arquivo primeiro.');
+      return;
+    }
+
+    const file = input.files[0];
+    const buffer = await file.arrayBuffer();
+    const formato = document.getElementById('formatoArquivo').value;
+
+    arquivos = [];
+    conteudosTexto = {};
+
+    try {
+      if (formato === 'auto' || formato === 'zip') {
+        if (file.name.endsWith('.zip')) {
+          await processarZIP(buffer);
+          return;
+        }
+      }
+
+      if (formato === 'auto' || formato === 'tar' || formato === 'taz') {
+        if (file.name.endsWith('.tar') || file.name.endsWith('.tar.gz') || file.name.endsWith('.tgz')) {
+          await processarTAR(buffer);
+          return;
+        }
+      }
+
+      if (formato === 'auto' || formato === 'html') {
+        if (file.name.endsWith('.html')) {
+          processarHTML(buffer);
+          return;
+        }
+      }
+
+      alert('Formato não suportado ou não reconhecido.');
+    } catch (e) {
+      alert('Erro ao processar arquivo: ' + e.message);
+      console.error(e);
+    }
+  }
+
+  async function processarZIP(buffer) {
+    const zip = await JSZip.loadAsync(buffer);
+    zip.forEach((path, entry) => {
+      arquivos.push({ nome: path, dir: entry.dir, tamanho: entry._data.uncompressedSize });
+    });
+
+    for (const item of arquivos) {
+      if (!item.dir &amp;&amp; ehTexto(item.nome) &amp;&amp; item.tamanho < maxTamanhoByte) {
+        try {
+          conteudosTexto[item.nome] = await zip.file(item.nome).async('string');
+        } catch (e) {
+          conteudosTexto[item.nome] = '[ERRO AO LER]';
+        }
+      }
+    }
+
+    arquivos.sort((a, b) => a.nome.localeCompare(b.nome));
+    renderArquivos();
+    diagnosticar();
+  }
+
+  async function processarTAR(buffer) {
+    // Descompactar TAR/TAZ usando pako
+    let dados = new Uint8Array(buffer);
+
+    if (document.getElementById('arquivoInput').files[0].name.endsWith('.gz') ||
+        document.getElementById('arquivoInput').files[0].name.endsWith('.tgz')) {
+      dados = pako.inflate(dados);
+    }
+
+    // Parsing TAR simples
+    const view = new DataView(dados.buffer);
+    let offset = 0;
+
+    while (offset < dados.length) {
+      const headerBytes = dados.slice(offset, offset + 512);
+      if (headerBytes.every(b => b === 0)) break;
+
+      const nome = new TextDecoder().decode(headerBytes.slice(0, 100)).split('\0')[0];
+      const tamanhoStr = new TextDecoder().decode(headerBytes.slice(124, 136)).trim();
+      const tamanho = parseInt(tamanhoStr, 8);
+      const tipo = String.fromCharCode(headerBytes[156]);
+
+      offset += 512;
+
+      if (nome &amp;&amp; tipo !== '5') { // tipo 5 = diretório
+        arquivos.push({ nome, dir: false, tamanho });
+
+        if (ehTexto(nome) &amp;&amp; tamanho < maxTamanhoByte) {
+          const conteudo = new TextDecoder().decode(dados.slice(offset, offset + tamanho));
+          conteudosTexto[nome] = conteudo;
+        }
+      }
+
+      offset += Math.ceil(tamanho / 512) * 512;
+    }
+
+    arquivos.sort((a, b) => a.nome.localeCompare(b.nome));
+    renderArquivos();
+    diagnosticar();
+  }
+
+  function processarHTML(buffer) {
+    const html = new TextDecoder().decode(buffer);
+    const nome = document.getElementById('arquivoInput').files[0].name;
+
+    arquivos.push({ nome, dir: false, tamanho: buffer.byteLength });
+    conteudosTexto[nome] = html;
+
+    // Extrair scripts e estilos
+    const scriptRegex = /<script[^>]*>([\s\S]*?)<\/script>/gi;
+    const styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/gi;
+
+    let match;
+    let contador = 1;
+
+    while ((match = scriptRegex.exec(html)) !== null) {
+      const nomeScript = `extracted_script_${contador}.js`;
+      arquivos.push({ nome: nomeScript, dir: false, tamanho: match[1].length });
+      conteudosTexto[nomeScript] = match[1];
+      contador++;
+    }
+
+    contador = 1;
+    while ((match = styleRegex.exec(html)) !== null) {
+      const nomeStyle = `extracted_style_${contador}.css`;
+      arquivos.push({ nome: nomeStyle, dir: false, tamanho: match[1].length });
+      conteudosTexto[nomeStyle] = match[1];
+      contador++;
+    }
+
+    renderArquivos();
+    diagnosticar();
+  }
+
+  function ehTexto(nome) {
+    const lower = nome.toLowerCase();
+    if (lower.endsWith('/')) return false;
+    return extensoesTexto.some(ext => lower.endsWith(ext));
+  }
+
+  // ===== RENDERIZAR ARQUIVOS =====
+  function renderArquivos() {
+    const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+    const el = document.getElementById('listaArquivos');
+
+    if (!arquivos.length) {
+      el.innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('contadorArquivos').textContent = '0 arquivos';
+      return;
+    }
+
+    const filtrados = arquivos.filter(a => a.nome.toLowerCase().includes(filtro));
+    document.getElementById('contadorArquivos').textContent = `${filtrados.length} de ${arquivos.length} arquivos`;
+
+    el.innerHTML = filtrados.map(a => {
+      const tipo = a.dir ? '📁' : ehTexto(a.nome) ? '📄' : '📦';
+      const tamanhoKB = a.tamanho ? (a.tamanho / 1024).toFixed(1) : '?';
+      return `<div class=&quot;file-item&quot; onclick=&quot;abrirArquivo('${a.nome.replace(/'/g, &quot;\\'&quot;)}')&quot; title=&quot;${a.nome}&quot;>
+        ${tipo} ${a.nome} <span class=&quot;small&quot;>(${tamanhoKB} KB)</span>
+      </div>`;
+    }).join('');
+  }
+
+  function abrirArquivo(nome) {
+    document.getElementById('arquivoAtual').textContent = nome;
+    const area = document.getElementById('conteudoArquivo');
+
+    if (conteudosTexto[nome] !== undefined) {
+      let conteudo = conteudosTexto[nome];
+      if (conteudo.length > maxTamanhoByte) {
+        conteudo = conteudo.substring(0, maxTamanhoByte) + '\n\n[... ARQUIVO TRUNCADO - Ajuste o limite de tamanho para ver mais]';
+      }
+      area.value = conteudo;
+    } else {
+      area.value = '[Arquivo binário, pasta, ou tipo não lido como texto]';
+    }
+  }
+
+  // ===== BUSCAR TERMOS =====
+  function buscarTermos() {
+    const termos = document.getElementById('termosBusca').value
+      .split(',')
+      .map(t => t.trim().toLowerCase())
+      .filter(Boolean);
+
+    let saida = '';
+    let totalEncontrados = 0;
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) => {
+      const linhas = conteudo.split(/\r?\n/);
+      linhas.forEach((linha, idx) => {
+        const low = linha.toLowerCase();
+        termos.forEach(termo => {
+          if (low.includes(termo)) {
+            totalEncontrados++;
+            saida += `${nome}:${idx + 1} | termo: ${termo}\n`;
+            saida += linha.slice(0, 300) + '\n\n';
+          }
+        });
+      });
+    });
+
+    if (!saida) saida = 'Nenhum termo encontrado.';
+    else saida = `Total encontrado: ${totalEncontrados}\n\n` + saida;
+
+    document.getElementById('resultadoBusca').textContent = saida;
+  }
+
+  // ===== DIAGNÓSTICO =====
+  function temArquivo(parte) {
+    return arquivos.some(a => a.nome.toLowerCase().includes(parte.toLowerCase()));
+  }
+
+  function temConteudo(parte) {
+    const p = parte.toLowerCase();
+    return Object.values(conteudosTexto).some(c => c.toLowerCase().includes(p));
+  }
+
+  function diagnosticar() {
+    let d = '=== DIAGNÓSTICO AUTOMÁTICO ===\n\n';
+    d += `Total de itens: ${arquivos.length}\n`;
+    d += `Arquivos de texto lidos: ${Object.keys(conteudosTexto).length}\n`;
+    d += `Tamanho máximo por arquivo: ${(maxTamanhoByte / 1024).toFixed(0)} KB\n\n`;
+
+    const hasPackage = temArquivo('package.json');
+    const hasSrc = temArquivo('src/');
+    const hasDist = temArquivo('dist/') || temArquivo('assets/');
+    const hasVite = temArquivo('vite.config') || temConteudo('&quot;vite&quot;');
+    const hasReact = temConteudo('&quot;react&quot;') || temArquivo('.tsx');
+    const hasNext = temArquivo('next.config') || temConteudo('&quot;next&quot;');
+    const hasCapacitor = temArquivo('capacitor.config');
+    const hasNetlify = temArquivo('netlify.toml');
+    const hasManifest = temArquivo('manifest.json');
+    const hasServiceWorker = temArquivo('service-worker') || temArquivo('sw.js');
+    const hasSupabase = temConteudo('supabase');
+    const hasNeon = temConteudo('neon');
+
+    d += hasPackage ? '✅ Tem package.json\n' : '❌ Não achei package.json\n';
+    d += hasSrc ? '✅ Tem pasta src/\n' : '⚠️ Sem src/ claro\n';
+    d += hasDist ? '⚠️ Tem dist/assets (pode ser build compilado)\n' : '✅ Não é só dist/build\n';
+    d += hasVite ? '✅ Indício de Vite\n' : '';
+    d += hasReact ? '✅ Indício de React\n' : '';
+    d += hasNext ? '⚠️ Indício de Next.js\n' : '';
+    d += hasCapacitor ? '⚠️ Indício de Capacitor/APK\n' : '';
+    d += hasNetlify ? '✅ Indício de Netlify\n' : '';
+    d += hasManifest ? '✅ Tem manifest.json (PWA)\n' : '⚠️ Sem manifest.json\n';
+    d += hasServiceWorker ? '✅ Tem service worker (PWA)\n' : '⚠️ Sem service worker\n';
+    d += hasSupabase ? '⚠️ Indício de Supabase\n' : '';
+    d += hasNeon ? '⚠️ Indício de Neon\n' : '';
+
+    d += '\n=== INTERPRETAÇÃO ===\n';
+    if (hasPackage &amp;&amp; hasSrc &amp;&amp; hasVite &amp;&amp; hasReact) {
+      d += 'Projeto React + Vite. Build: npm run build, publicar em Netlify/Vercel.\n';
+    } else if (!hasPackage &amp;&amp; hasDist) {
+      d += 'Versão compilada. Abrir como site, mas difícil de editar.\n';
+    } else {
+      d += 'Tipo não confirmado. Verifique package.json.\n';
+    }
+
+    document.getElementById('diagnostico').textContent = d;
+  }
+
+  // ===== RELATÓRIO =====
+  function gerarRelatorioCompleto() {
+    diagnosticar();
+    buscarTermos();
+
+    const rel = [
+      '=== RELATÓRIO COMPLETO ===\n',
+      new Date().toLocaleString('pt-BR'),
+      '\n\n',
+      document.getElementById('diagnostico').textContent,
+      '\n\n=== BUSCA DE TERMOS ===\n',
+      document.getElementById('resultadoBusca').textContent,
+      '\n\n=== LISTA DE ARQUIVOS ===\n',
+      arquivos.map(a => `${a.nome} (${(a.tamanho / 1024).toFixed(1)} KB)`).join('\n')
+    ].join('');
+
+    return rel;
+  }
+
+  // ===== SAÍDA: COPIAR =====
+  function copiarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    area.select();
+    navigator.clipboard.writeText(area.value).then(() => {
+      alert('Conteúdo copiado!');
+    }).catch(() => alert('Erro ao copiar.'));
+  }
+
+  function copiarRelatorio() {
+    const rel = gerarRelatorioCompleto();
+    navigator.clipboard.writeText(rel).then(() => {
+      alert('Relatório copiado!');
+      fecharModal('modalSaida');
+    }).catch(() => alert('Erro ao copiar.'));
+  }
+
+  // ===== SAÍDA: BAIXAR =====
+  function baixarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    const nome = document.getElementById('arquivoAtual').textContent || 'arquivo.txt';
+    const blob = new Blob([area.value], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nome;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function baixarRelatorio() {
+    const rel = gerarRelatorioCompleto();
+    const blob = new Blob([rel], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio_${new Date().getTime()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalSaida');
+  }
+
+  // ===== SAÍDA: SALVAR COMO NOTA =====
+  function salvarComoNota() {
+    const nota = {
+      data: new Date().toISOString(),
+      diagnostico: document.getElementById('diagnostico').textContent,
+      busca: document.getElementById('resultadoBusca').textContent,
+      arquivos: arquivos.map(a => ({ nome: a.nome, tamanho: a.tamanho })),
+      conteudosChave: Object.keys(conteudosTexto)
+    };
+
+    const blob = new Blob([JSON.stringify(nota, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `nota_${new Date().getTime()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalSaida');
+  }
+
+  // ===== SAÍDA: EXPORTAR HTML =====
+  function exportarHTML() {
+    const rel = gerarRelatorioCompleto().replace(/</g, '&amp;lt;').replace(/>/g, '&amp;gt;');
+    const html = `<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  <title>Relatório</title>
+  <style>
+    body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+    pre { background: #111; color: #0f0; padding: 15px; border-radius: 8px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>📊 Relatório de Análise</h1>
+  <pre>${rel}</pre>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio_${new Date().getTime()}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalSaida');
+  }
+
+  // ===== IA INTEGRADA =====
+  async function enviarParaIA(tipo) {
+    let prompt = '';
+    let respEl = '';
+
+    if (tipo === 'analise') {
+      prompt = document.getElementById('promptAnalise').value;
+      respEl = 'respostaAnalise';
+    } else if (tipo === 'correcao') {
+      prompt = document.getElementById('promptCorrecao').value;
+      respEl = 'respostaCorrecao';
+    } else if (tipo === 'orientacao') {
+      prompt = document.getElementById('promptOrientacao').value;
+      respEl = 'respostaOrientacao';
+    }
+
+    if (!prompt.trim()) {
+      alert('Digite um prompt primeiro.');
+      return;
+    }
+
+    const resposta = document.getElementById(respEl);
+    resposta.innerHTML = '<div class=&quot;spinner&quot;></div> Processando...';
+
+    // Construir contexto com arquivos
+    let contexto = 'CONTEXTO DO PROJETO:\n\n';
+    contexto += document.getElementById('diagnostico').textContent + '\n\n';
+    contexto += 'ARQUIVOS PRINCIPAIS:\n';
+
+    // Limitar a quantidade de arquivos para não estourar token
+    const arquivosPrincipais = Object.keys(conteudosTexto)
+      .filter(a => a.includes('package.json') || a.includes('README') || a.includes('main') || a.includes('index'))
+      .slice(0, 5);
+
+    for (const arquivo of arquivosPrincipais) {
+      let conteudo = conteudosTexto[arquivo];
+      if (conteudo.length > 2000) {
+        conteudo = conteudo.substring(0, 2000) + '\n[... truncado]';
+      }
+      contexto += `\n--- ${arquivo} ---\n${conteudo}\n`;
+    }
+
+    const mensagemCompleta = `${contexto}\n\nPERGUNTA DO USUÁRIO:\n${prompt}`;
+
+    try {
+      // Simular resposta da IA (você precisa configurar sua API)
+      const respostaIA = await chamarIA(mensagemCompleta);
+      resposta.innerHTML = `<pre>${respostaIA}</pre>`;
+    } catch (e) {
+      resposta.innerHTML = `<div class=&quot;bad&quot;>Erro: ${e.message}</div><p>Configure sua chave de API da IA nas configurações.</p>`;
+    }
+  }
+
+  async function chamarIA(mensagem) {
+    // IMPORTANTE: Configure sua chave de API
+    // Exemplo com OpenAI:
+    // const token = 'sk-...';
+    // const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Authorization': `Bearer ${token}`,
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     model: 'gpt-4',
+    //     messages: [{ role: 'user', content: mensagem }],
+    //     max_tokens: parseInt(maxRespostaIA)
+    //   })
+    // });
+
+    // Por enquanto, retornar resposta simulada
+    return `[IA SIMULADA - Configure sua API]\n\nSua pergunta foi recebida com ${mensagem.length} caracteres.\n\nPara integrar IA real:\n1. Obtenha uma chave de API (OpenAI, Claude, etc)\n2. Configure no código\n3. Descomente o fetch acima\n\nResposta será limitada a ${maxRespostaIA} caracteres.`;
+  }
+
+  // ===== LIMPAR =====
+  function limparTudo() {
+    if (confirm('Tem certeza que quer limpar tudo?')) {
+      arquivos = [];
+      conteudosTexto = {};
+      document.getElementById('listaArquivos').innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('conteudoArquivo').value = '';
+      document.getElementById('arquivoAtual').textContent = 'Nenhum arquivo selecionado.';
+      document.getElementById('resultadoBusca').textContent = 'Resultado da busca aparecerá aqui.';
+      document.getElementById('diagnostico').textContent = 'Carregue um arquivo para diagnosticar.';
+      document.getElementById('contadorArquivos').textContent = '0 arquivos';
+    }
+  }
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p3"><iframe srcdoc="<!doctype html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+  <title>PWA Scanner Multi-Formato + IA</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      padding: 16px;
+      border-bottom: 2px solid #3b82f6;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    main {
+      padding: 16px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 8px;
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2 {
+      color: #bfdbfe;
+      font-size: 18px;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 8px;
+    }
+    input, button, textarea, select {
+      font-size: 14px;
+      font-family: inherit;
+    }
+    button {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 6px 4px 6px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    button.secondary {
+      background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    }
+    button.danger {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    }
+    button.success {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 1200px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    textarea {
+      width: 100%;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+    }
+    textarea.tall {
+      min-height: 400px;
+    }
+    textarea.medium {
+      min-height: 250px;
+    }
+    textarea.small {
+      min-height: 120px;
+    }
+    pre {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .ok { color: #86efac; }
+    .warn { color: #fde68a; }
+    .bad { color: #fca5a5; }
+    .info { color: #93c5fd; }
+    .file-list {
+      max-height: 400px;
+      overflow-y: auto;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .file-item {
+      padding: 8px;
+      border-bottom: 1px solid #1f2937;
+      cursor: pointer;
+      word-break: break-all;
+      transition: background 0.2s;
+    }
+    .file-item:hover {
+      background: #1e293b;
+    }
+    .file-item.selected {
+      background: #1e3a8a;
+      border-left: 3px solid #3b82f6;
+    }
+    .small {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .search-box {
+      width: 100%;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 6px 0;
+    }
+    .control-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .control-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .control-group input[type=&quot;range&quot;] {
+      flex: 1;
+      min-width: 150px;
+    }
+    .control-group input[type=&quot;number&quot;] {
+      width: 80px;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 6px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      border-bottom: 1px solid #334155;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: transparent;
+      color: #cbd5e1;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin: 0;
+      transition: all 0.3s;
+    }
+    .tab-btn.active {
+      color: #60a5fa;
+      border-bottom-color: #3b82f6;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #334155;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin: 4px 4px 4px 0;
+    }
+    .status-badge.success {
+      background: #065f46;
+      color: #86efac;
+    }
+    .status-badge.warning {
+      background: #78350f;
+      color: #fde68a;
+    }
+    .status-badge.error {
+      background: #7f1d1d;
+      color: #fca5a5;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      min-width: 300px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 12px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🔎 Scanner Multi-Formato + IA Jurídica</h1>
+  <div class=&quot;small&quot;>Importa ZIP, TAR, TAZ, HTML | Lê conteúdo | Busca termos | Integra IA para análise e correção</div>
+</header>
+
+<main>
+  <!-- SEÇÃO 1: IMPORTAÇÃO -->
+  <div class=&quot;card&quot;>
+    <h2>📥 1. Importar Arquivo</h2>
+    <div class=&quot;control-group&quot;>
+      <label>Formato:</label>
+      <select id=&quot;formatoArquivo&quot;>
+        <option value=&quot;auto&quot;>Auto-detectar</option>
+        <option value=&quot;zip&quot;>ZIP</option>
+        <option value=&quot;tar&quot;>TAR</option>
+        <option value=&quot;taz&quot;>TAZ (TAR.GZ)</option>
+        <option value=&quot;html&quot;>HTML</option>
+      </select>
+    </div>
+    <input type=&quot;file&quot; id=&quot;arquivoInput&quot; accept=&quot;.zip,.tar,.tar.gz,.tgz,.html&quot;>
+    <div class=&quot;control-group&quot;>
+      <button onclick=&quot;carregarArquivo()&quot;>📂 Carregar Arquivo</button>
+      <button class=&quot;secondary&quot; onclick=&quot;mostrarOpcoesSaida()&quot;>💾 Opções de Saída</button>
+      <button class=&quot;danger&quot; onclick=&quot;limparTudo()&quot;>🗑️ Limpar Tudo</button>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 2: CONTROLE DE TAMANHO -->
+  <div class=&quot;card&quot;>
+    <h2>⚙️ 2. Configurações de Processamento</h2>
+    <div class=&quot;control-group&quot;>
+      <label>Tamanho máximo de arquivo (KB):</label>
+      <input type=&quot;range&quot; id=&quot;maxTamanho&quot; min=&quot;100&quot; max=&quot;50000&quot; value=&quot;5000&quot; oninput=&quot;atualizarTamanho()&quot;>
+      <input type=&quot;number&quot; id=&quot;maxTamanhoNum&quot; value=&quot;5000&quot; min=&quot;100&quot; max=&quot;50000&quot; oninput=&quot;sincronizarTamanho()&quot;>
+      <span class=&quot;small&quot; id=&quot;tamanhoInfo&quot;>5000 KB (~5 MB)</span>
+    </div>
+    <div class=&quot;control-group&quot;>
+      <label>Limite de resposta IA (caracteres):</label>
+      <input type=&quot;range&quot; id=&quot;maxRespostaIA&quot; min=&quot;500&quot; max=&quot;50000&quot; value=&quot;10000&quot; oninput=&quot;atualizarRespostaIA()&quot;>
+      <input type=&quot;number&quot; id=&quot;maxRespostaIANum&quot; value=&quot;10000&quot; min=&quot;500&quot; max=&quot;50000&quot; oninput=&quot;sincronizarRespostaIA()&quot;>
+      <span class=&quot;small&quot; id=&quot;respostaIAInfo&quot;>10000 caracteres</span>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 3: GRID PRINCIPAL -->
+  <div class=&quot;grid&quot;>
+    <!-- COLUNA 1: LISTA DE ARQUIVOS -->
+    <div class=&quot;card&quot;>
+      <h2>📄 3. Arquivos Encontrados</h2>
+      <input class=&quot;search-box&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar arquivo...&quot; oninput=&quot;renderArquivos()&quot;>
+      <div class=&quot;small&quot; id=&quot;contadorArquivos&quot;>0 arquivos</div>
+      <div id=&quot;listaArquivos&quot; class=&quot;file-list&quot;>Nenhum arquivo carregado.</div>
+    </div>
+
+    <!-- COLUNA 2: CONTEÚDO DO ARQUIVO -->
+    <div class=&quot;card&quot;>
+      <h2>📋 4. Conteúdo do Arquivo</h2>
+      <div id=&quot;arquivoAtual&quot; class=&quot;small&quot;>Nenhum arquivo selecionado.</div>
+      <div class=&quot;control-group&quot;>
+        <button class=&quot;secondary&quot; onclick=&quot;copiarConteudo()&quot;>📋 Copiar</button>
+        <button class=&quot;secondary&quot; onclick=&quot;baixarConteudo()&quot;>⬇️ Baixar</button>
+      </div>
+      <textarea id=&quot;conteudoArquivo&quot; class=&quot;tall&quot; readonly></textarea>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 4: BUSCA DE TERMOS -->
+  <div class=&quot;card&quot;>
+    <h2>🔍 5. Buscar Termos</h2>
+    <input class=&quot;search-box&quot; id=&quot;termosBusca&quot; value=&quot;replit,.replit,package.json,vite,react,error,TODO,FIXME,import,export,function,class&quot; placeholder=&quot;Termos separados por vírgula&quot;>
+    <button onclick=&quot;buscarTermos()&quot;>🔎 Buscar</button>
+    <pre id=&quot;resultadoBusca&quot;>Resultado da busca aparecerá aqui.</pre>
+  </div>
+
+  <!-- SEÇÃO 5: DIAGNÓSTICO -->
+  <div class=&quot;card&quot;>
+    <h2>🩺 6. Diagnóstico Automático</h2>
+    <button onclick=&quot;diagnosticar()&quot;>🔧 Executar Diagnóstico</button>
+    <button class=&quot;secondary&quot; onclick=&quot;gerarRelatorioCompleto()&quot;>📊 Gerar Relatório Completo</button>
+    <pre id=&quot;diagnostico&quot;>Carregue um arquivo para diagnosticar.</pre>
+  </div>
+
+  <!-- SEÇÃO 6: IA INTEGRADA -->
+  <div class=&quot;card&quot;>
+    <h2>🤖 7. IA Jurídica - Análise e Correção</h2>
+    <div class=&quot;tabs&quot;>
+      <button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('ia-analise')&quot;>📊 Análise</button>
+      <button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-correcao')&quot;>✏️ Correção</button>
+      <button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-orientacao')&quot;>💡 Orientação</button>
+    </div>
+
+    <!-- ABA: ANÁLISE -->
+    <div id=&quot;ia-analise&quot; class=&quot;tab-content active&quot;>
+      <h3>Análise do Projeto/Arquivo</h3>
+      <textarea id=&quot;promptAnalise&quot; class=&quot;medium&quot; placeholder=&quot;Digite sua pergunta sobre o projeto...&quot;>Analise este projeto e me diga:
+1. Qual é a estrutura principal?
+2. Há erros óbvios?
+3. Recomendações de melhorias?
+4. Compatibilidade jurídica/segurança?&quot;></textarea>
+      <button onclick=&quot;enviarParaIA('analise')&quot;>🚀 Analisar com IA</button>
+      <div id=&quot;respostaAnalise&quot; style=&quot;margin-top: 12px;&quot;></div>
+    </div>
+
+    <!-- ABA: CORREÇÃO -->
+    <div id=&quot;ia-correcao&quot; class=&quot;tab-content&quot;>
+      <h3>Solicitar Correção Automática</h3>
+      <textarea id=&quot;promptCorrecao&quot; class=&quot;medium&quot; placeholder=&quot;Descreva o que precisa ser corrigido...&quot;>Corrija os seguintes problemas:
+1. Erros de sintaxe
+2. Imports não utilizados
+3. Variáveis não declaradas
+4. Melhorias de performance</textarea>
+      <div class=&quot;control-group&quot;>
+        <label>
+          <input type=&quot;checkbox&quot; id=&quot;aplicarCorrecaoAuto&quot;> Aplicar correções automaticamente
+        </label>
+      </div>
+      <button onclick=&quot;enviarParaIA('correcao')&quot;>🔧 Corrigir</button>
+      <div id=&quot;respostaCorrecao&quot; style=&quot;margin-top: 12px;&quot;></div>
+    </div>
+
+    <!-- ABA: ORIENTAÇÃO -->
+    <div id=&quot;ia-orientacao&quot; class=&quot;tab-content&quot;>
+      <h3>Orientação Jurídica/Técnica</h3>
+      <textarea id=&quot;promptOrientacao&quot; class=&quot;medium&quot; placeholder=&quot;Faça sua pergunta...&quot;>Como devo proceder com:
+1. Licenças de software?
+2. Proteção de dados?
+3. Conformidade legal?
+4. Publicação segura?</textarea>
+      <button onclick=&quot;enviarParaIA('orientacao')&quot;>❓ Obter Orientação</button>
+      <div id=&quot;respostaOrientacao&quot; style=&quot;margin-top: 12px;&quot;></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- MODAL: OPÇÕES DE SAÍDA -->
+<div id=&quot;modalSaida&quot; class=&quot;modal&quot;>
+  <div class=&quot;modal-content&quot;>
+    <div class=&quot;modal-header&quot;>
+      <h2>💾 Opções de Saída</h2>
+      <button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalSaida')&quot;>✕</button>
+    </div>
+    <div style=&quot;display: grid; gap: 12px;&quot;>
+      <button class=&quot;success&quot; onclick=&quot;copiarRelatorio()&quot;>📋 Copiar Relatório</button>
+      <button class=&quot;success&quot; onclick=&quot;baixarRelatorio()&quot;>⬇️ Baixar Relatório (TXT)</button>
+      <button class=&quot;success&quot; onclick=&quot;salvarComoNota()&quot;>📝 Salvar como Nota (JSON)</button>
+      <button class=&quot;success&quot; onclick=&quot;exportarHTML()&quot;>🌐 Exportar como HTML</button>
+      <button class=&quot;secondary&quot; onclick=&quot;fecharModal('modalSaida')&quot;>Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;></script>
+<script src=&quot;https://cdn.jsdelivr.net/npm/pako@2.0.4/dist/pako.min.js&quot;></script>
+
+<script>
+  // ESTADO GLOBAL
+  let arquivoCarregado = null;
+  let arquivos = [];
+  let conteudosTexto = {};
+  let maxTamanhoByte = 5000 * 1024;
+  let maxRespostaIA = 10000;
+  let iaAPI = 'https://api.openai.com/v1/chat/completions'; // Será configurado
+  let iaToken = '';
+
+  const extensoesTexto = [
+    '.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.html', '.css',
+    '.scss', '.xml', '.yml', '.yaml', '.toml', '.env', '.sql', '.gitignore',
+    '.nix', '.config', '.cjs', '.mjs', '.py', '.java', '.cpp', '.c', '.go',
+    '.rb', '.php', '.sh', '.bash', '.dockerfile', '.properties', '.gradle'
+  ];
+
+  // ===== CONTROLES DE TAMANHO =====
+  function atualizarTamanho() {
+    const val = document.getElementById('maxTamanho').value;
+    document.getElementById('maxTamanhoNum').value = val;
+    maxTamanhoByte = val * 1024;
+    document.getElementById('tamanhoInfo').textContent = `${val} KB (~${(val/1024).toFixed(1)} MB)`;
+  }
+
+  function sincronizarTamanho() {
+    const val = document.getElementById('maxTamanhoNum').value;
+    document.getElementById('maxTamanho').value = val;
+    atualizarTamanho();
+  }
+
+  function atualizarRespostaIA() {
+    const val = document.getElementById('maxRespostaIA').value;
+    document.getElementById('maxRespostaIANum').value = val;
+    maxRespostaIA = val;
+    document.getElementById('respostaIAInfo').textContent = `${val} caracteres`;
+  }
+
+  function sincronizarRespostaIA() {
+    const val = document.getElementById('maxRespostaIANum').value;
+    document.getElementById('maxRespostaIA').value = val;
+    atualizarRespostaIA();
+  }
+
+  // ===== ABAS =====
+  function mudarAba(nomeAba) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(nomeAba).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // ===== MODAL =====
+  function mostrarModal(id) {
+    document.getElementById(id).classList.add('active');
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('active');
+  }
+
+  function mostrarOpcoesSaida() {
+    if (!arquivos.length) {
+      alert('Carregue um arquivo primeiro.');
+      return;
+    }
+    mostrarModal('modalSaida');
+  }
+
+  // ===== CARREGAR ARQUIVO =====
+  async function carregarArquivo() {
+    const input = document.getElementById('arquivoInput');
+    if (!input.files || !input.files[0]) {
+      alert('Selecione um arquivo primeiro.');
+      return;
+    }
+
+    const file = input.files[0];
+    const buffer = await file.arrayBuffer();
+    const formato = document.getElementById('formatoArquivo').value;
+
+    arquivos = [];
+    conteudosTexto = {};
+
+    try {
+      if (formato === 'auto' || formato === 'zip') {
+        if (file.name.endsWith('.zip')) {
+          await processarZIP(buffer);
+          return;
+        }
+      }
+
+      if (formato === 'auto' || formato === 'tar' || formato === 'taz') {
+        if (file.name.endsWith('.tar') || file.name.endsWith('.tar.gz') || file.name.endsWith('.tgz')) {
+          await processarTAR(buffer);
+          return;
+        }
+      }
+
+      if (formato === 'auto' || formato === 'html') {
+        if (file.name.endsWith('.html')) {
+          processarHTML(buffer);
+          return;
+        }
+      }
+
+      alert('Formato não suportado ou não reconhecido.');
+    } catch (e) {
+      alert('Erro ao processar arquivo: ' + e.message);
+      console.error(e);
+    }
+  }
+
+  async function processarZIP(buffer) {
+    const zip = await JSZip.loadAsync(buffer);
+    zip.forEach((path, entry) => {
+      arquivos.push({ nome: path, dir: entry.dir, tamanho: entry._data.uncompressedSize });
+    });
+
+    for (const item of arquivos) {
+      if (!item.dir &amp;&amp; ehTexto(item.nome) &amp;&amp; item.tamanho < maxTamanhoByte) {
+        try {
+          conteudosTexto[item.nome] = await zip.file(item.nome).async('string');
+        } catch (e) {
+          conteudosTexto[item.nome] = '[ERRO AO LER]';
+        }
+      }
+    }
+
+    arquivos.sort((a, b) => a.nome.localeCompare(b.nome));
+    renderArquivos();
+    diagnosticar();
+  }
+
+  async function processarTAR(buffer) {
+    // Descompactar TAR/TAZ usando pako
+    let dados = new Uint8Array(buffer);
+
+    if (document.getElementById('arquivoInput').files[0].name.endsWith('.gz') ||
+        document.getElementById('arquivoInput').files[0].name.endsWith('.tgz')) {
+      dados = pako.inflate(dados);
+    }
+
+    // Parsing TAR simples
+    const view = new DataView(dados.buffer);
+    let offset = 0;
+
+    while (offset < dados.length) {
+      const headerBytes = dados.slice(offset, offset + 512);
+      if (headerBytes.every(b => b === 0)) break;
+
+      const nome = new TextDecoder().decode(headerBytes.slice(0, 100)).split('\0')[0];
+      const tamanhoStr = new TextDecoder().decode(headerBytes.slice(124, 136)).trim();
+      const tamanho = parseInt(tamanhoStr, 8);
+      const tipo = String.fromCharCode(headerBytes[156]);
+
+      offset += 512;
+
+      if (nome &amp;&amp; tipo !== '5') { // tipo 5 = diretório
+        arquivos.push({ nome, dir: false, tamanho });
+
+        if (ehTexto(nome) &amp;&amp; tamanho < maxTamanhoByte) {
+          const conteudo = new TextDecoder().decode(dados.slice(offset, offset + tamanho));
+          conteudosTexto[nome] = conteudo;
+        }
+      }
+
+      offset += Math.ceil(tamanho / 512) * 512;
+    }
+
+    arquivos.sort((a, b) => a.nome.localeCompare(b.nome));
+    renderArquivos();
+    diagnosticar();
+  }
+
+  function processarHTML(buffer) {
+    const html = new TextDecoder().decode(buffer);
+    const nome = document.getElementById('arquivoInput').files[0].name;
+
+    arquivos.push({ nome, dir: false, tamanho: buffer.byteLength });
+    conteudosTexto[nome] = html;
+
+    // Extrair scripts e estilos
+    const scriptRegex = /<script[^>]*>([\s\S]*?)<\/script>/gi;
+    const styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/gi;
+
+    let match;
+    let contador = 1;
+
+    while ((match = scriptRegex.exec(html)) !== null) {
+      const nomeScript = `extracted_script_${contador}.js`;
+      arquivos.push({ nome: nomeScript, dir: false, tamanho: match[1].length });
+      conteudosTexto[nomeScript] = match[1];
+      contador++;
+    }
+
+    contador = 1;
+    while ((match = styleRegex.exec(html)) !== null) {
+      const nomeStyle = `extracted_style_${contador}.css`;
+      arquivos.push({ nome: nomeStyle, dir: false, tamanho: match[1].length });
+      conteudosTexto[nomeStyle] = match[1];
+      contador++;
+    }
+
+    renderArquivos();
+    diagnosticar();
+  }
+
+  function ehTexto(nome) {
+    const lower = nome.toLowerCase();
+    if (lower.endsWith('/')) return false;
+    return extensoesTexto.some(ext => lower.endsWith(ext));
+  }
+
+  // ===== RENDERIZAR ARQUIVOS =====
+  function renderArquivos() {
+    const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+    const el = document.getElementById('listaArquivos');
+
+    if (!arquivos.length) {
+      el.innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('contadorArquivos').textContent = '0 arquivos';
+      return;
+    }
+
+    const filtrados = arquivos.filter(a => a.nome.toLowerCase().includes(filtro));
+    document.getElementById('contadorArquivos').textContent = `${filtrados.length} de ${arquivos.length} arquivos`;
+
+    el.innerHTML = filtrados.map(a => {
+      const tipo = a.dir ? '📁' : ehTexto(a.nome) ? '📄' : '📦';
+      const tamanhoKB = a.tamanho ? (a.tamanho / 1024).toFixed(1) : '?';
+      return `<div class=&quot;file-item&quot; onclick=&quot;abrirArquivo('${a.nome.replace(/'/g, &quot;\\'&quot;)}')&quot; title=&quot;${a.nome}&quot;>
+        ${tipo} ${a.nome} <span class=&quot;small&quot;>(${tamanhoKB} KB)</span>
+      </div>`;
+    }).join('');
+  }
+
+  function abrirArquivo(nome) {
+    document.getElementById('arquivoAtual').textContent = nome;
+    const area = document.getElementById('conteudoArquivo');
+
+    if (conteudosTexto[nome] !== undefined) {
+      let conteudo = conteudosTexto[nome];
+      if (conteudo.length > maxTamanhoByte) {
+        conteudo = conteudo.substring(0, maxTamanhoByte) + '\n\n[... ARQUIVO TRUNCADO - Ajuste o limite de tamanho para ver mais]';
+      }
+      area.value = conteudo;
+    } else {
+      area.value = '[Arquivo binário, pasta, ou tipo não lido como texto]';
+    }
+  }
+
+  // ===== BUSCAR TERMOS =====
+  function buscarTermos() {
+    const termos = document.getElementById('termosBusca').value
+      .split(',')
+      .map(t => t.trim().toLowerCase())
+      .filter(Boolean);
+
+    let saida = '';
+    let totalEncontrados = 0;
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) => {
+      const linhas = conteudo.split(/\r?\n/);
+      linhas.forEach((linha, idx) => {
+        const low = linha.toLowerCase();
+        termos.forEach(termo => {
+          if (low.includes(termo)) {
+            totalEncontrados++;
+            saida += `${nome}:${idx + 1} | termo: ${termo}\n`;
+            saida += linha.slice(0, 300) + '\n\n';
+          }
+        });
+      });
+    });
+
+    if (!saida) saida = 'Nenhum termo encontrado.';
+    else saida = `Total encontrado: ${totalEncontrados}\n\n` + saida;
+
+    document.getElementById('resultadoBusca').textContent = saida;
+  }
+
+  // ===== DIAGNÓSTICO =====
+  function temArquivo(parte) {
+    return arquivos.some(a => a.nome.toLowerCase().includes(parte.toLowerCase()));
+  }
+
+  function temConteudo(parte) {
+    const p = parte.toLowerCase();
+    return Object.values(conteudosTexto).some(c => c.toLowerCase().includes(p));
+  }
+
+  function diagnosticar() {
+    let d = '=== DIAGNÓSTICO AUTOMÁTICO ===\n\n';
+    d += `Total de itens: ${arquivos.length}\n`;
+    d += `Arquivos de texto lidos: ${Object.keys(conteudosTexto).length}\n`;
+    d += `Tamanho máximo por arquivo: ${(maxTamanhoByte / 1024).toFixed(0)} KB\n\n`;
+
+    const hasPackage = temArquivo('package.json');
+    const hasSrc = temArquivo('src/');
+    const hasDist = temArquivo('dist/') || temArquivo('assets/');
+    const hasVite = temArquivo('vite.config') || temConteudo('&quot;vite&quot;');
+    const hasReact = temConteudo('&quot;react&quot;') || temArquivo('.tsx');
+    const hasNext = temArquivo('next.config') || temConteudo('&quot;next&quot;');
+    const hasCapacitor = temArquivo('capacitor.config');
+    const hasNetlify = temArquivo('netlify.toml');
+    const hasManifest = temArquivo('manifest.json');
+    const hasServiceWorker = temArquivo('service-worker') || temArquivo('sw.js');
+    const hasSupabase = temConteudo('supabase');
+    const hasNeon = temConteudo('neon');
+
+    d += hasPackage ? '✅ Tem package.json\n' : '❌ Não achei package.json\n';
+    d += hasSrc ? '✅ Tem pasta src/\n' : '⚠️ Sem src/ claro\n';
+    d += hasDist ? '⚠️ Tem dist/assets (pode ser build compilado)\n' : '✅ Não é só dist/build\n';
+    d += hasVite ? '✅ Indício de Vite\n' : '';
+    d += hasReact ? '✅ Indício de React\n' : '';
+    d += hasNext ? '⚠️ Indício de Next.js\n' : '';
+    d += hasCapacitor ? '⚠️ Indício de Capacitor/APK\n' : '';
+    d += hasNetlify ? '✅ Indício de Netlify\n' : '';
+    d += hasManifest ? '✅ Tem manifest.json (PWA)\n' : '⚠️ Sem manifest.json\n';
+    d += hasServiceWorker ? '✅ Tem service worker (PWA)\n' : '⚠️ Sem service worker\n';
+    d += hasSupabase ? '⚠️ Indício de Supabase\n' : '';
+    d += hasNeon ? '⚠️ Indício de Neon\n' : '';
+
+    d += '\n=== INTERPRETAÇÃO ===\n';
+    if (hasPackage &amp;&amp; hasSrc &amp;&amp; hasVite &amp;&amp; hasReact) {
+      d += 'Projeto React + Vite. Build: npm run build, publicar em Netlify/Vercel.\n';
+    } else if (!hasPackage &amp;&amp; hasDist) {
+      d += 'Versão compilada. Abrir como site, mas difícil de editar.\n';
+    } else {
+      d += 'Tipo não confirmado. Verifique package.json.\n';
+    }
+
+    document.getElementById('diagnostico').textContent = d;
+  }
+
+  // ===== RELATÓRIO =====
+  function gerarRelatorioCompleto() {
+    diagnosticar();
+    buscarTermos();
+
+    const rel = [
+      '=== RELATÓRIO COMPLETO ===\n',
+      new Date().toLocaleString('pt-BR'),
+      '\n\n',
+      document.getElementById('diagnostico').textContent,
+      '\n\n=== BUSCA DE TERMOS ===\n',
+      document.getElementById('resultadoBusca').textContent,
+      '\n\n=== LISTA DE ARQUIVOS ===\n',
+      arquivos.map(a => `${a.nome} (${(a.tamanho / 1024).toFixed(1)} KB)`).join('\n')
+    ].join('');
+
+    return rel;
+  }
+
+  // ===== SAÍDA: COPIAR =====
+  function copiarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    area.select();
+    navigator.clipboard.writeText(area.value).then(() => {
+      alert('Conteúdo copiado!');
+    }).catch(() => alert('Erro ao copiar.'));
+  }
+
+  function copiarRelatorio() {
+    const rel = gerarRelatorioCompleto();
+    navigator.clipboard.writeText(rel).then(() => {
+      alert('Relatório copiado!');
+      fecharModal('modalSaida');
+    }).catch(() => alert('Erro ao copiar.'));
+  }
+
+  // ===== SAÍDA: BAIXAR =====
+  function baixarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    const nome = document.getElementById('arquivoAtual').textContent || 'arquivo.txt';
+    const blob = new Blob([area.value], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nome;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function baixarRelatorio() {
+    const rel = gerarRelatorioCompleto();
+    const blob = new Blob([rel], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio_${new Date().getTime()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalSaida');
+  }
+
+  // ===== SAÍDA: SALVAR COMO NOTA =====
+  function salvarComoNota() {
+    const nota = {
+      data: new Date().toISOString(),
+      diagnostico: document.getElementById('diagnostico').textContent,
+      busca: document.getElementById('resultadoBusca').textContent,
+      arquivos: arquivos.map(a => ({ nome: a.nome, tamanho: a.tamanho })),
+      conteudosChave: Object.keys(conteudosTexto)
+    };
+
+    const blob = new Blob([JSON.stringify(nota, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `nota_${new Date().getTime()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalSaida');
+  }
+
+  // ===== SAÍDA: EXPORTAR HTML =====
+  function exportarHTML() {
+    const rel = gerarRelatorioCompleto().replace(/</g, '&amp;lt;').replace(/>/g, '&amp;gt;');
+    const html = `<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  <title>Relatório</title>
+  <style>
+    body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+    pre { background: #111; color: #0f0; padding: 15px; border-radius: 8px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>📊 Relatório de Análise</h1>
+  <pre>${rel}</pre>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio_${new Date().getTime()}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalSaida');
+  }
+
+  // ===== IA INTEGRADA =====
+  async function enviarParaIA(tipo) {
+    let prompt = '';
+    let respEl = '';
+
+    if (tipo === 'analise') {
+      prompt = document.getElementById('promptAnalise').value;
+      respEl = 'respostaAnalise';
+    } else if (tipo === 'correcao') {
+      prompt = document.getElementById('promptCorrecao').value;
+      respEl = 'respostaCorrecao';
+    } else if (tipo === 'orientacao') {
+      prompt = document.getElementById('promptOrientacao').value;
+      respEl = 'respostaOrientacao';
+    }
+
+    if (!prompt.trim()) {
+      alert('Digite um prompt primeiro.');
+      return;
+    }
+
+    const resposta = document.getElementById(respEl);
+    resposta.innerHTML = '<div class=&quot;spinner&quot;></div> Processando...';
+
+    // Construir contexto com arquivos
+    let contexto = 'CONTEXTO DO PROJETO:\n\n';
+    contexto += document.getElementById('diagnostico').textContent + '\n\n';
+    contexto += 'ARQUIVOS PRINCIPAIS:\n';
+
+    // Limitar a quantidade de arquivos para não estourar token
+    const arquivosPrincipais = Object.keys(conteudosTexto)
+      .filter(a => a.includes('package.json') || a.includes('README') || a.includes('main') || a.includes('index'))
+      .slice(0, 5);
+
+    for (const arquivo of arquivosPrincipais) {
+      let conteudo = conteudosTexto[arquivo];
+      if (conteudo.length > 2000) {
+        conteudo = conteudo.substring(0, 2000) + '\n[... truncado]';
+      }
+      contexto += `\n--- ${arquivo} ---\n${conteudo}\n`;
+    }
+
+    const mensagemCompleta = `${contexto}\n\nPERGUNTA DO USUÁRIO:\n${prompt}`;
+
+    try {
+      // Simular resposta da IA (você precisa configurar sua API)
+      const respostaIA = await chamarIA(mensagemCompleta);
+      resposta.innerHTML = `<pre>${respostaIA}</pre>`;
+    } catch (e) {
+      resposta.innerHTML = `<div class=&quot;bad&quot;>Erro: ${e.message}</div><p>Configure sua chave de API da IA nas configurações.</p>`;
+    }
+  }
+
+  async function chamarIA(mensagem) {
+    // IMPORTANTE: Configure sua chave de API
+    // Exemplo com OpenAI:
+    // const token = 'sk-...';
+    // const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Authorization': `Bearer ${token}`,
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     model: 'gpt-4',
+    //     messages: [{ role: 'user', content: mensagem }],
+    //     max_tokens: parseInt(maxRespostaIA)
+    //   })
+    // });
+
+    // Por enquanto, retornar resposta simulada
+    return `[IA SIMULADA - Configure sua API]\n\nSua pergunta foi recebida com ${mensagem.length} caracteres.\n\nPara integrar IA real:\n1. Obtenha uma chave de API (OpenAI, Claude, etc)\n2. Configure no código\n3. Descomente o fetch acima\n\nResposta será limitada a ${maxRespostaIA} caracteres.`;
+  }
+
+  // ===== LIMPAR =====
+  function limparTudo() {
+    if (confirm('Tem certeza que quer limpar tudo?')) {
+      arquivos = [];
+      conteudosTexto = {};
+      document.getElementById('listaArquivos').innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('conteudoArquivo').value = '';
+      document.getElementById('arquivoAtual').textContent = 'Nenhum arquivo selecionado.';
+      document.getElementById('resultadoBusca').textContent = 'Resultado da busca aparecerá aqui.';
+      document.getElementById('diagnostico').textContent = 'Carregue um arquivo para diagnosticar.';
+      document.getElementById('contadorArquivos').textContent = '0 arquivos';
+    }
+  }
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p4"><iframe srcdoc="<!doctype html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;utf-8&quot;>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+  <title>PWA Scanner ZIP Jurídico</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: #020617;
+      padding: 14px;
+      border-bottom: 1px solid #334155;
+    }
+    main {
+      padding: 14px;
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 8px;
+      color: #93c5fd;
+    }
+    h2 {
+      color: #bfdbfe;
+      font-size: 18px;
+    }
+    input, button, textarea, select {
+      font-size: 15px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin: 6px 4px 6px 0;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: #475569;
+    }
+    button.danger {
+      background: #b91c1c;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 12px 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    textarea {
+      width: 100%;
+      min-height: 280px;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      box-sizing: border-box;
+      white-space: pre;
+    }
+    pre {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+    .ok { color: #86efac; }
+    .warn { color: #fde68a; }
+    .bad { color: #fca5a5; }
+    .file-list {
+      max-height: 320px;
+      overflow: auto;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .file-item {
+      padding: 6px;
+      border-bottom: 1px solid #1f2937;
+      cursor: pointer;
+      word-break: break-all;
+    }
+    .file-item:hover {
+      background: #1e293b;
+    }
+    .small {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .search-box {
+      width: 100%;
+      box-sizing: border-box;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 6px 0;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🔎 PWA Scanner ZIP Jurídico</h1>
+  <div class=&quot;small&quot;>Importa ZIP, lista arquivos, lê conteúdo, encontra termos e gera relatório.</div>
+</header>
+
+<main>
+  <div class=&quot;card&quot;>
+    <h2>1. Importar ZIP</h2>
+    <input type=&quot;file&quot; id=&quot;zipInput&quot; accept=&quot;.zip&quot;>
+    <br>
+    <button onclick=&quot;carregarZip()&quot;>Carregar ZIP</button>
+    <button class=&quot;secondary&quot; onclick=&quot;gerarRelatorio()&quot;>Gerar relatório</button>
+    <button class=&quot;danger&quot; onclick=&quot;limparTudo()&quot;>Limpar</button>
+  </div>
+
+  <div class=&quot;grid&quot;>
+    <div class=&quot;card&quot;>
+      <h2>2. Arquivos encontrados</h2>
+      <input class=&quot;search-box&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar arquivo. Ex: package, src, replit, vite&quot; oninput=&quot;renderArquivos()&quot;>
+      <div id=&quot;listaArquivos&quot; class=&quot;file-list&quot;>Nenhum ZIP carregado.</div>
+    </div>
+
+    <div class=&quot;card&quot;>
+      <h2>3. Conteúdo do arquivo</h2>
+      <div id=&quot;arquivoAtual&quot; class=&quot;small&quot;>Nenhum arquivo selecionado.</div>
+      <textarea id=&quot;conteudoArquivo&quot; readonly></textarea>
+    </div>
+  </div>
+
+  <div class=&quot;card&quot;>
+    <h2>4. Buscar termos dentro dos arquivos</h2>
+    <input class=&quot;search-box&quot; id=&quot;termosBusca&quot; value=&quot;replit,.replit,replit.nix,package.json,vite,react,capacitor,netlify,supabase,neon,manifest,service-worker,dist,build,error,TODO,FIXME&quot; placeholder=&quot;Termos separados por vírgula&quot;>
+    <button onclick=&quot;buscarTermos()&quot;>Buscar termos</button>
+    <pre id=&quot;resultadoBusca&quot;>Resultado da busca aparecerá aqui.</pre>
+  </div>
+
+  <div class=&quot;card&quot;>
+    <h2>5. Diagnóstico automático</h2>
+    <pre id=&quot;diagnostico&quot;>Carregue um ZIP para diagnosticar.</pre>
+  </div>
+</main>
+
+<script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;></script>
+<script>
+  let zipGlobal = null;
+  let arquivos = [];
+  let conteudosTexto = {};
+
+  const extensoesTexto = [
+    '.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.html', '.css',
+    '.scss', '.xml', '.yml', '.yaml', '.toml', '.env', '.sql', '.gitignore',
+    '.nix', '.config', '.cjs', '.mjs'
+  ];
+
+  function ehTexto(nome) {
+    const lower = nome.toLowerCase();
+    if (lower.includes('package.json')) return true;
+    if (lower.endsWith('/')) return false;
+    return extensoesTexto.some(ext => lower.endsWith(ext));
+  }
+
+  async function carregarZip() {
+    const input = document.getElementById('zipInput');
+    if (!input.files || !input.files[0]) {
+      alert('Selecione um arquivo ZIP primeiro.');
+      return;
+    }
+
+    const file = input.files[0];
+    const buffer = await file.arrayBuffer();
+
+    zipGlobal = await JSZip.loadAsync(buffer);
+    arquivos = [];
+    conteudosTexto = {};
+
+    zipGlobal.forEach((path, entry) => {
+      arquivos.push({
+        nome: path,
+        dir: entry.dir
+      });
+    });
+
+    arquivos.sort((a, b) => a.nome.localeCompare(b.nome));
+
+    for (const item of arquivos) {
+      if (!item.dir &amp;&amp; ehTexto(item.nome)) {
+        try {
+          conteudosTexto[item.nome] = await zipGlobal.file(item.nome).async('string');
+        } catch (e) {
+          conteudosTexto[item.nome] = '[ERRO AO LER COMO TEXTO]';
+        }
+      }
+    }
+
+    renderArquivos();
+    diagnosticar();
+  }
+
+  function renderArquivos() {
+    const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+    const el = document.getElementById('listaArquivos');
+
+    if (!arquivos.length) {
+      el.innerHTML = 'Nenhum ZIP carregado.';
+      return;
+    }
+
+    const filtrados = arquivos.filter(a => a.nome.toLowerCase().includes(filtro));
+
+    el.innerHTML = filtrados.map(a => {
+      const tipo = a.dir ? '📁' : ehTexto(a.nome) ? '📄' : '📦';
+      return '<div class=&quot;file-item&quot; onclick=&quot;abrirArquivo(' + JSON.stringify(a.nome).replace(/&quot;/g, '&amp;quot;') + ')&quot;>' + tipo + ' ' + a.nome + '</div>';
+    }).join('');
+  }
+
+  function abrirArquivo(nome) {
+    document.getElementById('arquivoAtual').textContent = nome;
+    const area = document.getElementById('conteudoArquivo');
+
+    if (conteudosTexto[nome] !== undefined) {
+      area.value = conteudosTexto[nome];
+    } else {
+      area.value = '[Arquivo binário, pasta, ou tipo não lido como texto]';
+    }
+  }
+
+  function buscarTermos() {
+    const termos = document.getElementById('termosBusca').value
+      .split(',')
+      .map(t => t.trim().toLowerCase())
+      .filter(Boolean);
+
+    let saida = '';
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) => {
+      const linhas = conteudo.split(/\r?\n/);
+      linhas.forEach((linha, idx) => {
+        const low = linha.toLowerCase();
+        termos.forEach(termo => {
+          if (low.includes(termo)) {
+            saida += nome + ':' + (idx + 1) + ' | termo: ' + termo + '\n';
+            saida += linha.slice(0, 300) + '\n\n';
+          }
+        });
+      });
+    });
+
+    if (!saida) saida = 'Nenhum termo encontrado.';
+    document.getElementById('resultadoBusca').textContent = saida;
+  }
+
+  function temArquivo(parte) {
+    return arquivos.some(a => a.nome.toLowerCase().includes(parte.toLowerCase()));
+  }
+
+  function temConteudo(parte) {
+    const p = parte.toLowerCase();
+    return Object.values(conteudosTexto).some(c => c.toLowerCase().includes(p));
+  }
+
+  function diagnosticar() {
+    let d = '';
+    d += '=== DIAGNÓSTICO ===\n\n';
+    d += 'Total de itens no ZIP: ' + arquivos.length + '\n';
+    d += 'Arquivos de texto lidos: ' + Object.keys(conteudosTexto).length + '\n\n';
+
+    const hasPackage = temArquivo('package.json');
+    const hasSrc = temArquivo('src/');
+    const hasDist = temArquivo('dist/') || temArquivo('assets/');
+    const hasVite = temArquivo('vite.config') || temConteudo('&quot;vite&quot;') || temConteudo('vite build');
+    const hasReact = temConteudo('&quot;react&quot;') || temArquivo('.tsx') || temArquivo('App.tsx') || temArquivo('main.tsx');
+    const hasNext = temArquivo('next.config') || temConteudo('&quot;next&quot;');
+    const hasCapacitor = temArquivo('capacitor.config') || temConteudo('@capacitor') || temArquivo('android/');
+    const hasReplit = temArquivo('.replit') || temArquivo('replit.nix') || temArquivo('.config/') || temConteudo('replit');
+    const hasNetlify = temArquivo('netlify.toml') || temConteudo('netlify');
+    const hasManifest = temArquivo('manifest.json');
+    const hasServiceWorker = temArquivo('service-worker') || temArquivo('sw.js') || temConteudo('serviceWorker');
+    const hasSupabase = temConteudo('supabase') || temArquivo('supabase/');
+    const hasNeon = temConteudo('neon');
+
+    d += hasPackage ? '✅ Tem package.json\n' : '❌ Não achei package.json\n';
+    d += hasSrc ? '✅ Tem pasta src/ ou código fonte\n' : '⚠️ Não achei src/ claramente\n';
+    d += hasDist ? '⚠️ Tem dist/assets. Pode ser build compilado.\n' : '✅ Não parece ser só dist/build\n';
+    d += hasVite ? '✅ Indício de Vite\n' : '⚠️ Não confirmei Vite\n';
+    d += hasReact ? '✅ Indício de React\n' : '⚠️ Não confirmei React\n';
+    d += hasNext ? '⚠️ Indício de Next.js\n' : '';
+    d += hasCapacitor ? '⚠️ Indício de Capacitor/APK\n' : '';
+    d += hasReplit ? '⚠️ Tem marcas/arquivos ligados ao Replit\n' : '✅ Não achei marcas óbvias do Replit\n';
+    d += hasNetlify ? '✅ Indício de Netlify\n' : '';
+    d += hasManifest ? '✅ Tem manifest.json\n' : '⚠️ Não achei manifest.json\n';
+    d += hasServiceWorker ? '✅ Tem service worker\n' : '⚠️ Não achei service worker\n';
+    d += hasSupabase ? '⚠️ Indício de Supabase\n' : '';
+    d += hasNeon ? '⚠️ Indício de Neon\n' : '';
+
+    d += '\n=== INTERPRETAÇÃO ===\n';
+
+    if (hasPackage &amp;&amp; hasSrc &amp;&amp; hasVite &amp;&amp; hasReact) {
+      d += 'Parece ser um projeto fonte React + Vite. Melhor caminho: corrigir package.json/build e publicar como web/PWA.\n';
+      d += 'Netlify provável: build command npm run build, publish directory dist.\n';
+    } else if (!hasPackage &amp;&amp; hasDist) {
+      d += 'Parece ser uma versão compilada. Pode abrir como site, mas é ruim para editar.\n';
+    } else if (hasNext) {
+      d += 'Parece Next.js. Vercel costuma ser mais fácil que Netlify.\n';
+    } else {
+      d += 'Tipo não confirmado. Precisa olhar package.json e estrutura.\n';
+    }
+
+    d += '\n=== SOBRE REPLIT ===\n';
+    d += 'Arquivos como .replit e replit.nix geralmente são configuração do ambiente, não necessariamente o erro principal.\n';
+    d += 'Não apague cegamente antes de saber se o build funciona.\n';
+
+    document.getElementById('diagnostico').textContent = d;
+  }
+
+  function gerarRelatorio() {
+    diagnosticar();
+    buscarTermos();
+
+    const rel = [
+      document.getElementById('diagnostico').textContent,
+      '\n\n=== BUSCA ===\n',
+      document.getElementById('resultadoBusca').textContent,
+      '\n\n=== LISTA DE ARQUIVOS ===\n',
+      arquivos.map(a => a.nome).join('\n')
+    ].join('');
+
+    navigator.clipboard.writeText(rel).then(() => {
+      alert('Relatório copiado para a área de transferência.');
+    }).catch(() => {
+      document.getElementById('conteudoArquivo').value = rel;
+      document.getElementById('arquivoAtual').textContent = 'Relatório gerado';
+      alert('Não consegui copiar automático. Coloquei o relatório na caixa de conteúdo.');
+    });
+  }
+
+  function limparTudo() {
+    zipGlobal = null;
+    arquivos = [];
+    conteudosTexto = {};
+    document.getElementById('listaArquivos').innerHTML = 'Nenhum ZIP carregado.';
+    document.getElementById('conteudoArquivo').value = '';
+    document.getElementById('arquivoAtual').textContent = 'Nenhum arquivo selecionado.';
+    document.getElementById('resultadoBusca').textContent = 'Resultado da busca aparecerá aqui.';
+    document.getElementById('diagnostico').textContent = 'Carregue um ZIP para diagnosticar.';
+  }
+</script>
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+
+<script>
+function trocar(i) {
+  document.querySelectorAll('.projeto').forEach(function(el){ el.classList.remove('ativo'); });
+  document.querySelectorAll('.nav-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('p'+i).classList.add('ativo');
+  document.querySelectorAll('.nav-btn')[i].classList.add('active');
+  localStorage.setItem('mc-ultimo', i);
+}
+window.onload = function() {
+  var u = localStorage.getItem('mc-ultimo');
+  if (u !== null) trocar(parseInt(u));
+};
+</script>
+</body>
+</html>

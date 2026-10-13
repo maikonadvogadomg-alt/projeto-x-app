@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maikon Caldeira - Advocacia Digital</title>
+<style>
+        :root {
+            --primaria: #5d5e53;
+            --secundaria: #a3a082;
+            --fundo: #0a0a0a;
+            --painel: #161614;
+            --texto: #f3f4f6;
+            --detalhe: #8F9779;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', 'Georgia', serif;
+            background-color: var(--fundo);
+            color: var(--texto);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .logo-area { margin-bottom: 40px; }
+
+        .logo-circulo {
+            width: 110px; height: 110px;
+            background: var(--secundaria);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 55px; font-weight: bold; color: var(--fundo);
+            box-shadow: 0 0 40px rgba(163, 160, 130, 0.3);
+            border: 3px solid white;
+        }
+
+        h1 { font-size: 30px; letter-spacing: 4px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; color: var(--texto); }
+        .sub { color: var(--secundaria); font-size: 13px; letter-spacing: 3px; margin-bottom: 40px; font-weight: 300; }
+
+        .grade {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .cartao {
+            background: var(--painel);
+            padding: 35px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--texto);
+            border: 1px solid var(--primaria);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cartao:hover {
+            transform: translateY(-8px);
+            border-color: var(--secundaria);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            background: #1c1c1a;
+        }
+
+        .cartao.vazio {
+            opacity: 0.4;
+            border-style: dashed;
+        }
+
+        .cartao.vazio:hover {
+            opacity: 0.6;
+            border-color: var(--secundaria);
+        }
+
+        .btn-remover {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            display: none;
+            z-index: 10;
+        }
+
+        .cartao:hover .btn-remover {
+            display: block;
+        }
+
+        .icone { font-size: 38px; color: var(--secundaria); filter: drop-shadow(0 0 5px rgba(163, 160, 130, 0.5)); }
+        .titulo-app { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: var(--secundaria); }
+        .desc-app { font-size: 11px; color: #888; margin-top: -5px; }
+        .numero-slot { font-size: 9px; color: #555; margin-top: 5px; }
+
+        .links-rapidos {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-link {
+            text-decoration: none;
+            color: var(--texto);
+            font-size: 12px;
+            padding: 10px 20px;
+            border: 1px solid var(--primaria);
+            border-radius: 30px;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .btn-link:hover {
+            background: var(--secundaria);
+            color: var(--fundo);
+            font-weight: bold;
+        }
+
+        .btn-admin {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--secundaria);
+            color: var(--fundo);
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(163, 160, 130, 0.5);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .btn-admin:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-instalar {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.5);
+            transition: all 0.3s;
+            z-index: 100;
+            display: none;
+        }
+
+        .btn-instalar:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.ativo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-conteudo {
+            background: var(--painel);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 2px solid var(--primaria);
+        }
+
+        .modal-conteudo h2 {
+            color: var(--secundaria);
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+
+        .modal-conteudo h3 {
+            color: var(--texto);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .form-grupo {
+            margin-bottom: 20px;
+        }
+
+        .form-grupo label {
+            display: block;
+            color: var(--texto);
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .form-grupo input,
+        .form-grupo select {
+            width: 100%;
+            padding: 12px;
+            background: var(--fundo);
+            border: 1px solid var(--primaria);
+            border-radius: 8px;
+            color: var(--texto);
+            font-size: 14px;
+        }
+
+        .form-grupo input:focus,
+        .form-grupo select:focus {
+            outline: none;
+            border-color: var(--secundaria);
+        }
+
+        .botoes-modal {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .botoes-modal button {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-salvar {
+            background: var(--secundaria);
+            color: var(--fundo);
+        }
+
+        .btn-salvar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(163, 160, 130, 0.4);
+        }
+
+        .btn-cancelar {
+            background: #333;
+            color: var(--texto);
+        }
+
+        .btn-cancelar:hover {
+            background: #444;
+        }
+
+        .lista-apps {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .app-item {
+            background: var(--fundo);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--primaria);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .app-item.vazio {
+            opacity: 0.3;
+            border-style: dashed;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-icone {
+            font-size: 28px;
+        }
+
+        .app-slot {
+            font-size: 11px;
+            color: var(--secundaria);
+            font-weight: bold;
+        }
+
+        .app-info {
+            text-align: left;
+        }
+
+        .app-nome {
+            font-weight: bold;
+            color: var(--texto);
+            font-size: 13px;
+        }
+
+        .app-desc {
+            font-size: 11px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .app-arquivo {
+            font-size: 10px;
+            color: var(--secundaria);
+            font-family: monospace;
+            margin-top: 5px;
+        }
+
+        .btn-deletar {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            align-self: flex-start;
+        }
+
+        .btn-deletar:hover {
+            background: #ff2222;
+        }
+
+        .btn-editar {
+            background: var(--secundaria);
+            color: var(--fundo);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            align-self: flex-start;
+        }
+
+        .btn-editar:hover {
+            transform: translateY(-1px);
+        }
+
+        footer { margin-top: 60px; opacity: 0.4; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+
+        @media (max-width: 500px) {
+            .grade { grid-template-columns: 1fr; }
+            .modal-conteudo { padding: 25px; }
+            .lista-apps { grid-template-columns: 1fr; }
+        }
+
+        .alerta {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .tabs-modal {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primaria);
+            padding-bottom: 15px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--texto);
+            cursor: pointer;
+            padding: 10px 15px;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.ativo {
+            color: var(--secundaria);
+            border-bottom-color: var(--secundaria);
+        }
+
+        .tab-conteudo {
+            display: none;
+        }
+
+        .tab-conteudo.ativo {
+            display: block;
+        }
+
+        .info-slots {
+            background: var(--fundo);
+            border: 1px solid var(--primaria);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--texto);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .info-slots strong {
+            color: var(--secundaria);
+        }
+    </style>
+  <!-- PWA:inicio (gerado pelo Mini SK — pode refazer no painel 📱 PWA) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#5d5e53">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MC Advocacia">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <script>
+    if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+      addEventListener('load', function () { navigator.serviceWorker.register('service-worker.js').catch(function (e) { console.warn('Service worker:', e); }); });
+    }
+  </script>
+  <!-- PWA:fim -->
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo-area">
+            <div class="logo-circulo">M</div>
+            <h1>Maikon Caldeira</h1>
+            <p class="sub">ADVOCACIA & ESTRATÉGIA DIGITAL</p>
+        </div>
+
+        <div class="grade" id="grade">
+            <!-- Apps serão carregados aqui -->
+        </div>
+
+        <div class="links-rapidos">
+            <a href="https://mail.google.com" target="_blank" class="btn-link">📧 Gmail</a>
+            <a href="https://www.google.com" target="_blank" class="btn-link">🌐 Busca</a>
+        </div>
+
+        <footer>© 2026 MAIKON CALDEIRA - SISTEMAS DE ALTA PERFORMANCE</footer>
+    </div>
+
+    <button class="btn-instalar" id="btnInstalar">📥 Instalar App</button>
+    <button class="btn-admin" onclick="abrirModal()">⚙️ Gerenciar</button>
+
+    <!-- MODAL DE GERENCIAMENTO -->
+    <div class="modal" id="modal">
+        <div class="modal-conteudo">
+            <h2>⚙️ Gerenciador de Apps (30 Slots)</h2>
+            
+            <div class="tabs-modal">
+                <button class="tab-btn ativo" onclick="mudarAba('adicionar')">➕ Adicionar</button>
+                <button class="tab-btn" onclick="mudarAba('listar')">📋 Listar Todos</button>
+                <button class="tab-btn" onclick="mudarAba('gerar')">🚀 Gerar PWA</button>
+            </div>
+
+            <!-- ABA 1: ADICIONAR -->
+            <div class="tab-conteudo ativo" id="aba-adicionar">
+                <div class="info-slots">
+                    <strong>💡 Como funciona:</strong><br>
+                    ✅ Você tem <strong>30 slots fixos</strong> (1.codigo.html até 30.codigo.html)<br>
+                    ✅ Escolha um número de slot disponível<br>
+                    ✅ Nomeie, escolha ícone e descreva<br>
+                    ✅ O arquivo sempre será acessível pelo mesmo endereço<br>
+                    ✅ Cache não interfere - sempre funciona!
+                </div>
+
+                <div class="form-grupo">
+                    <label>Slot (1 a 30):</label>
+                    <select id="slotApp">
+                        <option value="">-- Selecione um slot --</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Nome do App:</label>
+                    <input type="text" id="nomeApp" placeholder="Ex: Assistente Jurídico">
+                </div>
+
+                <div class="form-grupo">
+                    <label>Ícone (emoji):</label>
+                    <input type="text" id="iconeApp" placeholder="Ex: ⚖️ 💬 🔍 🏗️ etc">
+                </div>
+
+                <div class="form-grupo">
+                    <label>Descrição:</label>
+                    <input type="text" id="descApp" placeholder="Ex: Assistente com IA">
+                </div>
+
+                <div class="botoes-modal">
+                    <button class="btn-salvar" onclick="adicionarApp()">✅ Salvar App</button>
+                    <button class="btn-cancelar" onclick="limparFormulario()">🔄 Limpar</button>
+                    <button class="btn-cancelar" onclick="fecharModal()">❌ Fechar</button>
+                </div>
+            </div>
+
+            <!-- ABA 2: LISTAR -->
+            <div class="tab-conteudo" id="aba-listar">
+                <h3>📦 Apps Cadastrados</h3>
+                <div class="lista-apps" id="listaApps">
+                    <!-- Lista de apps -->
+                </div>
+            </div>
+
+            <!-- ABA 3: GERAR PWA -->
+            <div class="tab-conteudo" id="aba-gerar">
+                <h3>🚀 Gerar Arquivos PWA</h3>
+                <div id="alertaGerar"></div>
+                
+                <p style="color: var(--texto); margin-bottom: 20px; font-size: 13px;">
+                    Gere os arquivos necessários para instalar como PWA. Os arquivos incluem todos os <strong>30 slots</strong> no manifest.
+                </p>
+
+                <div class="botoes-modal">
+                    <button class="btn-salvar" onclick="gerarManifest()">📄 manifest.json</button>
+                    <button class="btn-salvar" onclick="gerarServiceWorker()">⚙️ sw.js</button>
+                </div>
+                <div class="botoes-modal" style="margin-top:10px">
+                    <button class="btn-salvar" onclick="gerarIcones()">🎨 Ícones SVG</button>
+                    <button class="btn-salvar" onclick="baixarTudo()">📦 Baixar Tudo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // CONFIGURAÇÃO - 30 SLOTS FIXOS
+        // ========================================
+        const TOTAL_SLOTS = 30;
+        let apps = JSON.parse(localStorage.getItem('mcApps30')) || {};
+        let abaSelecionada = 'adicionar';
+
+        // Inicializar slots vazios
+        function inicializarSlots() {
+            for (let i = 1; i <= TOTAL_SLOTS; i++) {
+                if (!apps[i]) {
+                    apps[i] = null;
+                }
+            }
+        }
+
+        inicializarSlots();
+
+        // ========================================
+        // RENDERIZAR APPS NO PAINEL PRINCIPAL
+        // ========================================
+        function renderizarApps() {
+            const grade = document.getElementById('grade');
+            grade.innerHTML = '';
+
+            for (let i = 1; i <= TOTAL_SLOTS; i++) {
+                const app = apps[i];
+                const cartao = document.createElement('a');
+                cartao.className = 'cartao' + (app ? '' : ' vazio');
+                
+                if (app) {
+                    cartao.href = `./${i}.codigo.html`;
+                    cartao.innerHTML = `
+                        <button class="btn-remover" onclick="event.preventDefault(); removerApp(${i})">×</button>
+                        <span class="icone">${app.icone}</span>
+                        <span class="titulo-app">${app.nome}</span>
+                        <span class="desc-app">${app.desc}</span>
+                        <span class="numero-slot">Slot ${i}</span>
+                    `;
+                } else {
+                    cartao.href = '#';
+                    cartao.onclick = (e) => {
+                        e.preventDefault();
+                        abrirModal();
+                        document.getElementById('slotApp').value = i;
+                    };
+                    cartao.innerHTML = `
+                        <span class="icone">+</span>
+                        <span class="titulo-app">Vazio</span>
+                        <span class="numero-slot">Slot ${i}</span>
+                    `;
+                }
+                
+                grade.appendChild(cartao);
+            }
+
+            localStorage.setItem('mcApps30', JSON.stringify(apps));
+            renderizarListaApps();
+            atualizarSelectSlots();
+        }
+
+        // ========================================
+        // RENDERIZAR LISTA NO MODAL
+        // ========================================
+        function renderizarListaApps() {
+            const lista = document.getElementById('listaApps');
+            lista.innerHTML = '';
+
+            let temApps = false;
+
+            for (let i = 1; i <= TOTAL_SLOTS; i++) {
+                const app = apps[i];
+                
+                if (app) {
+                    temApps = true;
+                    const item = document.createElement('div');
+                    item.className = 'app-item';
+                    item.innerHTML = `
+                        <div class="app-header">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <span class="app-icone">${app.icone}</span>
+                                <div>
+                                    <div class="app-slot">SLOT ${i}</div>
+                                    <div class="app-nome">${app.nome}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-info">
+                            <div class="app-desc">${app.desc}</div>
+                            <div class="app-arquivo">📁 ${i}.codigo.html</div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn-editar" onclick="editarApp(${i})">✏️ Editar</button>
+                            <button class="btn-deletar" onclick="removerApp(${i})">🗑️ Remover</button>
+                        </div>
+                    `;
+                    lista.appendChild(item);
+                } else {
+                    const item = document.createElement('div');
+                    item.className = 'app-item vazio';
+                    item.innerHTML = `
+                        <div class="app-slot">SLOT ${i}</div>
+                        <div style="color:#666; font-size:12px;">Vazio - Clique para adicionar</div>
+                        <button class="btn-salvar" onclick="preencherSlot(${i})" style="align-self:flex-start;">➕ Adicionar</button>
+                    `;
+                    lista.appendChild(item);
+                }
+            }
+        }
+
+        // ========================================
+        // ATUALIZAR SELECT DE SLOTS
+        // ========================================
+        function atualizarSelectSlots() {
+            const select = document.getElementById('slotApp');
+            const opcoes = select.innerHTML.split('\n')[0]; // Manter primeira opção
+            select.innerHTML = opcoes;
+
+            for (let i = 1; i <= TOTAL_SLOTS; i++) {
+                const app = apps[i];
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = app 
+                    ? `Slot ${i} (${app.nome}) - OCUPADO` 
+                    : `Slot ${i} - Disponível`;
+                option.disabled = app ? true : false;
+                select.appendChild(option);
+            }
+        }
+
+        // ========================================
+        // ABAS DO MODAL
+        // ========================================
+        function mudarAba(aba) {
+            abaSelecionada = aba;
+            
+            // Desativar todas as abas
+            document.querySelectorAll('.tab-conteudo').forEach(el => el.classList.remove('ativo'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('ativo'));
+            
+            // Ativar aba selecionada
+            document.getElementById('aba-' + aba).classList.add('ativo');
+            event.target.classList.add('ativo');
+            
+            if (aba === 'listar') {
+                renderizarListaApps();
+            }
+        }
+
+        // ========================================
+        // MODAL
+        // ========================================
+        function abrirModal() {
+            document.getElementById('modal').classList.add('ativo');
+            mudarAba('adicionar');
+            renderizarListaApps();
+        }
+
+        function fecharModal() {
+            document.getElementById('modal').classList.remove('ativo');
+            limparFormulario();
+        }
+
+        function limparFormulario() {
+            document.getElementById('slotApp').value = '';
+            document.getElementById('nomeApp').value = '';
+            document.getElementById('iconeApp').value = '';
+            document.getElementById('descApp').value = '';
+        }
+
+        // ========================================
+        // ADICIONAR APP
+        // ========================================
+        function adicionarApp() {
+            const slot = parseInt(document.getElementById('slotApp').value);
+            const nome = document.getElementById('nomeApp').value.trim();
+            const icone = document.getElementById('iconeApp').value.trim();
+            const desc = document.getElementById('descApp').value.trim();
+
+            if (!slot || !nome) {
+                alert('❌ Selecione um slot e preencha o nome!');
+                return;
+            }
+
+            if (apps[slot]) {
+                alert('❌ Este slot já está ocupado!');
+                return;
+            }
+
+            apps[slot] = {
+                nome: nome,
+                icone: icone || '📄',
+                desc: desc || 'App',
+                arquivo: `${slot}.codigo.html`
+            };
+
+            renderizarApps();
+            limparFormulario();
+            mostrarAlerta('✅ App adicionado no slot ' + slot + '!');
+        }
+
+        // ========================================
+        // EDITAR APP
+        // ========================================
+        function editarApp(slot) {
+            const app = apps[slot];
+            if (!app) return;
+
+            document.getElementById('slotApp').value = slot;
+            document.getElementById('nomeApp').value = app.nome;
+            document.getElementById('iconeApp').value = app.icone;
+            document.getElementById('descApp').value = app.desc;
+
+            mudarAba('adicionar');
+            
+            // Mudar botão para atualizar
+            const btnSalvar = document.querySelector('[onclick="adicionarApp()"]');
+            btnSalvar.textContent = '✏️ Atualizar App';
+            btnSalvar.onclick = () => atualizarApp(slot);
+        }
+
+        function atualizarApp(slot) {
+            const nome = document.getElementById('nomeApp').value.trim();
+            const icone = document.getElementById('iconeApp').value.trim();
+            const desc = document.getElementById('descApp').value.trim();
+
+            if (!nome) {
+                alert('❌ Preencha o nome!');
+                return;
+            }
+
+            apps[slot] = {
+                nome: nome,
+                icone: icone || '📄',
+                desc: desc || 'App',
+                arquivo: `${slot}.codigo.html`
+            };
+
+            renderizarApps();
+            limparFormulario();
+            
+            const btnSalvar = document.querySelector('[onclick*="atualizarApp"]');
+            btnSalvar.textContent = '✅ Salvar App';
+            btnSalvar.onclick = () => adicionarApp();
+            
+            mostrarAlerta('✅ App atualizado!');
+        }
+
+        // ========================================
+        // REMOVER APP
+        // ========================================
+        function removerApp(slot) {
+            if (!confirm('Deseja remover o app do slot ' + slot + '?')) return;
+            
+            apps[slot] = null;
+            renderizarApps();
+            mostrarAlerta('✅ App removido!');
+        }
+
+        // ========================================
+        // PREENCHER SLOT RÁPIDO
+        // ========================================
+        function preencherSlot(slot) {
+            document.getElementById('slotApp').value = slot;
+            mudarAba('adicionar');
+        }
+
+        // ========================================
+        // GERAR MANIFEST.JSON (30 SLOTS)
+        // ========================================
+        function gerarManifest() {
+            const shortcuts = [];
+            
+            for (let i = 1; i <= TOTAL_SLOTS; i++) {
+                if (apps[i]) {
+                    shortcuts.push({
+                        name: apps[i].nome,
+                        short_name: apps[i].nome,
+                        description: apps[i].desc,
+                        url: `./${i}.codigo.html`,
+                        icons: [{ src: "./icon-192.png", sizes: "192x192" }]
+                    });
+                }
+            }
+
+            const manifest = {
+                name: "Maikon Caldeira - Advocacia Digital",
+                short_name: "MC Advocacia",
+                description: "Sistema completo de ferramentas jurídicas e produtividade",
+                start_url: "./index.html",
+                scope: "./",
+                display: "standalone",
+                orientation: "any",
+                background_color: "#0a0a0a",
+                theme_color: "#5d5e53",
+                icons: [
+                    {
+                        src: "./icon-192.png",
+                        sizes: "192x192",
+                        type: "image/png",
+                        purpose: "any maskable"
+                    },
+                    {
+                        src: "./icon-512.png",
+                        sizes: "512x512",
+                        type: "image/png",
+                        purpose: "any maskable"
+                    }
+                ],
+                shortcuts: shortcuts.slice(0, 12),
+                categories: ["productivity", "utilities", "business"],
+                lang: "pt-BR",
+                dir: "ltr"
+            };
+
+            baixarArquivo('manifest.json', JSON.stringify(manifest, null, 2));
+            mostrarAlerta('✅ manifest.json gerado com ' + shortcuts.length + ' apps!');
+        }
+
+        // ========================================
+        // GERAR SERVICE WORKER (30 SLOTS)
+        // ========================================
+        function gerarServiceWorker() {
+            const versao = new Date().getTime();
+            let arquivos = ['  \'./index.html\''];
+            
+            for (let i = 1; i <= TOTAL_SLOTS; i++) {
+                arquivos.push(`  \'./${i}.codigo.html\'`);
+            }
+            
+            const sw = `// Service Worker - Maikon Caldeira Advocacia
+// Versão: ${versao}
+// Gerado automaticamente em: ${new Date().toLocaleString('pt-BR')}
+// Suporta 30 slots de aplicações
+
+const CACHE_NAME = 'mc-advocacia-v${versao}';
+const RUNTIME_CACHE = 'mc-runtime';
+
+// Arquivos para cache inicial (30 slots)
+const PRECACHE_URLS = [
+${arquivos.join(',\n')},
+  './icon-192.png',
+  './icon-512.png',
+  './manifest.json'
+];
+
+// Instalação - cachear arquivos
+self.addEventListener('install', (event) => {
+  console.log('[SW] Instalando versão ${versao}...');
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('[SW] Cacheando 30 slots + arquivos...');
+        return cache.addAll(PRECACHE_URLS);
+      })
+      .then(() => self.skipWaiting())
+      .catch((err) => console.error('[SW] Erro ao cachear:', err))
+  );
+});
+
+// Ativação - limpar caches antigos
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Ativando...');
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME && cacheName !== RUNTIME_CACHE) {
+            console.log('[SW] Removendo cache antigo:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Fetch - estratégia Network First para slots, Cache First para estáticos
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Ignorar requisições externas
+  if (url.origin !== location.origin) {
+    return;
+  }
+
+  // Para arquivos .html dos slots - tentar rede primeiro
+  if (request.url.includes('.codigo.html')) {
+    event.respondWith(
+      fetch(request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            return caches.open(RUNTIME_CACHE)
+              .then((cache) => {
+                cache.put(request, networkResponse.clone());
+                return networkResponse;
+              });
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          return caches.match(request);
+        })
+    );
+    return;
+  }
+
+  // Para outros arquivos - cache first
+  event.respondWith(
+    caches.match(request)
+      .then((cachedResponse) => {
+        if (cachedResponse) {
+          console.log('[SW] Servindo do cache:', request.url);
+          return cachedResponse;
+        }
+
+        return fetch(request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              return caches.open(RUNTIME_CACHE)
+                .then((cache) => {
+                  cache.put(request, networkResponse.clone());
+                  return networkResponse;
+                });
+            }
+            return networkResponse;
+          })
+          .catch(() => {
+            if (request.destination === 'document') {
+              return caches.match('./index.html');
+            }
+          });
+      })
+  );
+});
+
+// Mensagens do cliente
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+console.log('[SW] Service Worker carregado - Versão ${versao} - 30 Slots');`;
+
+            baixarArquivo('sw.js', sw);
+            mostrarAlerta('✅ sw.js gerado para 30 slots!');
+        }
+
+        // ========================================
+        // GERAR ÍCONES
+        // ========================================
+        function gerarIcones() {
+            const svg192 = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect fill="#5d5e53" width="192" height="192" rx="40"/>
+  <text x="96" y="135" font-size="100" fill="#f3f4f6" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold">M</text>
+</svg>`;
+
+            const svg512 = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect fill="#5d5e53" width="512" height="512" rx="100"/>
+  <text x="256" y="360" font-size="280" fill="#f3f4f6" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold">M</text>
+</svg>`;
+
+            baixarArquivo('icon-192.svg', svg192);
+            baixarArquivo('icon-512.svg', svg512);
+            
+            mostrarAlerta('✅ Ícones SVG gerados! Converta para PNG em: https://convertio.co/svg-png/');
+        }
+
+        // ========================================
+        // BAIXAR TUDO
+        // ========================================
+        function baixarTudo() {
+            gerarManifest();
+            setTimeout(() => gerarServiceWorker(), 500);
+            setTimeout(() => gerarIcones(), 1000);
+            mostrarAlerta('✅ Todos os arquivos foram baixados!');
+        }
+
+        // ========================================
+        // BAIXAR ARQUIVO
+        // ========================================
+        function baixarArquivo(nome, conteudo) {
+            const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nome;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ========================================
+        // ALERTA
+        // ========================================
+        function mostrarAlerta(mensagem) {
+            const alerta = document.getElementById('alertaGerar');
+            alerta.innerHTML = `<div class="alerta">${mensagem}</div>`;
+            setTimeout(() => alerta.innerHTML = '', 4000);
+        }
+
+        // ========================================
+        // INSTALAÇÃO PWA
+        // ========================================
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('btnInstalar').style.display = 'block';
+        });
+
+        document.getElementById('btnInstalar').addEventListener('click', async () => {
+            if (!deferredPrompt) {
+                alert('PWA já instalado ou navegador não suporta instalação.');
+                return;
+            }
+
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('✅ PWA instalado!');
+            }
+            
+            deferredPrompt = null;
+            document.getElementById('btnInstalar').style.display = 'none';
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('✅ PWA instalado com sucesso!');
+            document.getElementById('btnInstalar').style.display = 'none';
+        });
+
+        // ========================================
+        // REGISTRAR SERVICE WORKER
+        // ========================================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('✅ SW registrado:', registration.scope);
+                        
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    if (confirm('Nova versão disponível! Atualizar agora?')) {
+                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch((err) => console.error('❌ Erro ao registrar SW:', err));
+            });
+        }
+
+        // ========================================
+        // INICIALIZAR
+        // ========================================
+        renderizarApps();
+    </script>
+
+</body>
+</html>

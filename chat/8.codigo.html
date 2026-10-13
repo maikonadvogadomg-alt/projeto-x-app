@@ -1,0 +1,3812 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Projetos PWA — Maikon Caldeira</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 8px 16px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+.nav-btn {
+  padding: 8px 14px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 60px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Navegação -->
+<div class="project-nav">
+  <span style="font-size:12px;font-weight:700;color:#a3a082;margin-right:6px;">📂</span>
+  <button class="nav-btn active" onclick="trocarProjeto(0)">1. Mont.3</button><button class="nav-btn " onclick="trocarProjeto(1)">2.Mont.4</button><button class="nav-btn " onclick="trocarProjeto(2)">3.Mont.5</button><button class="nav-btn " onclick="trocarProjeto(3)">4.Play.</button><button class="nav-btn " onclick="trocarProjeto(4)">5. Chat</button>
+</div>
+
+<!-- Projetos (cada um em iframe isolado) -->
+
+<div class="project-container active" id="projeto0">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;🧩 Montador Multi-Projetos — PWA Jurídico&lt;/title&gt;
+&lt;style&gt;
+:root { --bg:#0a0a0f; --bg2:#12121a; --bg3:#1a1a2e; --text:#e2e8f0; --text2:#94a3b8; --accent:#a3a082; --accent2:#d4d0a8; --green:#4ade80; --blue:#60a5fa; --red:#f87171; --border:#2d2d3a; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+.header { background:var(--bg2); border-bottom:1px solid var(--border); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.header h1 { font-size:18px; color:var(--accent); }
+.header h1 small { display:block; font-size:10px; color:var(--text2); font-weight:400; letter-spacing:2px; }
+
+.container { max-width:1400px; margin:0 auto; padding:20px; }
+
+.workspace { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:20px; }
+.workspace h2 { font-size:14px; color:var(--accent); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+
+.btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border:none; border-radius:8px; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.15s; }
+.btn-sm { padding:5px 10px; font-size:10px; }
+.btn-primary { background:var(--accent); color:#000; }
+.btn-primary:hover { background:var(--accent2); }
+.btn-success { background:var(--green); color:#000; }
+.btn-danger { background:rgba(239,68,68,0.2); color:var(--red); border:1px solid rgba(239,68,68,0.3); }
+.btn-ghost { background:transparent; color:var(--text2); border:1px solid var(--border); }
+.btn-ghost:hover { background:var(--bg3); color:var(--text); }
+
+.input { width:100%; padding:8px 12px; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:12px; margin-bottom:12px; }
+.input:focus { outline:none; border-color:var(--accent); }
+
+.code-area { width:100%; min-height:300px; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:12px; font-family:'Consolas','Fira Code',monospace; font-size:12px; color:var(--text); resize:vertical; line-height:1.6; }
+.code-area:focus { outline:none; border-color:var(--accent); }
+
+.project-card { background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:12px; }
+.project-card h3 { color:var(--accent2); font-size:14px; margin-bottom:8px; }
+.project-card .actions { display:flex; gap:6px; margin-top:10px; }
+
+.tabs { display:flex; gap:4px; margin-bottom:16px; flex-wrap:wrap; background:var(--bg2); padding:4px; border-radius:10px; }
+.tab-btn { padding:10px 20px; border:none; background:transparent; color:var(--text2); border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.tab-btn.active { background:var(--accent); color:#000; }
+.tab-btn:hover:not(.active) { background:var(--bg3); }
+
+/* NOVO: Navegação entre projetos no HTML final */
+.project-nav { position:fixed; top:0; left:0; right:0; background:var(--bg2); border-bottom:2px solid var(--accent); padding:12px 20px; display:flex; gap:8px; align-items:center; z-index:1000; box-shadow:0 2px 10px rgba(0,0,0,0.3); }
+.project-nav .nav-btn { padding:8px 16px; background:var(--bg3); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.project-nav .nav-btn:hover { background:var(--accent); color:#000; }
+.project-nav .nav-btn.active { background:var(--accent); color:#000; border-color:var(--accent); }
+
+.project-container { display:none; padding-top:60px; }
+.project-container.active { display:block; }
+
+.status { padding:10px 14px; border-radius:8px; font-size:11px; font-weight:600; margin-bottom:12px; }
+.status-info { background:rgba(96,165,250,0.1); color:var(--blue); border:1px solid rgba(96,165,250,0.2); }
+.status-success { background:rgba(74,222,128,0.1); color:var(--green); border:1px solid rgba(74,222,128,0.2); }
+
+.toast { position:fixed; bottom:20px; right:20px; background:var(--bg2); border:1px solid var(--accent); border-radius:10px; padding:12px 20px; font-size:12px; font-weight:600; color:var(--accent2); z-index:2000; transform:translateY(100px); opacity:0; transition:all 0.3s; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;header&quot;&gt;
+  &lt;h1&gt;🧩 Montador Multi-Projetos &lt;small&gt;PWA JURÍDICO — MAIKON CALDEIRA&lt;/small&gt;&lt;/h1&gt;
+  &lt;div style=&quot;display:flex;gap:6px;flex-wrap:wrap;&quot;&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;gerarHtmlFinal()&quot;&gt;📦 Gerar HTML com Todos os Projetos&lt;/button&gt;
+    &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;exportarBackup()&quot;&gt;💾 Backup&lt;/button&gt;
+    &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;importarBackup()&quot;&gt;📂 Importar&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+
+  &lt;div class=&quot;status status-info&quot;&gt;
+    💡 &lt;strong&gt;Como funciona:&lt;/strong&gt; Cole até 3 códigos HTML completos abaixo. Cada um será um &quot;projeto&quot; independente. 
+    Quando gerar o HTML final, você terá um arquivo com abas no topo para alternar entre os projetos — cada um isolado do outro!
+  &lt;/div&gt;
+
+  &lt;!-- PROJETO 1 --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;🔷 Projeto 1&lt;/h2&gt;
+    &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nome1&quot; placeholder=&quot;Nome do projeto (ex: Sistema de Processos)&quot; /&gt;
+    &lt;textarea class=&quot;code-area&quot; id=&quot;codigo1&quot; placeholder=&quot;Cole aqui o código HTML COMPLETO do projeto 1...&quot;&gt;&lt;/textarea&gt;
+    &lt;div style=&quot;display:flex;gap:8px;margin-top:10px;&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(1)&quot;&gt;👁️ Testar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;limparProjeto(1)&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;importarArquivo(1)&quot;&gt;📂 Importar Arquivo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PROJETO 2 --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;🔶 Projeto 2&lt;/h2&gt;
+    &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nome2&quot; placeholder=&quot;Nome do projeto (ex: Gerador de Documentos)&quot; /&gt;
+    &lt;textarea class=&quot;code-area&quot; id=&quot;codigo2&quot; placeholder=&quot;Cole aqui o código HTML COMPLETO do projeto 2...&quot;&gt;&lt;/textarea&gt;
+    &lt;div style=&quot;display:flex;gap:8px;margin-top:10px;&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(2)&quot;&gt;👁️ Testar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;limparProjeto(2)&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;importarArquivo(2)&quot;&gt;📂 Importar Arquivo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PROJETO 3 --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;🔸 Projeto 3&lt;/h2&gt;
+    &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nome3&quot; placeholder=&quot;Nome do projeto (ex: Consulta Jurisprudência)&quot; /&gt;
+    &lt;textarea class=&quot;code-area&quot; id=&quot;codigo3&quot; placeholder=&quot;Cole aqui o código HTML COMPLETO do projeto 3...&quot;&gt;&lt;/textarea&gt;
+    &lt;div style=&quot;display:flex;gap:8px;margin-top:10px;&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(3)&quot;&gt;👁️ Testar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;limparProjeto(3)&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;importarArquivo(3)&quot;&gt;📂 Importar Arquivo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PROJETOS SALVOS --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;💾 Projetos Salvos&lt;/h2&gt;
+    &lt;div id=&quot;projetosSalvos&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Hidden inputs --&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInput1&quot; style=&quot;display:none&quot; accept=&quot;.html,.htm&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInput2&quot; style=&quot;display:none&quot; accept=&quot;.html,.htm&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInput3&quot; style=&quot;display:none&quot; accept=&quot;.html,.htm&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;backupInput&quot; style=&quot;display:none&quot; accept=&quot;.json&quot; /&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+const LS_KEY = 'multiprojetos-v1';
+
+// ========== STORAGE ==========
+function salvarProjetos() {
+  const projetos = {
+    p1: { nome: document.getElementById('nome1').value, codigo: document.getElementById('codigo1').value },
+    p2: { nome: document.getElementById('nome2').value, codigo: document.getElementById('codigo2').value },
+    p3: { nome: document.getElementById('nome3').value, codigo: document.getElementById('codigo3').value }
+  };
+  localStorage.setItem(LS_KEY, JSON.stringify(projetos));
+  mostrarToast('💾 Projetos salvos automaticamente!');
+  renderizarSalvos();
+}
+
+function carregarProjetos() {
+  try {
+    const data = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+    if (data.p1) { document.getElementById('nome1').value = data.p1.nome || ''; document.getElementById('codigo1').value = data.p1.codigo || ''; }
+    if (data.p2) { document.getElementById('nome2').value = data.p2.nome || ''; document.getElementById('codigo2').value = data.p2.codigo || ''; }
+    if (data.p3) { document.getElementById('nome3').value = data.p3.nome || ''; document.getElementById('codigo3').value = data.p3.codigo || ''; }
+    renderizarSalvos();
+  } catch(e) {}
+}
+
+function renderizarSalvos() {
+  const data = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+  const container = document.getElementById('projetosSalvos');
+  const projetos = [
+    { n: 1, nome: data.p1?.nome, codigo: data.p1?.codigo },
+    { n: 2, nome: data.p2?.nome, codigo: data.p2?.codigo },
+    { n: 3, nome: data.p3?.nome, codigo: data.p3?.codigo }
+  ].filter(p =&gt; p.codigo &amp;&amp; p.codigo.trim());
+
+  if (projetos.length === 0) {
+    container.innerHTML = '&lt;p style=&quot;color:var(--text2);font-size:12px;&quot;&gt;Nenhum projeto salvo ainda.&lt;/p&gt;';
+    return;
+  }
+
+  container.innerHTML = projetos.map(p =&gt; `
+    &lt;div class=&quot;project-card&quot;&gt;
+      &lt;h3&gt;🔷 ${escHtml(p.nome || 'Projeto ' + p.n)}&lt;/h3&gt;
+      &lt;div style=&quot;font-size:11px;color:var(--text2);&quot;&gt;${p.codigo.length} caracteres&lt;/div&gt;
+      &lt;div class=&quot;actions&quot;&gt;
+        &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(${p.n})&quot;&gt;👁️ Testar&lt;/button&gt;
+        &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;copiarCodigo(${p.n})&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;button class=&quot;btn btn-danger btn-sm&quot; onclick=&quot;limparProjeto(${p.n})&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `).join('');
+}
+
+// ========== AÇÕES ==========
+function testarProjeto(n) {
+  const codigo = document.getElementById('codigo' + n).value;
+  if (!codigo.trim()) { mostrarToast('❌ Projeto ' + n + ' está vazio!'); return; }
+  
+  const blob = new Blob([codigo], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  setTimeout(() =&gt; URL.revokeObjectURL(url), 5000);
+}
+
+function limparProjeto(n) {
+  if (!confirm('Limpar projeto ' + n + '?')) return;
+  document.getElementById('nome' + n).value = '';
+  document.getElementById('codigo' + n).value = '';
+  salvarProjetos();
+}
+
+function copiarCodigo(n) {
+  const codigo = document.getElementById('codigo' + n).value;
+  navigator.clipboard.writeText(codigo);
+  mostrarToast('📋 Código do projeto ' + n + ' copiado!');
+}
+
+function importarArquivo(n) {
+  document.getElementById('fileInput' + n).click();
+}
+
+[1,2,3].forEach(n =&gt; {
+  document.getElementById('fileInput' + n).addEventListener('change', (e) =&gt; {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) =&gt; {
+      document.getElementById('codigo' + n).value = ev.target.result;
+      if (!document.getElementById('nome' + n).value) {
+        document.getElementById('nome' + n).value = file.name.replace(/\.[^.]+$/, '');
+      }
+      salvarProjetos();
+      mostrarToast('📂 Projeto ' + n + ' importado!');
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+});
+
+// ========== GERAR HTML FINAL ==========
+function gerarHtmlFinal() {
+  const projetos = [
+    { nome: document.getElementById('nome1').value || 'Projeto 1', codigo: document.getElementById('codigo1').value },
+    { nome: document.getElementById('nome2').value || 'Projeto 2', codigo: document.getElementById('codigo2').value },
+    { nome: document.getElementById('nome3').value || 'Projeto 3', codigo: document.getElementById('codigo3').value }
+  ].filter(p =&gt; p.codigo.trim());
+
+  if (projetos.length === 0) {
+    mostrarToast('❌ Adicione pelo menos um projeto!');
+    return;
+  }
+
+  // Extrai só o conteúdo do &lt;body&gt; de cada projeto (se tiver)
+  const extrairConteudo = (html) =&gt; {
+    const match = html.match(/&lt;body[^&gt;]*&gt;([\s\S]*)&lt;\/body&gt;/i);
+    return match ? match[1] : html;
+  };
+
+  const htmlFinal = `&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Multi-Projetos PWA — Maikon Caldeira&lt;/title&gt;
+&lt;style&gt;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 10px 18px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+/* Isola estilos de cada projeto */
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  border: none;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- Navegação --&gt;
+&lt;div class=&quot;project-nav&quot;&gt;
+  &lt;span style=&quot;font-size:14px;font-weight:700;color:#a3a082;margin-right:10px;&quot;&gt;📂&lt;/span&gt;
+  ${projetos.map((p, i) =&gt; `&lt;button class=&quot;nav-btn ${i === 0 ? 'active' : ''}&quot; onclick=&quot;trocarProjeto(${i})&quot;&gt;${escHtml(p.nome)}&lt;/button&gt;`).join('')}
+&lt;/div&gt;
+
+&lt;!-- Projetos (cada um em iframe isolado) --&gt;
+${projetos.map((p, i) =&gt; `
+&lt;div class=&quot;project-container ${i === 0 ? 'active' : ''}&quot; id=&quot;projeto${i}&quot;&gt;
+  &lt;iframe srcdoc=&quot;${escHtml(p.codigo).replace(/&quot;/g, '&amp;quot;')}&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+`).join('')}
+
+&lt;script&gt;
+function trocarProjeto(index) {
+  // Esconde todos
+  document.querySelectorAll('.project-container').forEach(c =&gt; c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b =&gt; b.classList.remove('active'));
+  
+  // Mostra o selecionado
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  // Salva preferência
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+// Restaura último projeto aberto
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+&lt;\/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;`;
+
+  // Download
+  const blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'multiprojetos-pwa-' + new Date().toISOString().slice(0,10) + '.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('✅ HTML com ' + projetos.length + ' projetos gerado!');
+}
+
+// ========== BACKUP ==========
+function exportarBackup() {
+  const data = localStorage.getItem(LS_KEY);
+  if (!data) { mostrarToast('❌ Nada para exportar!'); return; }
+  
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'backup-projetos-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('💾 Backup exportado!');
+}
+
+function importarBackup() {
+  document.getElementById('backupInput').click();
+}
+
+document.getElementById('backupInput').addEventListener('change', (e) =&gt; {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) =&gt; {
+    try {
+      localStorage.setItem(LS_KEY, ev.target.result);
+      carregarProjetos();
+      mostrarToast('📂 Backup importado!');
+    } catch(err) {
+      mostrarToast('❌ Arquivo inválido!');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// ========== UTILS ==========
+function escHtml(s) { return String(s).replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;'); }
+
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.transform = 'translateY(0)';
+  t.style.opacity = '1';
+  setTimeout(() =&gt; { t.style.transform = 'translateY(100px)'; t.style.opacity = '0'; }, 2500);
+}
+
+// Auto-save
+['nome1','codigo1','nome2','codigo2','nome3','codigo3'].forEach(id =&gt; {
+  document.getElementById(id).addEventListener('input', () =&gt; {
+    clearTimeout(window.autoSaveTimer);
+    window.autoSaveTimer = setTimeout(salvarProjetos, 1000);
+  });
+});
+
+// Init
+carregarProjetos();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto1">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;🧩 Montador Multi-Projetos — PWA Jurídico&lt;/title&gt;
+&lt;style&gt;
+:root { --bg:#0a0a0f; --bg2:#12121a; --bg3:#1a1a2e; --text:#e2e8f0; --text2:#94a3b8; --accent:#a3a082; --accent2:#d4d0a8; --green:#4ade80; --blue:#60a5fa; --red:#f87171; --border:#2d2d3a; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+.header { background:var(--bg2); border-bottom:1px solid var(--border); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.header h1 { font-size:18px; color:var(--accent); }
+.header h1 small { display:block; font-size:10px; color:var(--text2); font-weight:400; letter-spacing:2px; }
+
+.container { max-width:1400px; margin:0 auto; padding:20px; }
+
+.workspace { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:20px; }
+.workspace h2 { font-size:14px; color:var(--accent); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+
+.btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border:none; border-radius:8px; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.15s; }
+.btn-sm { padding:5px 10px; font-size:10px; }
+.btn-primary { background:var(--accent); color:#000; }
+.btn-primary:hover { background:var(--accent2); }
+.btn-ghost { background:transparent; color:var(--text2); border:1px solid var(--border); }
+.btn-ghost:hover { background:var(--bg3); color:var(--text); }
+.btn-danger { background:rgba(239,68,68,0.2); color:var(--red); border:1px solid rgba(239,68,68,0.3); }
+
+.input { width:100%; padding:8px 12px; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:12px; margin-bottom:12px; }
+.input:focus { outline:none; border-color:var(--accent); }
+
+.code-area { width:100%; min-height:300px; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:12px; font-family:'Consolas','Fira Code',monospace; font-size:12px; color:var(--text); resize:vertical; line-height:1.6; }
+.code-area:focus { outline:none; border-color:var(--accent); }
+
+.project-card { background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:12px; }
+.project-card h3 { color:var(--accent2); font-size:14px; margin-bottom:8px; }
+.project-card .actions { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+
+.status { padding:10px 14px; border-radius:8px; font-size:11px; font-weight:600; margin-bottom:12px; }
+.status-info { background:rgba(96,165,250,0.1); color:var(--blue); border:1px solid rgba(96,165,250,0.2); }
+
+.toast { position:fixed; bottom:20px; right:20px; background:var(--bg2); border:1px solid var(--accent); border-radius:10px; padding:12px 20px; font-size:12px; font-weight:600; color:var(--accent2); z-index:2000; transform:translateY(100px); opacity:0; transition:all 0.3s; }
+
+/* Cores dos projetos */
+.p1 { color:#60a5fa; }
+.p2 { color:#f59e0b; }
+.p3 { color:#f87171; }
+.p4 { color:#4ade80; }
+.p5 { color:#c084fc; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;header&quot;&gt;
+  &lt;h1&gt;🧩 Montador Multi-Projetos &lt;small&gt;PWA JURÍDICO — MAIKON CALDEIRA&lt;/small&gt;&lt;/h1&gt;
+  &lt;div style=&quot;display:flex;gap:6px;flex-wrap:wrap;&quot;&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;gerarHtmlFinal()&quot;&gt;📦 Gerar HTML Final&lt;/button&gt;
+    &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;exportarBackup()&quot;&gt;💾 Backup&lt;/button&gt;
+    &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;importarBackup()&quot;&gt;📂 Importar&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+
+  &lt;div class=&quot;status status-info&quot;&gt;
+    💡 &lt;strong&gt;Como funciona:&lt;/strong&gt; Cole até 5 códigos HTML completos. O arquivo gerado terá uma barra de navegação no topo para alternar entre os projetos, cada um isolado e funcionando de forma independente.
+  &lt;/div&gt;
+
+  &lt;!-- PROJETO 1 --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;&lt;span class=&quot;p1&quot;&gt;🔷&lt;/span&gt; Projeto 1&lt;/h2&gt;
+    &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nome1&quot; placeholder=&quot;Nome do projeto (ex: Sistema de Processos)&quot; /&gt;
+    &lt;textarea class=&quot;code-area&quot; id=&quot;codigo1&quot; placeholder=&quot;Cole aqui o código HTML COMPLETO do projeto 1...&quot;&gt;&lt;/textarea&gt;
+    &lt;div style=&quot;display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(1)&quot;&gt;👁️ Testar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;limparProjeto(1)&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;importarArquivo(1)&quot;&gt;📂 Importar Arquivo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PROJETO 2 --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;&lt;span class=&quot;p2&quot;&gt;🔶&lt;/span&gt; Projeto 2&lt;/h2&gt;
+    &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nome2&quot; placeholder=&quot;Nome do projeto (ex: Gerador de Documentos)&quot; /&gt;
+    &lt;textarea class=&quot;code-area&quot; id=&quot;codigo2&quot; placeholder=&quot;Cole aqui o código HTML COMPLETO do projeto 2...&quot;&gt;&lt;/textarea&gt;
+    &lt;div style=&quot;display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(2)&quot;&gt;👁️ Testar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;limparProjeto(2)&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;importarArquivo(2)&quot;&gt;📂 Importar Arquivo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PROJETO 3 --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;&lt;span class=&quot;p3&quot;&gt;🔸&lt;/span&gt; Projeto 3&lt;/h2&gt;
+    &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nome3&quot; placeholder=&quot;Nome do projeto (ex: Consulta Jurisprudência)&quot; /&gt;
+    &lt;textarea class=&quot;code-area&quot; id=&quot;codigo3&quot; placeholder=&quot;Cole aqui o código HTML COMPLETO do projeto 3...&quot;&gt;&lt;/textarea&gt;
+    &lt;div style=&quot;display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(3)&quot;&gt;👁️ Testar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;limparProjeto(3)&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;importarArquivo(3)&quot;&gt;📂 Importar Arquivo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PROJETO 4 --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;&lt;span class=&quot;p4&quot;&gt;🟢&lt;/span&gt; Projeto 4&lt;/h2&gt;
+    &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nome4&quot; placeholder=&quot;Nome do projeto (ex: Calculadora Trabalhista)&quot; /&gt;
+    &lt;textarea class=&quot;code-area&quot; id=&quot;codigo4&quot; placeholder=&quot;Cole aqui o código HTML COMPLETO do projeto 4...&quot;&gt;&lt;/textarea&gt;
+    &lt;div style=&quot;display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(4)&quot;&gt;👁️ Testar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;limparProjeto(4)&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;importarArquivo(4)&quot;&gt;📂 Importar Arquivo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PROJETO 5 --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;&lt;span class=&quot;p5&quot;&gt;🟣&lt;/span&gt; Projeto 5&lt;/h2&gt;
+    &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nome5&quot; placeholder=&quot;Nome do projeto (ex: Assistente Jurídico)&quot; /&gt;
+    &lt;textarea class=&quot;code-area&quot; id=&quot;codigo5&quot; placeholder=&quot;Cole aqui o código HTML COMPLETO do projeto 5...&quot;&gt;&lt;/textarea&gt;
+    &lt;div style=&quot;display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(5)&quot;&gt;👁️ Testar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;limparProjeto(5)&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;importarArquivo(5)&quot;&gt;📂 Importar Arquivo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PROJETOS SALVOS --&gt;
+  &lt;div class=&quot;workspace&quot;&gt;
+    &lt;h2&gt;💾 Projetos Salvos&lt;/h2&gt;
+    &lt;div id=&quot;projetosSalvos&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Hidden inputs --&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInput1&quot; style=&quot;display:none&quot; accept=&quot;.html,.htm&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInput2&quot; style=&quot;display:none&quot; accept=&quot;.html,.htm&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInput3&quot; style=&quot;display:none&quot; accept=&quot;.html,.htm&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInput4&quot; style=&quot;display:none&quot; accept=&quot;.html,.htm&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInput5&quot; style=&quot;display:none&quot; accept=&quot;.html,.htm&quot; /&gt;
+&lt;input type=&quot;file&quot; id=&quot;backupInput&quot; style=&quot;display:none&quot; accept=&quot;.json&quot; /&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+const LS_KEY = 'multiprojetos-v2';
+const TOTAL = 5;
+
+// ========== STORAGE ==========
+function salvarProjetos() {
+  const data = {};
+  for (let n = 1; n &lt;= TOTAL; n++) {
+    data['p'+n] = {
+      nome: document.getElementById('nome'+n).value,
+      codigo: document.getElementById('codigo'+n).value
+    };
+  }
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+  mostrarToast('💾 Salvo automaticamente!');
+  renderizarSalvos();
+}
+
+function carregarProjetos() {
+  try {
+    const data = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+    for (let n = 1; n &lt;= TOTAL; n++) {
+      if (data['p'+n]) {
+        document.getElementById('nome'+n).value = data['p'+n].nome || '';
+        document.getElementById('codigo'+n).value = data['p'+n].codigo || '';
+      }
+    }
+    renderizarSalvos();
+  } catch(e) {}
+}
+
+function renderizarSalvos() {
+  const data = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+  const container = document.getElementById('projetosSalvos');
+  const emojis = ['🔷','🔶','🔸','🟢','🟣'];
+
+  const projetos = [];
+  for (let n = 1; n &lt;= TOTAL; n++) {
+    if (data['p'+n] &amp;&amp; data['p'+n].codigo &amp;&amp; data['p'+n].codigo.trim()) {
+      projetos.push({ n, nome: data['p'+n].nome, codigo: data['p'+n].codigo, emoji: emojis[n-1] });
+    }
+  }
+
+  if (projetos.length === 0) {
+    container.innerHTML = '&lt;p style=&quot;color:var(--text2);font-size:12px;&quot;&gt;Nenhum projeto salvo ainda.&lt;/p&gt;';
+    return;
+  }
+
+  container.innerHTML = projetos.map(p =&gt; `
+    &lt;div class=&quot;project-card&quot;&gt;
+      &lt;h3&gt;${p.emoji} ${escHtml(p.nome || 'Projeto ' + p.n)}&lt;/h3&gt;
+      &lt;div style=&quot;font-size:11px;color:var(--text2);&quot;&gt;${p.codigo.length.toLocaleString()} caracteres&lt;/div&gt;
+      &lt;div class=&quot;actions&quot;&gt;
+        &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(${p.n})&quot;&gt;👁️ Testar&lt;/button&gt;
+        &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;copiarCodigo(${p.n})&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;button class=&quot;btn btn-danger btn-sm&quot; onclick=&quot;limparProjeto(${p.n})&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `).join('');
+}
+
+// ========== AÇÕES ==========
+function testarProjeto(n) {
+  const codigo = document.getElementById('codigo'+n).value;
+  if (!codigo.trim()) { mostrarToast('❌ Projeto ' + n + ' está vazio!'); return; }
+  const blob = new Blob([codigo], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  setTimeout(() =&gt; URL.revokeObjectURL(url), 5000);
+}
+
+function limparProjeto(n) {
+  if (!confirm('Limpar projeto ' + n + '?')) return;
+  document.getElementById('nome'+n).value = '';
+  document.getElementById('codigo'+n).value = '';
+  salvarProjetos();
+}
+
+function copiarCodigo(n) {
+  navigator.clipboard.writeText(document.getElementById('codigo'+n).value);
+  mostrarToast('📋 Código copiado!');
+}
+
+function importarArquivo(n) {
+  document.getElementById('fileInput'+n).click();
+}
+
+for (let n = 1; n &lt;= TOTAL; n++) {
+  (function(num) {
+    document.getElementById('fileInput'+num).addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        document.getElementById('codigo'+num).value = ev.target.result;
+        if (!document.getElementById('nome'+num).value) {
+          document.getElementById('nome'+num).value = file.name.replace(/\.[^.]+$/, '');
+        }
+        salvarProjetos();
+        mostrarToast('📂 Projeto ' + num + ' importado!');
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+  })(n);
+}
+
+// ========== GERAR HTML FINAL (NAVEGAÇÃO MELHORADA) ==========
+function gerarHtmlFinal() {
+  const emojis = ['🔷','🔶','🔸','🟢','🟣'];
+  const projetos = [];
+  for (let n = 1; n &lt;= TOTAL; n++) {
+    const nome = document.getElementById('nome'+n).value || 'Projeto ' + n;
+    const codigo = document.getElementById('codigo'+n).value;
+    if (codigo.trim()) projetos.push({ nome, codigo, emoji: emojis[n-1] });
+  }
+
+  if (projetos.length === 0) {
+    mostrarToast('❌ Adicione pelo menos um projeto!');
+    return;
+  }
+
+  // Calcula altura da nav baseado na quantidade de projetos
+  const navAltura = projetos.length &gt; 3 ? '110px' : '65px';
+
+  const botoesNav = projetos.map((p, i) =&gt;
+    `&lt;button class=&quot;nav-btn ${i===0?'active':''}&quot; onclick=&quot;trocar(${i})&quot;&gt;${p.emoji} ${p.nome}&lt;/button&gt;`
+  ).join('\n  ');
+
+  const iframes = projetos.map((p, i) =&gt; {
+    const escapado = p.codigo.replace(/&amp;/g,'&amp;amp;').replace(/&quot;/g,'&amp;quot;');
+    return `&lt;div class=&quot;projeto ${i===0?'ativo':''}&quot; id=&quot;p${i}&quot;&gt;&lt;iframe srcdoc=&quot;${escapado}&quot; sandbox=&quot;allow-scripts allow-same-origin allow-forms allow-modals allow-popups&quot;&gt;&lt;/iframe&gt;&lt;/div&gt;`;
+  }).join('\n');
+
+  const htmlFinal = `&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Painel Maikon Caldeira — Advocacia Digital&lt;/title&gt;
+&lt;style&gt;
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0a0a0f; font-family:system-ui,sans-serif; }
+
+.nav {
+  position:fixed;
+  top:0; left:0; right:0;
+  background:#12121a;
+  border-bottom:2px solid #a3a082;
+  padding:10px 16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  z-index:9999;
+  box-shadow:0 3px 15px rgba(0,0,0,0.6);
+}
+
+.nav-titulo {
+  font-size:12px;
+  font-weight:700;
+  color:#a3a082;
+  letter-spacing:2px;
+  margin-right:8px;
+  white-space:nowrap;
+}
+
+.nav-btn {
+  padding:8px 16px;
+  background:#1a1a2e;
+  border:1px solid #2d2d3a;
+  border-radius:8px;
+  color:#94a3b8;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+
+.nav-btn:hover { background:#a3a082; color:#000; border-color:#a3a082; }
+.nav-btn.active { background:#a3a082; color:#000; border-color:#d4d0a8; }
+
+.projeto { display:none; padding-top:${navAltura}; min-height:100vh; }
+.projeto.ativo { display:block; }
+
+.projeto iframe {
+  width:100%;
+  min-height:calc(100vh - ${navAltura});
+  border:none;
+  display:block;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;nav&quot;&gt;
+  &lt;span class=&quot;nav-titulo&quot;&gt;⚖️ MC&lt;/span&gt;
+  ${botoesNav}
+&lt;/div&gt;
+
+${iframes}
+
+&lt;script&gt;
+function trocar(i) {
+  document.querySelectorAll('.projeto').forEach(function(el){ el.classList.remove('ativo'); });
+  document.querySelectorAll('.nav-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('p'+i).classList.add('ativo');
+  document.querySelectorAll('.nav-btn')[i].classList.add('active');
+  localStorage.setItem('mc-ultimo', i);
+}
+window.onload = function() {
+  var u = localStorage.getItem('mc-ultimo');
+  if (u !== null) trocar(parseInt(u));
+};
+&lt;\/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;`;
+
+  const blob = new Blob([htmlFinal], { type:'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'painel-maikon-' + new Date().toISOString().slice(0,10) + '.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('✅ HTML com ' + projetos.length + ' projeto(s) gerado!');
+}
+
+// ========== BACKUP ==========
+function exportarBackup() {
+  const data = localStorage.getItem(LS_KEY);
+  if (!data) { mostrarToast('❌ Nada para exportar!'); return; }
+  const blob = new Blob([data], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'backup-projetos-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('💾 Backup exportado!');
+}
+
+function importarBackup() {
+  document.getElementById('backupInput').click();
+}
+
+document.getElementById('backupInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      localStorage.setItem(LS_KEY, ev.target.result);
+      carregarProjetos();
+      mostrarToast('📂 Backup importado com sucesso!');
+    } catch(err) {
+      mostrarToast('❌ Arquivo inválido!');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// ========== UTILS ==========
+function escHtml(s) {
+  return String(s).replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;');
+}
+
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.transform = 'translateY(0)';
+  t.style.opacity = '1';
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(function() {
+    t.style.transform = 'translateY(100px)';
+    t.style.opacity = '0';
+  }, 2500);
+}
+
+// Auto-save com debounce
+for (let n = 1; n &lt;= TOTAL; n++) {
+  ['nome'+n, 'codigo'+n].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', function() {
+      clearTimeout(window.autoSaveTimer);
+      window.autoSaveTimer = setTimeout(salvarProjetos, 1200);
+    });
+  });
+}
+
+carregarProjetos();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto2">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;🧩 Montador Multi-Projetos — PWA Jurídico&lt;/title&gt;
+&lt;style&gt;
+:root { --bg:#0a0a0f; --bg2:#12121a; --bg3:#1a1a2e; --text:#e2e8f0; --text2:#94a3b8; --accent:#a3a082; --accent2:#d4d0a8; --green:#4ade80; --blue:#60a5fa; --red:#f87171; --border:#2d2d3a; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+.header { background:var(--bg2); border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.header h1 { font-size:14px; color:var(--accent); margin:0; }
+.header-buttons { display:flex; gap:4px; flex-wrap:wrap; }
+
+.container { max-width:1400px; margin:0 auto; padding:12px; display:flex; flex-direction:column; height:calc(100vh - 60px); }
+
+.tabs { display:flex; gap:4px; margin-bottom:12px; flex-wrap:wrap; background:var(--bg2); padding:6px; border-radius:8px; border:1px solid var(--border); }
+.tab-btn { padding:8px 14px; border:none; background:transparent; color:var(--text2); border-radius:6px; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.tab-btn.active { background:var(--accent); color:#000; }
+.tab-btn:hover:not(.active) { background:var(--bg3); }
+
+.tab-content { display:none; flex:1; overflow-y:auto; }
+.tab-content.active { display:flex; flex-direction:column; }
+
+.editor-container { display:flex; flex-direction:column; gap:12px; overflow-y:auto; }
+
+.workspace { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:12px; display:flex; flex-direction:column; }
+.workspace h2 { font-size:12px; color:var(--accent); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+
+.projeto-header { display:flex; gap:8px; align-items:center; margin-bottom:8px; flex-wrap:wrap; }
+.projeto-header input { flex:1; min-width:150px; }
+.projeto-header button { flex-shrink:0; }
+
+.btn { display:inline-flex; align-items:center; gap:4px; padding:6px 10px; border:none; border-radius:6px; font-size:10px; font-weight:600; cursor:pointer; transition:all 0.15s; white-space:nowrap; }
+.btn-primary { background:var(--accent); color:#000; }
+.btn-primary:hover { background:var(--accent2); }
+.btn-ghost { background:transparent; color:var(--text2); border:1px solid var(--border); }
+.btn-ghost:hover { background:var(--bg3); }
+.btn-danger { background:rgba(239,68,68,0.2); color:var(--red); border:1px solid rgba(239,68,68,0.3); }
+.btn-sm { padding:4px 8px; font-size:9px; }
+
+.input { width:100%; padding:8px 12px; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:11px; }
+.input:focus { outline:none; border-color:var(--accent); }
+
+.code-area { width:100%; flex:1; min-height:150px; background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:10px; font-family:'Consolas','Fira Code',monospace; font-size:11px; color:var(--text); resize:none; line-height:1.5; }
+.code-area:focus { outline:none; border-color:var(--accent); }
+
+.actions { display:flex; gap:6px; flex-wrap:wrap; }
+
+.project-card { background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:10px; margin-bottom:8px; }
+.project-card h3 { color:var(--accent2); font-size:11px; margin-bottom:4px; }
+.project-card .info { font-size:10px; color:var(--text2); margin-bottom:6px; }
+
+.status { padding:8px 10px; border-radius:6px; font-size:10px; font-weight:600; margin-bottom:10px; background:rgba(96,165,250,0.1); color:var(--blue); border:1px solid rgba(96,165,250,0.2); }
+
+.toast { position:fixed; bottom:20px; right:20px; background:var(--bg2); border:1px solid var(--accent); border-radius:8px; padding:10px 16px; font-size:11px; font-weight:600; color:var(--accent2); z-index:2000; transform:translateY(100px); opacity:0; transition:all 0.3s; }
+
+.modal { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); z-index:3000; align-items:center; justify-content:center; padding:10px; }
+.modal.active { display:flex; }
+.modal-content { background:var(--bg2); border:1px solid var(--accent); border-radius:8px; padding:16px; max-width:400px; width:100%; }
+.modal-content h3 { color:var(--accent); margin-bottom:12px; font-size:13px; }
+.modal-buttons { display:flex; gap:6px; justify-content:flex-end; }
+
+.viewer-modal { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.9); z-index:3001; align-items:center; justify-content:center; padding:10px; }
+.viewer-modal.active { display:flex; }
+.viewer-box { background:var(--bg2); border:1px solid var(--accent); border-radius:8px; width:100%; height:90vh; display:flex; flex-direction:column; }
+.viewer-header { background:var(--bg3); padding:10px 16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+.viewer-content { flex:1; overflow:auto; }
+.viewer-content iframe { width:100%; height:100%; border:none; }
+
+.salvos-container { overflow-y:auto; }
+
+@media (max-width:768px) {
+  .header { padding:8px 12px; }
+  .header h1 { font-size:12px; }
+  .projeto-header { flex-direction:column; }
+  .projeto-header input { min-width:auto; }
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;header&quot;&gt;
+  &lt;h1&gt;🧩 Montador Multi-Projetos&lt;/h1&gt;
+  &lt;div class=&quot;header-buttons&quot;&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;abrirModalNomeDownload()&quot;&gt;📦 Gerar&lt;/button&gt;
+    &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;exportarBackup()&quot;&gt;💾 Backup&lt;/button&gt;
+    &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;importarBackup()&quot;&gt;📂 Importar&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+
+  &lt;div class=&quot;status&quot;&gt;
+    💡 Adicione quantos projetos quiser. O nome é opcional (deixe em branco para usar o &amp;lt;title&amp;gt;)
+  &lt;/div&gt;
+
+  &lt;!-- ABAS PARA NAVEGAÇÃO --&gt;
+  &lt;div class=&quot;tabs&quot;&gt;
+    &lt;button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('editor')&quot;&gt;✏️ Editor&lt;/button&gt;
+    &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('salvos')&quot;&gt;💾 Salvos&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ABA: EDITOR --&gt;
+  &lt;div class=&quot;tab-content active&quot; id=&quot;aba-editor&quot;&gt;
+    &lt;div class=&quot;editor-container&quot; id=&quot;editorContainer&quot;&gt;&lt;/div&gt;
+    &lt;div style=&quot;padding:12px; background:var(--bg2); border:1px solid var(--border); border-radius:8px; text-align:center;&quot;&gt;
+      &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;adicionarProjeto()&quot;&gt;➕ Adicionar Novo Projeto&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ABA: SALVOS --&gt;
+  &lt;div class=&quot;tab-content&quot; id=&quot;aba-salvos&quot;&gt;
+    &lt;div class=&quot;salvos-container&quot; id=&quot;projetosSalvos&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Hidden inputs --&gt;
+&lt;div id=&quot;fileInputsContainer&quot; style=&quot;display:none;&quot;&gt;&lt;/div&gt;
+&lt;input type=&quot;file&quot; id=&quot;backupInput&quot; style=&quot;display:none&quot; accept=&quot;.json&quot; /&gt;
+
+&lt;!-- MODAL PARA NOMEAR DOWNLOAD --&gt;
+&lt;div class=&quot;modal&quot; id=&quot;modalDownload&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;h3&gt;📦 Nome do Arquivo&lt;/h3&gt;
+    &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nomeDownload&quot; placeholder=&quot;Ex: Meu-Sistema&quot; /&gt;
+    &lt;p style=&quot;font-size:9px;color:var(--text2);margin-bottom:12px;&quot;&gt;A extensão .html será adicionada&lt;/p&gt;
+    &lt;div class=&quot;modal-buttons&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;fecharModal()&quot;&gt;❌ Cancelar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;gerarHtmlFinal()&quot;&gt;✅ Gerar&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- MODAL TESTADOR --&gt;
+&lt;div class=&quot;viewer-modal&quot; id=&quot;viewerModal&quot;&gt;
+  &lt;div class=&quot;viewer-box&quot;&gt;
+    &lt;div class=&quot;viewer-header&quot;&gt;
+      &lt;h3 id=&quot;viewerTitle&quot; style=&quot;margin:0; font-size:13px;&quot;&gt;Testador&lt;/h3&gt;
+      &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;fecharTestador()&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;viewer-content&quot;&gt;
+      &lt;iframe id=&quot;viewerIframe&quot;&gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+const LS_KEY = 'multiprojetos-v4';
+
+let projetos = [];
+let proximoId = 1;
+
+// ========== ABAS ==========
+function mudarAba(aba) {
+  document.querySelectorAll('.tab-content').forEach(el =&gt; el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el =&gt; el.classList.remove('active'));
+  
+  document.getElementById('aba-' + aba).classList.add('active');
+  event.target.classList.add('active');
+  
+  if (aba === 'salvos') {
+    renderizarSalvos();
+  }
+}
+
+// ========== STORAGE ==========
+function salvarProjetos() {
+  localStorage.setItem(LS_KEY, JSON.stringify(projetos));
+  renderizarSalvos();
+}
+
+function carregarProjetos() {
+  try {
+    const data = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+    projetos = data;
+    proximoId = Math.max(...projetos.map(p =&gt; p.id), 0) + 1;
+    renderizarEditor();
+  } catch(e) { 
+    console.error(e);
+    projetos = [];
+    proximoId = 1;
+  }
+}
+
+// ========== RENDERIZAR EDITOR ==========
+function renderizarEditor() {
+  const container = document.getElementById('editorContainer');
+  
+  if (projetos.length === 0) {
+    container.innerHTML = '&lt;p style=&quot;color:var(--text2); padding:20px; text-align:center;&quot;&gt;Nenhum projeto. Clique em &quot;Adicionar Novo Projeto&quot;&lt;/p&gt;';
+    return;
+  }
+
+  container.innerHTML = projetos.map((p, idx) =&gt; `
+    &lt;div class=&quot;workspace&quot; id=&quot;projeto-${p.id}&quot;&gt;
+      &lt;div class=&quot;projeto-header&quot;&gt;
+        &lt;input type=&quot;text&quot; class=&quot;input&quot; id=&quot;nome-${p.id}&quot; placeholder=&quot;Nome (opcional - deixe em branco para usar &amp;lt;title&amp;gt;)&quot; value=&quot;${escHtml(p.nome)}&quot; /&gt;
+        &lt;button class=&quot;btn btn-danger btn-sm&quot; onclick=&quot;removerProjeto(${p.id})&quot;&gt;🗑️ Remover&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;textarea class=&quot;code-area&quot; id=&quot;codigo-${p.id}&quot; placeholder=&quot;Cole o código HTML completo aqui...&quot;&gt;${escHtml(p.codigo)}&lt;/textarea&gt;
+      &lt;div class=&quot;actions&quot; style=&quot;margin-top:8px;&quot;&gt;
+        &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(${p.id})&quot;&gt;👁️ Testar&lt;/button&gt;
+        &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;copiarCodigo(${p.id})&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;importarArquivo(${p.id})&quot;&gt;📂 Importar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `).join('');
+
+  // Event listeners
+  projetos.forEach(p =&gt; {
+    const nomeEl = document.getElementById('nome-' + p.id);
+    const codigoEl = document.getElementById('codigo-' + p.id);
+    
+    if (nomeEl) {
+      nomeEl.addEventListener('input', () =&gt; {
+        const proj = projetos.find(x =&gt; x.id === p.id);
+        if (proj) proj.nome = nomeEl.value;
+        clearTimeout(window.autoSaveTimer);
+        window.autoSaveTimer = setTimeout(salvarProjetos, 1000);
+      });
+    }
+    
+    if (codigoEl) {
+      codigoEl.addEventListener('input', () =&gt; {
+        const proj = projetos.find(x =&gt; x.id === p.id);
+        if (proj) proj.codigo = codigoEl.value;
+        clearTimeout(window.autoSaveTimer);
+        window.autoSaveTimer = setTimeout(salvarProjetos, 1000);
+      });
+    }
+  });
+}
+
+// ========== ADICIONAR PROJETO ==========
+function adicionarProjeto() {
+  projetos.push({
+    id: proximoId++,
+    nome: '',
+    codigo: ''
+  });
+  salvarProjetos();
+  renderizarEditor();
+  
+  // Scroll para o novo projeto
+  setTimeout(() =&gt; {
+    const container = document.getElementById('editorContainer');
+    container.scrollTop = container.scrollHeight;
+  }, 100);
+}
+
+// ========== REMOVER PROJETO ==========
+function removerProjeto(id) {
+  if (!confirm('Remover este projeto?')) return;
+  projetos = projetos.filter(p =&gt; p.id !== id);
+  salvarProjetos();
+  renderizarEditor();
+}
+
+// ========== EXTRAIR NOME DO HTML ==========
+function extrairNomeDoHtml(html) {
+  const match = html.match(/&lt;title[^&gt;]*&gt;([^&lt;]+)&lt;\/title&gt;/i);
+  return match ? match[1].trim() : 'Sem título';
+}
+
+// ========== RENDERIZAR SALVOS ==========
+function renderizarSalvos() {
+  const container = document.getElementById('projetosSalvos');
+  const projetosSalvos = projetos.filter(p =&gt; p.codigo.trim());
+
+  if (projetosSalvos.length === 0) {
+    container.innerHTML = '&lt;p style=&quot;color:var(--text2); padding:20px; text-align:center;&quot;&gt;Nenhum projeto com código.&lt;/p&gt;';
+    return;
+  }
+
+  container.innerHTML = projetosSalvos.map(p =&gt; {
+    const nomeExibicao = p.nome || extrairNomeDoHtml(p.codigo);
+    return `
+      &lt;div class=&quot;project-card&quot;&gt;
+        &lt;h3&gt;🔷 ${escHtml(nomeExibicao)}&lt;/h3&gt;
+        &lt;div class=&quot;info&quot;&gt;${p.codigo.length} caracteres&lt;/div&gt;
+        &lt;div class=&quot;actions&quot;&gt;
+          &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;testarProjeto(${p.id})&quot;&gt;👁️ Testar&lt;/button&gt;
+          &lt;button class=&quot;btn btn-ghost btn-sm&quot; onclick=&quot;copiarCodigo(${p.id})&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    `;
+  }).join('');
+}
+
+// ========== AÇÕES ==========
+function testarProjeto(id) {
+  const proj = projetos.find(p =&gt; p.id === id);
+  if (!proj || !proj.codigo.trim()) { 
+    mostrarToast('❌ Projeto vazio!'); 
+    return; 
+  }
+  
+  document.getElementById('viewerIframe').srcdoc = proj.codigo;
+  const nomeExibicao = proj.nome || extrairNomeDoHtml(proj.codigo);
+  document.getElementById('viewerTitle').textContent = '👁️ ' + nomeExibicao;
+  document.getElementById('viewerModal').classList.add('active');
+}
+
+function fecharTestador() {
+  document.getElementById('viewerModal').classList.remove('active');
+  document.getElementById('viewerIframe').srcdoc = '';
+}
+
+function copiarCodigo(id) {
+  const proj = projetos.find(p =&gt; p.id === id);
+  if (!proj) return;
+  navigator.clipboard.writeText(proj.codigo);
+  mostrarToast('📋 Copiado!');
+}
+
+function importarArquivo(id) {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = '.html,.htm';
+  
+  fileInput.addEventListener('change', (e) =&gt; {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) =&gt; {
+      const proj = projetos.find(p =&gt; p.id === id);
+      if (proj) {
+        proj.codigo = ev.target.result;
+        // Se o nome estiver vazio, usar o nome do arquivo
+        if (!proj.nome) {
+          proj.nome = file.name.replace(/\.[^.]+$/, '');
+        }
+        salvarProjetos();
+        renderizarEditor();
+        mostrarToast('📂 Projeto importado!');
+      }
+    };
+    reader.readAsText(file);
+  });
+  
+  fileInput.click();
+}
+
+// ========== MODAL DOWNLOAD ==========
+function abrirModalNomeDownload() {
+  const projetosSalvos = projetos.filter(p =&gt; p.codigo.trim());
+  
+  if (projetosSalvos.length === 0) {
+    mostrarToast('❌ Adicione um projeto com código!');
+    return;
+  }
+  
+  document.getElementById('nomeDownload').value = 'multiprojetos-' + new Date().toISOString().slice(0,10);
+  document.getElementById('modalDownload').classList.add('active');
+}
+
+function fecharModal() {
+  document.getElementById('modalDownload').classList.remove('active');
+}
+
+// ========== GERAR HTML FINAL ==========
+function gerarHtmlFinal() {
+  const nomeArquivo = document.getElementById('nomeDownload').value.trim() || 'multiprojetos';
+  
+  const projetosFinal = projetos
+    .filter(p =&gt; p.codigo.trim())
+    .map(p =&gt; ({
+      nome: p.nome || extrairNomeDoHtml(p.codigo),
+      codigo: p.codigo
+    }));
+
+  if (projetosFinal.length === 0) {
+    mostrarToast('❌ Adicione um projeto com código!');
+    return;
+  }
+
+  const htmlFinal = `&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Multi-Projetos PWA — Maikon Caldeira&lt;/title&gt;
+&lt;style&gt;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 8px 16px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+.nav-btn {
+  padding: 8px 14px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 60px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  border: none;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- Navegação --&gt;
+&lt;div class=&quot;project-nav&quot;&gt;
+  &lt;span style=&quot;font-size:12px;font-weight:700;color:#a3a082;margin-right:6px;&quot;&gt;📂&lt;/span&gt;
+  ${projetosFinal.map((p, i) =&gt; `&lt;button class=&quot;nav-btn ${i === 0 ? 'active' : ''}&quot; onclick=&quot;trocarProjeto(${i})&quot;&gt;${escHtml(p.nome)}&lt;/button&gt;`).join('')}
+&lt;/div&gt;
+
+&lt;!-- Projetos (cada um em iframe isolado) --&gt;
+${projetosFinal.map((p, i) =&gt; `
+&lt;div class=&quot;project-container ${i === 0 ? 'active' : ''}&quot; id=&quot;projeto${i}&quot;&gt;
+  &lt;iframe srcdoc=&quot;${escHtml(p.codigo).replace(/&quot;/g, '&amp;quot;')}&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+`).join('')}
+
+&lt;script&gt;
+function trocarProjeto(index) {
+  document.querySelectorAll('.project-container').forEach(c =&gt; c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b =&gt; b.classList.remove('active'));
+  
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+
+function escHtml(s) { return String(s).replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;'); }
+&lt;\/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;`;
+
+  // Download
+  const blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = nomeArquivo + '.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  
+  fecharModal();
+  mostrarToast('✅ HTML com ' + projetosFinal.length + ' projetos gerado!');
+}
+
+// ========== BACKUP ==========
+function exportarBackup() {
+  if (projetos.length === 0) { 
+    mostrarToast('❌ Nada para exportar!'); 
+    return; 
+  }
+  
+  const blob = new Blob([JSON.stringify(projetos, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'backup-projetos-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('💾 Backup exportado!');
+}
+
+function importarBackup() {
+  document.getElementById('backupInput').click();
+}
+
+document.getElementById('backupInput').addEventListener('change', (e) =&gt; {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) =&gt; {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (Array.isArray(data)) {
+        projetos = data;
+        proximoId = Math.max(...projetos.map(p =&gt; p.id), 0) + 1;
+        salvarProjetos();
+        renderizarEditor();
+        mostrarToast('✅ Backup importado!');
+      } else {
+        mostrarToast('❌ Arquivo inválido!');
+      }
+    } catch(err) {
+      mostrarToast('❌ Erro ao importar!');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// ========== UTILS ==========
+function escHtml(s) { return String(s).replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;').replace(/&quot;/g,'&amp;quot;'); }
+
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.transform = 'translateY(0)';
+  t.style.opacity = '1';
+  setTimeout(() =&gt; { t.style.transform = 'translateY(100px)'; t.style.opacity = '0'; }, 2500);
+}
+
+// Init
+carregarProjetos();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto3">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Playground IA — Saulo&lt;/title&gt;
+&lt;style&gt;
+:root {
+  --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+  --text:#e2e8f0;--text2:#94a3b8;
+  --accent:#a3a082;--accent2:#d4d0a8;
+  --blue:#3b82f6;--green:#4ade80;--red:#f87171;--yellow:#fbbf24;
+  --border:#334155;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:5px 10px;background:var(--bg2);border-bottom:1px solid var(--border);flex-wrap:wrap;gap:4px;}
+.header-left{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.header-right{display:flex;align-items:center;gap:3px;flex-wrap:wrap;}
+.logo{font-weight:800;font-size:13px;color:var(--accent);white-space:nowrap;}
+.logo small{font-size:9px;color:var(--text2);font-weight:400;display:block;}
+.title-input{background:transparent;border:1px solid transparent;color:var(--text);font-size:12px;padding:3px 7px;border-radius:6px;width:130px;}
+.title-input:focus{outline:none;border-color:var(--accent);}
+.btn{display:inline-flex;align-items:center;gap:3px;padding:4px 9px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.btn-icon{padding:5px 7px;border-radius:6px;background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:12px;transition:all .15s;}
+.btn-icon:hover{background:var(--bg3);color:var(--text);}
+.btn-primary{background:var(--accent);color:#000;}
+.btn-primary:hover{background:var(--accent2);}
+.btn-ghost{background:transparent;color:var(--text2);}
+.btn-ghost:hover{background:var(--bg3);color:var(--text);}
+.btn-mode{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;}
+.btn-mode.active{background:var(--accent);color:#000;border-color:var(--accent);}
+.mode-group{display:flex;gap:2px;background:var(--bg);padding:2px;border-radius:7px;border:1px solid var(--border);}
+
+/* TABS */
+.tabs-bar{display:flex;align-items:center;justify-content:space-between;padding:3px 8px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.tabs{display:flex;gap:2px;}
+.tab{padding:4px 10px;font-size:11px;font-weight:600;border:none;background:transparent;color:var(--text2);cursor:pointer;border-radius:6px;transition:all .15s;}
+.tab.active{background:var(--bg3);color:var(--text);}
+.tab-info{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:6px;}
+.badge{font-size:9px;padding:2px 5px;border-radius:4px;font-weight:700;text-transform:uppercase;}
+.badge-html{background:rgba(239,68,68,.15);color:var(--red);}
+.badge-react{background:rgba(59,130,246,.15);color:var(--blue);}
+.badge-python{background:rgba(251,191,36,.15);color:var(--yellow);}
+
+/* MAIN */
+.main{display:flex;flex:1;overflow:hidden;}
+
+/* EDITOR */
+.editor-panel{display:flex;flex-direction:column;width:38%;border-right:1px solid var(--border);transition:width .3s;min-width:0;}
+.editor-panel.hidden{display:none;}
+.editor-panel.full{width:100%;}
+.editor-wrap{flex:1;position:relative;overflow:hidden;display:flex;flex-direction:column;}
+.editor-container{flex:1;position:relative;overflow:hidden;}
+.editor-textarea{width:100%;height:100%;resize:none;background:var(--bg);color:var(--text);font-family:'Cascadia Code','Fira Code','Consolas',monospace;font-size:12px;line-height:1.6;padding:10px 10px 10px 44px;border:none;outline:none;tab-size:2;position:absolute;inset:0;}
+.line-numbers{position:absolute;left:0;top:0;bottom:0;width:36px;background:rgba(30,41,59,.6);padding:10px 4px 10px 0;text-align:right;font-family:'Consolas',monospace;font-size:11px;line-height:1.6;color:var(--text2);opacity:.6;overflow:hidden;pointer-events:none;user-select:none;z-index:1;}
+
+/* QUICK EDIT PANEL */
+.quick-edit-bar{display:flex;gap:3px;padding:5px 8px;background:var(--bg3);border-bottom:1px solid var(--border);flex-shrink:0;align-items:center;font-size:11px;}
+.quick-edit-input{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:5px;font-size:11px;flex:1;outline:none;font-family:monospace;}
+.quick-edit-input:focus{border-color:var(--accent);}
+.quick-edit-actions{display:flex;gap:2px;}
+
+/* PREVIEW */
+.preview-panel{display:flex;flex-direction:column;flex:1;min-width:0;border-right:1px solid var(--border);transition:all .3s;}
+.preview-panel.minimized{flex:0 0 60px;}
+.preview-panel.minimized .preview-frame{display:none;}
+.preview-panel.minimized .preview-header{cursor:pointer;}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.preview-frame{flex:1;border:none;background:#fff;}
+.preview-header{display:flex;align-items:center;gap:6px;padding:5px 10px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;justify-content:space-between;}
+.preview-header-left{display:flex;align-items:center;gap:6px;}
+.preview-header-right{display:flex;gap:3px;}
+
+/* CHAT IA */
+.chat-panel{display:flex;flex-direction:column;width:300px;flex-shrink:0;}
+.chat-panel.hidden{display:none;}
+.chat-panel.wide{width:420px;}
+.chat-header{display:flex;align-items:center;justify-content:space-between;padding:5px 10px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
+.chat-header-left{display:flex;align-items:center;gap:6px;}
+.chat-messages{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:7px;}
+.msg{padding:8px 10px;border-radius:8px;font-size:11.5px;line-height:1.5;word-break:break-word;}
+.msg-user{background:#1e3a8a;color:#fff;align-self:flex-end;max-width:92%;}
+.msg-ai{background:#111827;border:1px solid var(--bg3);color:var(--text);align-self:flex-start;max-width:98%;white-space:pre-wrap;}
+.msg-sys{background:var(--bg2);border:1px solid var(--border);color:#4b5563;font-size:10px;align-self:center;text-align:center;padding:4px 8px;border-radius:5px;}
+.apply-btn{display:block;width:100%;margin-top:7px;padding:6px;background:#15803d;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:11px;font-weight:700;}
+.apply-btn:hover{background:#16a34a;}
+.chat-bottom{padding:7px;background:var(--bg2);border-top:1px solid var(--border);display:flex;gap:5px;flex-shrink:0;}
+#chatInput{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:6px 8px;color:var(--text);font-size:11px;outline:none;resize:none;font-family:inherit;}
+#chatInput:focus{border-color:#2563eb;}
+#chatSend{background:#1d4ed8;color:#fff;border:none;border-radius:7px;padding:6px 10px;cursor:pointer;font-size:15px;}
+#chatSend:hover{background:#2563eb;}
+#chatSend:disabled{background:var(--bg3);cursor:not-allowed;}
+
+/* MODAIS */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
+.overlay.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;width:90%;max-width:460px;max-height:82vh;overflow-y:auto;}
+.modal h3{font-size:15px;margin-bottom:12px;color:var(--accent);}
+.minput{width:100%;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:12px;margin-bottom:10px;outline:none;font-family:inherit;}
+.minput:focus{border-color:var(--accent);}
+
+/* SALVOS */
+.sitem{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;background:var(--bg);border:1px solid var(--border);border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;}
+.sitem:hover{border-color:var(--accent);background:var(--bg3);}
+.sitem-name{font-size:12px;font-weight:600;}
+.sitem-meta{font-size:10px;color:var(--text2);}
+.sitem-actions{display:flex;gap:2px;flex-shrink:0;}
+
+/* FULLSCREEN EDITOR */
+#fsModal{display:none;position:fixed;inset:0;background:var(--bg);z-index:999;flex-direction:column;}
+#fsModal.open{display:flex;}
+#fsBar{background:var(--bg2);padding:7px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+#fsEditor{flex:1;width:100%;background:var(--bg);color:var(--text);border:none;outline:none;padding:18px;font-family:'Cascadia Code','Consolas',monospace;font-size:14px;line-height:1.7;resize:none;}
+
+/* LOADING */
+.dots{display:flex;gap:4px;padding:8px 10px;}
+.dot{width:7px;height:7px;background:#7c3aed;border-radius:50%;animation:blink .8s infinite;}
+.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* TOAST */
+.toast{position:fixed;bottom:16px;right:16px;background:var(--bg2);border:1px solid var(--accent);border-radius:9px;padding:10px 16px;font-size:12px;font-weight:600;color:var(--accent2);z-index:2000;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* STATUS */
+#saveStatus{font-size:10px;color:#4ade80;}
+
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
+
+@media(max-width:768px){
+  .main{flex-direction:column;}
+  .editor-panel{width:100%!important;height:40%;border-right:none;border-bottom:1px solid var(--border);}
+  .preview-panel{height:35%;}
+  .chat-panel{width:100%;height:25%;}
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- HEADER --&gt;
+&lt;header class=&quot;header&quot;&gt;
+  &lt;div class=&quot;header-left&quot;&gt;
+    &lt;div class=&quot;logo&quot;&gt;⚡ Playground IA&lt;small&gt;Saulo — Advogado&lt;/small&gt;&lt;/div&gt;
+    &lt;div class=&quot;mode-group&quot;&gt;
+      &lt;button class=&quot;btn-mode active&quot; id=&quot;modeHtml&quot; onclick=&quot;switchMode('html')&quot;&gt;🌐 HTML&lt;/button&gt;
+      &lt;button class=&quot;btn-mode&quot; id=&quot;modeReact&quot; onclick=&quot;switchMode('react')&quot;&gt;⚛️ React&lt;/button&gt;
+      &lt;button class=&quot;btn-mode&quot; id=&quot;modePython&quot; onclick=&quot;switchMode('python')&quot;&gt;🐍 Python&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;text&quot; class=&quot;title-input&quot; id=&quot;projectTitle&quot; value=&quot;Sem titulo&quot; placeholder=&quot;Nome...&quot;/&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;header-right&quot;&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;importFile()&quot; title=&quot;Abrir arquivo&quot;&gt;📂&lt;/button&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;saveProject()&quot;&gt;💾 Salvar&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;saveAsNew()&quot; title=&quot;Salvar como novo&quot;&gt;💾➕&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;openSavedModal()&quot; title=&quot;Meus projetos&quot;&gt;📁&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;downloadFile()&quot; title=&quot;Baixar arquivo&quot;&gt;⬇️&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;downloadCSV()&quot; title=&quot;Backup em CSV&quot;&gt;📊&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;copyCode()&quot; title=&quot;Copiar código&quot;&gt;📋&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;openFsEditor()&quot; title=&quot;Ampliar editor&quot;&gt;⛶&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;openPreviewTab()&quot; title=&quot;Preview em nova aba&quot;&gt;🔍&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;toggleChat()&quot; title=&quot;Mostrar/ocultar IA&quot; id=&quot;btnChat&quot;&gt;🤖&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;startVoice()&quot; title=&quot;Falar com a IA&quot;&gt;🎙️&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;openApiModal()&quot; title=&quot;Configurar API&quot;&gt;🔑&lt;/button&gt;
+    &lt;button class=&quot;btn-icon&quot; onclick=&quot;clearCode()&quot; title=&quot;Limpar&quot;&gt;🗑️&lt;/button&gt;
+    &lt;span id=&quot;saveStatus&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;!-- TABS --&gt;
+&lt;div class=&quot;tabs-bar&quot;&gt;
+  &lt;div class=&quot;tabs&quot; id=&quot;tabsContainer&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;tab-info&quot;&gt;
+    &lt;span id=&quot;lineCount&quot;&gt;1 linhas&lt;/span&gt;
+    &lt;span class=&quot;badge badge-html&quot; id=&quot;modeBadge&quot;&gt;HTML&lt;/span&gt;
+    &lt;span id=&quot;autoToggle&quot; style=&quot;font-size:10px;color:var(--green);cursor:pointer;&quot; onclick=&quot;toggleAuto()&quot; title=&quot;Ligar/desligar auto-preview&quot;&gt;⚡ AUTO: ON&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- MAIN --&gt;
+&lt;div class=&quot;main&quot;&gt;
+
+  &lt;!-- EDITOR --&gt;
+  &lt;div class=&quot;editor-panel&quot; id=&quot;editorPanel&quot;&gt;
+    &lt;div class=&quot;editor-wrap&quot;&gt;
+      &lt;div class=&quot;quick-edit-bar&quot; id=&quot;quickEditBar&quot; style=&quot;display:none;&quot;&gt;
+        &lt;span style=&quot;color:var(--text2);&quot;&gt;✏️ Edição rápida:&lt;/span&gt;
+        &lt;input type=&quot;text&quot; class=&quot;quick-edit-input&quot; id=&quot;quickEditInput&quot; placeholder=&quot;Digite o que quer alterar neste trecho...&quot;/&gt;
+        &lt;div class=&quot;quick-edit-actions&quot;&gt;
+          &lt;button class=&quot;btn-icon&quot; onclick=&quot;applyQuickEdit()&quot; title=&quot;Aplicar&quot;&gt;✅&lt;/button&gt;
+          &lt;button class=&quot;btn-icon&quot; onclick=&quot;cancelQuickEdit()&quot; title=&quot;Cancelar&quot;&gt;✕&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;editor-container&quot;&gt;
+        &lt;div class=&quot;line-numbers&quot; id=&quot;lineNumbers&quot;&gt;1&lt;/div&gt;
+        &lt;textarea class=&quot;editor-textarea&quot; id=&quot;editor&quot; spellcheck=&quot;false&quot; placeholder=&quot;Cole ou importe seu código aqui...&quot;&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- PREVIEW --&gt;
+  &lt;div class=&quot;preview-panel&quot; id=&quot;previewPanel&quot;&gt;
+    &lt;div class=&quot;preview-header&quot; onclick=&quot;togglePreviewSize()&quot;&gt;
+      &lt;div class=&quot;preview-header-left&quot;&gt;
+        &lt;div class=&quot;pulse&quot;&gt;&lt;/div&gt;
+        &lt;span style=&quot;font-size:11px;color:var(--text2);font-weight:600;&quot;&gt;Preview ao vivo&lt;/span&gt;
+        &lt;span style=&quot;font-size:10px;color:var(--text2);&quot; id=&quot;previewStatus&quot;&gt;pronto&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;preview-header-right&quot;&gt;
+        &lt;button class=&quot;btn-icon&quot; id=&quot;previewToggleBtn&quot; onclick=&quot;event.stopPropagation();togglePreviewSize()&quot; title=&quot;Minimizar/Maximizar&quot;&gt;▼&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;iframe class=&quot;preview-frame&quot; id=&quot;previewFrame&quot; sandbox=&quot;allow-scripts allow-modals allow-forms allow-popups&quot;&gt;&lt;/iframe&gt;
+  &lt;/div&gt;
+
+  &lt;!-- CHAT IA --&gt;
+  &lt;div class=&quot;chat-panel&quot; id=&quot;chatPanel&quot;&gt;
+    &lt;div class=&quot;chat-header&quot;&gt;
+      &lt;div class=&quot;chat-header-left&quot;&gt;
+        &lt;span style=&quot;font-size:12px;font-weight:700;&quot;&gt;🤖 IA do Código&lt;/span&gt;
+        &lt;span id=&quot;modelTag&quot; style=&quot;font-size:10px;color:#a78bfa;&quot;&gt;Gemini&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;button class=&quot;btn-icon&quot; onclick=&quot;toggleChat()&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;chat-messages&quot; id=&quot;chatMessages&quot;&gt;
+      &lt;div class=&quot;msg msg-sys&quot;&gt;IA lê o código atual. Peça qualquer alteração ou tire dúvidas.&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;chat-bottom&quot;&gt;
+      &lt;textarea id=&quot;chatInput&quot; rows=&quot;2&quot; placeholder=&quot;O que precisa? (Enter = enviar)&quot; onkeydown=&quot;chatKey(event)&quot;&gt;&lt;/textarea&gt;
+      &lt;button id=&quot;chatSend&quot; onclick=&quot;sendMsg()&quot;&gt;➤&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;!-- INPUT ARQUIVO OCULTO --&gt;
+&lt;input type=&quot;file&quot; id=&quot;fileInput&quot; style=&quot;display:none&quot; accept=&quot;.html,.htm,.css,.js,.jsx,.tsx,.py,.txt,.json,.xml,.csv&quot;/&gt;
+
+&lt;!-- MODAL PROJETOS SALVOS --&gt;
+&lt;div class=&quot;overlay&quot; id=&quot;savedModal&quot;&gt;
+  &lt;div class=&quot;modal&quot;&gt;
+    &lt;h3&gt;📁 Meus Projetos&lt;/h3&gt;
+    &lt;input type=&quot;text&quot; class=&quot;minput&quot; id=&quot;searchInput&quot; placeholder=&quot;🔍 Buscar...&quot; oninput=&quot;renderSaved()&quot;/&gt;
+    &lt;div id=&quot;savedList&quot;&gt;&lt;/div&gt;
+    &lt;div style=&quot;text-align:right;margin-top:10px;display:flex;gap:6px;&quot;&gt;
+      &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;downloadAllCSV()&quot; title=&quot;Fazer backup de todos&quot;&gt;📊 Backup&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost&quot; onclick=&quot;closeSavedModal()&quot;&gt;Fechar&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- MODAL API KEY --&gt;
+&lt;div class=&quot;overlay&quot; id=&quot;apiModal&quot;&gt;
+  &lt;div class=&quot;modal&quot;&gt;
+    &lt;h3&gt;🔑 Configurar IA&lt;/h3&gt;
+    &lt;label style=&quot;font-size:11px;color:var(--text2);&quot;&gt;Provedor&lt;/label&gt;&lt;br&gt;
+    &lt;select class=&quot;minput&quot; id=&quot;apiProvider&quot; onchange=&quot;updateModelTag()&quot; style=&quot;margin-top:4px;&quot;&gt;
+      &lt;option value=&quot;gemini&quot;&gt;Google Gemini (gratuito)&lt;/option&gt;
+      &lt;option value=&quot;openai&quot;&gt;OpenAI GPT-4o Mini&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;label style=&quot;font-size:11px;color:var(--text2);&quot;&gt;API Key&lt;/label&gt;&lt;br&gt;
+    &lt;input class=&quot;minput&quot; type=&quot;password&quot; id=&quot;apiKeyInput&quot; placeholder=&quot;Cole sua chave aqui...&quot; style=&quot;margin-top:4px;&quot;/&gt;
+    &lt;label style=&quot;font-size:11px;color:var(--text2);&quot;&gt;System Prompt (comportamento da IA)&lt;/label&gt;&lt;br&gt;
+    &lt;textarea class=&quot;minput&quot; id=&quot;sysPromptInput&quot; rows=&quot;6&quot; style=&quot;margin-top:4px;resize:vertical;&quot;&gt;&lt;/textarea&gt;
+    &lt;div style=&quot;display:flex;gap:6px;margin-top:4px;&quot;&gt;
+      &lt;button class=&quot;btn btn-primary&quot; style=&quot;flex:1&quot; onclick=&quot;saveApiConfig()&quot;&gt;✅ Salvar&lt;/button&gt;
+      &lt;button class=&quot;btn btn-ghost&quot; style=&quot;flex:1&quot; onclick=&quot;closeApiModal()&quot;&gt;Cancelar&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;p style=&quot;font-size:10px;color:#4b5563;margin-top:8px;&quot;&gt;Chave salva só no seu navegador.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- FULLSCREEN EDITOR --&gt;
+&lt;div id=&quot;fsModal&quot;&gt;
+  &lt;div id=&quot;fsBar&quot;&gt;
+    &lt;span style=&quot;color:var(--accent);font-weight:700;font-size:13px;&quot;&gt;⛶ Editor Ampliado&lt;/span&gt;
+    &lt;button class=&quot;btn&quot; style=&quot;background:#dc2626;color:#fff;&quot; onclick=&quot;closeFsEditor()&quot;&gt;✕ Fechar e Aplicar&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;textarea id=&quot;fsEditor&quot; spellcheck=&quot;false&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+
+&lt;!-- TOAST --&gt;
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+// ═══════════════════════════════════════
+// CHAVES localStorage
+// ═══════════════════════════════════════
+const K_SNIPPETS  = 'pg_snippets_v4';
+const K_AUTOSAVE  = 'pg_autosave_v4';
+const K_CURRID    = 'pg_current_id_v4';
+const K_APIKEY    = 'pg_apikey_v4';
+const K_PROVIDER  = 'pg_provider_v4';
+const K_SYSPROMPT = 'pg_sysprompt_v4';
+
+const DEFAULT_SYSTEM = `Você é uma IA integrada a um editor de código. O usuário é Saulo, advogado de Manhumirim-MG.
+REGRAS:
+1. NUNCA peça desculpas ou use frases de empatia.
+2. Vá direto ao ponto.
+3. Ao alterar código: devolva o arquivo COMPLETO atualizado entre triple backticks.
+4. Diga em uma linha o que mudou, depois o código.
+5. Ao final: &quot;Quer mais alguma alteração?&quot;`;
+
+// ═══════════════════════════════════════
+// ESTADO
+// ═══════════════════════════════════════
+let state = {
+  mode: 'html',
+  activeTab: 'html',
+  currentId: null,
+  title: 'Sem titulo',
+  html: `&lt;div style=&quot;max-width:600px;margin:40px auto;padding:20px;font-family:sans-serif;&quot;&gt;
+  &lt;h1 style=&quot;color:#333;&quot;&gt;Playground IA — Saulo&lt;/h1&gt;
+  &lt;p style=&quot;color:#666;margin:16px 0;&quot;&gt;Importe um arquivo, cole código ou peça para a IA criar algo.&lt;/p&gt;
+  &lt;button onclick=&quot;alert('Funcionou!')&quot; style=&quot;padding:10px 24px;font-size:16px;background:#2563eb;color:white;border:none;border-radius:6px;cursor:pointer;&quot;&gt;Testar&lt;/button&gt;
+&lt;/div&gt;`,
+  css: '',
+  js: '// JavaScript aqui\nconsole.log(&quot;Playground IA — Saulo&quot;);',
+  jsx: `function App() {
+  const [n, setN] = React.useState(0);
+  return (
+    &lt;div style={{padding:40,fontFamily:'sans-serif',textAlign:'center'}}&gt;
+      &lt;h1&gt;⚛️ React Playground&lt;/h1&gt;
+      &lt;p&gt;Contador: &lt;strong&gt;{n}&lt;/strong&gt;&lt;/p&gt;
+      &lt;button onClick={()=&gt;setN(n+1)} style={{padding:'10px 24px',fontSize:16,background:'#3b82f6',color:'white',border:'none',borderRadius:8,cursor:'pointer'}}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}`,
+  python: `# Python — output aparece no preview
+dados = [&quot;João Silva&quot;, &quot;Maria Souza&quot;, &quot;Pedro Lima&quot;]
+print(&quot;=== CLIENTES ===&quot;)
+for i, nome in enumerate(dados, 1):
+    print(f&quot;{i}. {nome}&quot;)
+print(f&quot;\\nTotal: {len(dados)}&quot;)`,
+};
+
+// Carrega autosave
+try {
+  const sv = localStorage.getItem(K_AUTOSAVE);
+  if (sv) Object.assign(state, JSON.parse(sv));
+} catch(e){}
+
+state.currentId = localStorage.getItem(K_CURRID) || null;
+
+let apiKey    = localStorage.getItem(K_APIKEY)    || '';
+let provider  = localStorage.getItem(K_PROVIDER)  || 'gemini';
+let sysPrompt = localStorage.getItem(K_SYSPROMPT) || DEFAULT_SYSTEM;
+let autoPreview = true;
+let previewTimer = null;
+let previewMinimized = false;
+let quickEditMode = false;
+let quickEditSelection = null;
+
+// ═══════════════════════════════════════
+// DOM
+// ═══════════════════════════════════════
+const editor       = document.getElementById('editor');
+const previewFrame = document.getElementById('previewFrame');
+const lineNumbers  = document.getElementById('lineNumbers');
+const titleInput   = document.getElementById('projectTitle');
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+titleInput.value = state.title;
+updateTabs();
+loadEditorContent();
+updatePreview();
+
+// ═══════════════════════════════════════
+// EVENTOS DO EDITOR
+// ═══════════════════════════════════════
+editor.addEventListener('input', () =&gt; {
+  saveCurrentTab();
+  updateLineNumbers();
+  autoSave();
+  if (autoPreview) {
+    clearTimeout(previewTimer);
+    previewTimer = setTimeout(updatePreview, 500);
+  }
+});
+
+editor.addEventListener('scroll', () =&gt; {
+  lineNumbers.scrollTop = editor.scrollTop;
+});
+
+editor.addEventListener('keydown', e =&gt; {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const s = editor.selectionStart, end = editor.selectionEnd;
+    editor.value = editor.value.substring(0,s) + '  ' + editor.value.substring(end);
+    editor.selectionStart = editor.selectionEnd = s + 2;
+    saveCurrentTab();
+  }
+  // Ctrl+Q para edição rápida
+  if ((e.ctrlKey||e.metaKey) &amp;&amp; e.key === 'q') {
+    e.preventDefault();
+    startQuickEdit();
+  }
+});
+
+editor.addEventListener('paste', () =&gt; {
+  setTimeout(() =&gt; {
+    const c = editor.value;
+    if (state.mode === 'html') {
+      if (/import\s+React|from\s+['&quot;]react['&quot;]|useState|&lt;[A-Z][a-zA-Z]*[\s/&gt;]/.test(c)) {
+        switchMode('react'); state.jsx = c; loadEditorContent(); showToast('⚛️ React detectado!'); return;
+      }
+      if (/^(def |class |import |from |print\()/im.test(c) &amp;&amp; !c.includes('&lt;')) {
+        switchMode('python'); state.python = c; loadEditorContent(); showToast('🐍 Python detectado!'); return;
+      }
+    }
+    saveCurrentTab(); updatePreview();
+  }, 50);
+});
+
+// Clique duplo para edição rápida
+editor.addEventListener('dblclick', () =&gt; {
+  startQuickEdit();
+});
+
+titleInput.addEventListener('input', () =&gt; { state.title = titleInput.value; autoSave(); });
+
+// ═══════════════════════════════════════
+// EDITOR — FUNÇÕES
+// ═══════════════════════════════════════
+function updateLineNumbers() {
+  const lines = editor.value.split('\n').length;
+  document.getElementById('lineCount').textContent = lines + ' linhas';
+  lineNumbers.textContent = Array.from({length:lines},(_,i)=&gt;i+1).join('\n');
+}
+
+function saveCurrentTab() {
+  const t = state.activeTab;
+  if (state.mode==='react'&amp;&amp;t==='jsx') state.jsx=editor.value;
+  else if (state.mode==='python'&amp;&amp;t==='python') state.python=editor.value;
+  else if (t==='html') state.html=editor.value;
+  else if (t==='css')  state.css=editor.value;
+  else if (t==='js')   state.js=editor.value;
+}
+
+function loadEditorContent() {
+  const t = state.activeTab;
+  if (state.mode==='react'&amp;&amp;t==='jsx') editor.value=state.jsx;
+  else if (state.mode==='python'&amp;&amp;t==='python') editor.value=state.python;
+  else if (t==='html') editor.value=state.html;
+  else if (t==='css')  editor.value=state.css;
+  else if (t==='js')   editor.value=state.js;
+  else editor.value='';
+  updateLineNumbers();
+}
+
+function switchTab(tab) {
+  saveCurrentTab();
+  state.activeTab = tab;
+  document.querySelectorAll('.tab').forEach(t=&gt;t.classList.remove('active'));
+  const el = document.getElementById('tab_'+tab);
+  if (el) el.classList.add('active');
+  loadEditorContent();
+}
+
+function updateTabs() {
+  const c = document.getElementById('tabsContainer');
+  const b = document.getElementById('modeBadge');
+  if (state.mode==='html') {
+    c.innerHTML = `
+      &lt;button class=&quot;tab ${state.activeTab==='html'?'active':''}&quot; id=&quot;tab_html&quot; onclick=&quot;switchTab('html')&quot;&gt;📄 HTML&lt;/button&gt;
+      &lt;button class=&quot;tab ${state.activeTab==='css'?'active':''}&quot; id=&quot;tab_css&quot; onclick=&quot;switchTab('css')&quot;&gt;🎨 CSS&lt;/button&gt;
+      &lt;button class=&quot;tab ${state.activeTab==='js'?'active':''}&quot; id=&quot;tab_js&quot; onclick=&quot;switchTab('js')&quot;&gt;⚙️ JS&lt;/button&gt;`;
+    b.className='badge badge-html'; b.textContent='HTML';
+  } else if (state.mode==='react') {
+    c.innerHTML = `
+      &lt;button class=&quot;tab ${state.activeTab==='jsx'?'active':''}&quot; id=&quot;tab_jsx&quot; onclick=&quot;switchTab('jsx')&quot;&gt;⚛️ JSX&lt;/button&gt;
+      &lt;button class=&quot;tab ${state.activeTab==='css'?'active':''}&quot; id=&quot;tab_css&quot; onclick=&quot;switchTab('css')&quot;&gt;🎨 CSS&lt;/button&gt;`;
+    b.className='badge badge-react'; b.textContent='REACT';
+  } else {
+    c.innerHTML = `&lt;button class=&quot;tab active&quot; id=&quot;tab_python&quot; onclick=&quot;switchTab('python')&quot;&gt;🐍 Python&lt;/button&gt;`;
+    b.className='badge badge-python'; b.textContent='PYTHON';
+  }
+}
+
+function switchMode(mode) {
+  saveCurrentTab();
+  state.mode = mode;
+  document.querySelectorAll('.btn-mode').forEach(b=&gt;b.classList.remove('active'));
+  document.getElementById('mode'+mode.charAt(0).toUpperCase()+mode.slice(1)).classList.add('active');
+  if (mode==='html') state.activeTab='html';
+  else if (mode==='react') state.activeTab='jsx';
+  else state.activeTab='python';
+  updateTabs(); loadEditorContent(); updatePreview(); autoSave();
+}
+
+// ═══════════════════════════════════════
+// EDIÇÃO RÁPIDA
+// ═══════════════════════════════════════
+function startQuickEdit() {
+  const start = editor.selectionStart;
+  const end = editor.selectionEnd;
+  
+  if (start === end) {
+    showToast('⚠️ Selecione um trecho para editar');
+    return;
+  }
+  
+  quickEditSelection = { start, end };
+  quickEditMode = true;
+  document.getElementById('quickEditBar').style.display = 'flex';
+  document.getElementById('quickEditInput').focus();
+  showToast('✏️ Modo edição rápida ativado');
+}
+
+function applyQuickEdit() {
+  if (!quickEditSelection) return;
+  
+  const instruction = document.getElementById('quickEditInput').value.trim();
+  if (!instruction) {
+    showToast('⚠️ Digite uma instrução');
+    return;
+  }
+  
+  const selectedText = editor.value.substring(quickEditSelection.start, quickEditSelection.end);
+  const before = editor.value.substring(0, quickEditSelection.start);
+  const after = editor.value.substring(quickEditSelection.end);
+  
+  // Aqui você pode chamar a IA para alterar o trecho
+  // Por enquanto, vou fazer uma alteração simples como exemplo
+  const modified = `/* ${instruction} */\n${selectedText}`;
+  
+  editor.value = before + modified + after;
+  saveCurrentTab();
+  updateLineNumbers();
+  autoSave();
+  updatePreview();
+  
+  cancelQuickEdit();
+  showToast('✅ Trecho atualizado!');
+}
+
+function cancelQuickEdit() {
+  quickEditMode = false;
+  quickEditSelection = null;
+  document.getElementById('quickEditBar').style.display = 'none';
+  document.getElementById('quickEditInput').value = '';
+  editor.focus();
+}
+
+// ═══════════════════════════════════════
+// PREVIEW MINIMIZÁVEL
+// ═══════════════════════════════════════
+function togglePreviewSize() {
+  previewMinimized = !previewMinimized;
+  const panel = document.getElementById('previewPanel');
+  const btn = document.getElementById('previewToggleBtn');
+  
+  if (previewMinimized) {
+    panel.classList.add('minimized');
+    btn.textContent = '▲';
+    btn.title = 'Maximizar';
+  } else {
+    panel.classList.remove('minimized');
+    btn.textContent = '▼';
+    btn.title = 'Minimizar';
+  }
+}
+
+// ═══════════════════════════════════════
+// PREVIEW
+// ═══════════════════════════════════════
+function buildDocument() {
+  if (state.mode==='react') {
+    return `&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;script crossorigin src=&quot;https://unpkg.com/react@18/umd/react.development.js&quot;&gt;&lt;\/script&gt;
+&lt;script crossorigin src=&quot;https://unpkg.com/react-dom@18/umd/react-dom.development.js&quot;&gt;&lt;\/script&gt;
+&lt;script src=&quot;https://unpkg.com/@babel/standalone/babel.min.js&quot;&gt;&lt;\/script&gt;
+&lt;style&gt;*{box-sizing:border-box}body{margin:0;font-family:sans-serif}${state.css}&lt;/style&gt;
+&lt;/head&gt;&lt;body&gt;&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+&lt;script type=&quot;text/babel&quot;&gt;
+const {useState,useEffect,useRef,useCallback,useMemo,Fragment}=React;
+${state.jsx}
+try{ReactDOM.createRoot(document.getElementById('root')).render(&lt;App/&gt;)}
+catch(e){document.getElementById('root').innerHTML='&lt;div style=&quot;color:red;padding:20px;font-family:monospace&quot;&gt;Erro: '+e.message+'&lt;/div&gt;'}
+&lt;\/script&gt;&lt;/body&gt;&lt;/html&gt;`;
+  }
+  if (state.mode==='python') {
+    const esc = state.python.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/&lt;\/script&gt;/g,'&lt;\\/script&gt;');
+    return `&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;style&gt;body{margin:0;background:#0f172a;color:#e2e8f0;font-family:'Consolas',monospace;padding:20px}#out{white-space:pre-wrap;font-size:13px;line-height:1.6}.ok{color:#4ade80}.err{color:#f87171}.ld{color:#60a5fa}&lt;/style&gt;
+&lt;/head&gt;&lt;body&gt;&lt;div id=&quot;out&quot;&gt;&lt;span class=&quot;ld&quot;&gt;⟳ Carregando Python...&lt;/span&gt;&lt;/div&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js&quot;&gt;&lt;\/script&gt;
+&lt;script&gt;
+async function run(){
+  const out=document.getElementById('out');
+  try{
+    const py=await loadPyodide();
+    py.runPython('import sys\\nfrom io import StringIO\\nsys.stdout=StringIO()');
+    py.runPython(\`${esc}\`);
+    const r=py.runPython('sys.stdout.getvalue()');
+    out.innerHTML='&lt;span class=&quot;ok&quot;&gt;$ python3&lt;/span&gt;\\n'+r;
+  }catch(e){out.innerHTML='&lt;span class=&quot;err&quot;&gt;Erro: '+e.message+'&lt;/span&gt;';}
+}run();
+&lt;\/script&gt;&lt;/body&gt;&lt;/html&gt;`;
+  }
+  const lower = state.html.trim().toLowerCase();
+  if (lower.includes('&lt;!doctype')||(lower.includes('&lt;html')&amp;&amp;lower.includes('&lt;/html&gt;'))) return state.html;
+  return `&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;style&gt;${state.css}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+${state.html}
+&lt;script&gt;${state.js}&lt;\/script&gt;&lt;/body&gt;&lt;/html&gt;`;
+}
+
+function updatePreview() {
+  document.getElementById('previewStatus').textContent = 'atualizando...';
+  const blob = new Blob([buildDocument()],{type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  previewFrame.src = url;
+  setTimeout(()=&gt;{URL.revokeObjectURL(url); document.getElementById('previewStatus').textContent='ao vivo ✓';},3000);
+}
+
+function toggleAuto() {
+  autoPreview = !autoPreview;
+  const el = document.getElementById('autoToggle');
+  el.textContent = '⚡ AUTO: '+(autoPreview?'ON':'OFF');
+  el.style.color = autoPreview ? 'var(--green)' : 'var(--red)';
+  if (autoPreview) updatePreview();
+}
+
+// ═══════════════════════════════════════
+// AUTOSAVE
+// ═══════════════════════════════════════
+function autoSave() {
+  try {
+    localStorage.setItem(K_AUTOSAVE, JSON.stringify(state));
+    const el = document.getElementById('saveStatus');
+    el.textContent = '● auto';
+    setTimeout(()=&gt;el.textContent='',1500);
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════
+// SALVAR / ABRIR PROJETOS
+// ═══════════════════════════════════════
+function getSnippets() {
+  try { return JSON.parse(localStorage.getItem(K_SNIPPETS)||'[]'); } catch { return []; }
+}
+function setSnippets(list) {
+  localStorage.setItem(K_SNIPPETS, JSON.stringify(list));
+}
+
+function saveProject() {
+  saveCurrentTab();
+  const snippets = getSnippets();
+  const now = new Date().toISOString();
+  let id = state.currentId;
+
+  if (!id) {
+    id = Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+    state.currentId = id;
+    localStorage.setItem(K_CURRID, id);
+  }
+
+  const item = {
+    id,
+    title: state.title || 'Sem titulo',
+    mode: state.mode,
+    activeTab: state.activeTab,
+    html: state.html, css: state.css, js: state.js,
+    jsx: state.jsx, python: state.python,
+    updatedAt: now
+  };
+
+  const idx = snippets.findIndex(s=&gt;s.id===id);
+  if (idx&gt;=0) {
+    item.createdAt = snippets[idx].createdAt || snippets[idx].updatedAt || now;
+    snippets[idx] = item;
+    showToast('💾 Projeto atualizado!');
+  } else {
+    item.createdAt = now;
+    snippets.unshift(item);
+    showToast('💾 Projeto salvo!');
+  }
+
+  setSnippets(snippets);
+  autoSave();
+}
+
+function saveAsNew() {
+  state.currentId = null;
+  localStorage.removeItem(K_CURRID);
+  saveProject();
+}
+
+function openSavedModal() {
+  document.getElementById('savedModal').classList.add('open');
+  document.getElementById('searchInput').value='';
+  renderSaved();
+}
+function closeSavedModal() {
+  document.getElementById('savedModal').classList.remove('open');
+}
+
+function renderSaved() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const list = getSnippets().filter(s=&gt;s.title.toLowerCase().includes(q));
+  const c = document.getElementById('savedList');
+  if (!list.length) {
+    c.innerHTML='&lt;p style=&quot;text-align:center;color:var(--text2);font-size:12px;padding:20px;&quot;&gt;Nenhum projeto salvo ainda.&lt;br&gt;Clique em 💾 Salvar para guardar o atual.&lt;/p&gt;';
+    return;
+  }
+  c.innerHTML = list.map(s=&gt;`
+    &lt;div class=&quot;sitem&quot; onclick=&quot;loadProject('${s.id}')&quot;&gt;
+      &lt;div&gt;
+        &lt;div class=&quot;sitem-name&quot;&gt;${esc(s.title)}&lt;/div&gt;
+        &lt;div class=&quot;sitem-meta&quot;&gt;${s.mode||'html'} • ${fmtDate(s.updatedAt||s.createdAt)}&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sitem-actions&quot;&gt;
+        &lt;button class=&quot;btn-icon&quot; onclick=&quot;event.stopPropagation();renameProject('${s.id}')&quot; title=&quot;Renomear&quot;&gt;✏️&lt;/button&gt;
+        &lt;button class=&quot;btn-icon&quot; onclick=&quot;event.stopPropagation();deleteProject('${s.id}')&quot; title=&quot;Excluir&quot;&gt;🗑️&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;`).join('');
+}
+
+function loadProject(id) {
+  const s = getSnippets().find(x=&gt;x.id===id);
+  if (!s) return;
+
+  state.currentId = s.id;
+  localStorage.setItem(K_CURRID, s.id);
+
+  state.title   = s.title   || 'Sem titulo';
+  state.mode    = s.mode    || 'html';
+  state.activeTab = s.activeTab || (s.mode==='react'?'jsx':s.mode==='python'?'python':'html');
+  state.html    = s.html    || '';
+  state.css     = s.css     || '';
+  state.js      = s.js      || '';
+  state.jsx     = s.jsx     || '';
+  state.python  = s.python  || '';
+
+  titleInput.value = state.title;
+
+  document.querySelectorAll('.btn-mode').forEach(b=&gt;b.classList.remove('active'));
+  const mb = document.getElementById('mode'+state.mode.charAt(0).toUpperCase()+state.mode.slice(1));
+  if (mb) mb.classList.add('active');
+
+  updateTabs();
+  loadEditorContent();
+  updatePreview();
+  autoSave();
+  closeSavedModal();
+  showToast('📂 &quot;'+state.title+'&quot; aberto!');
+}
+
+function deleteProject(id) {
+  if (!confirm('Excluir este projeto?')) return;
+  setSnippets(getSnippets().filter(s=&gt;s.id!==id));
+  if (state.currentId===id) { state.currentId=null; localStorage.removeItem(K_CURRID); }
+  renderSaved();
+  showToast('🗑️ Excluído!');
+}
+
+function renameProject(id) {
+  const list = getSnippets();
+  const s = list.find(x=&gt;x.id===id);
+  if (!s) return;
+  const n = prompt('Novo nome:', s.title);
+  if (n&amp;&amp;n.trim()) {
+    s.title=n.trim();
+    if (state.currentId===id) { state.title=s.title; titleInput.value=s.title; }
+    setSnippets(list); renderSaved(); showToast('✏️ Renomeado!');
+  }
+}
+
+// ═══════════════════════════════════════
+// BACKUP CSV
+// ═══════════════════════════════════════
+function downloadCSV() {
+  saveCurrentTab();
+  const snippets = getSnippets();
+  
+  if (!snippets.length) {
+    showToast('⚠️ Nenhum projeto para fazer backup');
+    return;
+  }
+  
+  let csv = 'id;title;html;css;js;mode\n';
+  
+  snippets.forEach(s =&gt; {
+    const id = esc(s.id||'');
+    const title = esc(s.title||'Sem titulo');
+    const html = esc(s.html||'');
+    const css = esc(s.css||'');
+    const js = esc(s.js||'');
+    const mode = esc(s.mode||'html');
+    
+    csv += `&quot;${id}&quot;;&quot;${title}&quot;;&quot;${html}&quot;;&quot;${css}&quot;;&quot;${js}&quot;;&quot;${mode}&quot;\n`;
+  });
+  
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'playground-backup-'+new Date().toISOString().split('T')[0]+'.csv';
+  link.click();
+  URL.revokeObjectURL(link.href);
+  
+  showToast('📊 Backup em CSV realizado!');
+}
+
+function downloadAllCSV() {
+  downloadCSV();
+}
+
+// ═══════════════════════════════════════
+// IMPORTAR / BAIXAR / COPIAR
+// ═══════════════════════════════════════
+function importFile() { document.getElementById('fileInput').click(); }
+
+document.getElementById('fileInput').addEventListener('change', e =&gt; {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev =&gt; {
+    const content = ev.target.result;
+    const ext = file.name.split('.').pop().toLowerCase();
+    const name = file.name.replace(/\.[^.]+$/,'');
+
+    if (ext==='csv') {
+      // Importar CSV
+      importCSV(content);
+      return;
+    }
+
+    if (ext==='py') { switchMode('python'); state.python=content; }
+    else if (ext==='jsx'||ext==='tsx') { switchMode('react'); state.jsx=content; }
+    else if (ext==='css') { state.css=content; if(state.mode==='html') switchTab('css'); }
+    else if (ext==='js') { state.js=content; if(state.mode==='html') switchTab('js'); }
+    else {
+      const lower=content.trim().toLowerCase();
+      switchMode('html');
+      state.html=content; state.css=''; state.js='';
+    }
+
+    state.title=name; titleInput.value=name;
+    loadEditorContent(); updatePreview(); autoSave();
+    showToast('📂 &quot;'+file.name+'&quot; importado!');
+  };
+  reader.readAsText(file);
+  e.target.value='';
+});
+
+function importCSV(csvContent) {
+  try {
+    const lines = csvContent.trim().split('\n');
+    if (lines.length &lt; 2) {
+      showToast('⚠️ CSV inválido');
+      return;
+    }
+    
+    const snippets = getSnippets();
+    let imported = 0;
+    
+    for (let i = 1; i &lt; lines.length; i++) {
+      const line = lines[i];
+      const parts = parseCSVLine(line);
+      
+      if (parts.length &gt;= 6) {
+        const item = {
+          id: parts[0],
+          title: parts[1],
+          html: parts[2],
+          css: parts[3],
+          js: parts[4],
+          mode: parts[5],
+          jsx: '',
+          python: '',
+          activeTab: 'html',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        
+        const idx = snippets.findIndex(s =&gt; s.id === item.id);
+        if (idx &gt;= 0) {
+          snippets[idx] = item;
+        } else {
+          snippets.push(item);
+        }
+        imported++;
+      }
+    }
+    
+    setSnippets(snippets);
+    showToast(`✅ ${imported} projeto(s) importado(s)!`);
+  } catch (err) {
+    showToast('❌ Erro ao importar CSV: ' + err.message);
+  }
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  
+  for (let i = 0; i &lt; line.length; i++) {
+    const char = line[i];
+    
+    if (char === '&quot;') {
+      inQuotes = !inQuotes;
+    } else if (char === ';' &amp;&amp; !inQuotes) {
+      result.push(current);
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  
+  result.push(current);
+  return result;
+}
+
+function downloadFile() {
+  let content, ext, mime;
+  if (state.mode==='python'){content=state.python;ext='py';mime='text/plain';}
+  else if (state.mode==='react'){content=state.jsx;ext='jsx';mime='text/plain';}
+  else {content=buildDocument();ext='html';mime='text/html';}
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type:mime}));
+  a.download=(state.title||'playground')+'.'+ext;
+  a.click(); URL.revokeObjectURL(a.href);
+  showToast('⬇️ Baixado!');
+}
+
+function copyCode() {
+  navigator.clipboard.writeText(buildDocument()).then(()=&gt;showToast('📋 Copiado!'));
+}
+
+function clearCode() {
+  if (!confirm('Limpar o editor? O projeto salvo não muda até você clicar em Salvar.')) return;
+  if (state.mode==='react') state.jsx='';
+  else if (state.mode==='python') state.python='';
+  else { state.html=''; state.css=''; state.js=''; }
+  loadEditorContent(); updatePreview(); autoSave(); showToast('🗑️ Limpo!');
+}
+
+// ═══════════════════════════════════════
+// FULLSCREEN EDITOR
+// ═══════════════════════════════════════
+function openFsEditor() {
+  document.getElementById('fsEditor').value = editor.value;
+  document.getElementById('fsModal').classList.add('open');
+}
+function closeFsEditor() {
+  editor.value = document.getElementById('fsEditor').value;
+  document.getElementById('fsModal').classList.remove('open');
+  saveCurrentTab(); updateLineNumbers(); autoSave(); updatePreview();
+}
+
+function openPreviewTab() {
+  const blob=new Blob([buildDocument()],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  window.open(url,'_blank');
+  setTimeout(()=&gt;URL.revokeObjectURL(url),5000);
+}
+
+// ═══════════════════════════════════════
+// API KEY MODAL
+// ═══════════════════════════════════════
+function openApiModal() {
+  document.getElementById('apiKeyInput').value=apiKey;
+  document.getElementById('apiProvider').value=provider;
+  document.getElementById('sysPromptInput').value=sysPrompt;
+  document.getElementById('apiModal').classList.add('open');
+}
+function closeApiModal() {
+  document.getElementById('apiModal').classList.remove('open');
+}
+function saveApiConfig() {
+  apiKey    = document.getElementById('apiKeyInput').value.trim();
+  provider  = document.getElementById('apiProvider').value;
+  sysPrompt = document.getElementById('sysPromptInput').value.trim() || DEFAULT_SYSTEM;
+  localStorage.setItem(K_APIKEY,    apiKey);
+  localStorage.setItem(K_PROVIDER,  provider);
+  localStorage.setItem(K_SYSPROMPT, sysPrompt);
+  updateModelTag();
+  closeApiModal();
+  showToast('✅ IA configurada!');
+}
+function updateModelTag() {
+  const p = document.getElementById('apiProvider')?.value || provider;
+  document.getElementById('modelTag').textContent = p==='gemini'?'Gemini':'GPT-4o';
+}
+
+// ═══════════════════════════════════════
+// CHAT IA
+// ═══════════════════════════════════════
+function toggleChat() {
+  const p = document.getElementById('chatPanel');
+  p.classList.toggle('hidden');
+  document.getElementById('btnChat').style.color = p.classList.contains('hidden') ? 'var(--text2)' : 'var(--green)';
+}
+
+function chatKey(e) {
+  if (e.key==='Enter'&amp;&amp;!e.shiftKey) { e.preventDefault(); sendMsg(); }
+}
+
+function addMsg(role, text, code) {
+  const box = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'msg msg-'+role;
+  d.textContent = text;
+  if (code &amp;&amp; role==='ai') {
+    const btn = document.createElement('button');
+    btn.className = 'apply-btn';
+    btn.textContent = '✅ Aplicar código no editor + atualizar preview';
+    btn.onclick = () =&gt; {
+      if (state.mode==='react') { state.jsx=code; state.activeTab='jsx'; }
+      else if (state.mode==='python') { state.python=code; state.activeTab='python'; }
+      else { state.html=code; state.css=''; state.js=''; state.activeTab='html'; }
+      updateTabs(); loadEditorContent(); updateLineNumbers(); autoSave(); updatePreview();
+      addMsg('sys','✅ Código aplicado. Preview atualizado.');
+    };
+    d.appendChild(btn);
+  }
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+
+function showDots() {
+  const box=document.getElementById('chatMessages');
+  const d=document.createElement('div');
+  d.id='ldots'; d.className='dots';
+  d.innerHTML='&lt;div class=&quot;dot&quot;&gt;&lt;/div&gt;&lt;div class=&quot;dot&quot;&gt;&lt;/div&gt;&lt;div class=&quot;dot&quot;&gt;&lt;/div&gt;';
+  box.appendChild(d); box.scrollTop=box.scrollHeight;
+}
+function hideDots() { const el=document.getElementById('ldots'); if(el)el.remove(); }
+
+async function sendMsg() {
+  const inp = document.getElementById('chatInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  if (!apiKey) { openApiModal(); showToast('🔑 Configure a API Key primeiro.'); return; }
+
+  inp.value='';
+  document.getElementById('chatSend').disabled=true;
+  addMsg('user', text);
+
+  const code = buildDocument();
+  const fullMsg = `${sysPrompt}
+
+MODO: ${state.mode} | ARQUIVO: ${state.title}
+
+CÓDIGO ATUAL NO EDITOR:
+\`\`\`${state.mode==='python'?'python':state.mode==='react'?'jsx':'html'}
+${code.substring(0,12000)}
+\`\`\`
+
+PEDIDO:
+${text}`;
+
+  showDots();
+  try {
+    const reply = provider==='gemini' ? await callGemini(fullMsg) : await callOpenAI(fullMsg);
+    hideDots();
+    const match = reply.match(/```(?:html|js|javascript|jsx|tsx|css|python|py)?\n?([\s\S]*?)```/);
+    addMsg('ai', reply, match ? match[1].trim() : null);
+  } catch(err) {
+    hideDots();
+    addMsg('sys','❌ '+err.message);
+  }
+  document.getElementById('chatSend').disabled=false;
+}
+
+async function callGemini(msg) {
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+    contents:[{role:'user',parts:[{text:msg}]}],
+    generationConfig:{temperature:0.2,maxOutputTokens:8192}
+  })});
+  if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'Erro Gemini');}
+  const d=await r.json();
+  return d.candidates?.[0]?.content?.parts?.[0]?.text||'Sem resposta.';
+}
+
+async function callOpenAI(msg) {
+  const r=await fetch('https://api.openai.com/v1/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},
+    body:JSON.stringify({model:'gpt-4o-mini',messages:[{role:'user',content:msg}],temperature:0.2,max_tokens:8192})
+  });
+  if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'Erro OpenAI');}
+  const d=await r.json();
+  return d.choices?.[0]?.message?.content||'Sem resposta.';
+}
+
+// ═══════════════════════════════════════
+// VOZ
+// ═══════════════════════════════════════
+function startVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { showToast('🎙️ Navegador não suporta voz. Use Chrome.'); return; }
+
+  const p = document.getElementById('chatPanel');
+  if (p.classList.contains('hidden')) toggleChat();
+
+  const rec = new SR();
+  rec.lang='pt-BR'; rec.interimResults=false; rec.maxAlternatives=1;
+
+  showToast('🎙️ Fale agora...');
+
+  rec.onresult = e =&gt; {
+    const txt = e.results[0][0].transcript;
+    document.getElementById('chatInput').value = txt;
+    showToast('🎙️ Capturado: &quot;'+txt+'&quot;');
+  };
+  rec.onerror = e =&gt; showToast('Erro no microfone: '+e.error);
+  rec.start();
+}
+
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function esc(s) { 
+  return String(s)
+    .replace(/&amp;/g,'&amp;amp;')
+    .replace(/&lt;/g,'&amp;lt;')
+    .replace(/&gt;/g,'&amp;gt;')
+    .replace(/&quot;/g,'&amp;quot;')
+    .replace(/\n/g,'\\n')
+    .replace(/\r/g,'\\r')
+    .replace(/\t/g,'\\t');
+}
+
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; 
+  t.classList.add('show');
+  setTimeout(()=&gt;t.classList.remove('show'),2500);
+}
+
+// Fecha modais clicando fora
+['savedModal','apiModal'].forEach(id=&gt;{
+  document.getElementById(id).addEventListener('click',e=&gt;{
+    if(e.target.id===id) document.getElementById(id).classList.remove('open');
+  });
+});
+
+// Atalhos de teclado
+document.addEventListener('keydown', e=&gt;{
+  if ((e.ctrlKey||e.metaKey)&amp;&amp;e.key==='s'){
+    e.preventDefault();
+    saveProject();
+  }
+  if ((e.ctrlKey||e.metaKey)&amp;&amp;e.key==='Enter'){
+    e.preventDefault();
+    updatePreview();
+  }
+  if ((e.ctrlKey||e.metaKey)&amp;&amp;e.key==='q'){
+    e.preventDefault();
+    startQuickEdit();
+  }
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto4">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot;&gt;
+  &lt;meta name=&quot;theme-color&quot; content=&quot;#141c0d&quot;&gt;
+  &lt;title&gt;Chat IA Pro — Saulo&lt;/title&gt;
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js&quot;&gt;&lt;/script&gt;
+  &lt;style&gt;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#141c0d; --panel:#1c2714; --border:#2d4a1e;
+      --accent:#5aab56; --accent2:#7ec87a; --text:#e2e8f0;
+      --muted:#6b8f68; --code-bg:#0d1309; --user-bg:#1a3a14;
+      --user-bdr:#3d6e2a; --err:#f87171;
+    }
+    body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); height:100dvh; display:flex; flex-direction:column; overflow:hidden; -webkit-tap-highlight-color:transparent; }
+
+    header { flex-shrink:0; display:flex; align-items:center; gap:5px; padding:8px 10px; background:var(--panel); border-bottom:1px solid var(--border); min-height:48px; overflow-x:auto; }
+    header h1 { font-size:13px; font-weight:700; flex:1; color:var(--accent2); white-space:nowrap; }
+    .badge { font-size:10px; padding:2px 7px; border-radius:20px; border:1px solid var(--accent); color:var(--accent2); background:rgba(90,171,86,0.1); white-space:nowrap; }
+    .icon-btn { width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; border:none; background:transparent; color:var(--muted); cursor:pointer; font-size:15px; transition:all 0.15s; flex-shrink:0; }
+    .icon-btn:hover { background:rgba(255,255,255,0.06); color:var(--accent2); }
+    .icon-btn.active { background:rgba(90,171,86,0.15); color:var(--accent2); }
+    .icon-btn.danger:hover { background:rgba(248,113,113,0.1); color:var(--err); }
+    .icon-btn.web-on { background:rgba(96,165,250,0.18); color:#93c5fd; }
+
+    .panel { flex-shrink:0; background:var(--panel); border-bottom:1px solid var(--border); padding:10px 14px; display:none; flex-direction:column; gap:8px; max-height:320px; overflow-y:auto; }
+    .panel.show { display:flex; }
+    .cfg-label { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); font-weight:700; }
+    .cfg-status { font-size:11px; }
+    .cfg-status.ok { color:var(--accent2); }
+    .cfg-status.demo { color:#60a5fa; }
+    .cfg-note { font-size:11px; color:#60a5fa; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.2); border-radius:8px; padding:8px 10px; line-height:1.5; }
+    .cfg-row { display:flex; gap:6px; align-items:stretch; }
+    .cfg-input { flex:1; height:36px; padding:0 10px; background:var(--code-bg); border:1px solid var(--border); border-radius:9px; color:var(--text); font-size:12px; font-family:monospace; outline:none; }
+    .cfg-input:focus { border-color:var(--accent); }
+    .cfg-btn { height:36px; padding:0 12px; border-radius:9px; border:1px solid var(--border); background:rgba(90,171,86,0.12); color:var(--accent2); font-size:12px; cursor:pointer; white-space:nowrap; display:flex; align-items:center; gap:5px; }
+    .cfg-btn:hover { background:rgba(90,171,86,0.22); }
+    .cfg-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+    .cfg-prov-ok { font-size:11px; color:var(--accent2); }
+
+    /* SYSTEM PROMPT */
+    .sys-textarea { width:100%; min-height:90px; max-height:200px; padding:8px 10px; background:var(--code-bg); border:1px solid var(--border); border-radius:9px; color:var(--text); font-size:12px; font-family:inherit; outline:none; resize:vertical; line-height:1.5; }
+    .sys-textarea:focus { border-color:var(--accent); }
+    .sys-presets { display:flex; gap:5px; flex-wrap:wrap; }
+    .sys-preset { padding:4px 10px; border-radius:20px; border:1px solid var(--border); font-size:11px; color:var(--muted); cursor:pointer; background:var(--code-bg); transition:all 0.15s; }
+    .sys-preset:hover { border-color:var(--accent); color:var(--accent2); }
+    .sys-preset.active { border-color:var(--accent); color:var(--accent2); background:rgba(90,171,86,0.1); }
+
+    .saved-key, .conv-item { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:9px; border:1px solid var(--border); background:var(--code-bg); cursor:pointer; transition:border-color 0.15s; }
+    .saved-key:hover, .conv-item:hover { border-color:var(--accent); }
+    .saved-key.active, .conv-item.active { border-color:var(--accent); background:rgba(90,171,86,0.08); }
+    .saved-key-info, .conv-info { flex:1; min-width:0; }
+    .saved-key-label, .conv-title { font-size:12px; color:var(--text); font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .saved-key-meta, .conv-meta { font-size:10px; color:var(--muted); }
+    .active-tag { font-size:9px; font-weight:700; color:var(--accent2); }
+    .del-btn { width:26px; height:26px; border-radius:6px; border:none; background:transparent; color:var(--muted); cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; }
+    .del-btn:hover { background:rgba(248,113,113,0.1); color:var(--err); }
+    .export-menu { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; }
+
+    #chat { flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:10px; scroll-behavior:smooth; }
+    .empty-state { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; text-align:center; padding:24px; pointer-events:none; }
+    .empty-state .icon { font-size:52px; }
+    .empty-state h2 { font-size:16px; color:var(--accent2); }
+    .empty-state p { font-size:13px; color:var(--muted); line-height:1.6; max-width:320px; }
+    .chips { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; pointer-events:all; }
+    .chip { padding:6px 14px; border-radius:20px; border:1px solid var(--border); font-size:12px; color:var(--muted); cursor:pointer; background:var(--panel); transition:all 0.2s; }
+    .chip:hover { border-color:var(--accent); color:var(--accent2); }
+
+    .msg { display:flex; flex-direction:column; max-width:88%; }
+    .msg.user { align-self:flex-end; }
+    .msg.bot { align-self:flex-start; }
+    .msg-bubble { padding:10px 14px; border-radius:14px; font-size:13px; line-height:1.65; word-break:break-word; }
+    .msg.user .msg-bubble { background:var(--user-bg); border:1px solid var(--user-bdr); color:#d4f1d4; border-bottom-right-radius:4px; }
+    .msg.bot .msg-bubble { background:var(--panel); border:1px solid var(--border); border-bottom-left-radius:4px; }
+
+    /* FEEDBACK */
+    .feedback-bar { display:flex; align-items:center; gap:6px; margin-top:6px; padding:6px 10px; background:rgba(90,171,86,0.05); border:1px solid rgba(90,171,86,0.15); border-radius:8px; }
+    .feedback-bar span { font-size:11px; color:var(--muted); }
+    .fb-btn { padding:3px 8px; border-radius:12px; border:1px solid var(--border); background:transparent; color:var(--muted); font-size:12px; cursor:pointer; transition:all 0.15s; }
+    .fb-btn:hover { border-color:var(--accent); color:var(--accent2); }
+    .fb-btn.selected { background:rgba(90,171,86,0.2); border-color:var(--accent); color:var(--accent2); }
+    .fb-note { font-size:10px; color:var(--muted); margin-left:auto; }
+
+    .msg-meta { display:flex; align-items:center; gap:8px; margin-top:4px; }
+    .msg.bot .msg-meta { padding-left:4px; }
+    .msg.user .msg-meta { justify-content:flex-end; padding-right:4px; }
+    .msg-meta button { font-size:10px; color:var(--muted); background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:3px; }
+    .msg-meta button:hover { color:var(--accent2); }
+    .prov-label { font-size:10px; color:var(--muted); }
+
+    .msg-content p { margin-bottom:6px; }
+    .msg-content p:last-child { margin-bottom:0; }
+    .msg-content strong { color:var(--accent2); }
+    .msg-content em { color:#a5c8a2; font-style:italic; }
+    .msg-content a { color:#60a5fa; text-decoration:underline; word-break:break-all; }
+    .code-block { margin:8px 0; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .code-header { display:flex; align-items:center; justify-content:space-between; padding:6px 12px; background:#0a1008; font-size:10px; font-family:monospace; color:var(--muted); }
+    .copy-btn { display:flex; align-items:center; gap:4px; background:none; border:none; color:var(--muted); cursor:pointer; font-size:10px; font-family:monospace; }
+    .copy-btn:hover { color:var(--accent2); }
+    .code-body { padding:10px 12px; background:var(--code-bg); font-size:11px; font-family:'Consolas','Courier New',monospace; color:#a8d5a2; overflow-x:auto; white-space:pre; line-height:1.6; }
+    .inline-code { background:var(--code-bg); padding:1px 5px; border-radius:4px; font-family:monospace; font-size:11px; color:#a8d5a2; }
+    .cursor-blink { display:inline-block; width:2px; height:14px; background:var(--accent2); margin-left:2px; vertical-align:middle; animation:blink 1s infinite; }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+    .input-bar { flex-shrink:0; display:flex; align-items:flex-end; gap:8px; padding:10px 12px; background:var(--panel); border-top:1px solid var(--border); }
+    #msgInput { flex:1; min-height:44px; max-height:130px; padding:11px 14px; background:var(--code-bg); border:1px solid var(--border); border-radius:14px; color:var(--text); font-size:13px; font-family:inherit; resize:none; outline:none; line-height:1.5; overflow-y:auto; }
+    #msgInput:focus { border-color:var(--accent); }
+    #msgInput::placeholder { color:var(--muted); }
+    .send-btn { width:44px; height:44px; border-radius:14px; border:1px solid var(--accent); background:rgba(90,171,86,0.2); color:var(--accent2); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.15s; }
+    .send-btn:hover { background:rgba(90,171,86,0.35); }
+    .send-btn:disabled { opacity:0.3; cursor:not-allowed; }
+    .mic-btn { width:44px; height:44px; border-radius:14px; border:1px solid var(--border); background:var(--code-bg); color:var(--muted); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.2s; }
+    .mic-btn.listening { border-color:#ef4444; background:rgba(239,68,68,0.15); color:#ef4444; animation:pulse 1.5s infinite; }
+    .stop-btn { width:44px; height:44px; border-radius:14px; border:1px solid #ef4444; background:rgba(239,68,68,0.15); color:#ef4444; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.6} }
+
+    .toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:var(--panel); border:1px solid var(--accent); color:var(--accent2); padding:10px 16px; border-radius:10px; font-size:12px; z-index:1000; box-shadow:0 4px 12px rgba(0,0,0,0.4); opacity:0; transition:opacity 0.2s; pointer-events:none; white-space:nowrap; }
+    .toast.show { opacity:1; }
+    .toast.err { border-color:var(--err); color:var(--err); }
+    .progress { font-size:11px; color:#60a5fa; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.2); padding:6px 10px; border-radius:6px; margin:4px 0; }
+
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;span style=&quot;font-size:18px&quot;&gt;💬&lt;/span&gt;
+  &lt;h1&gt;Chat IA Pro&lt;/h1&gt;
+  &lt;span class=&quot;badge&quot; id=&quot;provBadge&quot;&gt;Demo ✨&lt;/span&gt;
+  &lt;button class=&quot;icon-btn&quot; id=&quot;webBtn&quot; title=&quot;Buscar na internet&quot; onclick=&quot;toggleWeb()&quot;&gt;🌐&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;System Prompt&quot; onclick=&quot;togglePanel('sysPanel','sysBtn')&quot; id=&quot;sysBtn&quot;&gt;🧠&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Histórico&quot; onclick=&quot;togglePanel('convPanel','convBtn')&quot; id=&quot;convBtn&quot;&gt;📚&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Exportar/Importar&quot; onclick=&quot;togglePanel('ioPanel','ioBtn')&quot; id=&quot;ioBtn&quot;&gt;📂&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; id=&quot;ttsBtn&quot; title=&quot;Voz da IA&quot; onclick=&quot;toggleTTS()&quot;&gt;🔊&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; id=&quot;fbToggleBtn&quot; title=&quot;Feedback automático&quot; onclick=&quot;toggleFeedback()&quot;&gt;⭐&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Chaves salvas&quot; onclick=&quot;togglePanel('keysPanel','keysBtn')&quot; id=&quot;keysBtn&quot;&gt;🔑&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Configurar API&quot; onclick=&quot;togglePanel('cfgPanel','cfgBtn')&quot; id=&quot;cfgBtn&quot;&gt;⚙️&lt;/button&gt;
+  &lt;button class=&quot;icon-btn danger&quot; title=&quot;Nova conversa&quot; onclick=&quot;newChat()&quot;&gt;✨&lt;/button&gt;
+&lt;/header&gt;
+
+&lt;!-- CONFIG API --&gt;
+&lt;div id=&quot;cfgPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between&quot;&gt;
+    &lt;span class=&quot;cfg-label&quot;&gt;Chave de API&lt;/span&gt;
+    &lt;span class=&quot;cfg-status&quot; id=&quot;cfgStatus&quot;&gt;Sem chave&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;cfgNote&quot; class=&quot;cfg-note&quot;&gt;
+    💡 Auto-detectado: Groq (gsk_), OpenAI (sk-), Gemini (AIza), OpenRouter (sk-or-), Perplexity (pplx-), Claude (sk-ant-), xAI (xai-), HuggingFace (hf_), Cerebras (csk-), Mistral (32 chars).
+  &lt;/div&gt;
+  &lt;div class=&quot;cfg-row&quot;&gt;
+    &lt;input class=&quot;cfg-input&quot; id=&quot;keyInput&quot; type=&quot;password&quot; placeholder=&quot;Cole sua chave de API aqui...&quot; oninput=&quot;onKeyInput(this.value)&quot;&gt;
+    &lt;button class=&quot;icon-btn&quot; onclick=&quot;toggleShowKey()&quot; title=&quot;Mostrar/ocultar&quot;&gt;👁️&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;cfg-grid&quot;&gt;
+    &lt;input class=&quot;cfg-input&quot; id=&quot;urlInput&quot; placeholder=&quot;URL do provedor&quot; value=&quot;https://api.groq.com/openai/v1&quot;&gt;
+    &lt;input class=&quot;cfg-input&quot; id=&quot;modelInput&quot; placeholder=&quot;Modelo&quot; value=&quot;llama-3.3-70b-versatile&quot;&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;cfgProvOk&quot; class=&quot;cfg-prov-ok&quot; style=&quot;display:none&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;cfg-row&quot; id=&quot;saveRow&quot; style=&quot;display:none&quot;&gt;
+    &lt;input class=&quot;cfg-input&quot; id=&quot;labelInput&quot; placeholder=&quot;Nome para salvar&quot;&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;saveKey()&quot;&gt;💾 Salvar&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- SYSTEM PROMPT --&gt;
+&lt;div id=&quot;sysPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between&quot;&gt;
+    &lt;span class=&quot;cfg-label&quot;&gt;🧠 System Prompt — Comportamento da IA&lt;/span&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;saveSystemPrompt()&quot; style=&quot;height:28px;font-size:11px;&quot;&gt;💾 Salvar&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;sys-presets&quot; id=&quot;sysPresets&quot;&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('livre')&quot; id=&quot;preset-livre&quot;&gt;🆓 Livre&lt;/button&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('juridico')&quot; id=&quot;preset-juridico&quot;&gt;⚖️ Jurídico&lt;/button&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('codigo')&quot; id=&quot;preset-codigo&quot;&gt;💻 Código&lt;/button&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('direto')&quot; id=&quot;preset-direto&quot;&gt;⚡ Direto&lt;/button&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('custom')&quot; id=&quot;preset-custom&quot;&gt;✏️ Custom&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;textarea class=&quot;sys-textarea&quot; id=&quot;sysPromptInput&quot; placeholder=&quot;Digite o comportamento da IA aqui...&quot;&gt;&lt;/textarea&gt;
+  &lt;div style=&quot;font-size:10px;color:var(--muted);&quot;&gt;
+    💡 Deixe em branco para IA totalmente livre. Quanto mais texto, mais restrita.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- CHAVES --&gt;
+&lt;div id=&quot;keysPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;span class=&quot;cfg-label&quot; id=&quot;keysTitle&quot;&gt;Chaves Salvas&lt;/span&gt;
+  &lt;div id=&quot;keysList&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- HISTÓRICO --&gt;
+&lt;div id=&quot;convPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;div style=&quot;display:flex;justify-content:space-between;align-items:center&quot;&gt;
+    &lt;span class=&quot;cfg-label&quot; id=&quot;convTitle&quot;&gt;Conversas Salvas&lt;/span&gt;
+    &lt;div style=&quot;display:flex;gap:5px;&quot;&gt;
+      &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('json')&quot; style=&quot;height:28px;font-size:11px;&quot;&gt;⬇️ JSON&lt;/button&gt;
+      &lt;button class=&quot;cfg-btn&quot; onclick=&quot;newChat()&quot; style=&quot;height:28px;font-size:11px;&quot;&gt;+ Nova&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;convList&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- EXPORTAR / IMPORTAR --&gt;
+&lt;div id=&quot;ioPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;span class=&quot;cfg-label&quot;&gt;Exportar conversa atual&lt;/span&gt;
+  &lt;div class=&quot;export-menu&quot;&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('txt')&quot;&gt;📄 TXT&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('md')&quot;&gt;📝 Markdown&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('json')&quot;&gt;🧾 JSON&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('pdf')&quot;&gt;📕 PDF&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;span class=&quot;cfg-label&quot; style=&quot;margin-top:6px&quot;&gt;Importar&lt;/span&gt;
+  &lt;div class=&quot;export-menu&quot;&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;document.getElementById('fileIn').click()&quot;&gt;📎 TXT/PDF/JSON&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;document.getElementById('imgIn').click()&quot;&gt;🖼️ Imagem OCR&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;input type=&quot;file&quot; id=&quot;fileIn&quot; accept=&quot;.txt,.md,.csv,.json,.pdf&quot; style=&quot;display:none&quot; onchange=&quot;importFile(event)&quot;&gt;
+  &lt;input type=&quot;file&quot; id=&quot;imgIn&quot; accept=&quot;image/*&quot; style=&quot;display:none&quot; onchange=&quot;importImage(event)&quot;&gt;
+  &lt;span class=&quot;cfg-label&quot; style=&quot;margin-top:6px&quot;&gt;Backup completo&lt;/span&gt;
+  &lt;div class=&quot;export-menu&quot;&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;backupAll()&quot;&gt;💾 Salvar tudo&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;document.getElementById('backupIn').click()&quot;&gt;📥 Restaurar&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;input type=&quot;file&quot; id=&quot;backupIn&quot; accept=&quot;.json&quot; style=&quot;display:none&quot; onchange=&quot;restoreBackup(event)&quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- CHAT --&gt;
+&lt;div id=&quot;chat&quot;&gt;
+  &lt;div class=&quot;empty-state&quot; id=&quot;emptyState&quot;&gt;
+    &lt;span class=&quot;icon&quot;&gt;⚖️&lt;/span&gt;
+    &lt;h2&gt;Chat IA Pro — Saulo&lt;/h2&gt;
+    &lt;p&gt;IA livre por padrão. Configure o 🧠 System Prompt para ajustar o comportamento.&lt;/p&gt;
+    &lt;div class=&quot;chips&quot;&gt;
+      &lt;div class=&quot;chip&quot; onclick=&quot;setPrompt('Olá! Me apresente seus recursos.')&quot;&gt;Olá!&lt;/div&gt;
+      &lt;div class=&quot;chip&quot; onclick=&quot;setPrompt('Resuma a jurisprudência recente do STF sobre dano moral.')&quot;&gt;⚖️ Jurisprudência&lt;/div&gt;
+      &lt;div class=&quot;chip&quot; onclick=&quot;setPrompt('Me ajude a estruturar uma petição inicial.')&quot;&gt;📝 Petição&lt;/div&gt;
+      &lt;div class=&quot;chip&quot; onclick=&quot;setPrompt('Quais são as ferramentas de IA mais úteis em 2026?')&quot;&gt;🤖 IA atual&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;input-bar&quot;&gt;
+  &lt;textarea id=&quot;msgInput&quot; placeholder=&quot;Digite sua mensagem… (Enter envia, Shift+Enter quebra linha)&quot; onkeydown=&quot;handleKey(event)&quot; oninput=&quot;adjustHeight(this);autoSaveDraft()&quot;&gt;&lt;/textarea&gt;
+  &lt;button class=&quot;mic-btn&quot; id=&quot;micBtn&quot; title=&quot;Ditar por voz&quot; onclick=&quot;toggleVoice()&quot;&gt;🎤&lt;/button&gt;
+  &lt;button class=&quot;stop-btn&quot; id=&quot;stopBtn&quot; style=&quot;display:none&quot; onclick=&quot;abortStream()&quot; title=&quot;Parar&quot;&gt;⏹&lt;/button&gt;
+  &lt;button class=&quot;send-btn&quot; id=&quot;sendBtn&quot; onclick=&quot;send()&quot; title=&quot;Enviar&quot;&gt;➤&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+'use strict';
+
+// ═══════════════════════════════════════
+// AUTO-DETECÇÃO DE PROVEDORES
+// ═══════════════════════════════════════
+const AUTO_DETECT = [
+  { prefix:'gsk_',    url:'https://api.groq.com/openai/v1',                          model:'llama-3.3-70b-versatile',  name:'Groq' },
+  { prefix:'sk-or-',  url:'https://openrouter.ai/api/v1',                            model:'openai/gpt-4o-mini',       name:'OpenRouter' },
+  { prefix:'sk-ant-', url:'https://api.anthropic.com/v1',                            model:'claude-3-5-haiku-latest',  name:'Claude' },
+  { prefix:'pplx-',   url:'https://api.perplexity.ai',                               model:'sonar-pro',                name:'Perplexity' },
+  { prefix:'AIza',    url:'https://generativelanguage.googleapis.com/v1beta/openai', model:'gemini-2.0-flash',         name:'Gemini' },
+  { prefix:'xai-',    url:'https://api.x.ai/v1',                                     model:'grok-2-latest',            name:'xAI/Grok' },
+  { prefix:'hf_',     url:'https://api-inference.huggingface.co/v1',                 model:'meta-llama/Llama-3.3-70B-Instruct', name:'HuggingFace' },
+  { prefix:'csk-',    url:'https://api.cerebras.ai/v1',                              model:'llama-3.3-70b',            name:'Cerebras' },
+  { prefix:'fw_',     url:'https://api.fireworks.ai/inference/v1',                   model:'accounts/fireworks/models/llama-v3p3-70b-instruct', name:'Fireworks' },
+  { prefix:'tgp_',    url:'https://api.together.xyz/v1',                             model:'meta-llama/Llama-3.3-70B-Instruct-Turbo', name:'Together AI' },
+  { prefix:'sk-',     url:'https://api.openai.com/v1',                               model:'gpt-4o-mini',              name:'OpenAI' },
+];
+const REGEX_DETECT = [
+  { regex:/^[a-zA-Z0-9]{32}$/, url:'https://api.mistral.ai/v1', model:'mistral-small-latest', name:'Mistral' },
+];
+function detectProvider(key) {
+  if (!key) return null;
+  for (const p of AUTO_DETECT) if (key.startsWith(p.prefix)) return p;
+  for (const p of REGEX_DETECT) if (p.regex.test(key)) return p;
+  return null;
+}
+
+// ═══════════════════════════════════════
+// SYSTEM PROMPT PRESETS
+// ═══════════════════════════════════════
+const PRESETS = {
+  livre: '',
+  juridico: `Você é um assistente jurídico especializado no direito brasileiro.
+Responda de forma técnica, cite legislação e jurisprudência quando relevante.
+Seja objetivo e preciso. Não use linguagem informal.`,
+  codigo: `Você é um assistente de programação.
+Ao responder: entregue o código completo e funcional.
+Explique brevemente o que mudou. Seja direto.`,
+  direto: `Responda sempre de forma direta e objetiva.
+Sem introduções longas. Sem frases de empatia.
+Vá direto ao ponto. Entregue a resposta e pronto.`,
+  custom: null,
+};
+
+let currentPreset = localStorage.getItem('cia_preset') || 'livre';
+let customSysPrompt = localStorage.getItem('cia_sysprompt') || '';
+let feedbackOn = localStorage.getItem('cia_feedback') !== 'off';
+
+function getSysPrompt() {
+  if (currentPreset === 'custom') return customSysPrompt;
+  return PRESETS[currentPreset] || '';
+}
+
+function applyPreset(name) {
+  currentPreset = name;
+  localStorage.setItem('cia_preset', name);
+  document.querySelectorAll('.sys-preset').forEach(b =&gt; b.classList.remove('active'));
+  document.getElementById('preset-'+name)?.classList.add('active');
+  if (name !== 'custom') {
+    document.getElementById('sysPromptInput').value = PRESETS[name] || '';
+    toast('Preset &quot;'+name+'&quot; aplicado');
+  } else {
+    document.getElementById('sysPromptInput').value = customSysPrompt;
+  }
+}
+
+function saveSystemPrompt() {
+  const val = document.getElementById('sysPromptInput').value.trim();
+  customSysPrompt = val;
+  currentPreset = 'custom';
+  localStorage.setItem('cia_sysprompt', val);
+  localStorage.setItem('cia_preset', 'custom');
+  document.querySelectorAll('.sys-preset').forEach(b =&gt; b.classList.remove('active'));
+  document.getElementById('preset-custom')?.classList.add('active');
+  toast('System Prompt salvo ✓');
+}
+
+function initSysPanel() {
+  document.getElementById('sysPromptInput').value = getSysPrompt();
+  document.querySelectorAll('.sys-preset').forEach(b =&gt; b.classList.remove('active'));
+  document.getElementById('preset-'+currentPreset)?.classList.add('active');
+}
+
+// ═══════════════════════════════════════
+// FEEDBACK
+// ═══════════════════════════════════════
+function toggleFeedback() {
+  feedbackOn = !feedbackOn;
+  localStorage.setItem('cia_feedback', feedbackOn ? 'on' : 'off');
+  document.getElementById('fbToggleBtn').style.opacity = feedbackOn ? '1' : '0.4';
+  toast(feedbackOn ? '⭐ Feedback ATIVADO' : 'Feedback desativado');
+}
+
+function addFeedbackBar(msgEl, responseText) {
+  if (!feedbackOn) return;
+  const bar = document.createElement('div');
+  bar.className = 'feedback-bar';
+
+  const label = document.createElement('span');
+  label.textContent = 'Resposta útil?';
+
+  const btnUp = document.createElement('button');
+  btnUp.className = 'fb-btn';
+  btnUp.textContent = '👍';
+  btnUp.title = 'Boa resposta';
+
+  const btnDown = document.createElement('button');
+  btnDown.className = 'fb-btn';
+  btnDown.textContent = '👎';
+  btnDown.title = 'Resposta ruim';
+
+  const btnCopy = document.createElement('button');
+  btnCopy.className = 'fb-btn';
+  btnCopy.textContent = '📋 Copiar';
+  btnCopy.onclick = () =&gt; {
+    navigator.clipboard.writeText(responseText || '');
+    btnCopy.textContent = '✓ Copiado';
+    setTimeout(() =&gt; btnCopy.textContent = '📋 Copiar', 1800);
+  };
+
+  const note = document.createElement('span');
+  note.className = 'fb-note';
+  note.id = 'fb-note-'+Date.now();
+
+  let voted = false;
+  btnUp.onclick = () =&gt; {
+    if (voted) return;
+    voted = true;
+    btnUp.classList.add('selected');
+    note.textContent = 'Obrigado! ✓';
+    saveFeedback('up', responseText);
+  };
+  btnDown.onclick = () =&gt; {
+    if (voted) return;
+    voted = true;
+    btnDown.classList.add('selected');
+    note.textContent = 'Anotado. ✓';
+    saveFeedback('down', responseText);
+  };
+
+  bar.appendChild(label);
+  bar.appendChild(btnUp);
+  bar.appendChild(btnDown);
+  bar.appendChild(btnCopy);
+  bar.appendChild(note);
+  msgEl.appendChild(bar);
+}
+
+function saveFeedback(type, text) {
+  const feedbacks = JSON.parse(localStorage.getItem('cia_feedbacks') || '[]');
+  feedbacks.push({ type, text: text?.slice(0,200), date: new Date().toISOString(), conv: currentConvId });
+  if (feedbacks.length &gt; 200) feedbacks.splice(0, feedbacks.length - 200);
+  localStorage.setItem('cia_feedbacks', JSON.stringify(feedbacks));
+}
+
+// ═══════════════════════════════════════
+// INDEXEDDB
+// ═══════════════════════════════════════
+const DB_NAME = 'ChatIAProDB_v2';
+let db = null;
+
+function openDB() {
+  return new Promise((resolve, reject) =&gt; {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = ev =&gt; {
+      const d = ev.target.result;
+      if (!d.objectStoreNames.contains('conversations')) d.createObjectStore('conversations', { keyPath:'id' });
+    };
+    req.onsuccess = () =&gt; { db = req.result; resolve(db); };
+    req.onerror   = () =&gt; reject(req.error);
+  });
+}
+function dbPut(store, obj) {
+  return new Promise((res,rej) =&gt; { const tx=db.transaction(store,'readwrite'); tx.objectStore(store).put(obj); tx.oncomplete=res; tx.onerror=()=&gt;rej(tx.error); });
+}
+function dbGetAll(store) {
+  return new Promise((res,rej) =&gt; { const tx=db.transaction(store,'readonly'); const r=tx.objectStore(store).getAll(); r.onsuccess=()=&gt;res(r.result); r.onerror=()=&gt;rej(r.error); });
+}
+function dbGet(store, key) {
+  return new Promise((res,rej) =&gt; { const tx=db.transaction(store,'readonly'); const r=tx.objectStore(store).get(key); r.onsuccess=()=&gt;res(r.result); r.onerror=()=&gt;rej(r.error); });
+}
+function dbDelete(store, key) {
+  return new Promise((res,rej) =&gt; { const tx=db.transaction(store,'readwrite'); tx.objectStore(store).delete(key); tx.oncomplete=res; tx.onerror=()=&gt;rej(tx.error); });
+}
+
+// ═══════════════════════════════════════
+// ESTADO
+// ═══════════════════════════════════════
+let apiKey    = localStorage.getItem('cia_key')   || '';
+let apiUrl    = localStorage.getItem('cia_url')   || '';
+let apiModel  = localStorage.getItem('cia_model') || '';
+let savedKeys = JSON.parse(localStorage.getItem('cia_saved') || '[]');
+let ttsOn     = localStorage.getItem('cia_tts') !== 'off';
+let webOn     = localStorage.getItem('cia_web') === 'on';
+let showKey   = false;
+
+let history       = [];
+let currentConvId = null;
+let controller    = null;
+let isRecording   = false;
+let recog         = null;
+let silTimer      = null;
+let saveTimer     = null;
+
+// ═══════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════
+async function boot() {
+  try { await openDB(); } catch(e) { console.warn('IndexedDB indisponível:', e); }
+
+  document.getElementById('keyInput').value = apiKey;
+  if (apiKey) {
+    const d = detectProvider(apiKey);
+    document.getElementById('urlInput').value   = d ? d.url   : (apiUrl   || '');
+    document.getElementById('modelInput').value = d ? d.model : (apiModel || '');
+  }
+
+  updateProvBadge();
+  updateCfgStatus();
+  document.getElementById('ttsBtn').style.opacity    = ttsOn ? '1' : '0.4';
+  document.getElementById('fbToggleBtn').style.opacity = feedbackOn ? '1' : '0.4';
+  document.getElementById('webBtn').classList.toggle('web-on', webOn);
+
+  initSysPanel();
+  renderSavedKeys();
+  await renderConvList();
+
+  const last = localStorage.getItem('cia_current_conv');
+  if (last &amp;&amp; db) {
+    const conv = await dbGet('conversations', last);
+    if (conv?.messages?.length) {
+      currentConvId = conv.id;
+      history = conv.messages;
+      restoreUI();
+    }
+  }
+
+  const draft = localStorage.getItem('cia_draft');
+  if (draft) { document.getElementById('msgInput').value = draft; adjustHeight(document.getElementById('msgInput')); }
+
+  if (!apiKey) togglePanel('cfgPanel','cfgBtn');
+}
+
+function restoreUI() {
+  document.getElementById('emptyState')?.remove();
+  const chat = document.getElementById('chat');
+  chat.innerHTML = '';
+  history.forEach(m =&gt; appendMsg(m.role==='user'?'user':'bot', m.content, false, true));
+  addCopyListeners();
+}
+
+// ═══════════════════════════════════════
+// AUTO-SAVE
+// ═══════════════════════════════════════
+async function autoSave() {
+  if (!db || !history.length) return;
+  if (!currentConvId) currentConvId = 'conv_'+Date.now();
+  const title = (history.find(m=&gt;m.role==='user')?.content||'Conversa').slice(0,60).replace(/\n/g,' ');
+  const obj = { id:currentConvId, title, messages:history, updatedAt:Date.now(), provider:apiKey?(detectProvider(apiKey)?.name||'Custom'):'Demo' };
+  try { await dbPut('conversations', obj); localStorage.setItem('cia_current_conv', currentConvId); } catch(e) {}
+}
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(autoSave, 400); }
+function autoSaveDraft() {
+  const v = document.getElementById('msgInput').value;
+  v ? localStorage.setItem('cia_draft',v) : localStorage.removeItem('cia_draft');
+}
+
+// ═══════════════════════════════════════
+// PAINÉIS
+// ═══════════════════════════════════════
+function togglePanel(panelId, btnId) {
+  const all = ['cfgPanel','keysPanel','convPanel','ioPanel','sysPanel'];
+  const allB= ['cfgBtn','keysBtn','convBtn','ioBtn','sysBtn'];
+  const target = document.getElementById(panelId);
+  const show = !target.classList.contains('show');
+  all.forEach(id=&gt;document.getElementById(id).classList.remove('show'));
+  allB.forEach(id=&gt;document.getElementById(id)?.classList.remove('active'));
+  if (show) { target.classList.add('show'); document.getElementById(btnId)?.classList.add('active'); }
+  if (panelId==='sysPanel') initSysPanel();
+  if (panelId==='convPanel') renderConvList();
+}
+
+// ═══════════════════════════════════════
+// CHAVES
+// ═══════════════════════════════════════
+function onKeyInput(val) {
+  val = val.trim(); apiKey = val;
+  localStorage.setItem('cia_key', val);
+  const d = val ? detectProvider(val) : null;
+  if (d) {
+    document.getElementById('urlInput').value  = d.url;
+    document.getElementById('modelInput').value= d.model;
+    apiUrl=d.url; apiModel=d.model;
+    localStorage.setItem('cia_url',d.url); localStorage.setItem('cia_model',d.model);
+    document.getElementById('cfgProvOk').textContent='✓ '+d.name+' · '+d.model;
+    document.getElementById('cfgProvOk').style.display='block';
+    document.getElementById('cfgNote').style.display='none';
+  } else {
+    document.getElementById('cfgProvOk').style.display='none';
+    document.getElementById('cfgNote').style.display='';
+  }
+  document.getElementById('saveRow').style.display = val?'flex':'none';
+  updateProvBadge(); updateCfgStatus();
+}
+function updateProvBadge() {
+  const b=document.getElementById('provBadge');
+  if (apiKey) { const d=detectProvider(apiKey); b.textContent=d?d.name:'Custom'; b.style.borderColor='#5aab56'; b.style.color='#7ec87a'; }
+  else { b.textContent='Demo ✨'; b.style.borderColor='#60a5fa'; b.style.color='#93c5fd'; }
+}
+function updateCfgStatus() {
+  const el=document.getElementById('cfgStatus');
+  if (apiKey) { const d=detectProvider(apiKey); el.textContent='✓ '+(d?d.name:'Custom')+' ativa'; el.className='cfg-status ok'; }
+  else { el.textContent='Sem chave'; el.className='cfg-status demo'; }
+}
+function toggleShowKey() { showKey=!showKey; document.getElementById('keyInput').type=showKey?'text':'password'; }
+function saveKey() {
+  const key=document.getElementById('keyInput').value.trim();
+  const label=document.getElementById('labelInput').value.trim();
+  const url=document.getElementById('urlInput').value.trim();
+  const model=document.getElementById('modelInput').value.trim();
+  if (!key) return;
+  if (savedKeys.some(k=&gt;k.key===key)) { toast('Chave já salva','err'); return; }
+  const d=detectProvider(key);
+  savedKeys.push({ id:Date.now()+'', label:label||(d?d.name:'Chave '+(savedKeys.length+1)), key, url, model, provider:d?d.name:'Custom' });
+  localStorage.setItem('cia_saved',JSON.stringify(savedKeys));
+  document.getElementById('labelInput').value='';
+  renderSavedKeys(); toast('Chave salva ✓');
+}
+function renderSavedKeys() {
+  const list=document.getElementById('keysList');
+  document.getElementById('keysTitle').textContent='Chaves Salvas ('+savedKeys.length+')';
+  if (!savedKeys.length) { list.innerHTML='&lt;div style=&quot;font-size:12px;color:#6b8f68;text-align:center;padding:10px&quot;&gt;Nenhuma chave salva.&lt;/div&gt;'; return; }
+  list.innerHTML='';
+  savedKeys.forEach(sk=&gt;{
+    const div=document.createElement('div');
+    div.className='saved-key'+(sk.key===apiKey?' active':'');
+    div.innerHTML='&lt;div class=&quot;saved-key-info&quot; onclick=&quot;loadKey(\''+sk.id+'\')&quot;&gt;&lt;div class=&quot;saved-key-label&quot;&gt;'+esc(sk.label)+'&lt;/div&gt;&lt;div class=&quot;saved-key-meta&quot;&gt;'+esc(sk.provider)+' · '+sk.key.slice(0,6)+'…'+sk.key.slice(-3)+'&lt;/div&gt;&lt;/div&gt;'+(sk.key===apiKey?'&lt;span class=&quot;active-tag&quot;&gt;ATIVA&lt;/span&gt;':'')+'&lt;button class=&quot;del-btn&quot; onclick=&quot;deleteKey(\''+sk.id+'\')&quot;&gt;✕&lt;/button&gt;';
+    list.appendChild(div);
+  });
+}
+function loadKey(id) {
+  const sk=savedKeys.find(k=&gt;k.id===id); if (!sk) return;
+  apiKey=sk.key; apiUrl=sk.url; apiModel=sk.model;
+  localStorage.setItem('cia_key',sk.key); localStorage.setItem('cia_url',sk.url); localStorage.setItem('cia_model',sk.model);
+  document.getElementById('keyInput').value=sk.key; document.getElementById('urlInput').value=sk.url; document.getElementById('modelInput').value=sk.model;
+  onKeyInput(sk.key); renderSavedKeys(); togglePanel('keysPanel','keysBtn'); toast('Chave &quot;'+sk.label+'&quot; ativada');
+}
+function deleteKey(id) { savedKeys=savedKeys.filter(k=&gt;k.id!==id); localStorage.setItem('cia_saved',JSON.stringify(savedKeys)); renderSavedKeys(); }
+
+// ═══════════════════════════════════════
+// HISTÓRICO
+// ═══════════════════════════════════════
+async function renderConvList() {
+  const list=document.getElementById('convList');
+  if (!db) { list.innerHTML='&lt;div style=&quot;font-size:12px;color:#6b8f68;text-align:center;padding:10px&quot;&gt;DB indisponível&lt;/div&gt;'; return; }
+  const convs=(await dbGetAll('conversations')).sort((a,b)=&gt;b.updatedAt-a.updatedAt);
+  document.getElementById('convTitle').textContent='Conversas ('+convs.length+')';
+  if (!convs.length) { list.innerHTML='&lt;div style=&quot;font-size:12px;color:#6b8f68;text-align:center;padding:10px&quot;&gt;Nenhuma conversa salva ainda.&lt;/div&gt;'; return; }
+  list.innerHTML='';
+  convs.forEach(c=&gt;{
+    const div=document.createElement('div');
+    div.className='conv-item'+(c.id===currentConvId?' active':'');
+    const date=new Date(c.updatedAt).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    div.innerHTML='&lt;div class=&quot;conv-info&quot; onclick=&quot;loadConv(\''+c.id+'\')&quot;&gt;&lt;div class=&quot;conv-title&quot;&gt;'+esc(c.title)+'&lt;/div&gt;&lt;div class=&quot;conv-meta&quot;&gt;'+date+' · '+c.messages.length+' msgs · '+esc(c.provider||'')+'&lt;/div&gt;&lt;/div&gt;&lt;button class=&quot;del-btn&quot; onclick=&quot;deleteConv(\''+c.id+'\')&quot;&gt;✕&lt;/button&gt;';
+    list.appendChild(div);
+  });
+}
+async function loadConv(id) {
+  const c=await dbGet('conversations',id); if (!c) return;
+  currentConvId=c.id; history=c.messages;
+  localStorage.setItem('cia_current_conv',id);
+  restoreUI(); togglePanel('convPanel','convBtn'); toast('Conversa carregada');
+}
+async function deleteConv(id) {
+  if (!confirm('Excluir esta conversa?')) return;
+  await dbDelete('conversations',id);
+  if (id===currentConvId) { currentConvId=null; history=[]; restoreUI(); }
+  await renderConvList();
+}
+function newChat() {
+  if (history.length&amp;&amp;!confirm('Nova conversa? A atual já está salva.')) return;
+  abortStream(); history=[]; currentConvId=null;
+  localStorage.removeItem('cia_current_conv');
+  window.speechSynthesis?.cancel();
+  const chat=document.getElementById('chat'); chat.innerHTML='';
+  const empty=document.createElement('div'); empty.className='empty-state'; empty.id='emptyState';
+  empty.innerHTML='&lt;span class=&quot;icon&quot;&gt;⚖️&lt;/span&gt;&lt;h2&gt;Chat IA Pro&lt;/h2&gt;&lt;p&gt;Nova conversa pronta!&lt;/p&gt;&lt;div class=&quot;chips&quot;&gt;&lt;div class=&quot;chip&quot; onclick=&quot;setPrompt(\'Olá!\')&quot;&gt;Olá!&lt;/div&gt;&lt;div class=&quot;chip&quot; onclick=&quot;setPrompt(\'Me ajude com uma questão jurídica.\')&quot;&gt;⚖️ Jurídico&lt;/div&gt;&lt;/div&gt;';
+  chat.appendChild(empty);
+}
+
+// ═══════════════════════════════════════
+// WEB SEARCH
+// ═══════════════════════════════════════
+function toggleWeb() {
+  webOn=!webOn; localStorage.setItem('cia_web',webOn?'on':'off');
+  document.getElementById('webBtn').classList.toggle('web-on',webOn);
+  toast(webOn?'🌐 Busca web ATIVADA':'Busca web desativada');
+}
+async function webSearch(query) {
+  try {
+    const url='https://api.duckduckgo.com/?q='+encodeURIComponent(query)+'&amp;format=json&amp;no_html=1&amp;skip_disambig=1';
+    const r=await fetch(url); const j=await r.json();
+    const parts=[];
+    if (j.AbstractText) parts.push('RESUMO: '+j.AbstractText);
+    if (j.Answer) parts.push('RESPOSTA: '+j.Answer);
+    if (j.RelatedTopics?.length) {
+      const t=j.RelatedTopics.slice(0,5).filter(t=&gt;t.Text).map((t,i)=&gt;(i+1)+'. '+t.Text);
+      if (t.length) parts.push('TÓPICOS:\n'+t.join('\n'));
+    }
+    return parts.length?parts.join('\n\n'):null;
+  } catch { return null; }
+}
+
+// ═══════════════════════════════════════
+// ENVIAR
+// ═══════════════════════════════════════
+function handleKey(e) { if (e.key==='Enter'&amp;&amp;!e.shiftKey){e.preventDefault();send();} }
+function adjustHeight(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,130)+'px'; }
+function setPrompt(txt) { const el=document.getElementById('msgInput'); el.value=txt; adjustHeight(el); el.focus(); }
+
+async function send(textOverride) {
+  const el=document.getElementById('msgInput');
+  const text=(textOverride||el.value).trim();
+  if (!text) return;
+
+  if (window.speechSynthesis) { const u=new SpeechSynthesisUtterance(' '); u.volume=0; window.speechSynthesis.speak(u); }
+
+  document.getElementById('emptyState')?.remove();
+  el.value=''; el.style.height='44px';
+  localStorage.removeItem('cia_draft');
+
+  history.push({ role:'user', content:text });
+  appendMsg('user', text);
+  scheduleSave();
+
+  controller=new AbortController();
+  document.getElementById('sendBtn').style.display='none';
+  document.getElementById('stopBtn').style.display='flex';
+
+  const { content:contentEl, wrap:wrapEl } = appendMsg('bot','',true);
+
+  // Web search
+  let webContext='';
+  if (webOn) {
+    const note=document.createElement('div'); note.className='progress'; note.textContent='🌐 Buscando...';
+    contentEl.appendChild(note);
+    const result=await webSearch(text); note.remove();
+    if (result) { webContext='\n\n[CONTEXTO WEB]:\n'+result+'\n[FIM]'; }
+  }
+
+  try {
+    const key=apiKey.trim();
+    const url=(document.getElementById('urlInput').value||apiUrl||'https://api.groq.com/openai/v1').trim().replace(/\/$/,'');
+    const model=document.getElementById('modelInput').value||apiModel||'llama-3.3-70b-versatile';
+
+    if (!key) {
+      contentEl.innerHTML='&lt;span style=&quot;color:#60a5fa&quot;&gt;⚠️ Configure uma chave de API em ⚙️. Groq é gratuito: &lt;a href=&quot;https://console.groq.com&quot; target=&quot;_blank&quot; style=&quot;color:#7ec87a&quot;&gt;console.groq.com&lt;/a&gt;&lt;/span&gt;';
+      history.pop(); scheduleSave(); return;
+    }
+
+    // Monta mensagens com system prompt
+    const sys = getSysPrompt();
+    let msgs = sys ? [{ role:'system', content:sys }, ...history] : [...history];
+    if (webContext) {
+      const last=msgs[msgs.length-1];
+      msgs[msgs.length-1]={ role:'user', content:last.content+webContext };
+    }
+
+    const resp=await fetch(url+'/chat/completions', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+key, 'HTTP-Referer':location.origin, 'X-Title':'Chat IA Pro' },
+      body:JSON.stringify({ model, messages:msgs, stream:true, max_tokens:16384 }),
+      signal:controller.signal
+    });
+
+    if (!resp.ok) {
+      const errText=await resp.text();
+      let msg='Erro '+resp.status;
+      try { msg=JSON.parse(errText)?.error?.message||msg; } catch {}
+      contentEl.innerHTML='&lt;span style=&quot;color:var(--err)&quot;&gt;❌ '+esc(msg)+'&lt;/span&gt;';
+      history.pop(); scheduleSave(); return;
+    }
+
+    const reader=resp.body.getReader(); const decoder=new TextDecoder();
+    let full='', buf='';
+    const cursor=document.createElement('span'); cursor.className='cursor-blink';
+    contentEl.appendChild(cursor);
+
+    while (true) {
+      const { done, value }=await reader.read(); if (done) break;
+      buf+=decoder.decode(value,{stream:true});
+      const lines=buf.split('\n'); buf=lines.pop()||'';
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const j=line.slice(6).trim(); if (j==='[DONE]') continue;
+        try {
+          const p=JSON.parse(j);
+          if (p.error) throw new Error(typeof p.error==='string'?p.error:p.error.message||'Erro');
+          const delta=p.choices?.[0]?.delta?.content||p.text||p.content||'';
+          if (delta) { full+=delta; cursor.remove(); contentEl.innerHTML=renderMarkdown(full); contentEl.appendChild(cursor); scrollBottom(); }
+        } catch(e) { if (e instanceof SyntaxError) continue; throw e; }
+      }
+    }
+
+    cursor.remove();
+    if (full) {
+      contentEl.innerHTML=renderMarkdown(full);
+      history.push({ role:'assistant', content:full });
+      scheduleSave();
+      if (ttsOn) speakText(full);
+      // FEEDBACK AUTOMÁTICO
+      addFeedbackBar(wrapEl, full);
+    }
+
+  } catch(err) {
+    if (err.name==='AbortError') {
+      contentEl.innerHTML+='&lt;em style=&quot;color:var(--muted);font-size:11px&quot;&gt; [parado]&lt;/em&gt;';
+    } else {
+      contentEl.innerHTML='&lt;span style=&quot;color:var(--err)&quot;&gt;❌ '+esc(err.message)+'&lt;/span&gt;';
+      history.pop(); scheduleSave();
+    }
+  } finally {
+    controller=null;
+    document.getElementById('sendBtn').style.display='flex';
+    document.getElementById('stopBtn').style.display='none';
+    scrollBottom(); addCopyListeners();
+  }
+}
+
+function abortStream() { controller?.abort(); }
+
+// ═══════════════════════════════════════
+// RENDERIZAÇÃO
+// ═══════════════════════════════════════
+function appendMsg(role, text, streaming, isRestore) {
+  const wrap=document.createElement('div'); wrap.className='msg '+role;
+  const bubble=document.createElement('div'); bubble.className='msg-bubble';
+  const content=document.createElement('div'); content.className='msg-content';
+  if (role==='user') content.textContent=text;
+  else if (streaming) content.innerHTML='';
+  else content.innerHTML=renderMarkdown(text);
+  bubble.appendChild(content); wrap.appendChild(bubble);
+  const meta=document.createElement('div'); meta.className='msg-meta';
+  if (role==='bot') {
+    const prov=apiKey?(detectProvider(apiKey)?.name||'IA'):'IA';
+    const lbl=document.createElement('span'); lbl.className='prov-label'; lbl.textContent=prov;
+    const btn=document.createElement('button'); btn.innerHTML='📋 Copiar'; btn.onclick=function(){copyText(this,content.textContent);};
+    meta.appendChild(lbl); meta.appendChild(btn);
+  } else {
+    const btn=document.createElement('button'); btn.innerHTML='📋 Copiar'; btn.onclick=function(){copyText(this,text);};
+    meta.appendChild(btn);
+  }
+  wrap.appendChild(meta);
+  document.getElementById('chat').appendChild(wrap);
+  if (!isRestore) scrollBottom();
+  return { el:wrap, content, wrap };
+}
+
+let copyBlockId=0;
+function renderMarkdown(text) {
+  let html=esc(text);
+  html=html.replace(/```(\w*?)\n([\s\S]*?)```/g,(_,lang,code)=&gt;{
+    const id='cb'+(++copyBlockId);
+    return '&lt;div class=&quot;code-block&quot;&gt;&lt;div class=&quot;code-header&quot;&gt;&lt;span&gt;'+(lang||'código')+'&lt;/span&gt;&lt;button class=&quot;copy-btn&quot; data-copy=&quot;'+escAttr(code)+'&quot; id=&quot;'+id+'&quot;&gt;📋 Copiar&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;code-body&quot;&gt;'+code+'&lt;/div&gt;&lt;/div&gt;';
+  });
+  html=html.replace(/`([^`\n]+?)`/g,'&lt;span class=&quot;inline-code&quot;&gt;$1&lt;/span&gt;');
+  html=html.replace(/\*\*([^*]+?)\*\*/g,'&lt;strong&gt;$1&lt;/strong&gt;');
+  html=html.replace(/\*([^*]+?)\*/g,'&lt;em&gt;$1&lt;/em&gt;');
+  html=html.replace(/(https?:\/\/[^\s&lt;&gt;&quot;']+)/g,'&lt;a href=&quot;$1&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;$1&lt;/a&gt;');
+  html=html.replace(/\n/g,'&lt;br&gt;');
+  return html;
+}
+function addCopyListeners() {
+  document.querySelectorAll('.copy-btn[data-copy]').forEach(btn=&gt;{
+    if (btn.dataset.bound) return; btn.dataset.bound='1';
+    btn.onclick=function(){copyText(this,this.dataset.copy);};
+  });
+}
+function copyText(btn,text) {
+  navigator.clipboard.writeText(text||'').catch(()=&gt;{});
+  const orig=btn.innerHTML; btn.innerHTML='✓ Copiado!';
+  setTimeout(()=&gt;{btn.innerHTML=orig;},1800);
+}
+function scrollBottom() { const c=document.getElementById('chat'); c.scrollTop=c.scrollHeight; }
+
+// ═══════════════════════════════════════
+// EXPORTAR
+// ═══════════════════════════════════════
+function exportConv(format) {
+  
+
+  if (!history.length) { toast('Nada para exportar','err'); return; }
+  const date=new Date().toLocaleString('pt-BR');
+  let content='', mime='text/plain', ext=format;
+
+  if (format==='txt') {
+    const lines=['=== CONVERSA — Chat IA Pro ===','Data: '+date,''];
+    history.forEach(m=&gt;{ lines.push('['+(m.role==='user'?'VOCÊ':'IA')+']'); lines.push(m.content); lines.push(''); });
+    content=lines.join('\n');
+  }
+  else if (format==='md') {
+    const lines=['# Conversa Chat IA Pro','&gt; '+date,''];
+    history.forEach(m=&gt;{ lines.push('### '+(m.role==='user'?'🧑 Você':'🤖 IA')); lines.push(''); lines.push(m.content); lines.push(''); });
+    content=lines.join('\n'); mime='text/markdown';
+  }
+  else if (format==='json') {
+    const sys=getSysPrompt();
+    content=JSON.stringify({
+      title: (history.find(m=&gt;m.role==='user')?.content||'Conversa').slice(0,60),
+      exportedAt: date,
+      provider: apiKey?(detectProvider(apiKey)?.name||'Custom'):'Demo',
+      systemPrompt: sys||null,
+      preset: currentPreset,
+      messages: history,
+    },null,2);
+    mime='application/json';
+  }
+  else if (format==='pdf') {
+    const w=window.open('','_blank');
+    const html=['&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;Conversa&lt;/title&gt;',
+      '&lt;style&gt;body{font-family:Georgia,serif;max-width:780px;margin:30px auto;padding:0 20px;color:#222;line-height:1.6}',
+      'h1{color:#2d4a1e;border-bottom:2px solid #5aab56;padding-bottom:8px}.meta{color:#666;font-size:12px;margin-bottom:20px}',
+      '.msg{margin:16px 0;padding:12px 16px;border-radius:8px;page-break-inside:avoid}',
+      '.user{background:#e8f5e9;border-left:4px solid #5aab56}.bot{background:#f5f5f5;border-left:4px solid #888}',
+      '.role{font-weight:bold;font-size:11px;text-transform:uppercase;color:#555;margin-bottom:4px}',
+      'pre{background:#0d1309;color:#a8d5a2;padding:10px;border-radius:6px;overflow-x:auto;font-size:12px}',
+      '@media print{body{margin:0}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;',
+      '&lt;h1&gt;Conversa — Chat IA Pro&lt;/h1&gt;',
+      '&lt;div class=&quot;meta&quot;&gt;Exportado em '+date+' · '+history.length+' mensagens&lt;/div&gt;'];
+    history.forEach(m=&gt;{
+      const safe=esc(m.content).replace(/\n/g,'&lt;br&gt;');
+      html.push('&lt;div class=&quot;msg '+(m.role==='user'?'user':'bot')+'&quot;&gt;');
+      html.push('&lt;div class=&quot;role&quot;&gt;'+(m.role==='user'?'🧑 Você':'🤖 IA')+'&lt;/div&gt;');
+      html.push('&lt;div&gt;'+safe+'&lt;/div&gt;&lt;/div&gt;');
+    });
+    html.push('&lt;script&gt;window.onload=()=&gt;setTimeout(()=&gt;window.print(),300)&lt;\/script&gt;&lt;/body&gt;&lt;/html&gt;');
+    w.document.write(html.join('')); w.document.close();
+    toast('PDF: use &quot;Salvar como PDF&quot; na impressão'); return;
+  }
+
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type:mime+';charset=utf-8'}));
+  a.download='conversa-'+Date.now()+'.'+ext;
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('Exportado: '+ext.toUpperCase());
+}
+
+// ═══════════════════════════════════════
+// IMPORTAR
+// ═══════════════════════════════════════
+async function importFile(e) {
+  const file=e.target.files?.[0]; e.target.value=''; if (!file) return;
+  const name=file.name.toLowerCase();
+  const el=document.getElementById('msgInput');
+  try {
+    let txt='';
+    if (name.endsWith('.pdf')) { toast('📕 Lendo PDF...'); txt=await extractPDF(file); }
+    else if (name.endsWith('.json')) {
+      const raw=await file.text();
+      try {
+        const j=JSON.parse(raw);
+        // Conversa exportada — oferece restaurar
+        if (j.messages&amp;&amp;Array.isArray(j.messages)) {
+          if (confirm('Este JSON é uma conversa exportada. Restaurar agora?\n\n&quot;'+j.title+'&quot;')) {
+            history=j.messages; currentConvId=null;
+            // Restaura system prompt se tiver
+            if (j.systemPrompt) {
+              customSysPrompt=j.systemPrompt;
+              currentPreset='custom';
+              localStorage.setItem('cia_sysprompt',j.systemPrompt);
+              localStorage.setItem('cia_preset','custom');
+            }
+            restoreUI(); scheduleSave();
+            togglePanel('ioPanel','ioBtn');
+            toast('Conversa restaurada ✓ ('+history.length+' msgs)'); return;
+          }
+        }
+        txt=JSON.stringify(j,null,2);
+      } catch { txt=raw; }
+    }
+    else { txt=await file.text(); }
+    if (txt) {
+      el.value=el.value?el.value+'\n\n'+txt:txt;
+      adjustHeight(el); autoSaveDraft();
+      togglePanel('ioPanel','ioBtn');
+      toast('Importado ('+txt.length+' chars)');
+    }
+  } catch(err) { toast('Erro: '+err.message,'err'); }
+}
+
+async function extractPDF(file) {
+  if (typeof pdfjsLib==='undefined') throw new Error('PDF.js não carregou');
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  const pages=[];
+  for (let i=1;i&lt;=pdf.numPages;i++) {
+    const page=await pdf.getPage(i);
+    const tc=await page.getTextContent();
+    pages.push('--- Página '+i+' ---\n'+tc.items.map(it=&gt;it.str).join(' '));
+  }
+  return pages.join('\n\n');
+}
+
+// ═══════════════════════════════════════
+// OCR
+// ═══════════════════════════════════════
+async function importImage(e) {
+  const file=e.target.files?.[0]; e.target.value=''; if (!file) return;
+  if (typeof Tesseract==='undefined') { toast('Tesseract não carregou','err'); return; }
+  const el=document.getElementById('msgInput');
+  const prog=document.createElement('div');
+  prog.className='progress';
+  prog.style.cssText='position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:1000;';
+  prog.textContent='🔍 OCR iniciando...';
+  document.body.appendChild(prog);
+  try {
+    const { data }=await Tesseract.recognize(file,'por+eng',{
+      logger:m=&gt;{ if (m.status==='recognizing text') prog.textContent='🔍 OCR: '+Math.round(m.progress*100)+'%'; }
+    });
+    const txt=(data?.text||'').trim();
+    if (txt) {
+      el.value=el.value?el.value+'\n\n[OCR]\n'+txt:'[OCR]\n'+txt;
+      adjustHeight(el); autoSaveDraft();
+      togglePanel('ioPanel','ioBtn');
+      toast('OCR concluído ('+txt.length+' chars)');
+    } else { toast('Nenhum texto encontrado','err'); }
+  } catch(err) { toast('Erro OCR: '+err.message,'err'); }
+  finally { prog.remove(); }
+}
+
+// ═══════════════════════════════════════
+// BACKUP COMPLETO
+// ═══════════════════════════════════════
+async function backupAll() {
+  const convs=db?await dbGetAll('conversations'):[];
+  const feedbacks=JSON.parse(localStorage.getItem('cia_feedbacks')||'[]');
+  const data={
+    version:2,
+    exportedAt:new Date().toISOString(),
+    keys:savedKeys,
+    conversations:convs,
+    feedbacks,
+    settings:{ apiKey, apiUrl, apiModel, ttsOn, webOn, currentPreset, customSysPrompt }
+  };
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download='chatia-backup-'+Date.now()+'.json';
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('Backup completo ✓');
+}
+
+async function restoreBackup(e) {
+  const file=e.target.files?.[0]; e.target.value=''; if (!file) return;
+  if (!confirm('Restaurar backup? Dados atuais serão MESCLADOS.')) return;
+  try {
+    const data=JSON.parse(await file.text());
+    if (data.keys?.length) {
+      const existing=new Set(savedKeys.map(k=&gt;k.key));
+      data.keys.forEach(k=&gt;{ if (!existing.has(k.key)) savedKeys.push(k); });
+      localStorage.setItem('cia_saved',JSON.stringify(savedKeys));
+    }
+    if (data.conversations?.length&amp;&amp;db) {
+      for (const c of data.conversations) await dbPut('conversations',c);
+    }
+    if (data.settings?.customSysPrompt) {
+      customSysPrompt=data.settings.customSysPrompt;
+      localStorage.setItem('cia_sysprompt',customSysPrompt);
+    }
+    if (data.settings?.currentPreset) {
+      currentPreset=data.settings.currentPreset;
+      localStorage.setItem('cia_preset',currentPreset);
+    }
+    renderSavedKeys(); await renderConvList();
+    toast('Backup restaurado ✓');
+  } catch { toast('Erro: backup inválido','err'); }
+}
+
+// ═══════════════════════════════════════
+// VOZ — STT
+// ═══════════════════════════════════════
+function toggleVoice() {
+  if (isRecording) { stopVoice(); return; }
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if (!SR) { toast('Use Chrome ou Edge para voz','err'); return; }
+  recog=new SR(); recog.lang='pt-BR'; recog.continuous=true; recog.interimResults=true;
+  let fullText='';
+  const schedSend=()=&gt;{ clearTimeout(silTimer); silTimer=setTimeout(()=&gt;{ try{recog.stop();}catch{} if(fullText.trim()){setPrompt('');send(fullText.trim());} },1800); };
+  recog.onresult=ev=&gt;{
+    let final='',interim='';
+    for (let i=0;i&lt;ev.results.length;i++) { if(ev.results[i].isFinal) final+=ev.results[i][0].transcript; else interim+=ev.results[i][0].transcript; }
+    fullText=final||interim;
+    document.getElementById('msgInput').value=fullText; adjustHeight(document.getElementById('msgInput'));
+    if (fullText) schedSend();
+  };
+  recog.onerror=recog.onend=()=&gt;{ clearTimeout(silTimer); isRecording=false; recog=null; document.getElementById('micBtn').classList.remove('listening'); };
+  try { recog.start(); } catch { return; }
+  isRecording=true; document.getElementById('micBtn').classList.add('listening');
+}
+function stopVoice() { try{recog?.stop();}catch{} recog=null; isRecording=false; clearTimeout(silTimer); document.getElementById('micBtn').classList.remove('listening'); }
+
+// ═══════════════════════════════════════
+// TTS
+// ═══════════════════════════════════════
+function toggleTTS() {
+  ttsOn=!ttsOn; localStorage.setItem('cia_tts',ttsOn?'on':'off');
+  document.getElementById('ttsBtn').style.opacity=ttsOn?'1':'0.4';
+  if (!ttsOn) window.speechSynthesis?.cancel();
+  toast(ttsOn?'🔊 Voz ATIVADA':'Voz desativada');
+}
+function speakText(text) {
+  if (!ttsOn||!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const clean=text.replace(/&lt;[^&gt;]+&gt;/g,'').replace(/[`*#]/g,'').substring(0,800);
+  const u=new SpeechSynthesisUtterance(clean); u.lang='pt-BR';
+  window.speechSynthesis.speak(u);
+}
+
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function esc(s) { return String(s).replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;').replace(/&quot;/g,'&amp;quot;'); }
+function escAttr(s) { return esc(s).replace(/'/g,'&amp;#39;'); }
+
+let toastTimer;
+function toast(msg,type) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.toggle('err',type==='err');
+  t.classList.add('show'); clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=&gt;t.classList.remove('show'),2500);
+}
+
+window.addEventListener('beforeunload',()=&gt;{ if(history.length) autoSave(); autoSaveDraft(); });
+
+boot();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+
+<script>
+function trocarProjeto(index) {
+  document.querySelectorAll('.project-container').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+</body>
+</html>

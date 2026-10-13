@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<title>Projeto Lab</title>
+<style>
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:#30363d;--text:#c9d1d9;--text2:#8b949e;--accent:#58a6ff;
+  --green:#3fb950;--red:#f85149;--yellow:#d29922;--purple:#bc8cff;--orange:#f0883e;--addbg:rgba(63,185,80,.14);--delbg:rgba(248,81,73,.14)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+button,select,input,textarea{font-family:inherit;font-size:12px}
+.hidden{display:none!important}
+a{color:var(--accent)}
+select,input[type=text],input[type=password],input[type=search],textarea{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 9px;border-radius:6px;outline:none;min-height:30px}
+select:focus,input:focus,textarea:focus{border-color:var(--accent)}
+.btn{padding:5px 10px;min-height:30px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text);cursor:pointer;white-space:nowrap;touch-action:manipulation}
+.btn:hover{background:var(--border)}
+.btn.sm{min-height:24px;padding:2px 8px;font-size:11px}
+.btn.primary{background:var(--accent);color:#000;border-color:var(--accent)}
+.btn.success{background:var(--green);color:#000;border-color:var(--green)}
+.btn.danger{background:var(--red);color:#fff;border-color:var(--red)}
+.btn.ai{border-color:var(--purple);color:var(--purple)}
+.btn.ai:hover{background:rgba(188,140,255,.15)}
+.btn.on{border-color:var(--accent);color:var(--accent);background:rgba(88,166,255,.14)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.mono{font-family:Consolas,Monaco,'Courier New',monospace}
+.muted{color:var(--text2)}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+
+/* HEADER */
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:6px 8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:700;color:var(--accent);font-size:14px;white-space:nowrap;margin-right:4px}
+.slot{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 5px;min-width:0;flex:1 1 230px;max-width:420px}
+.slot.drop{border-color:var(--accent);background:rgba(88,166,255,.12)}
+.tag{font-weight:800;border-radius:5px;padding:1px 7px;font-size:12px;color:#000;flex-shrink:0}
+.tag.A{background:var(--orange)}.tag.B{background:var(--purple)}
+.slot input{flex:1;min-width:60px;background:transparent;border:1px solid transparent;min-height:26px;padding:2px 5px}
+.slot input:hover{border-color:var(--border)}
+.slot .info{font-size:10.5px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+nav.tabs{display:flex;gap:2px;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+nav.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:none;color:var(--text2);padding:8px 11px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;font-size:12.5px}
+.tab:hover{color:var(--text)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tab .cnt{background:var(--bg3);border-radius:9px;padding:0 6px;font-size:10.5px;margin-left:3px}
+.viewbar{display:flex;gap:6px;align-items:center;padding:5px 10px;background:var(--bg);border-bottom:1px solid var(--border);flex-wrap:wrap;flex-shrink:0}
+
+/* LAYOUT */
+.main{flex:1;display:flex;min-height:0;position:relative}
+#view{flex:1;overflow:auto;min-width:0;padding:12px}
+#view.full{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.split{display:flex;flex:1;min-height:0}
+.split .left{width:320px;flex-shrink:0;border-right:1px solid var(--border);overflow:auto;background:var(--bg2);display:flex;flex-direction:column}
+.split .right{flex:1;overflow:auto;min-width:0;display:flex;flex-direction:column}
+.pad{padding:10px}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:12px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.card .big{font-size:22px;font-weight:700}
+.card .lbl{font-size:11px;color:var(--text2)}
+.card.click{cursor:pointer}.card.click:hover{border-color:var(--accent)}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px}
+.box h3{font-size:13.5px;margin-bottom:8px;color:#e6edf3}
+.welcome{max-width:720px;margin:20px auto;line-height:1.7}
+.welcome h2{color:var(--accent);margin-bottom:8px}
+.welcome ul{margin:6px 0 10px 20px}
+.pill{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;border:1px solid var(--border);color:var(--text2);margin:0 4px 4px 0;background:var(--bg)}
+.pill.ok{border-color:var(--green);color:var(--green)}
+.pill.warn{border-color:var(--yellow);color:var(--yellow)}
+.pill.bad{border-color:var(--red);color:var(--red)}
+
+/* SEVERIDADE */
+.sev{font-size:10.5px;font-weight:700;border-radius:4px;padding:1px 6px;white-space:nowrap}
+.sev.critico{background:var(--red);color:#fff}.sev.alto{background:var(--orange);color:#000}
+.sev.medio{background:var(--yellow);color:#000}.sev.info{background:var(--bg3);color:var(--accent);border:1px solid var(--accent)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:5px}
+.dot.critico{background:var(--red)}.dot.alto{background:var(--orange)}.dot.medio{background:var(--yellow)}.dot.info{background:var(--accent)}
+
+/* TABELAS */
+table.t{width:100%;border-collapse:collapse;font-size:12px}
+table.t th{text-align:left;color:var(--text2);font-weight:600;border-bottom:1px solid var(--border);padding:5px 6px;position:sticky;top:0;background:var(--bg2)}
+table.t td{border-bottom:1px solid var(--bg3);padding:5px 6px;vertical-align:top;word-break:break-word}
+table.t tr:hover td{background:rgba(255,255,255,.02)}
+.iss{display:flex;gap:8px;padding:8px 10px;border-bottom:1px solid var(--bg3);align-items:flex-start}
+.iss:hover{background:rgba(255,255,255,.02)}
+.iss .body{flex:1;min-width:0}
+.iss .msg{color:#e6edf3}
+.iss .fix{color:var(--text2);font-size:11.5px;margin-top:2px}
+.iss .loc{font-size:11px;color:var(--accent);cursor:pointer;word-break:break-all}
+.iss .det{font-size:11px;color:var(--text2)}
+
+/* ÁRVORE */
+.tree{padding:4px 2px;font-size:12px;flex:1;overflow:auto}
+.tree details>summary{list-style:none;cursor:pointer;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.tree details>summary::-webkit-details-marker{display:none}
+.tree details>summary:hover,.tree .f:hover{background:var(--bg3)}
+.tree details>div{padding-left:12px;border-left:1px solid var(--bg3);margin-left:9px}
+.tree .f{padding:2px 6px;border-radius:4px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tree .f.sel{background:rgba(88,166,255,.18);color:var(--accent)}
+.tree .hid{color:var(--orange)}
+.tree .skip{color:var(--text2);font-style:italic;padding:2px 6px}
+.tree .cnt{color:var(--text2);font-size:10px;margin-left:4px}
+.st{font-weight:800;font-size:10.5px;display:inline-block;width:14px;text-align:center}
+.st.A{color:var(--green)}.st.D{color:var(--red)}.st.M{color:var(--yellow)}
+
+/* CÓDIGO */
+.codehead{position:sticky;top:0;z-index:2;background:var(--bg2);border-bottom:1px solid var(--border);padding:6px 10px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.codehead .path{font-family:Consolas,monospace;font-size:12px;color:#e6edf3;word-break:break-all;margin-right:auto}
+.code{font-family:Consolas,Monaco,'Courier New',monospace;font-size:12px;line-height:1.55;background:var(--bg);min-width:max-content}
+.code .l{display:flex}
+.code .n{width:52px;flex-shrink:0;text-align:right;padding-right:10px;color:#484f58;user-select:none}
+.code .x{white-space:pre;padding-right:20px;color:#e6edf3}
+.code .l.hl{background:rgba(248,81,73,.13)}
+.code .l.hl .n{color:var(--red)}
+.code .l.jump{outline:1px solid var(--accent)}
+
+/* DIFF */
+table.diff{border-collapse:collapse;width:100%;font-family:Consolas,Monaco,monospace;font-size:12px;line-height:1.5;table-layout:fixed}
+table.diff td{vertical-align:top;padding:0 6px;white-space:pre-wrap;word-break:break-all}
+table.diff td.n{width:46px;text-align:right;color:#484f58;user-select:none;background:var(--bg2)}
+table.diff td.del{background:var(--delbg)}
+table.diff td.add{background:var(--addbg)}
+table.diff td.emp{background:repeating-linear-gradient(45deg,transparent 0 6px,rgba(255,255,255,.02) 6px 12px)}
+table.diff tr.gap td{background:var(--bg3);color:var(--text2);text-align:center;font-family:'Segoe UI',sans-serif;font-size:11px;padding:3px}
+table.diff tr.head td{background:var(--bg2);color:var(--text2);font-family:'Segoe UI',sans-serif;font-weight:600;padding:5px 6px;position:sticky;top:0}
+.u .l .x{white-space:pre-wrap;word-break:break-all}
+.u .l.add{background:var(--addbg)}.u .l.del{background:var(--delbg)}
+
+/* IA */
+#aiPanel{width:420px;flex-shrink:0;border-left:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column}
+#aiPanel:not(.open){display:none}
+.ai-head{padding:6px 8px;border-bottom:1px solid var(--border);display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.ai-head select{max-width:150px}
+#aiMsgs{flex:1;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:10px}
+.aimsg{border:1px solid var(--border);border-radius:10px;padding:8px 11px;line-height:1.6;background:var(--bg);word-break:break-word}
+.aimsg.user{border-color:var(--accent);background:var(--bg3)}
+.aimsg.err{border-color:var(--red);color:#ffb3ad}
+.aimsg .meta{font-size:10.5px;color:var(--text2);margin-top:4px;display:flex;gap:6px;align-items:center}
+.aimsg .meta button{background:none;border:none;color:var(--text2);cursor:pointer;font-size:12px}
+.ctxchip{display:inline-block;background:rgba(188,140,255,.12);border:1px solid var(--purple);color:var(--purple);border-radius:6px;padding:1px 7px;font-size:11px;margin:2px 0}
+.ai-input{border-top:1px solid var(--border);padding:8px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.ai-input textarea{width:100%;min-height:60px;max-height:200px;resize:vertical;font-size:13px}
+.presets{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;max-height:90px;overflow:auto}
+.presets .btn{white-space:normal;text-align:left;height:auto}
+.md-h{font-weight:700;color:#e6edf3;margin:6px 0 2px}
+.inline-code{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:0 4px;font-family:Consolas,monospace;font-size:12px;color:#ffa657}
+.codebox{border:1px solid var(--border);border-radius:8px;margin:6px 0;overflow:hidden}
+.codebox-head{display:flex;gap:6px;align-items:center;padding:3px 8px;background:var(--bg3);font-size:11px}
+.codebox-head .lang{color:var(--accent);font-weight:700;text-transform:uppercase;margin-right:auto}
+.codebox pre{margin:0;padding:8px;overflow:auto;max-height:380px;background:var(--bg)}
+.codebox code{font-family:Consolas,monospace;font-size:12px;white-space:pre;color:#e6edf3}
+.typing span{display:inline-block;width:6px;height:6px;background:var(--text2);border-radius:50%;margin-right:3px;animation:b 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes b{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+/* MODAL / TOAST / OVERLAY */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;padding:10px}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;width:560px;max-width:100%;max-height:92vh;overflow:auto}
+.modal h2{font-size:16px;color:var(--accent);margin-bottom:12px}
+.fg{margin-bottom:11px}
+.fg>label{display:block;font-size:12px;color:var(--text2);margin-bottom:4px}
+.fg input:not([type=checkbox]),.fg select,.fg textarea{width:100%}
+.check{display:flex;align-items:center;gap:6px;cursor:pointer}
+.hint{font-size:11.5px;color:var(--text2);line-height:1.5;margin-top:4px}
+.big-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.big-btns .btn{min-height:64px;font-size:13px;white-space:normal}
+.toast{position:fixed;bottom:16px;right:16px;max-width:min(480px,calc(100vw - 32px));background:var(--bg3);border:1px solid var(--border);padding:9px 14px;border-radius:8px;z-index:9999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;font-size:12.5px}
+.toast.show{opacity:1;transform:none}
+.toast.success{border-color:var(--green);color:var(--green)}.toast.error{border-color:var(--red);color:#ffb3ad}.toast.warn{border-color:var(--yellow);color:var(--yellow)}
+#dropOverlay{position:fixed;inset:0;background:rgba(13,17,23,.88);border:3px dashed var(--accent);z-index:2000;display:none;align-items:center;justify-content:center;font-size:20px;color:var(--accent);text-align:center;padding:20px}
+#dropOverlay.show{display:flex}
+#busy{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:3000;display:none;align-items:center;justify-content:center}
+#busy.show{display:flex}
+#busy .inner{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px 26px;text-align:center;min-width:260px}
+.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto 10px}
+@keyframes sp{to{transform:rotate(360deg)}}
+::-webkit-scrollbar{width:7px;height:7px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+@media (max-width:820px){
+  .brand{flex:1;order:0}#aiBtn{order:1}header>.btn:last-child{order:2}
+  .slot{flex-basis:100%;max-width:none;order:3}#swapBtn{display:none}
+  .slot .info{display:none}
+  .split{flex-direction:column}
+  .split .left{width:100%;max-height:38vh;border-right:0;border-bottom:1px solid var(--border)}
+  #aiPanel{position:absolute;inset:0;width:100%;z-index:50}
+  #view{padding:8px}
+  .big-btns{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="brand">🔬 Projeto Lab</span>
+  <div class="slot" id="slotA">
+    <span class="tag A">A</span>
+    <input id="nameA" placeholder="Versão A (antiga / base)" onchange="renameSlot('A',this.value)">
+    <span class="info" id="infoA">vazio</span>
+    <button class="btn sm" onclick="openLoad('A')" title="Carregar projeto A">📂</button>
+    <button class="btn sm" onclick="clearSlot('A')" title="Remover">✕</button>
+  </div>
+  <button class="btn sm" id="swapBtn" onclick="swapSlots()" title="Trocar A ⇄ B">⇄</button>
+  <div class="slot" id="slotB">
+    <span class="tag B">B</span>
+    <input id="nameB" placeholder="Versão B (nova / para comparar)" onchange="renameSlot('B',this.value)">
+    <span class="info" id="infoB">vazio</span>
+    <button class="btn sm" onclick="openLoad('B')" title="Carregar projeto B">📂</button>
+    <button class="btn sm" onclick="clearSlot('B')" title="Remover">✕</button>
+  </div>
+  <button class="btn ai" id="aiBtn" onclick="AI.toggle()" title="IA ajudante">🤖 IA</button>
+  <button class="btn" onclick="Settings.open()" title="Configurações e chaves de IA">⚙️</button>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab on" data-tab="resumo" onclick="setTab('resumo')">📊 Resumo</button>
+  <button class="tab" data-tab="arquivos" onclick="setTab('arquivos')">📁 Arquivos</button>
+  <button class="tab" data-tab="problemas" onclick="setTab('problemas')">🩺 Problemas<span class="cnt" id="cntIss">0</span></button>
+  <button class="tab" data-tab="deps" onclick="setTab('deps')">📦 Dependências</button>
+  <button class="tab" data-tab="api" onclick="setTab('api')">🔌 API</button>
+  <button class="tab" data-tab="git" onclick="setTab('git')">🌿 Git</button>
+  <button class="tab" data-tab="comparar" onclick="setTab('comparar')">⚖️ Comparar A × B</button>
+</nav>
+<div class="viewbar hidden" id="viewbar"></div>
+
+<div class="main">
+  <div id="view"></div>
+  <aside id="aiPanel">
+    <div class="ai-head">
+      <b style="color:var(--purple)">🤖</b>
+      <select id="aiProvider" onchange="AI.onProvider()"></select>
+      <select id="aiModel" onchange="AI.onModel()"></select>
+      <span style="flex:1"></span>
+      <button class="btn sm" onclick="AI.clear()" title="Limpar conversa">🧹</button>
+      <button class="btn sm" onclick="AI.toggle()">✕</button>
+    </div>
+    <div id="aiMsgs"></div>
+    <div class="ai-input">
+      <div id="aiCtx" class="hidden" style="margin-bottom:5px"></div>
+      <div class="presets" id="aiPresets"></div>
+      <textarea id="aiInput" placeholder="Pergunte sobre o projeto... (Ctrl+Enter envia)" onkeydown="if((event.ctrlKey||event.metaKey)&&event.key==='Enter'){event.preventDefault();AI.send()}"></textarea>
+      <div class="row" style="margin-top:5px">
+        <button class="btn sm" onclick="AI.copyPrompt()" title="Copiar pergunta + contexto para colar em outra IA (ex.: Claude)">📋 Copiar pedido</button>
+        <button class="btn sm" onclick="AI.dropCtx()" id="aiDropCtx" style="display:none">✕ tirar contexto</button>
+        <span style="flex:1"></span>
+        <button class="btn primary" id="aiSend" onclick="AI.send()">Enviar ▶</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- CARREGAR -->
+<div class="modal-bg" id="loadModal">
+  <div class="modal">
+    <h2>📂 Carregar projeto <span id="loadSlotLbl"></span></h2>
+    <div class="fg"><label>Nome desta versão (para a comparação)</label><input type="text" id="loadName" placeholder="Ex.: Replit original, Versão consertada, Backup 28/09"></div>
+    <div class="big-btns">
+      <button class="btn primary" onclick="$('pickArchive').click()">🗜️ Arquivo compactado<br><small>.zip .tar .tar.gz .tgz .gz</small></button>
+      <button class="btn" onclick="$('pickFolder').click()">📁 Pasta inteira<br><small>(no computador)</small></button>
+    </div>
+    <label class="check fg"><input type="checkbox" id="optSkip" checked> Ignorar <b>node_modules</b>, caches e builds pesados (recomendado — eles só são contados)</label>
+    <p class="hint">Também dá para <b>arrastar e soltar</b> um zip ou pasta em cima de A ou B. As pastas ocultas (<b>.git</b>, .replit, .local, .config...) são lidas normalmente. Nada é enviado para a internet: tudo é lido aqui no navegador (só vai para a IA o que você mandar).<br>
+    .rar e .7z não são lidos no navegador — abra no 7-Zip/WinRAR e salve como .zip.</p>
+    <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" onclick="closeModal('loadModal')">Cancelar</button></div>
+  </div>
+</div>
+
+<!-- CONFIG -->
+<div class="modal-bg" id="setModal">
+  <div class="modal">
+    <h2>⚙️ Configurações da IA</h2>
+    <div id="keysBox"></div>
+    <div class="fg"><label>🏠 Ollama URL</label><input type="text" id="setOllama" placeholder="http://localhost:11434"></div>
+    <div class="fg"><label>🔧 URL base do "Personalizado" (compatível OpenAI)</label><input type="text" id="setCustom" placeholder="https://.../v1"></div>
+    <div class="fg"><label>Máximo de caracteres de contexto enviados por pergunta</label><input type="text" id="setMaxCtx"></div>
+    <div class="fg"><label>Tamanho máximo da resposta (tokens)</label><input type="text" id="setMaxTok"></div>
+    <p class="hint">Chaves ficam só neste navegador. Se você usa o AI Code Studio no mesmo navegador/pasta, as chaves dele são aproveitadas automaticamente. Gemini aceita chave AIza... e AQ.... Use 🔄 ao lado do modelo para buscar a lista atual.</p>
+    <div class="row" style="justify-content:flex-end;margin-top:12px">
+      <button class="btn" onclick="Settings.test()">🧪 Testar IA</button>
+      <button class="btn" onclick="closeModal('setModal')">Cancelar</button>
+      <button class="btn primary" onclick="Settings.save()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div id="dropOverlay">Solte o zip / pasta aqui<br><small id="dropHint"></small></div>
+<div id="busy"><div class="inner"><div class="spinner"></div><div id="busyTxt">Lendo...</div></div></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="pickArchive" class="hidden" multiple accept=".zip,.tar,.gz,.tgz,.taz,.tar.gz,application/zip,application/gzip,application/x-tar" onchange="onPicked(event,'archive')">
+<input type="file" id="pickFolder" class="hidden" webkitdirectory directory multiple onchange="onPicked(event,'folder')">
+
+<script>
+'use strict';
+/* =====================================================================
+   UTILITÁRIOS
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+const U8 = Uint8Array;
+const td = new TextDecoder('utf-8');
+const te = new TextEncoder();
+const FENCE = '```';
+const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+const tick = () => new Promise(r => setTimeout(r, 0));
+const REF = []; const R = v => (REF.push(v), REF.length - 1);
+function fmtSize(n) { if (n < 1024) return n + ' B'; if (n < 1048576) return (n / 1024).toFixed(1) + ' KB'; if (n < 1073741824) return (n / 1048576).toFixed(1) + ' MB'; return (n / 1073741824).toFixed(2) + ' GB'; }
+function fmtDate(ts) { return ts ? new Date(ts * 1000).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : ''; }
+function normPath(p) { return String(p).replace(/\\/g, '/').replace(/^(\.\/|\/)+/, '').replace(/\/{2,}/g, '/'); }
+function dirname(p) { const i = p.lastIndexOf('/'); return i < 0 ? '' : p.slice(0, i); }
+function basename(p) { return p.slice(p.lastIndexOf('/') + 1); }
+function extOf(p) { const b = basename(p); const i = b.lastIndexOf('.'); return i > 0 ? b.slice(i + 1).toLowerCase() : ''; }
+function joinPath(...parts) {
+  const out = [];
+  parts.filter(x => x != null && x !== '').join('/').split('/').forEach(s => { if (!s || s === '.') return; if (s === '..') out.pop(); else out.push(s); });
+  return out.join('/');
+}
+const HEX = Array.from({ length: 256 }, (_, i) => i.toString(16).padStart(2, '0'));
+function hex(u) { let s = ''; for (let i = 0; i < u.length; i++) s += HEX[u[i]]; return s; }
+async function inflate(bytes, fmt) {
+  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream(fmt));
+  return new U8(await new Response(stream).arrayBuffer());
+}
+function mask(s) { s = String(s); return s.length <= 12 ? s.slice(0, 3) + '…' : s.slice(0, 6) + '…' + s.slice(-4); }
+function lineFinder(text) {
+  let starts = null;
+  return idx => {
+    if (!starts) { starts = [0]; for (let i = 0; i < text.length; i++) if (text.charCodeAt(i) === 10) starts.push(i + 1); }
+    let lo = 0, hi = starts.length - 1;
+    while (lo < hi) { const m = (lo + hi + 1) >> 1; if (starts[m] <= idx) lo = m; else hi = m - 1; }
+    return lo + 1;
+  };
+}
+function parseLenientJSON(t) {
+  let out = '', i = 0, inStr = false;
+  while (i < t.length) {
+    const c = t[i], n = t[i + 1];
+    if (inStr) { out += c; if (c === '\\') { out += n; i += 2; continue; } if (c === '"') inStr = false; i++; continue; }
+    if (c === '"') { inStr = true; out += c; i++; continue; }
+    if (c === '/' && n === '/') { while (i < t.length && t[i] !== '\n') i++; continue; }
+    if (c === '/' && n === '*') { i += 2; while (i < t.length && !(t[i] === '*' && t[i + 1] === '/')) i++; i += 2; continue; }
+    out += c; i++;
+  }
+  return JSON.parse(out.replace(/,(\s*[}\]])/g, '$1'));
+}
+const LANG = { js: 'javascript', mjs: 'javascript', cjs: 'javascript', jsx: 'jsx', ts: 'typescript', tsx: 'tsx', py: 'python', html: 'html', htm: 'html', css: 'css', scss: 'scss', json: 'json', md: 'markdown', yml: 'yaml', yaml: 'yaml', toml: 'toml', sh: 'bash', dart: 'dart', java: 'java', kt: 'kotlin', gradle: 'groovy', xml: 'xml', sql: 'sql', vue: 'vue', rs: 'rust', go: 'go', php: 'php', nix: 'nix' };
+const langOf = p => LANG[extOf(p)] || '';
+
+/* =====================================================================
+   LEITURA DE ARQUIVOS COMPACTADOS (zip / tar / gzip) — sem bibliotecas
+   ===================================================================== */
+function sniff(u) {
+  if (u.length >= 4 && u[0] === 0x50 && u[1] === 0x4b && (u[2] === 3 || u[2] === 5 || u[2] === 7)) return 'zip';
+  if (u.length >= 2 && u[0] === 0x1f && u[1] === 0x8b) return 'gzip';
+  if (u.length >= 2 && u[0] === 0x1f && u[1] === 0x9d) return 'compress';
+  if (u.length >= 262 && td.decode(u.subarray(257, 262)) === 'ustar') return 'tar';
+  if (u.length >= 3 && u[0] === 0x42 && u[1] === 0x5a && u[2] === 0x68) return 'bzip2';
+  if (u.length >= 6 && u[0] === 0xfd && u[1] === 0x37 && u[2] === 0x7a && u[3] === 0x58) return 'xz';
+  if (u.length >= 6 && u[0] === 0x37 && u[1] === 0x7a && u[2] === 0xbc && u[3] === 0xaf) return '7z';
+  if (u.length >= 4 && u[0] === 0x52 && u[1] === 0x61 && u[2] === 0x72 && u[3] === 0x21) return 'rar';
+  // tar antigo (sem "ustar"): checa soma do cabeçalho
+  if (u.length >= 512) {
+    const chk = parseInt(td.decode(u.subarray(148, 156)).replace(/\0/g, '').trim(), 8);
+    if (!isNaN(chk)) { let s = 0; for (let i = 0; i < 512; i++) s += (i >= 148 && i < 156) ? 32 : u[i]; if (s === chk) return 'tar'; }
+  }
+  return 'unknown';
+}
+function zipEntries(u) {
+  const dv = new DataView(u.buffer, u.byteOffset, u.byteLength);
+  let eocd = -1;
+  for (let i = u.length - 22; i >= Math.max(0, u.length - 65557); i--) if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  if (eocd < 0) throw new Error('ZIP corrompido ou incompleto (fim do arquivo não encontrado)');
+  let count = dv.getUint16(eocd + 10, true), cdOff = dv.getUint32(eocd + 16, true);
+  if (cdOff === 0xffffffff || count === 0xffff) {
+    const loc = eocd - 20;
+    if (loc >= 0 && dv.getUint32(loc, true) === 0x07064b50) {
+      const z = Number(dv.getBigUint64(loc + 8, true));
+      count = Number(dv.getBigUint64(z + 32, true)); cdOff = Number(dv.getBigUint64(z + 48, true));
+    }
+  }
+  const out = []; let p = cdOff;
+  for (let n = 0; n < count; n++) {
+    if (dv.getUint32(p, true) !== 0x02014b50) break;
+    const flags = dv.getUint16(p + 8, true), method = dv.getUint16(p + 10, true);
+    let comp = dv.getUint32(p + 20, true), size = dv.getUint32(p + 24, true);
+    const nlen = dv.getUint16(p + 28, true), xlen = dv.getUint16(p + 30, true), clen = dv.getUint16(p + 32, true);
+    let lho = dv.getUint32(p + 42, true);
+    const name = td.decode(u.subarray(p + 46, p + 46 + nlen));
+    let x = p + 46 + nlen; const xend = x + xlen;
+    while (x + 4 <= xend) {
+      const id = dv.getUint16(x, true), len = dv.getUint16(x + 2, true);
+      if (id === 1) { let q = x + 4; if (size === 0xffffffff) { size = Number(dv.getBigUint64(q, true)); q += 8; } if (comp === 0xffffffff) { comp = Number(dv.getBigUint64(q, true)); q += 8; } if (lho === 0xffffffff) { lho = Number(dv.getBigUint64(q, true)); } }
+      x += 4 + len;
+    }
+    p = xend + clen;
+    if (name.endsWith('/')) continue;
+    out.push({
+      name, size, encrypted: !!(flags & 1), method,
+      getBytes: async () => {
+        if (flags & 1) return null;
+        const start = lho + 30 + dv.getUint16(lho + 26, true) + dv.getUint16(lho + 28, true);
+        const data = u.subarray(start, start + comp);
+        if (method === 0) return data;
+        if (method === 8) return inflate(data, 'deflate-raw');
+        throw new Error('método de compressão ' + method + ' não suportado');
+      }
+    });
+  }
+  return out;
+}
+function parsePax(d) {
+  const t = td.decode(d), o = {}; let p = 0;
+  while (p < t.length) { const sp = t.indexOf(' ', p); if (sp < 0) break; const len = parseInt(t.slice(p, sp)); if (!len) break; const rec = t.slice(sp + 1, p + len - 1); const eq = rec.indexOf('='); o[rec.slice(0, eq)] = rec.slice(eq + 1); p += len; }
+  return o;
+}
+function tarEntries(u) {
+  const out = []; let p = 0, longName = null, pax = {};
+  const str = (h, o, l) => { let e = o; while (e < o + l && h[e]) e++; return td.decode(h.subarray(o, e)); };
+  while (p + 512 <= u.length) {
+    const h = u.subarray(p, p + 512);
+    let zero = true; for (let i = 0; i < 512; i++) if (h[i]) { zero = false; break; }
+    if (zero) break;
+    let name = str(h, 0, 100);
+    const size = parseInt(str(h, 124, 12).trim() || '0', 8) || 0;
+    const type = h[156] ? String.fromCharCode(h[156]) : '0';
+    if (str(h, 257, 5) === 'ustar') { const pre = str(h, 345, 155); if (pre) name = pre + '/' + name; }
+    const data = u.subarray(p + 512, p + 512 + size);
+    p += 512 + Math.ceil(size / 512) * 512;
+    if (type === 'L') { longName = td.decode(data).replace(/\0+$/, ''); continue; }
+    if (type === 'x') { pax = parsePax(data); continue; }
+    if (type === 'g') continue;
+    if (pax.path) name = pax.path; if (longName) name = longName;
+    longName = null; pax = {};
+    if (type === '0' || type === '7') out.push({ name, size, getBytes: async () => data });
+  }
+  return out;
+}
+
+/* =====================================================================
+   PROJETO (conjunto de arquivos)
+   ===================================================================== */
+const HEAVY = /(^|\/)(node_modules|\.pnpm-store|\.npm|\.yarn\/cache|\.cache|__pycache__|\.venv|venv|\.gradle|\.dart_tool|\.next|\.turbo|\.parcel-cache|Pods|\.expo|\.angular)\//;
+const HEAVY2 = /(^|\/)(android|ios)\/(app\/)?build\//;
+const BIN_EXT = new Set('png jpg jpeg gif webp ico bmp tif tiff avif heic pdf zip gz tgz tar rar 7z jar apk aab aar keystore jks mp3 mp4 wav ogg webm mov avi m4a woff woff2 ttf otf eot so dll exe bin class dex pyc db sqlite sqlite3 lockb wasm psd ai sketch fig dmg iso msi'.split(' '));
+const IMG_EXT = new Set('png jpg jpeg gif webp ico bmp svg avif'.split(' '));
+function newProject(name) { return { name, files: new Map(), skipped: new Map(), warnings: [], bytes: 0 }; }
+function isBinary(path, bytes) {
+  if (BIN_EXT.has(extOf(path))) return true;
+  const n = Math.min(bytes.length, 8000);
+  for (let i = 0; i < n; i++) if (bytes[i] === 0) return true;
+  return false;
+}
+async function addEntry(proj, rawPath, getBytes, opts) {
+  const path = normPath(rawPath);
+  if (!path || path.endsWith('/') || /(^|\/)__MACOSX\//.test(path) || basename(path) === '.DS_Store') return;
+  if (opts.skipHeavy) {
+    const m = path.match(HEAVY) || path.match(HEAVY2);
+    if (m) { const key = path.slice(0, m.index + m[0].length); proj.skipped.set(key, (proj.skipped.get(key) || 0) + 1); return; }
+  }
+  let bytes;
+  try { bytes = await getBytes(); } catch (e) { proj.warnings.push(path + ': ' + e.message); return; }
+  if (!bytes) { proj.warnings.push(path + ': protegido por senha / ilegível'); return; }
+  const f = { path, size: bytes.length };
+  proj.bytes += bytes.length;
+  if (/(^|\/)\.git\//.test(path)) { f.git = true; f.bytes = bytes; }
+  else if (isBinary(path, bytes)) { f.binary = true; if (bytes.length <= 4e6) f.bytes = bytes; }
+  else if (bytes.length > 8e6) { f.tooBig = true; }
+  else { f.text = td.decode(bytes).replace(/^\uFEFF/, ''); }
+  proj.files.set(path, f);
+}
+function stripCommonRoot(proj) {
+  for (let round = 0; round < 3; round++) {
+    const paths = [...proj.files.keys(), ...proj.skipped.keys()];
+    if (!paths.length) return;
+    const first = paths[0].split('/')[0];
+    if (first.startsWith('.') || !paths.every(p => p.includes('/') && p.split('/')[0] === first)) return;
+    const cut = first.length + 1;
+    proj.files = new Map([...proj.files].map(([p, f]) => { f.path = p.slice(cut); return [p.slice(cut), f]; }));
+    proj.skipped = new Map([...proj.skipped].map(([p, n]) => [p.slice(cut), n]));
+    proj.rootName = proj.rootName ? proj.rootName + '/' + first : first;
+  }
+}
+async function extractInto(proj, file, bytes, opts, prog) {
+  let kind = sniff(bytes);
+  let name = file.name;
+  if (kind === 'gzip') {
+    prog('Descompactando ' + name + '...');
+    bytes = await inflate(bytes, 'gzip');
+    name = name.replace(/\.(tgz|taz)$/i, '.tar').replace(/\.gz$/i, '');
+    kind = sniff(bytes);
+    if (kind !== 'tar' && kind !== 'zip') { await addEntry(proj, name, async () => bytes, opts); return; }
+  }
+  if (['compress', 'bzip2', 'xz', '7z', 'rar'].includes(kind))
+    throw new Error(`${file.name}: formato ${kind.toUpperCase()} não é lido no navegador. Abra no 7-Zip/WinRAR e salve como .zip`);
+  let entries;
+  if (kind === 'zip') entries = zipEntries(bytes);
+  else if (kind === 'tar') entries = tarEntries(bytes);
+  else { await addEntry(proj, file.webkitRelativePath || file._rel || file.name, async () => bytes, opts); return; }
+  let i = 0;
+  for (const e of entries) {
+    await addEntry(proj, e.name, e.getBytes, opts);
+    if (++i % 150 === 0) { prog(`Lendo ${i} / ${entries.length} arquivos de ${file.name}...`); await tick(); }
+  }
+}
+async function buildProject(files, mode, opts, prog) {
+  const proj = newProject(opts.name);
+  let i = 0;
+  for (const file of files) {
+    const rel = file.webkitRelativePath || file._rel || file.name;
+    if (mode === 'archive') {
+      prog('Lendo ' + file.name + ' (' + fmtSize(file.size) + ')...');
+      const bytes = new U8(await file.arrayBuffer());
+      await extractInto(proj, file, bytes, opts, prog);
+    } else {
+      const skipTest = normPath(rel);
+      if (opts.skipHeavy && (HEAVY.test(skipTest) || HEAVY2.test(skipTest))) { await addEntry(proj, rel, async () => null, opts); continue; }
+      await addEntry(proj, rel, async () => new U8(await file.arrayBuffer()), opts);
+      if (++i % 150 === 0) { prog(`Lendo ${i} / ${files.length} arquivos...`); await tick(); }
+    }
+  }
+  stripCommonRoot(proj);
+  if (!proj.name) proj.name = proj.rootName || (files[0] ? files[0].name.replace(/\.(zip|tar|tgz|gz|taz)$/gi, '') : 'Projeto');
+  return proj;
+}
+
+/* =====================================================================
+   GIT — lê .git (objetos soltos + packs com deltas), sem precisar do git
+   ===================================================================== */
+const GIT_TYPES = { 1: 'commit', 2: 'tree', 3: 'blob', 4: 'tag' };
+function applyDelta(base, d) {
+  let p = 0;
+  const vint = () => { let r = 0, s = 0, c; do { c = d[p++]; r += (c & 0x7f) * 2 ** s; s += 7; } while (c & 0x80); return r; };
+  vint(); const size = vint(); const out = new U8(size); let o = 0;
+  while (p < d.length) {
+    const op = d[p++];
+    if (op & 0x80) {
+      let off = 0, len = 0;
+      if (op & 1) off |= d[p++]; if (op & 2) off |= d[p++] << 8; if (op & 4) off |= d[p++] << 16; if (op & 8) off += d[p++] * 16777216;
+      if (op & 16) len |= d[p++]; if (op & 32) len |= d[p++] << 8; if (op & 64) len |= d[p++] << 16;
+      if (len === 0) len = 0x10000;
+      out.set(base.subarray(off, off + len), o); o += len;
+    } else if (op) { out.set(d.subarray(p, p + op), o); o += op; p += op; }
+    else throw new Error('delta inválido');
+  }
+  return out;
+}
+function parseIdx(idx, pack) {
+  const dv = new DataView(idx.buffer, idx.byteOffset, idx.byteLength);
+  if (dv.getUint32(0) !== 0xff744f63 || dv.getUint32(4) !== 2) throw new Error('índice de pack antigo não suportado');
+  const n = dv.getUint32(8 + 255 * 4);
+  const shaOff = 8 + 1024, ofsOff = shaOff + 24 * n, bigOff = ofsOff + 4 * n;
+  const map = new Map(), offs = new Array(n);
+  for (let i = 0; i < n; i++) {
+    let o = dv.getUint32(ofsOff + 4 * i);
+    if (o & 0x80000000) o = Number(dv.getBigUint64(bigOff + 8 * (o & 0x7fffffff)));
+    map.set(hex(idx.subarray(shaOff + 20 * i, shaOff + 20 * i + 20)), o); offs[i] = o;
+  }
+  offs.sort((a, b) => a - b);
+  const end = new Map(); for (let i = 0; i < n; i++) end.set(offs[i], i + 1 < n ? offs[i + 1] : pack.length - 20);
+  return { map, end, pack, cache: new Map() };
+}
+function parseCommit(sha, data) {
+  const t = td.decode(data), i = t.indexOf('\n\n');
+  const head = i < 0 ? t : t.slice(0, i);
+  const c = { sha, parents: [], msg: (i < 0 ? '' : t.slice(i + 2)).trim(), time: 0 };
+  for (const l of head.split('\n')) {
+    const sp = l.indexOf(' '); const k = l.slice(0, sp), v = l.slice(sp + 1);
+    if (k === 'tree') c.tree = v;
+    else if (k === 'parent') c.parents.push(v);
+    else if (k === 'author' || (k === 'committer' && !c.time)) {
+      const m = v.match(/^(.*) <(.*)> (\d+) ([+-]\d{4})$/);
+      if (m) { if (k === 'author') { c.author = m[1]; c.email = m[2]; } c.time = +m[3]; }
+    }
+  }
+  return c;
+}
+function parseTree(d) {
+  const out = []; let p = 0;
+  while (p < d.length) {
+    const sp = d.indexOf(32, p), z = d.indexOf(0, sp);
+    out.push({ mode: td.decode(d.subarray(p, sp)), name: td.decode(d.subarray(sp + 1, z)), sha: hex(d.subarray(z + 1, z + 21)) });
+    p = z + 21;
+  }
+  return out;
+}
+class GitRepo {
+  constructor(proj, base) { this.proj = proj; this.base = base; this.cache = new Map(); this.packs = null; this.missing = 0; }
+  f(rel) { return this.proj.files.get(this.base + rel); }
+  t(rel) { const f = this.f(rel); return f ? (f.text ?? (f.bytes ? td.decode(f.bytes) : '')) : null; }
+  init() {
+    if (this.packs) return; this.packs = [];
+    for (const [p, f] of this.proj.files) {
+      if (!p.startsWith(this.base + 'objects/pack/') || !p.endsWith('.idx')) continue;
+      const pk = this.proj.files.get(p.slice(0, -4) + '.pack');
+      if (!pk || !f.bytes || !pk.bytes) continue;
+      try { this.packs.push(parseIdx(f.bytes, pk.bytes)); } catch (e) { console.warn(e); }
+    }
+  }
+  stats() {
+    this.init(); let loose = 0;
+    for (const p of this.proj.files.keys()) if (p.startsWith(this.base + 'objects/') && /objects\/[0-9a-f]{2}\/[0-9a-f]{38}$/.test(p)) loose++;
+    return { loose, packed: this.packs.reduce((s, k) => s + k.map.size, 0), packs: this.packs.length };
+  }
+  async read(sha) {
+    if (!sha) return null;
+    if (this.cache.has(sha)) return this.cache.get(sha);
+    this.init();
+    let obj = null;
+    const lf = this.f('objects/' + sha.slice(0, 2) + '/' + sha.slice(2));
+    try {
+      if (lf && lf.bytes) {
+        const raw = await inflate(lf.bytes, 'deflate'); const z = raw.indexOf(0);
+        obj = { type: td.decode(raw.subarray(0, z)).split(' ')[0], data: raw.subarray(z + 1) };
+      } else for (const pk of this.packs) { const o = pk.map.get(sha); if (o != null) { obj = await this.readPacked(pk, o); break; } }
+    } catch (e) { console.warn('git read', sha, e); obj = null; }
+    if (this.cache.size > 4000) this.cache.clear();
+    this.cache.set(sha, obj);
+    return obj;
+  }
+  async readPacked(pk, off) {
+    if (pk.cache.has(off)) return pk.cache.get(off);
+    const u = pk.pack; let p = off; let c = u[p++]; const type = (c >> 4) & 7;
+    while (c & 0x80) c = u[p++];
+    const end = pk.end.get(off); let obj;
+    if (type === 6) {
+      c = u[p++]; let ofs = c & 0x7f;
+      while (c & 0x80) { c = u[p++]; ofs = ((ofs + 1) * 128) + (c & 0x7f); }
+      const base = await this.readPacked(pk, off - ofs);
+      obj = { type: base.type, data: applyDelta(base.data, await inflate(u.subarray(p, end), 'deflate')) };
+    } else if (type === 7) {
+      const base = await this.read(hex(u.subarray(p, p + 20))); p += 20;
+      if (!base) throw new Error('objeto base ausente');
+      obj = { type: base.type, data: applyDelta(base.data, await inflate(u.subarray(p, end), 'deflate')) };
+    } else obj = { type: GIT_TYPES[type], data: await inflate(u.subarray(p, end), 'deflate') };
+    if (pk.cache.size > 3000) pk.cache.clear();
+    pk.cache.set(off, obj);
+    return obj;
+  }
+  resolveRef(ref) {
+    const t = this.t(ref); if (t) return t.trim();
+    for (const l of (this.t('packed-refs') || '').split('\n')) { const m = l.match(/^([0-9a-f]{40}) (.+)$/); if (m && m[2].trim() === ref) return m[1]; }
+    return null;
+  }
+  head() {
+    const h = (this.t('HEAD') || '').trim();
+    if (h.startsWith('ref:')) { const ref = h.slice(4).trim(); return { branch: ref.replace('refs/heads/', ''), sha: this.resolveRef(ref) }; }
+    return { branch: '(HEAD solto)', sha: h || null };
+  }
+  branches() {
+    const out = new Map();
+    for (const p of this.proj.files.keys()) if (p.startsWith(this.base + 'refs/heads/')) out.set(p.slice((this.base + 'refs/heads/').length), (this.t(p.slice(this.base.length)) || '').trim());
+    for (const l of (this.t('packed-refs') || '').split('\n')) { const m = l.match(/^([0-9a-f]{40}) refs\/heads\/(.+)$/); if (m && !out.has(m[2])) out.set(m[2], m[1]); }
+    return out;
+  }
+  remotes() {
+    const out = []; let cur = null;
+    for (const l of (this.t('config') || '').split('\n')) {
+      const s = l.match(/^\s*\[remote "(.+)"\]/); if (s) { cur = s[1]; continue; }
+      if (/^\s*\[/.test(l)) cur = null;
+      const u = l.match(/^\s*url\s*=\s*(.+)$/); if (u && cur) out.push({ name: cur, url: u[1].trim() });
+    }
+    return out;
+  }
+  reflog() {
+    return (this.t('logs/HEAD') || '').split('\n').filter(Boolean).map(l => {
+      const m = l.match(/^([0-9a-f]{40}) ([0-9a-f]{40}) (.*?) <(.*?)> (\d+) [+-]\d{4}\t?(.*)$/);
+      return m ? { from: m[1], sha: m[2], author: m[3], time: +m[5], msg: m[6] } : null;
+    }).filter(Boolean).reverse();
+  }
+  async commit(sha) { const o = await this.read(sha); return o && o.type === 'commit' ? parseCommit(sha, o.data) : null; }
+  async log(start, limit = 400) {
+    const seen = new Set(), queue = [], out = []; let missing = 0;
+    const push = async s => { if (!s || seen.has(s)) return; seen.add(s); const c = await this.commit(s); if (c) queue.push(c); else missing++; };
+    await push(start);
+    while (queue.length && out.length < limit) {
+      queue.sort((a, b) => b.time - a.time);
+      const c = queue.shift(); out.push(c);
+      for (const p of c.parents) await push(p);
+    }
+    return { commits: out, missing, more: queue.length > 0 };
+  }
+  async flatten(treeSha, prefix = '', out = new Map()) {
+    const o = await this.read(treeSha);
+    if (!o) { this.missing++; return out; }
+    for (const e of parseTree(o.data)) {
+      if (out.size > 40000) break;
+      if (e.mode === '40000') await this.flatten(e.sha, prefix + e.name + '/', out);
+      else if (e.mode !== '160000') out.set(prefix + e.name, e.sha);
+    }
+    return out;
+  }
+  async changes(c) {
+    const now = await this.flatten(c.tree);
+    const pc = c.parents[0] ? await this.commit(c.parents[0]) : null;
+    const before = pc ? await this.flatten(pc.tree) : new Map();
+    const list = [];
+    for (const [p, s] of now) { if (!before.has(p)) list.push({ st: 'A', path: p, b: s }); else if (before.get(p) !== s) list.push({ st: 'M', path: p, a: before.get(p), b: s }); }
+    for (const [p, s] of before) if (!now.has(p)) list.push({ st: 'D', path: p, a: s });
+    list.sort((x, y) => x.path.localeCompare(y.path));
+    return { list, parent: pc };
+  }
+  async blobText(sha) {
+    if (!sha) return '';
+    const o = await this.read(sha);
+    if (!o) return null;
+    return isBinary('x', o.data) ? `[arquivo binário, ${fmtSize(o.data.length)}]` : td.decode(o.data);
+  }
+}
+function findRepos(proj) {
+  const out = [];
+  for (const p of proj.files.keys()) { const m = p.match(/^(.*?\.git\/)HEAD$/); if (m && !m[1].includes('/modules/')) out.push(new GitRepo(proj, m[1])); }
+  return out;
+}
+
+/* =====================================================================
+   ANÁLISE — problemas, Replit, dependências, env, rotas
+   ===================================================================== */
+const SEVS = ['critico', 'alto', 'medio', 'info'];
+const SEV_LBL = { critico: '🔴 Crítico', alto: '🟠 Alto', medio: '🟡 Médio', info: '🔵 Info' };
+const NODE_BUILTINS = new Set('assert async_hooks buffer child_process cluster console constants crypto dgram diagnostics_channel dns domain events fs http http2 https inspector module net os path perf_hooks process punycode querystring readline repl stream string_decoder sys timers tls trace_events tty url util v8 vm wasi worker_threads zlib test'.split(' '));
+const PY_STD = new Set('abc argparse ast asyncio base64 bisect builtins calendar collections concurrent contextlib copy csv ctypes dataclasses datetime decimal difflib email enum errno fnmatch fractions functools gc getpass glob gzip hashlib heapq hmac html http importlib inspect io ipaddress itertools json logging lzma math mimetypes multiprocessing numbers operator os pathlib pickle platform pprint queue random re secrets select shlex shutil signal socket sqlite3 ssl stat statistics string struct subprocess sys tempfile textwrap threading time timeit tkinter traceback types typing unicodedata unittest urllib uuid warnings weakref xml zipfile zlib zoneinfo __future__ webbrowser configparser sched smtplib wave codecs locale'.split(' '));
+const PY_MAP = { PIL: 'pillow', cv2: 'opencv-python', yaml: 'pyyaml', sklearn: 'scikit-learn', bs4: 'beautifulsoup4', dotenv: 'python-dotenv', jwt: 'pyjwt', dateutil: 'python-dateutil', docx: 'python-docx', fitz: 'pymupdf', telegram: 'python-telegram-bot', google: 'google-*', OpenSSL: 'pyopenssl', serial: 'pyserial', win32api: 'pywin32', webview: 'pywebview', attr: 'attrs', magic: 'python-magic', Crypto: 'pycryptodome' };
+const SECRET_RULES = [
+  [/AIza[0-9A-Za-z_\-]{35}/g, 'Chave Google/Gemini'],
+  [/\bAQ\.[A-Za-z0-9_\-]{30,}/g, 'Chave Google (formato novo AQ.)'],
+  [/\bsk-ant-[A-Za-z0-9_\-]{20,}/g, 'Chave Anthropic'],
+  [/\bsk-(?:proj-)?[A-Za-z0-9_\-]{32,}/g, 'Chave OpenAI/compatível'],
+  [/\bgh[pousr]_[A-Za-z0-9]{30,}/g, 'Token do GitHub'],
+  [/\bgithub_pat_[A-Za-z0-9_]{40,}/g, 'Token do GitHub'],
+  [/\bgsk_[A-Za-z0-9]{40,}/g, 'Chave Groq'],
+  [/\bxai-[A-Za-z0-9]{40,}/g, 'Chave xAI'],
+  [/\bAKIA[0-9A-Z]{16}\b/g, 'Chave AWS'],
+  [/\bsk_live_[A-Za-z0-9]{20,}/g, 'Chave Stripe (produção)'],
+  [/-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/g, 'Chave privada'],
+  [/\b(?:postgres(?:ql)?|mysql|mongodb(?:\+srv)?|redis):\/\/[^\s:'"@\/]+:[^\s'"@\/]+@[^\s'"]+/g, 'URL de banco com senha'],
+  [/https?:\/\/[^\s:'"@\/]+:[^\s'"@\/]{8,}@[^\s'"]*github/g, 'URL do Git com token embutido'],
+];
+function severityRank(s) { return SEVS.indexOf(s); }
+
+function analyze(proj) {
+  const files = proj.files;
+  const issues = [];
+  const add = (sev, cat, file, line, msg, fix, det) => issues.push({ sev, cat, file: file || '', line: line || 0, msg, fix: fix || '', det: det || '' });
+  const all = [...files.keys()];
+  const lowerMap = new Map(all.map(p => [p.toLowerCase(), p]));
+  const src = all.filter(p => !files.get(p).git);
+  const text = p => files.get(p)?.text;
+  const isCodeish = p => /\.(m?[jt]sx?|cjs|vue|svelte)$/.test(p) && !/\.min\.js$/.test(p) && !/(^|\/)(dist|build|out|www|\.output|coverage)\//.test(p) && !/\.d\.ts$/.test(p);
+  const inBuild = p => /(^|\/)(dist|build|out|www|\.output)\//.test(p);
+  const res = { issues, pkgs: [], env: new Map(), routes: [], calls: [], stack: [], replit: [], hidden: new Set(), catalog: {}, aliases: [], lockfiles: [] };
+
+  // pastas/arquivos ocultos
+  for (const p of all) p.split('/').slice(0, -1).forEach((s, i, a) => { if (s.startsWith('.')) res.hidden.add(a.slice(0, i + 1).join('/') + '/'); });
+  for (const p of all) if (basename(p).startsWith('.')) res.hidden.add(p);
+  for (const k of proj.skipped.keys()) if (/\.\w/.test(k)) res.hidden.add(k);
+
+  // ---------- JSON / package.json ----------
+  for (const p of src) {
+    if (extOf(p) !== 'json' || !text(p) || /lock\.json$/.test(p)) continue;
+    const lenient = /(^|\/)(tsconfig[^/]*|jsconfig[^/]*|\.vscode\/[^/]+|devcontainer)\.json$/.test(p) || /\.vscode\//.test(p);
+    try {
+      const j = lenient ? parseLenientJSON(text(p)) : JSON.parse(text(p));
+      if (basename(p) === 'package.json') res.pkgs.push({ path: p, dir: dirname(p), json: j });
+    } catch (e) {
+      const m = String(e.message).match(/position (\d+)/);
+      add(basename(p) === 'package.json' ? 'critico' : 'alto', 'JSON inválido', p, m ? lineFinder(text(p))(+m[1]) : 0,
+        `${basename(p)} está com erro de sintaxe: ${e.message}`, 'Normalmente é vírgula sobrando/faltando ou aspas. Peça à IA para corrigir este arquivo.');
+    }
+  }
+  const pkgByDir = new Map(res.pkgs.map(x => [x.dir, x]));
+  const wsNames = new Set(res.pkgs.map(x => x.json.name).filter(Boolean));
+  const chainOf = file => { const out = []; let d = dirname(file); for (;;) { if (pkgByDir.has(d)) out.push(pkgByDir.get(d)); if (!d) break; d = dirname(d); } return out; };
+  const depsOf = j => ({ ...(j.dependencies || {}), ...(j.devDependencies || {}), ...(j.peerDependencies || {}), ...(j.optionalDependencies || {}) });
+
+  // catálogo pnpm
+  const ws = text('pnpm-workspace.yaml');
+  if (ws) {
+    let inCat = false;
+    for (const l of ws.split('\n')) {
+      if (/^catalog:\s*$/.test(l)) { inCat = true; continue; }
+      if (/^\S/.test(l)) inCat = false;
+      const m = inCat && l.match(/^\s+['"]?([^'":]+(?::[^'":]+)?)['"]?\s*:\s*['"]?([^'"#\s]+)/);
+      if (m) res.catalog[m[1].trim()] = m[2];
+    }
+  }
+
+  for (const pk of res.pkgs) {
+    const j = pk.json, deps = depsOf(j);
+    const cat = Object.entries(deps).filter(([, v]) => String(v).startsWith('catalog:'));
+    const wsd = Object.entries(deps).filter(([, v]) => String(v).startsWith('workspace:'));
+    const rep = Object.keys(deps).filter(n => n.startsWith('@replit/'));
+    const loose = Object.entries(deps).filter(([, v]) => v === '*' || v === 'latest');
+    if (cat.length) add('alto', 'Dependências', pk.path, 0, `Usa versões "catalog:" do pnpm (${cat.length} pacotes) — "npm install" falha com isso`,
+      'Use pnpm (npm i -g pnpm; pnpm install) ou troque "catalog:" pela versão real listada em pnpm-workspace.yaml.', cat.map(([n]) => n).join(', '));
+    if (wsd.length) add('medio', 'Dependências', pk.path, 0, `Depende de pacotes internos "workspace:" (${wsd.length})`,
+      'Só funciona instalando pela raiz com pnpm/yarn workspaces. Para separar o app, copie esses pacotes para dentro dele.', wsd.map(([n]) => n).join(', '));
+    if (rep.length) add('alto', 'Replit', pk.path, 0, `Pacotes exclusivos do Replit: ${rep.join(', ')}`,
+      'Remova do package.json e tire os plugins correspondentes do vite.config.');
+    if (loose.length) add('medio', 'Dependências', pk.path, 0, `Versões soltas ("*" ou "latest") podem quebrar a qualquer atualização`, 'Fixe uma versão (ex.: ^1.2.3).', loose.map(([n]) => n).join(', '));
+    const sc = j.scripts || {};
+    for (const [k, v] of Object.entries(sc)) {
+      if (/\$REPL|REPLIT|replit/i.test(v)) add('alto', 'Replit', pk.path, 0, `Script "${k}" depende do Replit: ${v}`, 'Reescreva o script sem variáveis do Replit.');
+    }
+    if (deps.electron) {
+      const main = j.main || 'index.js';
+      const mp = joinPath(pk.dir, main);
+      if (!files.has(mp) && !/(^|\/)(dist|build|out)\//.test(main)) add('critico', 'Electron', pk.path, 0, `"main": "${main}" aponta para arquivo que não existe`, 'Crie o arquivo principal do Electron ou corrija o caminho.');
+    }
+    const kinds = [];
+    const has = n => n in deps;
+    if (has('vite')) kinds.push('Vite'); if (has('react')) kinds.push('React'); if (has('next')) kinds.push('Next.js'); if (has('vue')) kinds.push('Vue');
+    if (has('express')) kinds.push('Express'); if (has('fastify')) kinds.push('Fastify'); if (has('hono')) kinds.push('Hono');
+    if (has('electron')) kinds.push('Electron'); if (has('@capacitor/core')) kinds.push('Capacitor'); if (has('tailwindcss')) kinds.push('Tailwind');
+    if (has('typescript')) kinds.push('TypeScript'); if (has('drizzle-orm')) kinds.push('Drizzle'); if (has('prisma') || has('@prisma/client')) kinds.push('Prisma');
+    if (has('vite-plugin-pwa')) kinds.push('PWA');
+    res.stack.push({ kind: 'node', dir: pk.dir || '(raiz)', name: j.name || '', tags: kinds, scripts: sc, path: pk.path });
+  }
+  // lockfiles
+  const lockByDir = new Map();
+  for (const p of src) if (/(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb?)$/.test(p)) { const d = dirname(p); (lockByDir.get(d) || lockByDir.set(d, []).get(d)).push(basename(p)); res.lockfiles.push(p); }
+  for (const [d, l] of lockByDir) if (l.length > 1) add('medio', 'Dependências', d ? d + '/' : '', 0, `Vários gerenciadores misturados: ${l.join(', ')}`, 'Escolha um só (npm ou pnpm) e apague os outros lockfiles.');
+  if (res.pkgs.length && !res.lockfiles.length) add('info', 'Dependências', '', 0, 'Nenhum lockfile — cada instalação pode baixar versões diferentes', 'Rode npm install (ou pnpm install) uma vez e guarde o lockfile.');
+
+  // ---------- Replit ----------
+  const replitFiles = [
+    [/^\.replit$/, 'alto', 'Arquivo de configuração do Replit (.replit)'],
+    [/(^|\/)replit\.nix$/, 'alto', 'Ambiente Nix do Replit (replit.nix)'],
+    [/(^|\/)replit\.md$/, 'info', 'Notas do agente do Replit (replit.md) — útil para entender o projeto'],
+    [/(^|\/)\.replitignore$/, 'info', '.replitignore'],
+    [/(^|\/)\.replit-artifact\//, 'alto', 'Metadados de "artifact" do Replit (.replit-artifact)'],
+    [/^\.local\//, 'medio', 'Pasta .local (estado do agente do Replit)'],
+    [/^\.upm\//, 'medio', 'Pasta .upm (gerenciador de pacotes do Replit)'],
+    [/^\.cache\/replit/, 'medio', 'Cache do Replit'],
+    [/^attached_assets\//, 'info', 'attached_assets (arquivos que você anexou ao agente do Replit)'],
+  ];
+  const seenRep = new Set();
+  for (const p of all.concat([...proj.skipped.keys()])) for (const [re, sev, lbl] of replitFiles) {
+    const m = p.match(re); if (!m) continue;
+    const key = lbl + (re.source.includes('artifact') ? dirname(dirname(p)) : '');
+    if (seenRep.has(key)) continue; seenRep.add(key);
+    const shown = re.source.includes('\\/') && m[0].endsWith('/') ? p.slice(0, m.index + m[0].length) : p;
+    res.replit.push({ path: shown, lbl, sev });
+    add(sev, 'Replit', shown, 0, lbl, sev === 'info' ? 'Pode manter como referência.' : 'Pode apagar ao tirar o projeto do Replit.');
+  }
+  const artToml = src.filter(p => /\.replit-artifact\/artifact\.toml$/.test(p));
+  artToml.forEach(p => res.stack.push({ kind: 'replit-artifact', dir: dirname(dirname(p)), name: (text(p).match(/^\s*(?:title|name)\s*=\s*"(.*)"/m) || [])[1] || basename(dirname(dirname(p))), tags: ['Replit artifact'], path: p }));
+
+  // ---------- varredura de conteúdo ----------
+  const aliasFrom = [];
+  for (const p of src) {
+    if (!/(^|\/)vite\.config\.[cm]?[jt]s$/.test(p) || !text(p)) continue;
+    const t = text(p), d = dirname(p);
+    for (const m of t.matchAll(/['"](@[\w\-\/]*|~)['"]\s*:\s*(?:path\.)?resolve\(([^)]*)\)/g)) {
+      const parts = [...m[2].matchAll(/['"]([^'"]+)['"]/g)].map(x => x[1]);
+      aliasFrom.push({ prefix: m[1], dir: joinPath(d, ...parts), root: d, from: p });
+    }
+    for (const m of t.matchAll(/['"](@[\w\-\/]*|~)['"]\s*:\s*fileURLToPath\(\s*new URL\(\s*['"]([^'"]+)['"]/g)) aliasFrom.push({ prefix: m[1], dir: joinPath(d, m[2]), root: d, from: p });
+    const lf = lineFinder(t);
+    for (const m of t.matchAll(/@replit\/vite-plugin-[\w-]+|runtimeErrorOverlay\(|cartographer\(|devBanner\(/g))
+      add('alto', 'Replit', p, lf(m.index), `Plugin do Replit no Vite: ${m[0].replace('(', '')}`, 'Remova o import e a linha do plugin — fora do Replit ele quebra ou não serve para nada.');
+    const outDir = (t.match(/outDir\s*:\s*([^\n,]+)/) || [])[1];
+    if (outDir) res.viteOut = res.viteOut || [], res.viteOut.push({ file: p, outDir: [...outDir.matchAll(/['"]([^'"]+)['"]/g)].map(x => x[1]).join('/') });
+  }
+  for (const p of src) {
+    if (!/(^|\/)(ts|js)config[\w.]*\.json$/.test(p) || !text(p)) continue;
+    try {
+      const j = parseLenientJSON(text(p)), co = j.compilerOptions || {}, d = dirname(p);
+      for (const [k, v] of Object.entries(co.paths || {})) {
+        const prefix = k.replace(/\/\*$/, ''), target = String((v || [])[0] || '').replace(/\/\*$/, '');
+        if (target) aliasFrom.push({ prefix, dir: joinPath(d, co.baseUrl || '.', target), root: d, from: p });
+      }
+    } catch (e) { /* já reportado */ }
+  }
+  aliasFrom.sort((a, b) => b.prefix.length - a.prefix.length);
+  res.aliases = aliasFrom;
+
+  const EXTS = ['', '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.json', '.vue', '.svelte', '.css', '.scss', '.d.ts', '/index.ts', '/index.tsx', '/index.js', '/index.jsx', '/index.mjs', '/index.vue'];
+  function tryResolve(base) {
+    const cands = [];
+    EXTS.forEach(e => cands.push(base + e));
+    if (/\.[mc]?js$/.test(base)) { const b = base.replace(/\.[mc]?js$/, ''); ['.ts', '.tsx', '.mts', '.cts'].forEach(e => cands.push(b + e)); }
+    if (/\.jsx$/.test(base)) cands.push(base.replace(/\.jsx$/, '.tsx'));
+    for (const c of cands) if (files.has(c)) return { ok: c };
+    for (const c of cands) { const l = lowerMap.get(c.toLowerCase()); if (l) return { caseOf: l }; }
+    for (const k of proj.skipped.keys()) if ((base + '/').startsWith(k)) return { ok: base };
+    return null;
+  }
+  const missingDeps = new Map();
+  const envRe = /process\.env\.([A-Z_][A-Z0-9_]*)|process\.env\[['"]([A-Z_][A-Z0-9_]*)['"]\]|import\.meta\.env\.([A-Z_][A-Z0-9_]*)|os\.environ(?:\.get)?\(?\[?\s*['"]([A-Z_][A-Z0-9_]*)['"]|os\.getenv\(\s*['"]([A-Z_][A-Z0-9_]*)['"]|Platform\.environment\[['"]([A-Z_][A-Z0-9_]*)['"]\]/g;
+  const todo = new Map();
+
+  for (const p of src) {
+    const t = text(p); if (!t) continue;
+    const lf = lineFinder(t);
+    const isLock = /(lock\.json|lock\.yaml|yarn\.lock)$/.test(p);
+    const isDoc = /\.(md|txt)$/i.test(p);
+    // conflito de merge
+    const cm = t.match(/^<{7}( |$)[\s\S]*?^={7}$[\s\S]*?^>{7}/m);
+    if (cm) add('critico', 'Conflito de merge', p, lf(cm.index), 'Marcas de conflito do Git (<<<<<<< ======= >>>>>>>) — o arquivo não compila', 'Escolha qual versão manter e apague as marcas. A IA pode fazer isso.');
+    // segredos
+    if (!isLock) for (const [re, lbl] of SECRET_RULES) {
+      re.lastIndex = 0; const m = re.exec(t);
+      if (m) add(/\.env(\.|$)/.test(basename(p)) && !/example|sample/i.test(p) ? 'alto' : 'critico', 'Segredo exposto', p, lf(m.index), `${lbl} escrita no código: ${mask(m[0])}`, 'Mova para variável de ambiente (.env fora do Git) e GERE UMA CHAVE NOVA — a antiga pode ter vazado.');
+    }
+    if (/(^|\/)\.env(\.[\w-]+)?$/.test(p) && !/example|sample|template/i.test(p)) add('alto', 'Segredo exposto', p, 0, 'Arquivo .env dentro do projeto', 'Não publique .env: coloque no .gitignore e deixe só um .env.example sem valores.');
+    if (isLock) continue;
+    // Replit no conteúdo (ignorando os próprios arquivos do Replit)
+    if (!/(^|\/)(\.replit|replit\.nix|replit\.md)$/.test(p) && !/\.replit-artifact\//.test(p) && !isDoc) {
+      const r1 = t.match(/\b(REPL_ID|REPL_SLUG|REPL_OWNER|REPLIT_[A-Z_]+)\b/);
+      if (r1) add('alto', 'Replit', p, lf(r1.index), `Usa variável que só existe no Replit: ${r1[1]}`, 'Troque por variável própria (.env) ou remova a condição.');
+      const r2 = t.match(/[\w-]+\.(?:replit\.dev|replit\.app|repl\.co)\b/);
+      if (r2) add('medio', 'Replit', p, lf(r2.index), `Endereço fixo do Replit: ${r2[0]}`, 'Fora do Replit esse endereço não vai responder. Use URL configurável.');
+      const r3 = t.match(/\/home\/runner\//);
+      if (r3) add('alto', 'Replit', p, lf(r3.index), 'Caminho absoluto do servidor do Replit (/home/runner/...)', 'Use caminho relativo ao projeto.');
+      const r4 = t.match(/throw new Error\([^)]*\b(PORT|BASE_PATH|REPL\w*)\b[^)]*\)/);
+      if (r4) add('alto', 'Replit', p, lf(r4.index), `Para de funcionar se a variável ${r4[1]} não existir (o Replit define sozinho)`, `Troque o "throw" por um valor padrão, ex.: const port = Number(process.env.PORT) || 5173`);
+    }
+    // env vars
+    for (const m of t.matchAll(envRe)) {
+      const v = m[1] || m[2] || m[3] || m[4] || m[5] || m[6];
+      if (!res.env.has(v)) res.env.set(v, []);
+      const arr = res.env.get(v); if (arr.length < 6) arr.push({ file: p, line: lf(m.index) });
+    }
+    // TODO/FIXME
+    const tc = (t.match(/\b(TODO|FIXME|HACK|XXX)\b/g) || []).length; if (tc) todo.set(p, tc);
+    // localhost fixo em código de frontend
+    if (isCodeish(p) && !/server|api|backend|electron|main\.[cm]?[jt]s$|config/i.test(p)) {
+      const lh = t.match(/['"`]https?:\/\/(localhost|127\.0\.0\.1):\d+/);
+      if (lh) add('medio', 'Configuração', p, lf(lh.index), 'Endereço localhost fixo no frontend', 'No APK/executável esse endereço não existe. Use URL configurável.');
+    }
+    // imports JS/TS
+    if (isCodeish(p) && t.length < 800000) {
+      const chain = chainOf(p);
+      const declared = new Set(); chain.forEach(c => Object.keys(depsOf(c.json)).forEach(n => declared.add(n)));
+      const specRe = /\bimport\s+(?:type\s+)?(?:[\w*{}\s,$]+?\s+from\s+)?['"]([^'"\n]+)['"]|\bexport\s+(?:type\s+)?[\w*{}\s,$]+?\s+from\s+['"]([^'"\n]+)['"]|\brequire\(\s*['"]([^'"\n]+)['"]\s*\)|\bimport\(\s*['"]([^'"\n]+)['"]\s*\)/g;
+      for (const m of t.matchAll(specRe)) {
+        let spec = (m[1] || m[2] || m[3] || m[4]).split('?')[0];
+        if (!spec || /^(https?:|data:|virtual:|astro:|bun:|~icons|\$|#)/.test(spec) || spec.includes('${')) continue;
+        const line = lf(m.index);
+        let base = null;
+        if (spec.startsWith('.')) base = joinPath(dirname(p), spec);
+        else if (spec.startsWith('/')) base = joinPath(chain[0] ? chain[0].dir : '', spec);
+        else {
+          const al = aliasFrom.find(a => (spec === a.prefix || spec.startsWith(a.prefix + '/')) && (!a.root || p.startsWith(a.root + '/') || p === a.root));
+          if (al) base = joinPath(al.dir, spec.slice(al.prefix.length));
+        }
+        if (base !== null) {
+          let r = tryResolve(base);
+          if (!r && spec.startsWith('/')) r = tryResolve(joinPath(chain[0] ? chain[0].dir : '', 'public', spec));
+          if (!r) add('critico', 'Import quebrado', p, line, `Importa "${spec}" mas o arquivo não existe`, 'Arquivo apagado/renomeado ou caminho errado. Confira o nome e a pasta.');
+          else if (r.caseOf) add('alto', 'Import quebrado', p, line, `"${spec}" existe só com maiúsculas/minúsculas diferentes (${r.caseOf})`, 'Funciona no Windows mas QUEBRA no Linux/Android. Deixe o nome idêntico.');
+          continue;
+        }
+        if (/^(@\/|~\/)/.test(spec)) { add('medio', 'Import quebrado', p, line, `Atalho "${spec.split('/')[0]}/" sem configuração encontrada`, 'Configure o alias no vite.config e tsconfig (paths).'); continue; }
+        const name = spec.startsWith('@') ? spec.split('/').slice(0, 2).join('/') : spec.split('/')[0];
+        if (spec.startsWith('node:') || NODE_BUILTINS.has(name) || !chain.length) continue;
+        if (declared.has(name) || declared.has('@types/' + name)) continue;
+        const k = (chain[0].path) + '|' + name;
+        if (!missingDeps.has(k)) missingDeps.set(k, { name, pkg: chain[0].path, file: p, line, count: 0, ws: wsNames.has(name) });
+        missingDeps.get(k).count++;
+      }
+    }
+  }
+  for (const d of missingDeps.values()) {
+    if (d.ws) add('medio', 'Dependências', d.file, d.line, `Usa o pacote interno "${d.name}" sem declarar em ${d.pkg}`, `Adicione "${d.name}": "workspace:*" ou copie o código dele para dentro do app.`, `${d.count} import(s)`);
+    else add('alto', 'Dependência faltando', d.file, d.line, `"${d.name}" é importado mas não está no ${d.pkg}`, `Rode: npm install ${d.name}  (na pasta de ${d.pkg})`, `${d.count} import(s)`);
+  }
+  if (todo.size) { const tot = [...todo.values()].reduce((a, b) => a + b, 0); add('info', 'Pendências no código', [...todo.keys()][0], 0, `${tot} marcações TODO/FIXME em ${todo.size} arquivo(s)`, 'Trechos que o autor (ou a IA) deixou incompletos.', [...todo.entries()].slice(0, 12).map(([f, n]) => `${f} (${n})`).join(', ')); }
+
+  // variáveis de ambiente
+  const hasEnvExample = src.some(p => /\.env\.(example|sample|template)$/.test(p));
+  const envDefined = new Set();
+  for (const p of src) if (/(^|\/)\.env(\.[\w-]+)?$/.test(p) && text(p)) for (const m of text(p).matchAll(/^\s*([A-Z_][A-Z0-9_]*)\s*=/gm)) envDefined.add(m[1]);
+  const ignoredEnv = new Set(['NODE_ENV', 'DEV', 'PROD', 'MODE', 'BASE_URL', 'SSR', 'CI']);
+  const needEnv = [...res.env.keys()].filter(k => !ignoredEnv.has(k) && !envDefined.has(k));
+  if (needEnv.length && !hasEnvExample) add('medio', 'Configuração', '', 0, `O código lê ${needEnv.length} variável(is) de ambiente e não há .env.example`, 'Crie um .env com esses nomes (valores fora do Git). Sem elas o app pode não iniciar.', needEnv.join(', '));
+
+  // index.html → scripts
+  for (const p of src) {
+    if (basename(p) !== 'index.html' || inBuild(p) || !text(p)) continue;
+    const t = text(p), lf = lineFinder(t), d = dirname(p);
+    for (const m of t.matchAll(/<script[^>]*\bsrc=["']([^"']+)["']/g)) {
+      const s = m[1]; if (/^(https?:)?\/\//.test(s) || s.startsWith('data:') || s.includes('%')) continue;
+      const base = s.startsWith('/') ? joinPath(d, s) : joinPath(d, s);
+      if (!tryResolve(base) && !tryResolve(joinPath(d, 'public', s))) add('critico', 'Arquivo faltando', p, lf(m.index), `index.html carrega "${s}" que não existe`, 'A página fica em branco. Corrija o caminho do script.');
+    }
+  }
+  const viteDirs = res.pkgs.filter(k => 'vite' in depsOf(k.json)).map(k => k.dir);
+  for (const d of viteDirs) if (!files.has(joinPath(d, 'index.html')) && !src.some(p => p.startsWith(d ? d + '/' : '') && basename(p) === 'index.html' && !inBuild(p)))
+    add('alto', 'Arquivo faltando', joinPath(d, 'package.json'), 0, 'Projeto Vite sem index.html', 'O Vite precisa de um index.html na raiz do app.');
+
+  // Capacitor / Android
+  for (const p of src) {
+    if (!/(^|\/)capacitor\.config\.(ts|js|json)$/.test(p) || !text(p)) continue;
+    const t = text(p), d = dirname(p);
+    const wd = (t.match(/webDir['"]?\s*:\s*['"]([^'"]+)['"]/) || [])[1];
+    const appId = (t.match(/appId['"]?\s*:\s*['"]([^'"]+)['"]/) || [])[1];
+    res.stack.push({ kind: 'capacitor', dir: d || '(raiz)', name: appId || '', tags: ['Capacitor', files.has(joinPath(d, 'android/app/build.gradle')) || all.some(x => x.startsWith(joinPath(d, 'android') + '/')) ? 'pasta android ✓' : 'sem pasta android'], path: p });
+    if (wd && res.viteOut) {
+      const outs = res.viteOut.filter(v => v.file.startsWith(d)).map(v => v.outDir);
+      if (outs.length && !outs.some(o => o.endsWith(wd) || wd.endsWith(basename(o)))) add('alto', 'Capacitor', p, 0, `webDir "${wd}" não bate com a saída do Vite (${outs.join(', ')})`, 'O APK vai abrir em branco. Deixe webDir igual à pasta que o "npm run build" gera.');
+    }
+    if (!appId) add('medio', 'Capacitor', p, 0, 'Sem appId', 'Defina um appId único (ex.: br.com.maikon.app).');
+  }
+  // Flutter
+  for (const p of src) {
+    if (basename(p) !== 'pubspec.yaml' || !text(p)) continue;
+    const t = text(p), d = dirname(p);
+    const own = (t.match(/^name:\s*(\S+)/m) || [])[1];
+    const deps = new Set(); let inD = false;
+    for (const l of t.split('\n')) { if (/^(dependencies|dev_dependencies):\s*$/.test(l)) { inD = true; continue; } if (/^\S/.test(l)) inD = false; const m = inD && l.match(/^  ([a-z_][\w]*):/); if (m) deps.add(m[1]); }
+    res.stack.push({ kind: 'flutter', dir: d || '(raiz)', name: own || '', tags: ['Flutter', ...(deps.has('flutter') ? [] : ['sem SDK flutter?'])], path: p });
+    if (!files.has(joinPath(d, 'lib/main.dart'))) add('critico', 'Flutter', p, 0, 'Projeto Flutter sem lib/main.dart', 'É o ponto de entrada do app Flutter.');
+    for (const dp of src) {
+      if (!dp.startsWith(joinPath(d, 'lib') + '/') || !dp.endsWith('.dart')) continue;
+      const lf = lineFinder(text(dp) || '');
+      for (const m of (text(dp) || '').matchAll(/import\s+['"]package:([\w]+)\//g)) if (m[1] !== own && m[1] !== 'flutter' && !deps.has(m[1])) add('alto', 'Dependência faltando', dp, lf(m.index), `Pacote Dart "${m[1]}" não está no pubspec.yaml`, `flutter pub add ${m[1]}`);
+    }
+  }
+  // Python
+  const reqs = new Set(); let pyRoot = false;
+  for (const p of src) {
+    if (/(^|\/)requirements[\w-]*\.txt$/.test(p) && text(p)) { pyRoot = true; text(p).split('\n').forEach(l => { const m = l.trim().match(/^([A-Za-z0-9_.\-]+)/); if (m && !l.trim().startsWith('#')) reqs.add(m[1].toLowerCase().replace(/_/g, '-')); }); }
+    if (/(^|\/)pyproject\.toml$/.test(p) && text(p)) { pyRoot = true; for (const m of text(p).matchAll(/^\s*["']?([A-Za-z0-9_.\-]+)\s*(?:[<>=~!\[;"']|$)/gm)) reqs.add(m[1].toLowerCase().replace(/_/g, '-')); }
+  }
+  const pyFiles = src.filter(p => p.endsWith('.py') && !inBuild(p));
+  if (pyFiles.length) {
+    res.stack.push({ kind: 'python', dir: '(vários)', name: `${pyFiles.length} arquivo(s) .py`, tags: ['Python', pyRoot ? 'requirements ✓' : 'sem requirements'] });
+    const localMods = new Set(pyFiles.map(p => basename(p).replace(/\.py$/, ''))); src.forEach(p => p.split('/').slice(0, -1).forEach(s => localMods.add(s)));
+    const seenPy = new Set();
+    for (const p of pyFiles) {
+      const t = text(p) || '', lf = lineFinder(t);
+      for (const m of t.matchAll(/^\s*(?:from\s+([\w]+)[\w.]*\s+import|import\s+([\w]+))/gm)) {
+        const mod = m[1] || m[2];
+        if (PY_STD.has(mod) || localMods.has(mod) || seenPy.has(mod)) continue;
+        const pkg = (PY_MAP[mod] || mod).toLowerCase().replace(/_/g, '-');
+        if (pkg.endsWith('*') || reqs.has(pkg) || [...reqs].some(r => r.startsWith(pkg) || pkg.startsWith(r))) continue;
+        seenPy.add(mod);
+        add(pyRoot ? 'alto' : 'medio', 'Dependência faltando', p, lf(m.index), `Módulo Python "${mod}" não está no requirements`, `pip install ${PY_MAP[mod] || mod}  (e adicione ao requirements.txt)`);
+      }
+    }
+  }
+  // arquivos gigantes
+  for (const [p, f] of files) if (!f.git && f.size > 5e6) add('info', 'Tamanho', p, 0, `Arquivo grande (${fmtSize(f.size)})`, 'Deixa o repositório/APK pesado. Veja se é necessário.');
+  if ([...proj.skipped.keys()].some(k => /node_modules\/$/.test(k))) add('info', 'Tamanho', [...proj.skipped.keys()].find(k => /node_modules\/$/.test(k)), 0, 'node_modules veio junto no arquivo', 'Não precisa enviar/guardar — é recriado com npm install. Use 📦 Zip enxuto.');
+
+  // ---------- rotas de API ----------
+  const mounts = new Set(['']);
+  for (const p of src) {
+    const t = text(p); if (!t || !isCodeish(p) && !p.endsWith('.py')) continue;
+    const lf = lineFinder(t);
+    for (const m of t.matchAll(/\.use\(\s*['"`](\/[^'"`]*)['"`]\s*,/g)) mounts.add(m[1].replace(/\/$/, ''));
+    for (const m of t.matchAll(/\b(\w+)\.(get|post|put|patch|delete|all)\(\s*['"`](\/[^'"`]*)['"`]/g)) {
+      if (/^(axios|api|http|client|fetch|request|superagent|ky|\$|map|params|headers|searchParams|localStorage|sessionStorage|cache|store|query|formData|url)$/i.test(m[1]) && !/server|route|api\//i.test(p)) continue;
+      res.routes.push({ method: m[2].toUpperCase(), path: m[3], file: p, line: lf(m.index), src: 'código' });
+    }
+    for (const m of t.matchAll(/@\w+\.(get|post|put|patch|delete|route)\(\s*['"]([^'"]+)['"]/g))
+      res.routes.push({ method: m[1] === 'route' ? 'ANY' : m[1].toUpperCase(), path: m[2], file: p, line: lf(m.index), src: 'Python' });
+    if (!/server|backend/i.test(p) || /client|frontend|web\//.test(p)) {
+      for (const m of t.matchAll(/\b(?:fetch|axios(?:\.(?:get|post|put|patch|delete))?|ky(?:\.\w+)?|\$fetch)\(\s*[`'"]((?:\$\{[^}]*\})?\/[^`'"\s]*)[`'"]/g))
+        res.calls.push({ path: m[1].replace(/^\$\{[^}]*\}/, ''), raw: m[1], file: p, line: lf(m.index) });
+      for (const m of t.matchAll(/[`'"](\/api\/[\w\-\/:.${}]*)[`'"]/g))
+        if (!res.calls.some(c => c.file === p && c.raw === m[1])) res.calls.push({ path: m[1], raw: m[1], file: p, line: lf(m.index) });
+    }
+  }
+  for (const p of src) {
+    const m = p.match(/(?:^|\/)(?:src\/)?(?:app|pages)\/(api\/.*?)(?:\/route)?\.(?:[jt]sx?)$/);
+    if (m && /\/(app|pages)\/api\//.test('/' + p)) res.routes.push({ method: 'ANY', path: '/' + m[1].replace(/\/index$/, '').replace(/\[([^\]]+)\]/g, ':$1'), file: p, line: 0, src: 'Next.js' });
+  }
+  for (const p of src) {
+    if (!/openapi\.(ya?ml|json)$/.test(p) || !text(p)) continue;
+    const t = text(p), lf = lineFinder(t); let inPaths = false, cur = null;
+    for (const m of t.matchAll(/^(\S.*|  (\/[^:]*):\s*|    (get|post|put|patch|delete):)\s*$/gm)) {
+      if (/^paths:/.test(m[1])) { inPaths = true; continue; }
+      if (/^\S/.test(m[1]) && !/^paths:/.test(m[1])) { inPaths = false; continue; }
+      if (!inPaths) continue;
+      if (m[2]) cur = m[2]; else if (m[3] && cur) res.routes.push({ method: m[3].toUpperCase(), path: cur, file: p, line: lf(m.index), src: 'OpenAPI' });
+    }
+  }
+  res.mounts = [...mounts];
+  const toRe = r => new RegExp('^' + r.replace(/[.+?^$|()\\]/g, '\\$&').replace(/\/:[\w]+|\/\{[\w]+\}|\/\[[\w.]+\]/g, '/[^/]+').replace(/\*/g, '.*') + '/?$');
+  const routeRes = [];
+  for (const r of res.routes) for (const mt of res.mounts) try { routeRes.push(toRe((r.src === 'OpenAPI' ? '/api' : mt) + r.path)); if (r.src === 'OpenAPI' || r.src === 'Next.js') routeRes.push(toRe(r.path)); } catch (e) { }
+  for (const c of res.calls) {
+    const pth = c.path.replace(/\$\{[^}]*\}/g, 'X').split('?')[0];
+    c.ok = routeRes.some(re => re.test(pth));
+  }
+  if (res.routes.length) {
+    const seen = new Set();
+    for (const c of res.calls) if (!c.ok && c.path.startsWith('/api') && !seen.has(c.path)) { seen.add(c.path); add('medio', 'API', c.file, c.line, `Frontend chama ${c.path} mas não achei essa rota no servidor`, 'Rota apagada/renomeada, ou prefixo diferente. Confira o servidor.'); }
+  }
+
+  issues.sort((a, b) => severityRank(a.sev) - severityRank(b.sev) || a.cat.localeCompare(b.cat) || a.file.localeCompare(b.file));
+  issues.forEach(i => { i.key = `${i.sev}|${i.cat}|${i.file}|${i.msg}`; });
+  res.bySev = Object.fromEntries(SEVS.map(s => [s, issues.filter(i => i.sev === s).length]));
+  res.fileSev = new Map();
+  for (const i of issues) if (i.file && (!res.fileSev.has(i.file) || severityRank(i.sev) < severityRank(res.fileSev.get(i.file)))) res.fileSev.set(i.file, i.sev);
+  return res;
+}
+
+/* =====================================================================
+   DIFF (Myers) — linha a linha
+   ===================================================================== */
+function myers(A, B) {
+  const N = A.length, M = B.length, MAX = N + M;
+  if (!N) return B.map((_, j) => ({ t: '+', b: j }));
+  if (!M) return A.map((_, i) => ({ t: '-', a: i }));
+  const DMAX = Math.min(MAX, 2500), off = MAX + 1;
+  const v = new Int32Array(2 * MAX + 3); const trace = [];
+  for (let d = 0; d <= DMAX; d++) {
+    trace.push(v.slice(off - d - 1, off + d + 2));
+    for (let k = -d; k <= d; k += 2) {
+      let x = (k === -d || (k !== d && v[off + k - 1] < v[off + k + 1])) ? v[off + k + 1] : v[off + k - 1] + 1;
+      let y = x - k;
+      while (x < N && y < M && A[x] === B[y]) { x++; y++; }
+      v[off + k] = x;
+      if (x >= N && y >= M) {
+        const ops = []; let cx = N, cy = M;
+        for (let dd = d; dd >= 0; dd--) {
+          const snap = trace[dd], g = kk => snap[kk + dd + 1];
+          const ck = cx - cy;
+          const pk = (ck === -dd || (ck !== dd && g(ck - 1) < g(ck + 1))) ? ck + 1 : ck - 1;
+          const px = dd === 0 ? 0 : g(pk), py = px - pk;
+          while (cx > px && cy > py) { cx--; cy--; ops.push({ t: '=', a: cx, b: cy }); }
+          if (dd > 0) { if (cx === px) ops.push({ t: '+', b: py }); else ops.push({ t: '-', a: px }); }
+          cx = px; cy = py;
+        }
+        return ops.reverse();
+      }
+    }
+  }
+  return null;
+}
+function diffLines(a, b) {
+  const ids = new Map(); const id = s => { let v = ids.get(s); if (v === undefined) { v = ids.size; ids.set(s, v); } return v; };
+  const A = a.map(id), B = b.map(id);
+  let s = 0; while (s < A.length && s < B.length && A[s] === B[s]) s++;
+  let ea = A.length, eb = B.length; while (ea > s && eb > s && A[ea - 1] === B[eb - 1]) { ea--; eb--; }
+  const mid = myers(A.slice(s, ea), B.slice(s, eb));
+  if (!mid) return null;
+  const ops = [];
+  for (let i = 0; i < s; i++) ops.push({ t: '=', a: i, b: i });
+  for (const o of mid) ops.push({ t: o.t, a: o.a != null ? o.a + s : undefined, b: o.b != null ? o.b + s : undefined });
+  for (let i = 0; i < A.length - ea; i++) ops.push({ t: '=', a: ea + i, b: eb + i });
+  return ops;
+}
+function diffStats(ops) { let add = 0, del = 0; for (const o of ops || []) { if (o.t === '+') add++; else if (o.t === '-') del++; } return { add, del }; }
+function unifiedDiff(a, b, ops, nameA, nameB, ctx = 3) {
+  const out = [`--- ${nameA}`, `+++ ${nameB}`];
+  const keep = new Array(ops.length).fill(false);
+  ops.forEach((o, i) => { if (o.t !== '=') for (let k = Math.max(0, i - ctx); k <= Math.min(ops.length - 1, i + ctx); k++) keep[k] = true; });
+  let last = -2;
+  ops.forEach((o, i) => {
+    if (!keep[i]) return;
+    if (i !== last + 1) out.push(`@@ linha ${(o.a ?? 0) + 1} (A) / ${(o.b ?? 0) + 1} (B) @@`);
+    out.push(o.t === '=' ? ' ' + a[o.a] : o.t === '-' ? '-' + a[o.a] : '+' + b[o.b]);
+    last = i;
+  });
+  return out.join('\n');
+}
+function renderDiff(aText, bText, nameA, nameB) {
+  const a = aText.split('\n'), b = bText.split('\n');
+  if (a.length + b.length > 60000) return `<div class="pad muted">Arquivo grande demais para comparar linha a linha (${a.length} × ${b.length} linhas).</div>`;
+  const ops = diffLines(a, b);
+  if (!ops) return `<div class="pad muted">Os arquivos são diferentes demais para alinhar linha a linha — foram praticamente reescritos.</div>`;
+  const st = diffStats(ops);
+  if (!st.add && !st.del) return `<div class="pad"><span class="pill ok">Conteúdo idêntico</span> ${aText === bText ? '' : '(diferença só em espaços/quebra de linha no final)'}</div>`;
+  const rows = []; let i = 0;
+  while (i < ops.length) {
+    if (ops[i].t === '=') { rows.push({ t: '=', a: ops[i].a, b: ops[i].b }); i++; continue; }
+    const dels = [], adds = [];
+    while (i < ops.length && ops[i].t !== '=') { if (ops[i].t === '-') dels.push(ops[i].a); else adds.push(ops[i].b); i++; }
+    for (let k = 0; k < Math.max(dels.length, adds.length); k++) rows.push({ t: 'x', a: dels[k], b: adds[k] });
+  }
+  const show = rows.map(() => false);
+  rows.forEach((r, j) => { if (r.t === 'x') for (let k = Math.max(0, j - 3); k <= Math.min(rows.length - 1, j + 3); k++) show[k] = true; });
+  const narrow = window.innerWidth <= 820;
+  let html = `<div class="pad row"><span class="pill ok">+${st.add} linhas</span><span class="pill bad">−${st.del} linhas</span><span class="muted" style="font-size:11px">Verde = só em B · Vermelho = só em A</span></div>`;
+  if (narrow) {
+    html += '<div class="code u">'; let gap = 0;
+    const flush = () => { if (gap) html += `<div class="l"><span class="n"></span><span class="x muted">··· ${gap} linhas iguais ···</span></div>`; gap = 0; };
+    rows.forEach((r, j) => {
+      if (!show[j]) { gap++; return; } flush();
+      if (r.t === '=') html += `<div class="l"><span class="n">${r.b + 1}</span><span class="x">  ${esc(b[r.b])}</span></div>`;
+      else { if (r.a != null) html += `<div class="l del"><span class="n">${r.a + 1}</span><span class="x">- ${esc(a[r.a])}</span></div>`; if (r.b != null) html += `<div class="l add"><span class="n">${r.b + 1}</span><span class="x">+ ${esc(b[r.b])}</span></div>`; }
+    }); flush(); html += '</div>';
+    return html;
+  }
+  html += `<table class="diff"><colgroup><col style="width:46px"><col><col style="width:46px"><col></colgroup><tr class="head"><td></td><td>🅰 ${esc(nameA)}</td><td></td><td>🅱 ${esc(nameB)}</td></tr>`;
+  let gap = 0;
+  const flush = () => { if (gap) html += `<tr class="gap"><td colspan="4">··· ${gap} linhas iguais ···</td></tr>`; gap = 0; };
+  rows.forEach((r, j) => {
+    if (!show[j]) { gap++; return; } flush();
+    if (r.t === '=') html += `<tr><td class="n">${r.a + 1}</td><td>${esc(a[r.a])}</td><td class="n">${r.b + 1}</td><td>${esc(b[r.b])}</td></tr>`;
+    else html += `<tr><td class="n">${r.a != null ? r.a + 1 : ''}</td><td class="${r.a != null ? 'del' : 'emp'}">${r.a != null ? esc(a[r.a]) : ''}</td><td class="n">${r.b != null ? r.b + 1 : ''}</td><td class="${r.b != null ? 'add' : 'emp'}">${r.b != null ? esc(b[r.b]) : ''}</td></tr>`;
+  });
+  flush();
+  return html + '</table>';
+}
+
+/* =====================================================================
+   ZIP (para exportar projeto enxuto)
+   ===================================================================== */
+const CRC_T = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(u) { let c = 0xFFFFFFFF; for (let i = 0; i < u.length; i++) c = CRC_T[(c ^ u[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function makeZip(entries) {
+  const parts = [], central = []; let off = 0;
+  for (const e of entries) {
+    const nm = te.encode(e.name), crc = crc32(e.data), sz = e.data.length;
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(10, 0, true); lh.setUint16(12, 0x21, true);
+    lh.setUint32(14, crc, true); lh.setUint32(18, sz, true); lh.setUint32(22, sz, true); lh.setUint16(26, nm.length, true);
+    parts.push(lh.buffer, nm, e.data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(14, 0x21, true);
+    ch.setUint32(16, crc, true); ch.setUint32(20, sz, true); ch.setUint32(24, sz, true); ch.setUint16(28, nm.length, true); ch.setUint32(42, off, true);
+    central.push(ch.buffer, nm);
+    off += 30 + nm.length + sz;
+  }
+  const cdSize = central.reduce((s, x) => s + (x.byteLength ?? x.length), 0);
+  const eo = new DataView(new ArrayBuffer(22));
+  eo.setUint32(0, 0x06054b50, true); eo.setUint16(8, entries.length, true); eo.setUint16(10, entries.length, true); eo.setUint32(12, cdSize, true); eo.setUint32(16, off, true);
+  return new Blob([...parts, ...central, eo.buffer], { type: 'application/zip' });
+}
+function download(content, name, type) {
+  const blob = content instanceof Blob ? content : new Blob([content], { type: type || 'text/plain;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 8000);
+}
+async function copyText(t) {
+  try { await navigator.clipboard.writeText(t); }
+  catch (e) { const ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+  toast('📋 Copiado!', 'success');
+}
+
+/* =====================================================================
+   ESTADO + UI GERAL
+   ===================================================================== */
+const APP = { slots: { A: null, B: null }, an: { A: null, B: null }, repos: { A: [], B: [] }, active: 'A', tab: 'resumo', loadSlot: 'A',
+  fileSel: { A: null, B: null }, fileQ: '', issF: { sev: 'all', cat: 'all', q: '' }, cmp: { filter: 'changed', q: '', sel: null, git: false, sub: 'arquivos' },
+  git: { A: { repo: 0, sel: null, file: null, log: null, ch: null }, B: { repo: 0, sel: null, file: null, log: null, ch: null } }, api: { base: 'http://localhost:5000', method: 'GET', path: '/api/', body: '', resp: '' }, openDirs: new Set() };
+let toastT;
+function toast(msg, type = '') { const el = $('toast'); el.textContent = msg; el.className = 'toast show ' + type; clearTimeout(toastT); toastT = setTimeout(() => el.className = 'toast', type === 'error' ? 7000 : 3500); }
+function busy(on, txt) { $('busy').classList.toggle('show', !!on); if (txt) $('busyTxt').textContent = txt; }
+function closeModal(id) { $(id).classList.remove('open'); }
+function other(s) { return s === 'A' ? 'B' : 'A'; }
+
+function openLoad(slot) { APP.loadSlot = slot; $('loadSlotLbl').innerHTML = `<span class="tag ${slot}">${slot}</span>`; $('loadName').value = APP.slots[slot]?.name || ''; $('loadModal').classList.add('open'); }
+function onPicked(e, mode) { const files = [...e.target.files]; e.target.value = ''; if (files.length) loadInto(APP.loadSlot, files, mode, $('loadName').value.trim()); }
+async function loadInto(slot, files, mode, name) {
+  closeModal('loadModal');
+  busy(true, 'Preparando...');
+  try {
+    const proj = await buildProject(files, mode, { skipHeavy: $('optSkip').checked, name }, t => { $('busyTxt').textContent = t; });
+    if (!proj.files.size) throw new Error('Nenhum arquivo encontrado.');
+    $('busyTxt').textContent = 'Analisando o projeto...'; await tick();
+    setSlot(slot, proj);
+    const n = APP.an[slot].issues.length;
+    toast(`✅ ${slot}: ${proj.files.size} arquivos lidos · ${n} ponto(s) detectado(s)` + (proj.warnings.length ? ` · ${proj.warnings.length} aviso(s)` : ''), 'success');
+    if (APP.slots.A && APP.slots.B && slot === 'B') setTab('comparar'); else { APP.active = slot; render(); }
+  } catch (e) { console.error(e); toast('❌ ' + e.message, 'error'); }
+  busy(false);
+}
+function setSlot(slot, proj) {
+  APP.slots[slot] = proj; APP.an[slot] = proj ? analyze(proj) : null; APP.repos[slot] = proj ? findRepos(proj) : [];
+  APP.fileSel[slot] = null; APP.git[slot] = { repo: 0, sel: null, file: null, log: null, ch: null }; APP.cmp.sel = null;
+  updateSlots();
+}
+function renameSlot(slot, v) { if (APP.slots[slot]) { APP.slots[slot].name = v || slot; render(); } }
+function clearSlot(slot) { if (APP.slots[slot] && !confirm(`Remover o projeto ${slot}?`)) return; setSlot(slot, null); if (APP.active === slot && APP.slots[other(slot)]) APP.active = other(slot); render(); }
+function swapSlots() {
+  [APP.slots.A, APP.slots.B] = [APP.slots.B, APP.slots.A]; [APP.an.A, APP.an.B] = [APP.an.B, APP.an.A]; [APP.repos.A, APP.repos.B] = [APP.repos.B, APP.repos.A];
+  [APP.fileSel.A, APP.fileSel.B] = [APP.fileSel.B, APP.fileSel.A]; [APP.git.A, APP.git.B] = [APP.git.B, APP.git.A]; APP.cmp.sel = null;
+  updateSlots(); render();
+}
+function updateSlots() {
+  for (const s of ['A', 'B']) {
+    const p = APP.slots[s];
+    $('name' + s).value = p ? p.name : '';
+    $('info' + s).textContent = p ? `${p.files.size} arq · ${fmtSize(p.bytes)}` : 'vazio';
+  }
+  const iss = APP.an[APP.active]?.issues.length || 0;
+  $('cntIss').textContent = iss;
+}
+function setTab(t) { APP.tab = t; document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === t)); render(); }
+function setActive(s) { APP.active = s; render(); }
+function viewbar() {
+  const vb = $('viewbar');
+  const both = APP.slots.A && APP.slots.B;
+  if (APP.tab === 'comparar' || !(APP.slots.A || APP.slots.B)) { vb.classList.add('hidden'); return; }
+  const s = APP.active, P = APP.slots[s];
+  vb.classList.remove('hidden');
+  vb.innerHTML = (both ? `<span class="muted">Ver:</span>` + ['A', 'B'].map(x => `<button class="btn sm ${x === s ? 'on' : ''}" onclick="setActive('${x}')"><span class="tag ${x}">${x}</span> ${esc(APP.slots[x].name)}</button>`).join('') : (P ? `<span class="tag ${s}">${s}</span> <b>${esc(P.name)}</b>` : ''))
+    + `<span style="flex:1"></span>` + (P ? `<button class="btn sm ai" onclick="Ctx.askProject('${s}')">🤖 Diagnóstico geral</button><button class="btn sm" onclick="exportReport('${s}')" title="Relatório em Markdown">📄 Relatório</button><button class="btn sm" onclick="copyReport('${s}')" title="Copiar relatório para colar em qualquer IA">📋 Copiar relatório</button><button class="btn sm" onclick="exportLean('${s}')" title="Zip sem node_modules — bom para mandar para IA/GitHub">📦 Zip enxuto</button>` : '');
+}
+function render() {
+  updateSlots(); viewbar();
+  const v = $('view'); v.className = '';
+  if (!APP.slots.A && !APP.slots.B) { v.innerHTML = welcomeHTML(); return; }
+  if (!APP.slots[APP.active]) APP.active = APP.slots.A ? 'A' : 'B';
+  try {
+    ({ resumo: renderResumo, arquivos: renderArquivos, problemas: renderProblemas, deps: renderDeps, api: renderApi, git: renderGit, comparar: renderComparar })[APP.tab]();
+  } catch (e) { console.error(e); v.innerHTML = `<div class="pad aimsg err">Erro ao montar a tela: ${esc(e.message)}</div>`; }
+}
+function welcomeHTML() {
+  return `<div class="welcome">
+    <h2>🔬 Projeto Lab — raio-x de projetos</h2>
+    <p>Carregue um projeto (zip, tar, tar.gz/tgz ou pasta) em <span class="tag A">A</span>. Para <b>comparar duas versões</b> (ex.: a que funcionava × a que quebrou), carregue a outra em <span class="tag B">B</span> e dê um nome a cada uma.</p>
+    <div class="big-btns"><button class="btn primary" onclick="openLoad('A')">📂 Carregar projeto A</button><button class="btn" onclick="openLoad('B')">📂 Carregar projeto B</button></div>
+    <p><b>O que ele faz:</b></p>
+    <ul>
+      <li>📁 Mostra todos os arquivos, inclusive pastas ocultas (<b>.git</b>, .replit, .local, .config...)</li>
+      <li>🩺 Acha <b>imports quebrados</b>, <b>dependências faltando</b>, JSON inválido, conflitos de merge, <b>chaves de API expostas</b>, variáveis de ambiente, problemas de Capacitor/Flutter/Python</li>
+      <li>🧹 Lista tudo que é <b>do Replit</b> (arquivos, plugins, "catalog:", PORT obrigatória...) com o que fazer</li>
+      <li>🌿 Lê a pasta <b>.git</b>: histórico de commits, <b>o que cada commit mudou, onde e como</b> — e deixa usar um commit antigo como versão A ou B</li>
+      <li>⚖️ Compara A × B: arquivos novos/apagados/alterados, diferenças linha a linha lado a lado, problemas <b>resolvidos</b> e <b>novos</b>, dependências que mudaram</li>
+      <li>🔌 Lista as rotas da API, confere se o frontend chama rotas que existem, e <b>testa a API</b> rodando no seu PC</li>
+      <li>🤖 IA ajudante (Gemini, Claude, GPT, Groq, OpenRouter, DeepSeek, Ollama...) com o arquivo/diferença/problemas já anexados — ou <b>📋 copie o pedido</b> para colar em qualquer chat</li>
+      <li>📦 <b>Zip enxuto</b>: gera um zip sem node_modules para mandar a uma IA ou ao GitHub</li>
+    </ul>
+    <p class="muted">Tudo é lido no seu navegador — nada é enviado a lugar nenhum, só o que você mandar para a IA. Arraste e solte funciona aqui na tela.</p></div>`;
+}
+
+/* ------------------------------- RESUMO ------------------------------- */
+function renderResumo() {
+  const s = APP.active, P = APP.slots[s], A = APP.an[s], v = $('view');
+  const skippedTotal = [...P.skipped.values()].reduce((a, b) => a + b, 0);
+  const topSkip = new Map(); for (const [k, n] of P.skipped) { const key = k.replace(/.*?(node_modules|\.[\w-]+|[\w-]+)\/$/, '$1'); topSkip.set(key, (topSkip.get(key) || 0) + n); }
+  const hid = [...A.hidden].filter(h => h.split('/').filter(Boolean).length <= 2 || h.endsWith('.git/')).filter((h, i, arr) => !arr.some(o => o !== h && h.startsWith(o) && o.endsWith('/'))).slice(0, 40);
+  let html = `<div class="cards">
+    <div class="card"><div class="big">${P.files.size}</div><div class="lbl">arquivos lidos · ${fmtSize(P.bytes)}</div></div>
+    <div class="card"><div class="big">${skippedTotal}</div><div class="lbl">ignorados (${[...topSkip.keys()].slice(0, 3).join(', ') || '—'})</div></div>
+    ${SEVS.map(sv => `<div class="card click" onclick="APP.issF.sev='${sv}';setTab('problemas')"><div class="big"><span class="sev ${sv}">${A.bySev[sv]}</span></div><div class="lbl">${SEV_LBL[sv]}</div></div>`).join('')}
+  </div>`;
+  html += `<div class="box"><h3>🧩 O que tem dentro</h3>` + (A.stack.length ? `<table class="t"><tr><th>Pasta</th><th>Tipo</th><th>Scripts</th></tr>` + A.stack.map(x => `<tr><td class="mono">${esc(x.dir)}${x.name ? `<br><span class="muted">${esc(x.name)}</span>` : ''}</td><td>${x.tags.map(t => `<span class="pill">${esc(t)}</span>`).join('')}</td><td class="mono" style="font-size:11px">${x.scripts ? Object.entries(x.scripts).slice(0, 6).map(([k, c]) => `<b>${esc(k)}</b>: ${esc(c)}`).join('<br>') : ''}</td></tr>`).join('') + `</table>` : '<p class="muted">Nenhum package.json, pubspec.yaml ou Python reconhecido.</p>') + `</div>`;
+  const rep = A.issues.filter(i => i.cat === 'Replit');
+  html += `<div class="box"><h3>🧹 Replit ${rep.length ? `<span class="pill bad">${rep.length} ponto(s)</span>` : '<span class="pill ok">nada encontrado</span>'}</h3>`;
+  if (rep.length) html += `<p class="muted" style="margin-bottom:6px">Para rodar fora do Replit (PC, Electron, APK), resolva estes itens:</p>` + rep.map(i => issueHTML(i, s)).join('') + `<div class="row" style="margin-top:8px"><button class="btn sm ai" onclick="Ctx.askReplit('${s}')">🤖 Pedir à IA o passo a passo para tirar o Replit</button></div>`;
+  html += `</div>`;
+  html += `<div class="box"><h3>👁️ Pastas e arquivos ocultos</h3>${hid.length ? hid.map(h => `<span class="pill ${/\.git\/$/.test(h) ? 'ok' : /replit|\.local|\.upm/.test(h) ? 'warn' : ''}">${esc(h)}</span>`).join('') : '<span class="muted">Nenhum.</span>'}</div>`;
+  const repos = APP.repos[s];
+  html += `<div class="box"><h3>🌿 Git</h3>` + (repos.length ? repos.map(r => { const h = r.head(), st = r.stats(), rm = r.remotes(); return `<div><b>${esc(r.base)}</b> · branch <b>${esc(h.branch)}</b> · ${st.loose + st.packed} objetos · ${r.reflog().length} entradas no histórico local ${rm.map(x => `<br><span class="muted">remoto ${esc(x.name)}: ${esc(x.url.replace(/\/\/[^@/]+@/, '//***@'))}</span>`).join('')}</div>`; }).join('') + `<div class="row" style="margin-top:6px"><button class="btn sm" onclick="setTab('git')">Abrir histórico →</button></div>` : '<p class="muted">Sem pasta .git (baixou como zip sem o histórico). Para ver o histórico, compacte a pasta do projeto <b>incluindo</b> a pasta oculta .git.</p>') + `</div>`;
+  if (P.warnings.length) html += `<div class="box"><h3>⚠️ Avisos da leitura</h3><div class="mono" style="font-size:11px">${P.warnings.slice(0, 30).map(esc).join('<br>')}</div></div>`;
+  v.innerHTML = html;
+}
+function issueHTML(i, s, idx) {
+  const loc = i.file ? `<div class="loc" onclick="gotoFile('${s}',${R(i.file)},${i.line || 0})">${esc(i.file)}${i.line ? ':' + i.line : ''}</div>` : '';
+  return `<div class="iss"><span class="sev ${i.sev}">${SEV_LBL[i.sev].split(' ')[1]}</span><div class="body"><div class="msg"><span class="muted">[${esc(i.cat)}]</span> ${esc(i.msg)}</div>${i.det ? `<div class="det">${esc(i.det)}</div>` : ''}${i.fix ? `<div class="fix">💡 ${esc(i.fix)}</div>` : ''}${loc}</div>${idx != null ? `<button class="btn sm ai" title="Perguntar à IA sobre isto" onclick="Ctx.askIssue('${s}',${idx})">🤖</button>` : ''}</div>`;
+}
+function gotoFile(s, refIdx, line) { APP.active = s; APP.fileSel[s] = { path: REF[refIdx], line }; setTab('arquivos'); }
+
+/* ------------------------------ ARQUIVOS ------------------------------ */
+function buildTree(paths) {
+  const root = { d: new Map(), f: [] };
+  for (const p of paths) { const parts = p.split('/'); let n = root; for (let i = 0; i < parts.length - 1; i++) { if (!n.d.has(parts[i])) n.d.set(parts[i], { d: new Map(), f: [] }); n = n.d.get(parts[i]); } n.f.push(p); }
+  return root;
+}
+function countTree(n) { let c = n.f.length; for (const x of n.d.values()) c += countTree(x); return c; }
+function treeHTML(n, prefix, opts) {
+  let h = '';
+  const dirs = [...n.d.keys()].sort((a, b) => (a.startsWith('.') - b.startsWith('.')) || a.localeCompare(b));
+  for (const d of dirs) {
+    const full = prefix + d + '/', open = APP.openDirs.has(full) || opts.openAll;
+    h += `<details ${open ? 'open' : ''} ontoggle="this.open?APP.openDirs.add(${JSON.stringify(full).replace(/"/g, '&quot;')}):APP.openDirs.delete(${JSON.stringify(full).replace(/"/g, '&quot;')})"><summary class="${d.startsWith('.') ? 'hid' : ''}">📁 ${esc(d)}<span class="cnt">${countTree(n.d.get(d))}</span>${opts.sev && opts.sevDir(full) ? `<span class="dot ${opts.sevDir(full)}"></span>` : ''}</summary><div>${treeHTML(n.d.get(d), full, opts)}</div></details>`;
+  }
+  for (const f of n.f.sort((a, b) => basename(a).localeCompare(basename(b)))) h += opts.fileRow(f);
+  return h;
+}
+function renderArquivos() {
+  const s = APP.active, P = APP.slots[s], A = APP.an[s], v = $('view'); v.className = 'full';
+  const sel = APP.fileSel[s];
+  if (sel) { const parts = sel.path.split('/'); for (let i = 1; i < parts.length; i++) APP.openDirs.add(parts.slice(0, i).join('/') + '/'); }
+  const q = APP.fileQ.toLowerCase();
+  const paths = [...P.files.keys()];
+  const sevDirCache = new Map();
+  const sevDir = full => { if (sevDirCache.has(full)) return sevDirCache.get(full); let best = null; for (const [f, sv] of A.fileSev) if (f.startsWith(full) && (!best || severityRank(sv) < severityRank(best))) best = sv; sevDirCache.set(full, best); return best; };
+  const fileRow = f => { const sv = A.fileSev.get(f); const fi = P.files.get(f); return `<div class="f ${sel && sel.path === f ? 'sel' : ''} ${basename(f).startsWith('.') ? 'hid' : ''}" onclick="selFile(${R(f)})" title="${esc(f)}">${fi.binary ? '🖼️' : fi.git ? '⚙️' : '📄'} ${esc(q ? f : basename(f))}${sv ? `<span class="dot ${sv}"></span>` : ''}</div>`; };
+  let left = `<div class="pad" style="border-bottom:1px solid var(--border)"><input type="search" id="fq" placeholder="🔍 Buscar arquivo ou texto..." value="${esc(APP.fileQ)}" style="width:100%" onkeydown="if(event.key==='Enter'){APP.fileQ=this.value;render()}" onsearch="APP.fileQ=this.value;render()"></div><div class="tree">`;
+  if (q) {
+    const byName = paths.filter(p => p.toLowerCase().includes(q)).slice(0, 300);
+    const byText = paths.filter(p => !byName.includes(p) && P.files.get(p).text && P.files.get(p).text.toLowerCase().includes(q)).slice(0, 200);
+    left += `<div class="muted pad" style="padding:4px 8px">${byName.length} no nome · ${byText.length} no conteúdo</div>` + byName.map(fileRow).join('') + (byText.length ? `<div class="muted" style="padding:6px 8px 2px">— contém "${esc(APP.fileQ)}" —</div>` + byText.map(fileRow).join('') : '');
+  } else {
+    left += treeHTML(buildTree(paths), '', { fileRow, sev: true, sevDir });
+    if (P.skipped.size) {
+      const grp = new Map(); for (const [k, n] of P.skipped) grp.set(k, n);
+      left += [...grp].slice(0, 30).map(([k, n]) => `<div class="skip">📦 ${esc(k)} — ignorado (${n})</div>`).join('');
+    }
+  }
+  left += '</div>';
+  let right = '';
+  if (!sel || !P.files.has(sel.path)) right = `<div class="pad muted">Escolha um arquivo à esquerda. Os pontinhos coloridos mostram onde há problemas.</div>`;
+  else right = fileViewHTML(s, sel.path, sel.line);
+  v.innerHTML = `<div class="split"><div class="left">${left}</div><div class="right" id="fileRight">${right}</div></div>`;
+  if (sel && sel.line) setTimeout(() => { const el = document.getElementById('L' + sel.line); if (el) el.scrollIntoView({ block: 'center' }); }, 30);
+  else if (sel) setTimeout(() => { const el = document.querySelector('.tree .f.sel'); if (el) el.scrollIntoView({ block: 'nearest' }); }, 30);
+}
+function selFile(ri) { const s = APP.active; APP.fileSel[s] = { path: REF[ri], line: 0 }; if (window.innerWidth <= 820) render(); else { const P = APP.slots[s]; document.querySelectorAll('.tree .f.sel').forEach(e => e.classList.remove('sel')); event?.currentTarget?.classList.add('sel'); $('fileRight').innerHTML = fileViewHTML(s, REF[ri], 0); $('fileRight').scrollTop = 0; } }
+function fileViewHTML(s, path, jump) {
+  const P = APP.slots[s], f = P.files.get(path), A = APP.an[s];
+  const iss = A.issues.map((x, i) => [x, i]).filter(([x]) => x.file === path);
+  const o = other(s), inOther = APP.slots[o] && APP.slots[o].files.has(path);
+  let h = `<div class="codehead"><span class="path">${esc(path)} <span class="muted">· ${fmtSize(f.size)}</span></span>
+    ${f.text != null ? `<button class="btn sm" onclick="copyText(APP.slots['${s}'].files.get(REF[${R(path)}]).text)">📋 Copiar</button>` : ''}
+    <button class="btn sm" onclick="dlFile('${s}',${R(path)})">⬇️</button>
+    ${inOther ? `<button class="btn sm" onclick="APP.cmp.sel=REF[${R(path)}];setTab('comparar')">⚖️ Comparar com ${o}</button>` : ''}
+    ${f.text != null ? `<button class="btn sm ai" onclick="Ctx.askFile('${s}',${R(path)})">🤖 Analisar com IA</button>` : ''}</div>`;
+  if (iss.length) h += `<div style="border-bottom:1px solid var(--border)">${iss.map(([x, i]) => issueHTML(x, s, i)).join('')}</div>`;
+  if (f.text != null) {
+    const lines = f.text.split('\n'); const hl = new Set(iss.map(([x]) => x.line).filter(Boolean));
+    const lim = Math.min(lines.length, 12000);
+    let c = '<div class="code">';
+    for (let i = 0; i < lim; i++) c += `<div class="l ${hl.has(i + 1) ? 'hl' : ''} ${jump === i + 1 ? 'jump' : ''}" id="L${i + 1}"><span class="n">${i + 1}</span><span class="x">${esc(lines[i])}</span></div>`;
+    if (lines.length > lim) c += `<div class="pad muted">... mais ${lines.length - lim} linhas (baixe o arquivo para ver tudo)</div>`;
+    h += c + '</div>';
+  } else if (f.bytes && IMG_EXT.has(extOf(path))) {
+    const url = URL.createObjectURL(new Blob([f.bytes], { type: extOf(path) === 'svg' ? 'image/svg+xml' : 'image/' + extOf(path) }));
+    h += `<div class="pad"><img src="${url}" style="max-width:100%;background:#fff3;border-radius:6px"></div>`;
+  } else if (f.git) h += `<div class="pad muted">Arquivo interno do Git (compactado). Veja o conteúdo pela aba 🌿 Git.</div>`;
+  else h += `<div class="pad muted">${f.tooBig ? 'Arquivo de texto grande demais para exibir.' : 'Arquivo binário.'}</div>`;
+  return h;
+}
+function dlFile(s, ri) { const f = APP.slots[s].files.get(REF[ri]); if (f.text != null) download(f.text, basename(f.path)); else if (f.bytes) download(new Blob([f.bytes]), basename(f.path)); else toast('Conteúdo não disponível', 'warn'); }
+
+/* ----------------------------- PROBLEMAS ------------------------------ */
+function renderProblemas() {
+  const s = APP.active, A = APP.an[s], v = $('view'), F = APP.issF;
+  const cats = [...new Set(A.issues.map(i => i.cat))].sort();
+  const list = A.issues.map((x, i) => [x, i]).filter(([x]) => (F.sev === 'all' || x.sev === F.sev) && (F.cat === 'all' || x.cat === F.cat) && (!F.q || (x.msg + x.file + x.det).toLowerCase().includes(F.q.toLowerCase())));
+  v.innerHTML = `<div class="row" style="margin-bottom:8px">
+      <button class="btn sm ${F.sev === 'all' ? 'on' : ''}" onclick="APP.issF.sev='all';render()">Todos (${A.issues.length})</button>
+      ${SEVS.map(sv => `<button class="btn sm ${F.sev === sv ? 'on' : ''}" onclick="APP.issF.sev='${sv}';render()">${SEV_LBL[sv]} (${A.bySev[sv]})</button>`).join('')}
+      <select onchange="APP.issF.cat=this.value;render()"><option value="all">Todas as categorias</option>${cats.map(c => `<option ${F.cat === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select>
+      <input type="search" placeholder="🔍 filtrar" value="${esc(F.q)}" onkeydown="if(event.key==='Enter'){APP.issF.q=this.value;render()}" onsearch="APP.issF.q=this.value;render()">
+      <span style="flex:1"></span>
+      <button class="btn sm ai" onclick="Ctx.askIssues('${s}')">🤖 IA: priorizar e dizer como corrigir</button>
+    </div>
+    <div class="box" style="padding:0">${list.length ? list.map(([x, i]) => issueHTML(x, s, i)).join('') : '<div class="pad muted">Nada com esse filtro. 🎉</div>'}</div>
+    <p class="hint">A detecção é automática e não entende a "intenção" do código — use 🤖 em cada item para a IA confirmar se é realmente um problema e como resolver.</p>`;
+}
+
+/* --------------------------- DEPENDÊNCIAS ----------------------------- */
+function depRows(an) {
+  const m = new Map();
+  for (const pk of an.pkgs) for (const [type, key] of [['prod', 'dependencies'], ['dev', 'devDependencies'], ['peer', 'peerDependencies']])
+    for (const [n, ver] of Object.entries(pk.json[key] || {})) m.set(pk.path + '|' + n, { pkg: pk.path, name: n, ver: String(ver), type, real: String(ver).startsWith('catalog:') ? an.catalog[n] : null });
+  return m;
+}
+function verPill(r) {
+  if (!r) return '<span class="muted">—</span>';
+  let cls = ''; if (r.ver.startsWith('catalog:') || r.name.startsWith('@replit/')) cls = 'bad'; else if (r.ver.startsWith('workspace:') || r.ver === '*' || r.ver === 'latest') cls = 'warn';
+  return `<span class="pill ${cls} mono">${esc(r.ver)}</span>${r.real ? `<span class="muted mono" style="font-size:11px">→ ${esc(r.real)}</span>` : ''}`;
+}
+function renderDeps() {
+  const s = APP.active, A = APP.an[s], v = $('view');
+  if (!A.pkgs.length) { v.innerHTML = '<div class="box muted">Nenhum package.json encontrado. (Flutter/Python aparecem no Resumo e em Problemas.)</div>'; return; }
+  const rows = depRows(A);
+  let html = `<p class="hint" style="margin-bottom:8px"><span class="pill bad">vermelho</span> = só funciona no Replit/pnpm · <span class="pill warn">amarelo</span> = arriscado. Com B carregado, a aba ⚖️ Comparar mostra o que mudou de versão.</p>`;
+  for (const pk of A.pkgs) {
+    const mine = [...rows.values()].filter(r => r.pkg === pk.path).sort((a, b) => a.type.localeCompare(b.type) || a.name.localeCompare(b.name));
+    html += `<div class="box"><h3 class="mono">${esc(pk.path)} ${pk.json.name ? `<span class="muted">(${esc(pk.json.name)})</span>` : ''} <span class="pill">${mine.length}</span></h3>
+      <table class="t"><tr><th>Pacote</th><th>Versão</th><th>Tipo</th></tr>${mine.map(r => `<tr><td class="mono">${esc(r.name)}</td><td>${verPill(r)}</td><td class="muted">${r.type}</td></tr>`).join('')}</table></div>`;
+  }
+  if (A.env.size) html += `<div class="box"><h3>🔐 Variáveis de ambiente usadas no código</h3><table class="t"><tr><th>Variável</th><th>Onde</th></tr>${[...A.env].sort().map(([k, locs]) => `<tr><td class="mono">${esc(k)}</td><td>${locs.map(l => `<span class="loc" style="color:var(--accent);cursor:pointer" onclick="gotoFile('${s}',${R(l.file)},${l.line})">${esc(l.file)}:${l.line}</span>`).join('<br>')}</td></tr>`).join('')}</table></div>`;
+  v.innerHTML = html;
+}
+
+/* -------------------------------- API --------------------------------- */
+function renderApi() {
+  const s = APP.active, A = APP.an[s], v = $('view'), T = APP.api;
+  const routes = A.routes.slice().sort((a, b) => a.path.localeCompare(b.path));
+  const calls = A.calls;
+  v.innerHTML = `<div class="box"><h3>🧪 Testar a API (com o servidor rodando no seu PC)</h3>
+    <div class="row"><input type="text" id="apiBase" value="${esc(T.base)}" style="flex:1;min-width:180px" placeholder="http://localhost:5000">
+    <select id="apiMethod">${['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].map(m => `<option ${T.method === m ? 'selected' : ''}>${m}</option>`).join('')}</select>
+    <input type="text" id="apiPath" value="${esc(T.path)}" style="flex:2;min-width:180px"></div>
+    <textarea id="apiBody" placeholder='Corpo JSON (para POST/PUT) ex.: {"nome":"teste"}' style="width:100%;margin-top:6px;min-height:50px">${esc(T.body)}</textarea>
+    <div class="row" style="margin-top:6px"><button class="btn primary" onclick="apiSend()">▶ Enviar</button><button class="btn" onclick="apiAllGet()">▶ Testar todas as GET</button>
+    <span class="muted" style="font-size:11px">Se der "Failed to fetch": servidor desligado, porta errada, ou CORS bloqueando (normal quando o HTML é aberto de outro endereço).</span></div>
+    <pre id="apiResp" class="mono" style="margin-top:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px;max-height:300px;overflow:auto;white-space:pre-wrap;font-size:12px">${esc(T.resp || 'Resposta aparece aqui.')}</pre></div>
+    <div class="box"><h3>🛣️ Rotas encontradas no servidor <span class="pill">${routes.length}</span> ${A.mounts.filter(Boolean).length ? `<span class="muted" style="font-size:11px">prefixos: ${A.mounts.filter(Boolean).map(esc).join(', ')}</span>` : ''}</h3>
+    ${routes.length ? `<table class="t"><tr><th>Método</th><th>Caminho</th><th>Arquivo</th><th></th></tr>${routes.map(r => `<tr><td><span class="pill">${r.method}</span></td><td class="mono">${esc(r.path)}</td><td><span class="loc" style="color:var(--accent);cursor:pointer" onclick="gotoFile('${s}',${R(r.file)},${r.line})">${esc(r.file)}${r.line ? ':' + r.line : ''}</span> <span class="muted">${r.src}</span></td><td><button class="btn sm" onclick="apiPick('${r.method}',${R(r.path)})">usar</button></td></tr>`).join('')}</table>` : '<p class="muted">Nenhuma rota de servidor reconhecida (Express, Fastify, Hono, Flask, FastAPI, Next.js, OpenAPI).</p>'}</div>
+    <div class="box"><h3>📞 Chamadas do frontend <span class="pill">${calls.length}</span></h3>
+    ${calls.length ? `<table class="t"><tr><th>Caminho</th><th>Status</th><th>Arquivo</th></tr>${calls.map(c => `<tr><td class="mono">${esc(c.raw)}</td><td>${!routes.length ? '<span class="muted">?</span>' : c.ok ? '<span class="pill ok">rota existe</span>' : '<span class="pill bad">rota não achada</span>'}</td><td><span class="loc" style="color:var(--accent);cursor:pointer" onclick="gotoFile('${s}',${R(c.file)},${c.line})">${esc(c.file)}:${c.line}</span></td></tr>`).join('')}</table>` : '<p class="muted">Nenhuma chamada fetch/axios com caminho fixo encontrada.</p>'}</div>`;
+}
+function apiSave() { const T = APP.api; T.base = $('apiBase').value.trim().replace(/\/+$/, ''); T.method = $('apiMethod').value; T.path = $('apiPath').value.trim(); T.body = $('apiBody').value; }
+function apiPick(m, ri) { apiSave(); const A = APP.an[APP.active]; let p = REF[ri]; if (!p.startsWith('/api') && A.mounts.includes('/api')) p = '/api' + p; APP.api.method = m === 'ANY' || m === 'ALL' ? 'GET' : m; APP.api.path = p; render(); }
+async function apiReq(method, url, body) {
+  const t0 = performance.now();
+  const init = { method, headers: {} };
+  if (body && method !== 'GET') { init.body = body; init.headers['Content-Type'] = 'application/json'; }
+  const r = await fetch(url, init);
+  const txt = await r.text(); let pretty = txt;
+  try { pretty = JSON.stringify(JSON.parse(txt), null, 2); } catch (e) { }
+  return { status: r.status, ok: r.ok, ms: Math.round(performance.now() - t0), body: pretty, type: r.headers.get('content-type') || '' };
+}
+async function apiSend() {
+  apiSave(); const T = APP.api; $('apiResp').textContent = '⏳ ...';
+  try { const r = await apiReq(T.method, T.base + T.path, T.body.trim()); T.resp = `${r.ok ? '✅' : '❌'} HTTP ${r.status} · ${r.ms} ms · ${r.type}\n\n${r.body.slice(0, 20000)}`; }
+  catch (e) { T.resp = `❌ ${e.message}\n\nVerifique se o servidor está rodando em ${T.base} e se permite CORS.`; }
+  $('apiResp').textContent = T.resp;
+}
+async function apiAllGet() {
+  apiSave(); const A = APP.an[APP.active], T = APP.api;
+  const gets = [...new Set(A.routes.filter(r => r.method === 'GET' && !/[:{[*]/.test(r.path)).map(r => (!r.path.startsWith('/api') && A.mounts.includes('/api') && r.src !== 'Next.js') ? '/api' + r.path : r.path))];
+  if (!gets.length) { toast('Nenhuma rota GET sem parâmetros', 'warn'); return; }
+  let out = '';
+  for (const p of gets) { $('apiResp').textContent = out + `⏳ ${p}...`; try { const r = await apiReq('GET', T.base + p); out += `${r.ok ? '✅' : '❌'} ${r.status} ${r.ms}ms  GET ${p}\n`; } catch (e) { out += `❌ erro  GET ${p} — ${e.message}\n`; } }
+  T.resp = out; $('apiResp').textContent = out;
+}
+
+/* -------------------------------- GIT --------------------------------- */
+async function renderGit() {
+  const s = APP.active, v = $('view'), repos = APP.repos[s], G = APP.git[s];
+  if (!repos.length) { v.innerHTML = `<div class="box"><h3>🌿 Sem pasta .git</h3><p class="muted" style="line-height:1.7">Este projeto veio sem o histórico do Git. Para analisar o histórico (o que foi consertado, quando e onde), compacte a pasta do projeto <b>incluindo a pasta oculta .git</b>.<br>No Windows: mostre itens ocultos (Explorador → Exibir → Itens ocultos) antes de compactar.<br>Do Replit: baixe o projeto inteiro ("Download as zip") — ele costuma incluir a .git.</p></div>`; return; }
+  const repo = repos[G.repo] || repos[0];
+  const h = repo.head(), st = repo.stats();
+  v.className = 'full';
+  const head = `<div class="viewbar" style="border-bottom:1px solid var(--border)">${repos.length > 1 ? `<select onchange="APP.git['${s}']={repo:+this.value,sel:null,file:null,log:null,ch:null};render()">${repos.map((r, i) => `<option value="${i}" ${i === G.repo ? 'selected' : ''}>${esc(r.base)}</option>`).join('')}</select>` : `<span class="mono">${esc(repo.base)}</span>`}
+    <span>branch <b>${esc(h.branch)}</b></span><span class="muted">${st.loose} objetos soltos · ${st.packed} em ${st.packs} pack(s)</span>
+    ${[...repo.branches().keys()].length > 1 ? `<span class="muted">branches: ${[...repo.branches().keys()].map(esc).join(', ')}</span>` : ''}</div>`;
+  v.innerHTML = head + `<div class="pad muted">⏳ Lendo histórico...</div>`;
+  if (!G.log) { try { G.log = await repo.log(h.sha); } catch (e) { G.log = { commits: [], missing: 1, err: e.message }; } }
+  const log = G.log;
+  const reflog = repo.reflog();
+  let left = '';
+  if (log.commits.length) {
+    left = `<div class="pad muted" style="font-size:11px">${log.commits.length} commit(s)${log.more ? '+ (limite)' : ''}${log.missing ? ` · ${log.missing} não encontrado(s) (histórico raso/incompleto)` : ''}</div>` +
+      log.commits.map(c => `<div class="iss" style="cursor:pointer;${G.sel === c.sha ? 'background:rgba(88,166,255,.14)' : ''}" onclick="gitSel('${s}','${c.sha}')"><div class="body"><div class="msg">${esc(c.msg.split('\n')[0].slice(0, 120) || '(sem mensagem)')}</div><div class="det mono">${c.sha.slice(0, 8)} · ${fmtDate(c.time)} · ${esc(c.author || '')}</div></div></div>`).join('');
+  } else if (reflog.length) {
+    left = `<div class="pad muted">Não consegui ler os objetos (${esc(log.err || 'faltando')}). Histórico local (reflog):</div>` + reflog.map(r => `<div class="iss"><div class="body"><div class="msg">${esc(r.msg)}</div><div class="det mono">${r.sha.slice(0, 8)} · ${fmtDate(r.time)} · ${esc(r.author)}</div></div></div>`).join('');
+  } else left = '<div class="pad muted">Nenhum commit encontrado.</div>';
+  let right = '<div class="pad muted">Escolha um commit à esquerda para ver <b>o que mudou, onde e como</b>.</div>';
+  if (G.sel) {
+    const c = log.commits.find(x => x.sha === G.sel);
+    if (!G.ch || G.ch.sha !== G.sel) { v.innerHTML = head + `<div class="split"><div class="left">${left}</div><div class="right"><div class="pad muted">⏳ Calculando mudanças...</div></div></div>`; G.ch = { sha: G.sel, ...(await repo.changes(c)) }; }
+    const ch = G.ch;
+    right = `<div class="codehead"><span class="path">${esc(c.msg.split('\n')[0])}<br><span class="muted">${c.sha.slice(0, 10)} · ${fmtDate(c.time)} · ${esc(c.author || '')} ${ch.parent ? '' : '· (primeiro commit)'}</span></span>
+      <button class="btn sm ai" onclick="Ctx.askCommit('${s}')">🤖 Explicar commit</button>
+      <button class="btn sm" onclick="commitToSlot('${s}','A')">→ usar como A</button><button class="btn sm" onclick="commitToSlot('${s}','B')">→ usar como B</button></div>`;
+    if (c.msg.includes('\n')) right += `<div class="pad mono" style="white-space:pre-wrap;font-size:12px;border-bottom:1px solid var(--border)">${esc(c.msg)}</div>`;
+    right += `<div style="border-bottom:1px solid var(--border);max-height:34vh;overflow:auto">${ch.list.length ? ch.list.slice(0, 800).map(x => `<div class="f tree" style="padding:3px 10px;cursor:pointer;${G.file === x.path ? 'background:rgba(88,166,255,.14)' : ''}" onclick="gitFile('${s}',${R(x.path)})"><span class="st ${x.st}">${x.st}</span> <span class="mono">${esc(x.path)}</span></div>`).join('') : '<div class="pad muted">Nenhum arquivo alterado.</div>'}</div><div id="gitDiff"></div>`;
+  }
+  v.innerHTML = head + `<div class="split"><div class="left">${left}</div><div class="right">${right}</div></div>`;
+  if (G.file) showGitDiff(s);
+}
+function gitSel(s, sha) { const G = APP.git[s]; G.sel = sha; G.file = null; render(); }
+function gitFile(s, ri) { APP.git[s].file = REF[ri]; render(); }
+async function showGitDiff(s) {
+  const G = APP.git[s], repo = APP.repos[s][G.repo], x = G.ch.list.find(y => y.path === G.file); if (!x) return;
+  const el = $('gitDiff'); el.innerHTML = '<div class="pad muted">⏳</div>';
+  const [a, b] = await Promise.all([repo.blobText(x.a), repo.blobText(x.b)]);
+  if (a === null || b === null) { el.innerHTML = '<div class="pad muted">Conteúdo não disponível no .git (histórico incompleto).</div>'; return; }
+  G.lastDiff = { path: x.path, a, b };
+  el.innerHTML = `<div class="codehead"><span class="path">${esc(x.path)}</span><button class="btn sm ai" onclick="Ctx.askGitFile('${s}')">🤖 O que mudou aqui?</button></div>` + renderDiff(a, b, 'antes', 'depois do commit');
+}
+async function commitToSlot(s, target) {
+  const G = APP.git[s], repo = APP.repos[s][G.repo], c = G.log.commits.find(x => x.sha === G.sel);
+  if (APP.slots[target] && target !== s && !confirm(`Substituir o projeto ${target} pela versão deste commit?`)) return;
+  if (target === s && !confirm(`Isto troca o projeto ${s} (inclusive o .git) pela versão do commit. Continuar?`)) return;
+  busy(true, 'Montando versão do commit...');
+  try {
+    const tree = await repo.flatten(c.tree);
+    const proj = newProject(`${APP.slots[s].name} @ ${c.sha.slice(0, 7)}`);
+    let i = 0;
+    for (const [p, sha] of tree) {
+      await addEntry(proj, p, async () => { const o = await repo.read(sha); return o ? o.data : null; }, { skipHeavy: true });
+      if (++i % 100 === 0) { $('busyTxt').textContent = `Montando ${i} / ${tree.size}...`; await tick(); }
+    }
+    setSlot(target, proj);
+    toast(`✅ Versão ${c.sha.slice(0, 7)} carregada em ${target}`, 'success');
+    if (APP.slots.A && APP.slots.B) setTab('comparar'); else render();
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+  busy(false);
+}
+
+/* ------------------------------ COMPARAR ------------------------------ */
+function sameFile(f1, f2) {
+  if (f1.text != null && f2.text != null) return f1.text === f2.text;
+  if (f1.size !== f2.size) return false;
+  if (f1.bytes && f2.bytes) { for (let i = 0; i < f1.bytes.length; i++) if (f1.bytes[i] !== f2.bytes[i]) return false; return true; }
+  return true;
+}
+function compareFiles() {
+  const A = APP.slots.A, B = APP.slots.B, incGit = APP.cmp.git;
+  const out = [];
+  const keys = new Set([...A.files.keys(), ...B.files.keys()]);
+  for (const p of keys) {
+    const a = A.files.get(p), b = B.files.get(p);
+    if (!incGit && ((a && a.git) || (b && b.git))) continue;
+    if (a && !b) out.push({ st: 'D', path: p }); else if (!a && b) out.push({ st: 'A', path: p });
+    else if (!sameFile(a, b)) out.push({ st: 'M', path: p, a, b }); else out.push({ st: '=', path: p });
+  }
+  return out.sort((x, y) => x.path.localeCompare(y.path));
+}
+function renderComparar() {
+  const v = $('view');
+  if (!APP.slots.A || !APP.slots.B) { v.innerHTML = `<div class="box"><h3>⚖️ Comparar duas versões</h3><p class="muted" style="line-height:1.7">Carregue os dois projetos: <span class="tag A">A</span> (ex.: versão antiga / que funcionava) e <span class="tag B">B</span> (versão nova / com bug). Dê nomes a eles no topo.<br>Dica: na aba 🌿 Git, você pode usar qualquer commit antigo como A ou B.</p><div class="big-btns"><button class="btn" onclick="openLoad('A')">📂 Carregar A</button><button class="btn" onclick="openLoad('B')">📂 Carregar B</button></div></div>`; return; }
+  const C = APP.cmp, nA = APP.slots.A.name, nB = APP.slots.B.name;
+  const list = compareFiles();
+  const cnt = { A: 0, D: 0, M: 0, '=': 0 }; list.forEach(x => cnt[x.st]++);
+  const iA = APP.an.A.issues, iB = APP.an.B.issues;
+  const kA = new Set(iA.map(i => i.key)), kB = new Set(iB.map(i => i.key));
+  const fixed = iA.filter(i => !kB.has(i.key)), intro = iB.filter(i => !kA.has(i.key));
+  const dA = depRows(APP.an.A), dB = depRows(APP.an.B);
+  const depDiff = [];
+  const depKey = r => r.pkg + '|' + r.name;
+  for (const k of new Set([...dA.keys(), ...dB.keys()])) { const a = dA.get(k), b = dB.get(k); if (!a || !b || a.ver !== b.ver) depDiff.push({ k, a, b, name: (a || b).name, pkg: (a || b).pkg }); }
+  APP._cmp = { list, fixed, intro, depDiff };
+  let html = `<div class="viewbar" style="border-bottom:1px solid var(--border)"><span class="tag A">A</span><b>${esc(nA)}</b> <span class="muted">×</span> <span class="tag B">B</span><b>${esc(nB)}</b>
+    <span class="pill warn">~${cnt.M} alterados</span><span class="pill ok">+${cnt.A} só em B</span><span class="pill bad">−${cnt.D} só em A</span><span class="pill">=${cnt['=']} iguais</span>
+    <span class="pill ok">✔ ${fixed.length} problemas resolvidos</span><span class="pill bad">✖ ${intro.length} novos</span><span class="pill">📦 ${depDiff.length} deps mudaram</span>
+    <span style="flex:1"></span><button class="btn sm ai" onclick="Ctx.askCompare()">🤖 IA: qual versão é melhor e o que foi consertado?</button><button class="btn sm" onclick="copyText(compareReport())">📋 Copiar comparação</button></div>
+    <div class="viewbar">${[['arquivos', '📁 Arquivos'], ['problemas', '🩺 Problemas'], ['deps', '📦 Dependências']].map(([k, l]) => `<button class="btn sm ${C.sub === k ? 'on' : ''}" onclick="APP.cmp.sub='${k}';render()">${l}</button>`).join('')}</div>`;
+  v.className = 'full';
+  if (C.sub === 'problemas') {
+    html += `<div style="overflow:auto;padding:10px"><div class="box" style="padding:0"><h3 class="pad" style="color:var(--green)">✔ Existiam em A e sumiram em B (${fixed.length}) — provavelmente consertados</h3>${fixed.map(i => issueHTML(i, 'A')).join('') || '<div class="pad muted">Nenhum.</div>'}</div>
+      <div class="box" style="padding:0"><h3 class="pad" style="color:var(--red)">✖ Apareceram em B (${intro.length}) — possivelmente introduzidos</h3>${intro.map(i => issueHTML(i, 'B')).join('') || '<div class="pad muted">Nenhum.</div>'}</div>
+      <div class="box"><h3>= Presentes nas duas (${iA.filter(i => kB.has(i.key)).length})</h3><p class="muted">Veja em 🩺 Problemas de cada projeto.</p></div></div>`;
+    v.innerHTML = html; return;
+  }
+  if (C.sub === 'deps') {
+    html += `<div style="overflow:auto;padding:10px"><div class="box">${depDiff.length ? `<table class="t"><tr><th>Pacote</th><th>package.json</th><th>🅰 ${esc(nA)}</th><th>🅱 ${esc(nB)}</th></tr>${depDiff.sort((x, y) => x.k.localeCompare(y.k)).map(d => `<tr><td class="mono">${esc(d.name)}</td><td class="mono muted">${esc(d.pkg)}</td><td>${verPill(d.a)}</td><td>${verPill(d.b)}</td></tr>`).join('')}</table>` : '<p class="muted">Dependências idênticas.</p>'}</div></div>`;
+    v.innerHTML = html; return;
+  }
+  const shown = list.filter(x => (C.filter === 'all' || (C.filter === 'changed' ? x.st !== '=' : x.st === C.filter)) && (!C.q || x.path.toLowerCase().includes(C.q.toLowerCase())));
+  let left = `<div class="pad row" style="border-bottom:1px solid var(--border)">${[['changed', 'Mudou'], ['M', '~'], ['A', '+'], ['D', '−'], ['all', 'Todos']].map(([k, l]) => `<button class="btn sm ${C.filter === k ? 'on' : ''}" onclick="APP.cmp.filter='${k}';render()">${l}</button>`).join('')}
+    <label class="check" style="font-size:11px"><input type="checkbox" ${C.git ? 'checked' : ''} onchange="APP.cmp.git=this.checked;render()"> .git</label>
+    <input type="search" placeholder="🔍" value="${esc(C.q)}" style="width:100%" onkeydown="if(event.key==='Enter'){APP.cmp.q=this.value;render()}" onsearch="APP.cmp.q=this.value;render()"></div><div class="tree">`;
+  const byPath = new Map(shown.map(x => [x.path, x]));
+  if (C.q || shown.length < 60) left += shown.map(x => cmpRow(x, true)).join('');
+  else left += treeHTML(buildTree(shown.map(x => x.path)), '', { fileRow: p => cmpRow(byPath.get(p), false), openAll: shown.length < 150 });
+  left += (shown.length ? '' : '<div class="pad muted">Nada aqui.</div>') + '</div>';
+  let right = `<div class="pad muted">Escolha um arquivo para ver as diferenças lado a lado.<br><br><span class="st M">M</span> alterado · <span class="st A">A</span> só existe em B (adicionado) · <span class="st D">D</span> só existe em A (apagado em B)</div>`;
+  if (C.sel && byPath.has(C.sel) || (C.sel && list.find(x => x.path === C.sel))) right = cmpDetail(list.find(x => x.path === C.sel));
+  html += `<div class="split"><div class="left">${left}</div><div class="right">${right}</div></div>`;
+  v.innerHTML = html;
+}
+function cmpRow(x, full) { return `<div class="f ${APP.cmp.sel === x.path ? 'sel' : ''}" onclick="APP.cmp.sel=REF[${R(x.path)}];render()" title="${esc(x.path)}"><span class="st ${x.st === '=' ? '' : x.st}">${x.st}</span> ${esc(full ? x.path : basename(x.path))}</div>`; }
+function cmpDetail(x) {
+  const A = APP.slots.A, B = APP.slots.B, a = A.files.get(x.path), b = B.files.get(x.path);
+  const nA = A.name, nB = B.name;
+  let h = `<div class="codehead"><span class="path"><span class="st ${x.st}">${x.st}</span> ${esc(x.path)}</span>`;
+  if (a && a.text != null) h += `<button class="btn sm" onclick="copyText(APP.slots.A.files.get(REF[${R(x.path)}]).text)">📋 A</button>`;
+  if (b && b.text != null) h += `<button class="btn sm" onclick="copyText(APP.slots.B.files.get(REF[${R(x.path)}]).text)">📋 B</button>`;
+  if (x.st === 'M' && a.text != null && b.text != null) h += `<button class="btn sm" onclick="copyDiff(${R(x.path)})">📋 Diff</button>`;
+  h += `<button class="btn sm ai" onclick="Ctx.askDiff(${R(x.path)})">🤖 O que mudou / qual manter?</button></div>`;
+  if (x.st === 'M') h += (a.text != null && b.text != null) ? renderDiff(a.text, b.text, nA, nB) : `<div class="pad muted">Binário diferente (${fmtSize(a.size)} → ${fmtSize(b.size)}).</div>`;
+  else if (x.st === '=') h += `<div class="pad"><span class="pill ok">Idêntico nas duas versões</span></div>`;
+  else { const s = x.st === 'A' ? 'B' : 'A', f = s === 'A' ? a : b; h += `<div class="pad muted">${x.st === 'A' ? 'Existe só em B (foi criado).' : 'Existe só em A (foi apagado em B).'}</div>` + (f.text != null ? fileViewHTML(s, x.path, 0).replace(/^<div class="codehead">[\s\S]*?<\/div>/, '') : ''); }
+  return h;
+}
+function copyDiff(ri) { const p = REF[ri], a = APP.slots.A.files.get(p).text.split('\n'), b = APP.slots.B.files.get(p).text.split('\n'); const ops = diffLines(a, b); copyText(ops ? unifiedDiff(a, b, ops, 'A/' + p, 'B/' + p) : 'diferente demais'); }
+function compareReport() {
+  const c = APP._cmp || {}; const nA = APP.slots.A.name, nB = APP.slots.B.name;
+  const L = [`# Comparação: A = "${nA}" × B = "${nB}"`, '', '## Arquivos'];
+  for (const st of ['M', 'A', 'D']) { const l = (c.list || []).filter(x => x.st === st); if (l.length) { L.push(`### ${st === 'M' ? 'Alterados' : st === 'A' ? 'Só em B (criados)' : 'Só em A (apagados em B)'} (${l.length})`); l.slice(0, 300).forEach(x => { let extra = ''; if (st === 'M' && x.a.text != null && x.b.text != null) { const o = diffLines(x.a.text.split('\n'), x.b.text.split('\n')); const s = diffStats(o); extra = o ? ` (+${s.add} −${s.del})` : ' (reescrito)'; } L.push(`- ${x.path}${extra}`); }); } }
+  L.push('', `## Problemas resolvidos em B (${(c.fixed || []).length})`); (c.fixed || []).forEach(i => L.push(`- [${i.sev}] ${i.cat}: ${i.msg} — ${i.file}${i.line ? ':' + i.line : ''}`));
+  L.push('', `## Problemas novos em B (${(c.intro || []).length})`); (c.intro || []).forEach(i => L.push(`- [${i.sev}] ${i.cat}: ${i.msg} — ${i.file}${i.line ? ':' + i.line : ''}`));
+  L.push('', `## Dependências que mudaram (${(c.depDiff || []).length})`); (c.depDiff || []).forEach(d => L.push(`- ${d.name} (${d.pkg}): ${d.a ? d.a.ver : '—'} → ${d.b ? d.b.ver : '—'}`));
+  return L.join('\n');
+}
+
+/* ---------------------------- RELATÓRIO / ZIP -------------------------- */
+function projectReport(s, withTree = true) {
+  const P = APP.slots[s], A = APP.an[s];
+  const L = [`# Relatório do projeto "${P.name}"`, `${P.files.size} arquivos lidos (${fmtSize(P.bytes)}), ${[...P.skipped.values()].reduce((a, b) => a + b, 0)} ignorados (node_modules/caches).`, '', '## Estrutura detectada'];
+  A.stack.forEach(x => L.push(`- ${x.dir} ${x.name ? '(' + x.name + ')' : ''}: ${x.tags.join(', ')}${x.scripts ? ' — scripts: ' + Object.entries(x.scripts).map(([k, v]) => `${k}="${v}"`).join('; ') : ''}`));
+  L.push('', `## Problemas detectados (${A.issues.length})`);
+  A.issues.forEach(i => L.push(`- [${i.sev.toUpperCase()}] ${i.cat}: ${i.msg}${i.det ? ' (' + i.det + ')' : ''} — ${i.file || '(projeto)'}${i.line ? ':' + i.line : ''}${i.fix ? '\n  Sugestão: ' + i.fix : ''}`));
+  if (A.env.size) L.push('', '## Variáveis de ambiente usadas', [...A.env.keys()].sort().join(', '));
+  if (A.routes.length) { L.push('', '## Rotas de API'); A.routes.forEach(r => L.push(`- ${r.method} ${r.path} (${r.file})`)); }
+  const repos = APP.repos[s]; if (repos.length) { const h = repos[0].head(); L.push('', `## Git: branch ${h.branch}`); repos[0].reflog().slice(0, 15).forEach(r => L.push(`- ${fmtDate(r.time)} ${r.msg}`)); }
+  for (const pk of A.pkgs.slice(0, 8)) { L.push('', `## ${pk.path}`, FENCE + 'json', JSON.stringify(pk.json, null, 2).slice(0, 6000), FENCE); }
+  if (withTree) { L.push('', '## Árvore de arquivos (sem .git)'); [...P.files.keys()].filter(p => !/(^|\/)\.git\//.test(p)).slice(0, 600).forEach(p => L.push(p)); }
+  return L.join('\n');
+}
+function exportReport(s) { download(projectReport(s), `relatorio-${APP.slots[s].name.replace(/[^\w\-À-ÿ ]/g, '').slice(0, 40)}.md`, 'text/markdown;charset=utf-8'); }
+function copyReport(s) { copyText(projectReport(s)); }
+function exportLean(s) {
+  const P = APP.slots[s];
+  const incGit = confirm('Incluir a pasta .git (histórico)?\n\nOK = incluir (maior, mas mostra o que foi mudado)\nCancelar = sem .git (menor)');
+  const noEnv = confirm('Tirar arquivos .env (senhas/chaves) do zip?\n\nOK = tirar (recomendado)\nCancelar = manter');
+  const root = (P.rootName || P.name || 'projeto').replace(/[\\/:*?"<>|]/g, '_');
+  const entries = []; let skipped = 0;
+  for (const [p, f] of P.files) {
+    if (!incGit && f.git) continue;
+    if (noEnv && /(^|\/)\.env(\.[\w-]+)?$/.test(p) && !/example|sample|template/i.test(p)) continue;
+    const data = f.text != null ? te.encode(f.text) : f.bytes;
+    if (!data) { skipped++; continue; }
+    entries.push({ name: root + '/' + p, data });
+  }
+  download(makeZip(entries), `${root}-enxuto.zip`);
+  toast(`📦 ${entries.length} arquivos no zip` + (skipped ? ` (${skipped} grandes demais ficaram de fora)` : ''), 'success');
+}
+
+/* =====================================================================
+   IA
+   ===================================================================== */
+const PROVIDERS = {
+  gemini: { name: 'Google Gemini', type: 'gemini', models: ['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'] },
+  anthropic: { name: 'Anthropic Claude', type: 'anthropic', models: ['claude-sonnet-5-5', 'claude-opus-5-5', 'claude-haiku-4-5-20251001'] },
+  openai: { name: 'OpenAI GPT', type: 'openai', base: 'https://api.openai.com/v1', models: ['gpt-5', 'gpt-5-mini', 'gpt-4.1'] },
+  groq: { name: 'Groq', type: 'openai', base: 'https://api.groq.com/openai/v1', models: ['llama-3.3-70b-versatile', 'openai/gpt-oss-120b'] },
+  openrouter: { name: 'OpenRouter', type: 'openai', base: 'https://openrouter.ai/api/v1', models: ['openrouter/auto', 'google/gemini-2.5-pro', 'deepseek/deepseek-chat'] },
+  deepseek: { name: 'DeepSeek', type: 'openai', base: 'https://api.deepseek.com/v1', models: ['deepseek-chat', 'deepseek-reasoner'] },
+  mistral: { name: 'Mistral', type: 'openai', base: 'https://api.mistral.ai/v1', models: ['codestral-latest', 'mistral-large-latest'] },
+  xai: { name: 'xAI Grok', type: 'openai', base: 'https://api.x.ai/v1', models: ['grok-4', 'grok-3-mini'] },
+  ollama: { name: 'Ollama (local)', type: 'openai', models: ['qwen2.5-coder', 'llama3.2'] },
+  custom: { name: 'Personalizado', type: 'openai', models: [] }
+};
+const SET = { keys: {}, provider: 'gemini', model: 'gemini-2.5-pro', lastModel: {}, modelCache: {}, ollamaUrl: 'http://localhost:11434', customBase: '', maxCtx: 180000, maxTokens: 8192, geminiAuth: '' };
+const SYS_PROMPT = `Você é um engenheiro de software sênior que ajuda a diagnosticar e consertar projetos (web, Node, React/Vite, Electron, Capacitor/Android, Flutter, Python), muitos criados por IAs como o agente do Replit.
+Responda em português do Brasil, de forma direta e simples de seguir:
+1. Diga primeiro a conclusão (o que está errado / o que mudou / o que é prejudicial).
+2. Depois a correção EXATA: arquivo, trecho a trocar e o código novo completo em bloco \`\`\`.
+3. Aponte riscos (chaves expostas, dependências do Replit, algo que quebra no Electron/APK).
+Não invente arquivos que não viu; se faltar informação, diga qual arquivo precisa.`;
+function loadSettings() {
+  try { Object.assign(SET, JSON.parse(localStorage.getItem('projetoLab_v1') || '{}')); } catch (e) { }
+  try {
+    const st = JSON.parse(localStorage.getItem('aiStudio_v2') || 'null');
+    if (st && st.settings && st.settings.keys) for (const [k, v] of Object.entries(st.settings.keys)) if (v && !SET.keys[k]) SET.keys[k] = v;
+  } catch (e) { }
+}
+function saveSettings() { try { localStorage.setItem('projetoLab_v1', JSON.stringify(SET)); } catch (e) { } }
+
+const AIC = (() => {
+  const key = p => String(SET.keys[p] || '').replace(/\s+/g, '');
+  const baseUrl = p => p === 'ollama' ? (SET.ollamaUrl || 'http://localhost:11434').replace(/\/+$/, '') + '/v1' : p === 'custom' ? (SET.customBase || '').replace(/\/+$/, '') : PROVIDERS[p].base;
+  async function httpErr(res, label) {
+    let t = ''; try { const j = await res.json(); t = j.error?.message || j.message || JSON.stringify(j).slice(0, 300); } catch (e) { try { t = (await res.text()).slice(0, 300); } catch (_) { } }
+    return new Error(`${label} HTTP ${res.status}: ${typeof t === 'string' ? t : JSON.stringify(t)}`);
+  }
+  const merge = msgs => { const o = []; msgs.forEach(m => { const l = o[o.length - 1]; if (l && l.role === m.role) l.content += '\n\n' + m.content; else o.push({ role: m.role, content: m.content }); }); if (o.length && o[0].role !== 'user') o.unshift({ role: 'user', content: '(continuação)' }); return o; };
+  async function gFetch(url, init = {}) {
+    const k = key('gemini'); if (!k) throw new Error('Coloque a chave do Gemini em ⚙️');
+    const modes = ['header', 'query', 'bearer']; if (SET.geminiAuth && modes.includes(SET.geminiAuth)) { modes.splice(modes.indexOf(SET.geminiAuth), 1); modes.unshift(SET.geminiAuth); }
+    let last;
+    for (const m of modes) {
+      const h = { ...(init.headers || {}) }; let u = url;
+      if (m === 'header') h['x-goog-api-key'] = k; else if (m === 'query') u += (u.includes('?') ? '&' : '?') + 'key=' + encodeURIComponent(k); else h.Authorization = 'Bearer ' + k;
+      let r; try { r = await fetch(u, { ...init, headers: h }); } catch (e) { if (e.name === 'AbortError') throw e; last = e; continue; }
+      if (r.ok) { if (SET.geminiAuth !== m) { SET.geminiAuth = m; saveSettings(); } return r; }
+      last = await httpErr(r, 'Gemini');
+      if (!(r.status === 401 || r.status === 403 || /api[ _-]?key|auth|credential|permission/i.test(last.message))) throw last;
+    }
+    throw new Error((last?.message || 'falha') + ' — confira a chave do Gemini.');
+  }
+  async function call(p, model, system, msgs, signal) {
+    if (!model) throw new Error('Escolha um modelo.');
+    const t = PROVIDERS[p].type, maxT = +SET.maxTokens || 8192;
+    if (t === 'gemini') {
+      const body = { contents: merge(msgs).map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })), generationConfig: { temperature: 0.3, maxOutputTokens: maxT }, systemInstruction: { parts: [{ text: system }] } };
+      const r = await gFetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, { method: 'POST', signal, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const d = await r.json(); const c = d.candidates?.[0];
+      const txt = (c?.content?.parts || []).filter(x => x.text && !x.thought).map(x => x.text).join('');
+      if (!txt) throw new Error('Resposta vazia do Gemini (' + (c?.finishReason || d.promptFeedback?.blockReason || '?') + ')');
+      return txt;
+    }
+    if (t === 'anthropic') {
+      const k = key('anthropic'); if (!k) throw new Error('Coloque a chave da Anthropic em ⚙️');
+      const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', signal, headers: { 'Content-Type': 'application/json', 'x-api-key': k, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' }, body: JSON.stringify({ model, max_tokens: maxT, system, messages: merge(msgs) }) });
+      if (!r.ok) throw await httpErr(r, 'Anthropic');
+      return ((await r.json()).content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    }
+    const base = baseUrl(p); if (!base) throw new Error('Configure a URL base em ⚙️');
+    if (!key(p) && p !== 'ollama' && p !== 'custom') throw new Error(`Coloque a chave de ${PROVIDERS[p].name} em ⚙️`);
+    const h = { 'Content-Type': 'application/json' }; if (key(p)) h.Authorization = 'Bearer ' + key(p);
+    const body = { model, messages: [{ role: 'system', content: system }, ...msgs] };
+    if (p === 'openai') body.max_completion_tokens = maxT; else body.max_tokens = maxT;
+    let r; try { r = await fetch(base + '/chat/completions', { method: 'POST', signal, headers: h, body: JSON.stringify(body) }); }
+    catch (e) { if (e.name === 'AbortError') throw e; throw new Error(p === 'ollama' ? 'Não conectei no Ollama (inicie com OLLAMA_ORIGINS="*")' : 'Falha de rede/CORS: ' + e.message); }
+    if (!r.ok) throw await httpErr(r, PROVIDERS[p].name);
+    const d = await r.json(); let txt = d.choices?.[0]?.message?.content;
+    if (Array.isArray(txt)) txt = txt.map(x => x.text || '').join('');
+    if (!txt) throw new Error('Resposta vazia');
+    return txt;
+  }
+  async function listModels(p) {
+    const t = PROVIDERS[p].type;
+    if (t === 'gemini') { const r = await gFetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000'); return ((await r.json()).models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent')).map(m => m.name.replace(/^models\//, '')); }
+    if (t === 'anthropic') { const r = await fetch('https://api.anthropic.com/v1/models?limit=100', { headers: { 'x-api-key': key('anthropic'), 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' } }); if (!r.ok) throw await httpErr(r, 'Anthropic'); return ((await r.json()).data || []).map(m => m.id); }
+    if (p === 'ollama') { const r = await fetch((SET.ollamaUrl || 'http://localhost:11434').replace(/\/+$/, '') + '/api/tags'); return ((await r.json()).models || []).map(m => m.name); }
+    const h = {}; if (key(p)) h.Authorization = 'Bearer ' + key(p);
+    const r = await fetch(baseUrl(p) + '/models', { headers: h }); if (!r.ok) throw await httpErr(r, PROVIDERS[p].name);
+    const d = await r.json(); return (d.data || d.models || []).map(m => m.id || m.name).filter(Boolean);
+  }
+  return { call, listModels };
+})();
+
+let CB = {}, cbSeq = 0;
+function formatMsg(text) {
+  text = String(text ?? ''); const blocks = [], inl = [];
+  text = text.replace(/```([^\n`]*)\n?([\s\S]*?)(?:```|$)/g, (_, info, code) => { blocks.push({ lang: info.trim().split(/\s+/)[0] || '', code: code.replace(/\n$/, '') }); return '\u0000B' + (blocks.length - 1) + '\u0000'; });
+  text = text.replace(/`([^`\n]+)`/g, (_, c) => { inl.push(c); return '\u0001I' + (inl.length - 1) + '\u0001'; });
+  text = esc(text)
+    .replace(/^(#{1,6})\s+(.+)$/gm, (_, h, t) => `<div class="md-h">${t}</div>`)
+    .replace(/^\s*[-*•]\s+/gm, '• ').replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n?\u0000B(\d+)\u0000\n?/g, '\u0000B$1\u0000').replace(/<\/div>\n/g, '</div>').replace(/\n/g, '<br>')
+    .replace(/\u0001I(\d+)\u0001/g, (_, n) => `<code class="inline-code">${esc(inl[n])}</code>`)
+    .replace(/\u0000B(\d+)\u0000/g, (_, n) => { const id = 'c' + (++cbSeq); CB[id] = blocks[n].code; return `<div class="codebox"><div class="codebox-head"><span class="lang">${esc(blocks[n].lang || 'código')}</span><button class="btn sm" onclick="copyText(CB['${id}'])">📋 Copiar</button></div><pre><code>${esc(blocks[n].code)}</code></pre></div>`; });
+  return text;
+}
+
+const AI = (() => {
+  let msgs = [], ctx = null, abort = null, loading = false;
+  function toggle(force) { const p = $('aiPanel'); const open = force ?? !p.classList.contains('open'); p.classList.toggle('open', open); $('aiBtn').classList.toggle('on', open); if (open) { fill(); renderMsgs(); } }
+  function fill() {
+    $('aiProvider').innerHTML = Object.entries(PROVIDERS).map(([k, p]) => `<option value="${k}" ${k === SET.provider ? 'selected' : ''}>${p.name}</option>`).join('');
+    fillModels();
+  }
+  function fillModels() {
+    const p = SET.provider; const list = [...new Set([...(SET.modelCache[p] || []), ...PROVIDERS[p].models])];
+    const cur = SET.lastModel[p] || SET.model || list[0] || ''; if (cur && !list.includes(cur)) list.unshift(cur);
+    $('aiModel').innerHTML = list.map(m => `<option ${m === cur ? 'selected' : ''}>${esc(m)}</option>`).join('') + '<option value="__refresh">🔄 buscar modelos na API…</option><option value="__custom">✏️ digitar outro…</option>';
+    SET.model = cur;
+  }
+  function onProvider() { SET.provider = $('aiProvider').value; fillModels(); saveSettings(); }
+  async function onModel() {
+    const p = SET.provider, v = $('aiModel').value;
+    if (v === '__refresh') { toast('🔄 Buscando modelos...'); try { SET.modelCache[p] = (await AIC.listModels(p)).sort(); toast(`✅ ${SET.modelCache[p].length} modelos`, 'success'); } catch (e) { toast('❌ ' + e.message, 'error'); } fillModels(); saveSettings(); return; }
+    if (v === '__custom') { const m = (prompt('Nome exato do modelo:') || '').trim(); if (m) { SET.lastModel[p] = m; } fillModels(); saveSettings(); return; }
+    SET.model = v; SET.lastModel[p] = v; saveSettings();
+  }
+  function renderMsgs() {
+    CB = {};
+    const el = $('aiMsgs');
+    if (!msgs.length) el.innerHTML = `<div class="muted" style="line-height:1.7;font-size:12.5px">🤖 <b>IA ajudante</b><br>Use os botões <span class="btn sm ai">🤖</span> espalhados pelo app (em arquivos, diferenças, problemas, commits): o conteúdo certo já vem anexado aqui.<br><br>Sem chave de API? Use <b>📋 Copiar pedido</b> e cole em qualquer chat (Claude, ChatGPT, Gemini...).</div>`;
+    else el.innerHTML = msgs.map((m, i) => `<div class="aimsg ${m.role === 'user' ? 'user' : m.err ? 'err' : ''}">${m.ctxTitle ? `<div class="ctxchip">📎 ${esc(m.ctxTitle)}</div><br>` : ''}${m.role === 'user' ? esc(m.q).replace(/\n/g, '<br>') : formatMsg(m.content)}<div class="meta">${m.model ? esc(m.model) : ''}${m.role !== 'user' ? `<button onclick="copyText(AI.raw(${i}))" title="Copiar">📋</button>` : ''}</div></div>`).join('')
+      + (loading ? `<div class="aimsg"><span class="typing"><span></span><span></span><span></span></span></div>` : '');
+    el.scrollTop = el.scrollHeight;
+    const c = $('aiCtx');
+    if (ctx) { c.classList.remove('hidden'); c.innerHTML = `<span class="ctxchip">📎 ${esc(ctx.title)} · ~${Math.round(ctx.text.length / 4 / 1000)}k tokens</span>`; $('aiDropCtx').style.display = ''; }
+    else { c.classList.add('hidden'); $('aiDropCtx').style.display = 'none'; }
+    $('aiPresets').innerHTML = (ctx?.presets || []).map((p, i) => `<button class="btn sm" onclick="AI.preset(${i})">${esc(p)}</button>`).join('');
+    $('aiSend').textContent = loading ? '⏹ Parar' : 'Enviar ▶';
+  }
+  function open(c) {
+    const max = +SET.maxCtx || 180000;
+    if (c.text.length > max) c.text = c.text.slice(0, max) + `\n\n[... contexto cortado em ${max} caracteres — aumente em ⚙️ se o modelo aguentar]`;
+    ctx = c; toggle(true);
+    $('aiInput').value = c.presets?.[0] || ''; renderMsgs(); $('aiInput').focus();
+  }
+  function preset(i) { $('aiInput').value = ctx.presets[i]; $('aiInput').focus(); }
+  function dropCtx() { ctx = null; renderMsgs(); }
+  function buildUser(q) { return ctx ? `${q}\n\n=====CONTEXTO (${ctx.title})=====\n${ctx.text}` : q; }
+  function copyPrompt() { const q = $('aiInput').value.trim() || ctx?.presets?.[0] || ''; copyText(SYS_PROMPT + '\n\n---\n\n' + buildUser(q)); }
+  async function send() {
+    if (loading) { abort?.abort(); return; }
+    const q = $('aiInput').value.trim(); if (!q) return;
+    const p = SET.provider, model = $('aiModel').value;
+    msgs.push({ role: 'user', q, content: buildUser(q), ctxTitle: ctx?.title });
+    ctx = null; $('aiInput').value = ''; loading = true; renderMsgs();
+    abort = new AbortController();
+    try {
+      const hist = msgs.filter(m => !m.err).map(m => ({ role: m.role, content: m.content }));
+      const r = await AIC.call(p, model, SYS_PROMPT, hist, abort.signal);
+      msgs.push({ role: 'assistant', content: r, model: PROVIDERS[p].name + ' · ' + model });
+    } catch (e) { msgs.push({ role: 'assistant', err: true, content: e.name === 'AbortError' ? '⏹ Interrompido' : '❌ ' + e.message }); }
+    loading = false; abort = null; renderMsgs();
+  }
+  function clear() { if (msgs.length && !confirm('Limpar a conversa com a IA?')) return; msgs = []; ctx = null; renderMsgs(); }
+  return { toggle, onProvider, onModel, open, preset, dropCtx, copyPrompt, send, clear, raw: i => msgs[i].content, fill };
+})();
+
+/* Contextos prontos para a IA */
+const Ctx = {
+  fileBlock(s, path, max = 60000) { const f = APP.slots[s].files.get(path); if (!f || f.text == null) return `(arquivo ${path} indisponível)`; const t = f.text.length > max ? f.text.slice(0, max) + '\n[... cortado]' : f.text; return `Arquivo: ${path}\n${FENCE}${langOf(path)}\n${t}\n${FENCE}`; },
+  issuesOf(s, file) { return APP.an[s].issues.filter(i => !file || i.file === file).map(i => `- [${i.sev}] ${i.cat}: ${i.msg}${i.line ? ' (linha ' + i.line + ')' : ''}${i.det ? ' — ' + i.det : ''}`).join('\n'); },
+  pkgFor(s, path) { const an = APP.an[s]; let d = dirname(path); for (;;) { const pk = an.pkgs.find(k => k.dir === d); if (pk) return `\n\npackage.json mais próximo (${pk.path}):\n${FENCE}json\n${JSON.stringify(pk.json, null, 2).slice(0, 5000)}\n${FENCE}`; if (!d) return ''; d = dirname(d); } },
+  askFile(s, ri) {
+    const path = REF[ri], iss = this.issuesOf(s, path);
+    AI.open({ title: `${APP.slots[s].name} · ${path}`, text: `Projeto: ${APP.slots[s].name}\n${this.fileBlock(s, path)}${iss ? `\n\nProblemas detectados automaticamente neste arquivo:\n${iss}` : ''}${this.pkgFor(s, path)}`,
+      presets: ['Revise este arquivo: tem erro? Algo que só funciona no Replit ou que quebra no Electron/APK? Me dê a versão corrigida completa.', 'Explique de forma simples o que este arquivo faz e como ele se liga ao resto do projeto.', 'Os problemas detectados são reais ou falso alarme? Como corrigir cada um?'] });
+  },
+  askIssue(s, idx) {
+    const i = APP.an[s].issues[idx];
+    AI.open({ title: `Problema: ${i.msg.slice(0, 60)}`, text: `Projeto: ${APP.slots[s].name}\nProblema detectado automaticamente: [${i.sev}] ${i.cat}: ${i.msg}${i.det ? '\nDetalhe: ' + i.det : ''}\nArquivo: ${i.file}${i.line ? ' linha ' + i.line : ''}\nSugestão automática: ${i.fix}\n\n${i.file && APP.slots[s].files.get(i.file)?.text != null ? this.fileBlock(s, i.file) : ''}${i.file ? this.pkgFor(s, i.file) : ''}`,
+      presets: ['Isso é realmente um problema? Se for, qual a correção exata (código completo do trecho)?'] });
+  },
+  askIssues(s) {
+    AI.open({ title: `Problemas de ${APP.slots[s].name}`, text: projectReport(s, false), presets: ['Priorize estes problemas (o que impede o projeto de rodar vem primeiro), diga quais podem ser falso alarme e o passo a passo para corrigir os importantes.', 'Quais destes problemas impedem gerar o executável (Electron) e o APK (Capacitor)?'] });
+  },
+  askProject(s) {
+    AI.open({ title: `Diagnóstico de ${APP.slots[s].name}`, text: projectReport(s, true), presets: ['Faça um diagnóstico geral: o que é este projeto, como está organizado, o que está quebrado, e o plano para deixá-lo rodando fora do Replit.', 'Quero transformar este projeto em executável Windows (Electron) e APK (Capacitor). Quais arquivos criar/alterar? Dê o passo a passo com o código.'] });
+  },
+  askReplit(s) {
+    const an = APP.an[s], P = APP.slots[s];
+    const rel = [...new Set(an.issues.filter(i => i.cat === 'Replit' && i.file && P.files.get(i.file)?.text != null && !/replit\.md$/.test(i.file)).map(i => i.file))].slice(0, 8);
+    AI.open({ title: `Tirar o Replit de ${P.name}`, text: projectReport(s, true) + '\n\n' + rel.map(f => this.fileBlock(s, f, 20000)).join('\n\n'),
+      presets: ['Me dê o passo a passo para tirar tudo do Replit deste projeto e rodar no meu PC com npm: o que apagar, o que alterar (com o código novo completo de cada arquivo) e os comandos.'] });
+  },
+  askDiff(ri) {
+    const path = REF[ri], A = APP.slots.A, B = APP.slots.B, a = A.files.get(path), b = B.files.get(path);
+    let text = `Comparando o arquivo ${path} entre duas versões do projeto.\nA = "${A.name}"\nB = "${B.name}"\n\n`;
+    if (a && b && a.text != null && b.text != null) {
+      const la = a.text.split('\n'), lb = b.text.split('\n'), ops = diffLines(la, lb);
+      text += `Diferença (unified diff, "-" só em A, "+" só em B):\n${FENCE}diff\n${ops ? unifiedDiff(la, lb, ops, 'A/' + path, 'B/' + path) : '(arquivo reescrito)'}\n${FENCE}\n\n`;
+      if (b.text.length < 40000) text += `Versão B completa:\n${this.fileBlock('B', path, 40000)}\n\n`;
+      if (a.text.length < 25000) text += `Versão A completa:\n${this.fileBlock('A', path, 25000)}`;
+    } else if (a) text += `Só existe em A (foi apagado em B):\n${this.fileBlock('A', path)}`;
+    else text += `Só existe em B (foi criado):\n${this.fileBlock('B', path)}`;
+    const ia = this.issuesOf('A', path), ib = this.issuesOf('B', path);
+    if (ia || ib) text += `\n\nProblemas detectados — A:\n${ia || '(nenhum)'}\nB:\n${ib || '(nenhum)'}`;
+    AI.open({ title: `Diff ${path}`, text, presets: ['O que mudou entre A e B neste arquivo? O que foi consertado, o que pode ter quebrado, algo prejudicial? Qual versão devo manter — ou me dê uma versão final juntando o melhor das duas.'] });
+  },
+  askCompare() {
+    AI.open({ title: `Comparação ${APP.slots.A.name} × ${APP.slots.B.name}`, text: compareReport() + '\n\n--- Problemas de A ---\n' + this.issuesOf('A') + '\n\n--- Problemas de B ---\n' + this.issuesOf('B'),
+      presets: ['Analisando a comparação: qual versão está mais saudável? O que foi consertado de A para B e o que parece ter sido quebrado? Quais arquivos devo olhar primeiro?'] });
+  },
+  async askCommit(s) {
+    const G = APP.git[s], repo = APP.repos[s][G.repo], c = G.log.commits.find(x => x.sha === G.sel);
+    busy(true, 'Juntando as mudanças do commit...');
+    let text = `Commit ${c.sha}\nAutor: ${c.author} · ${fmtDate(c.time)}\nMensagem: ${c.msg}\n\nArquivos: \n${G.ch.list.map(x => `${x.st} ${x.path}`).join('\n')}\n\n`;
+    let budget = 90000;
+    for (const x of G.ch.list.filter(y => y.st === 'M').slice(0, 25)) {
+      const [a, b] = await Promise.all([repo.blobText(x.a), repo.blobText(x.b)]); if (a == null || b == null) continue;
+      const la = a.split('\n'), lb = b.split('\n'), ops = diffLines(la, lb); const d = ops ? unifiedDiff(la, lb, ops, 'antes/' + x.path, 'depois/' + x.path) : '(reescrito)';
+      if (d.length > budget) break; budget -= d.length; text += `${FENCE}diff\n${d}\n${FENCE}\n\n`;
+    }
+    busy(false);
+    AI.open({ title: `Commit ${c.sha.slice(0, 7)}`, text, presets: ['Explique o que este commit mudou, por quê provavelmente foi feito, e se ele pode ter introduzido algum bug.'] });
+  },
+  askGitFile(s) {
+    const G = APP.git[s], d = G.lastDiff, la = d.a.split('\n'), lb = d.b.split('\n'), ops = diffLines(la, lb);
+    AI.open({ title: `Commit ${G.sel.slice(0, 7)} · ${d.path}`, text: `Mudança no arquivo ${d.path} (commit ${G.sel}):\n${FENCE}diff\n${ops ? unifiedDiff(la, lb, ops, 'antes', 'depois') : '(reescrito)'}\n${FENCE}\n\nVersão depois do commit:\n${FENCE}${langOf(d.path)}\n${d.b.slice(0, 40000)}\n${FENCE}`,
+      presets: ['O que mudou neste arquivo neste commit? Foi uma correção ou pode ter causado bug?'] });
+  }
+};
+
+const Settings = {
+  open() {
+    $('keysBox').innerHTML = Object.entries(PROVIDERS).filter(([k]) => k !== 'ollama').map(([k, p]) => `<div class="fg"><label>${p.name}</label><div class="row" style="flex-wrap:nowrap"><input type="password" id="k_${k}" value="${esc(SET.keys[k] || '')}" autocomplete="off" style="flex:1"><button class="btn" type="button" onclick="const e=$('k_${k}');e.type=e.type==='password'?'text':'password'">👁️</button></div></div>`).join('');
+    $('setOllama').value = SET.ollamaUrl; $('setCustom').value = SET.customBase; $('setMaxCtx').value = SET.maxCtx; $('setMaxTok').value = SET.maxTokens;
+    $('setModal').classList.add('open');
+  },
+  collect() {
+    Object.keys(PROVIDERS).forEach(k => { const e = $('k_' + k); if (e) SET.keys[k] = e.value.replace(/\s+/g, ''); });
+    SET.ollamaUrl = $('setOllama').value.trim() || 'http://localhost:11434'; SET.customBase = $('setCustom').value.trim();
+    SET.maxCtx = Math.max(5000, +$('setMaxCtx').value || 180000); SET.maxTokens = Math.max(256, +$('setMaxTok').value || 8192);
+    saveSettings();
+  },
+  save() { this.collect(); closeModal('setModal'); toast('✅ Salvo', 'success'); },
+  async test() {
+    if ($('setModal').classList.contains('open')) this.collect();
+    AI.fill(); const p = SET.provider, m = $('aiModel').value;
+    toast(`🧪 Testando ${PROVIDERS[p].name} · ${m}...`);
+    try { const r = await AIC.call(p, m, 'Responda só OK.', [{ role: 'user', content: 'Diga OK' }]); toast(`✅ Funcionando: "${r.trim().slice(0, 30)}"`, 'success'); } catch (e) { toast('❌ ' + e.message, 'error'); }
+  }
+};
+
+/* =====================================================================
+   ARRASTAR E SOLTAR
+   ===================================================================== */
+async function entriesToFiles(items) {
+  const out = []; let hasDir = false;
+  const walk = (entry, path) => new Promise(res => {
+    if (entry.isFile) entry.file(f => { f._rel = path + f.name; out.push(f); res(); }, () => res());
+    else if (entry.isDirectory) {
+      hasDir = true;
+      const rd = entry.createReader(), all = [];
+      const read = () => rd.readEntries(async es => { if (!es.length) { for (const e of all) await walk(e, path + entry.name + '/'); res(); } else { all.push(...es); read(); } }, () => res());
+      read();
+    } else res();
+  });
+  const entries = [...items].map(i => i.webkitGetAsEntry && i.webkitGetAsEntry()).filter(Boolean);
+  for (const e of entries) await walk(e, '');
+  return { files: out, hasDir };
+}
+function setupDrop() {
+  let depth = 0;
+  window.addEventListener('dragenter', e => { if (![...e.dataTransfer.types].includes('Files')) return; e.preventDefault(); depth++; $('dropOverlay').classList.add('show'); $('dropHint').textContent = !APP.slots.A ? 'vai para A' : !APP.slots.B ? 'vai para B' : 'solte em cima de A ou B no topo para escolher'; });
+  window.addEventListener('dragleave', e => { if (--depth <= 0) { depth = 0; $('dropOverlay').classList.remove('show'); } });
+  window.addEventListener('dragover', e => { e.preventDefault(); ['A', 'B'].forEach(s => $('slot' + s).classList.toggle('drop', $('slot' + s).contains(e.target))); });
+  window.addEventListener('drop', async e => {
+    e.preventDefault(); depth = 0; $('dropOverlay').classList.remove('show');
+    let slot = $('slotB').contains(e.target) ? 'B' : $('slotA').contains(e.target) ? 'A' : (!APP.slots.A ? 'A' : !APP.slots.B ? 'B' : null);
+    ['A', 'B'].forEach(s => $('slot' + s).classList.remove('drop'));
+    if (!slot) slot = confirm('Os dois lados já têm projeto.\nOK = substituir A · Cancelar = substituir B') ? 'A' : 'B';
+    const { files, hasDir } = await entriesToFiles(e.dataTransfer.items);
+    if (!files.length) return;
+    const allArchives = !hasDir && files.every(f => /\.(zip|tar|tgz|gz|taz)$/i.test(f.name));
+    loadInto(slot, files, allArchives ? 'archive' : 'folder', '');
+  });
+}
+
+/* =====================================================================
+   INÍCIO
+   ===================================================================== */
+function INIT() {
+  loadSettings();
+  if (typeof DecompressionStream === 'undefined') toast('⚠️ Navegador antigo: atualize o Chrome/Edge para ler zip/tar.gz.', 'warn');
+  setupDrop();
+  render();
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.modal-bg.open').forEach(m => m.classList.remove('open')); });
+  document.querySelectorAll('.modal-bg').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }));
+  window.addEventListener('beforeunload', e => { if (APP.slots.A || APP.slots.B) { e.preventDefault(); e.returnValue = ''; } });
+}
+if (typeof document !== 'undefined' && document.getElementById('view')) INIT();
+</script>
+</body>
+</html>

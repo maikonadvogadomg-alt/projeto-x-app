@@ -1,0 +1,8 @@
+cirurgiao
+projeto-lab
+analisador-universal
+triagem
+gerador-eas
+limpador
+ai-code-studio
+perito

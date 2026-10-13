@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Projetos PWA — Maikon Caldeira</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 8px 16px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+.nav-btn {
+  padding: 8px 14px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 60px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Navegação -->
+<div class="project-nav">
+  <span style="font-size:12px;font-weight:700;color:#a3a082;margin-right:6px;">📂</span>
+  <button class="nav-btn active" onclick="trocarProjeto(0)">1.Imp</button><button class="nav-btn " onclick="trocarProjeto(1)">2.HTML</button><button class="nav-btn " onclick="trocarProjeto(2)">3.Json</button><button class="nav-btn " onclick="trocarProjeto(3)">4. Organizador. </button><button class="nav-btn " onclick="trocarProjeto(4)">5.Mark</button>
+</div>
+
+<!-- Projetos (cada um em iframe isolado) -->
+
+<div class="project-container active" id="projeto0">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;/&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/&gt;
+  &lt;title&gt;Importador de Markdown&lt;/title&gt;
+  &lt;style&gt;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { margin-bottom: 20px; color: #00ff00; }
+    .section { background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #00ff00; }
+    .input-group { margin: 15px 0; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #00ff00; border-radius: 4px; font-family: monospace; }
+    button { background: #00ff00; color: #000; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 10px 5px 10px 0; }
+    button:hover { background: #00cc00; }
+    .file-list { background: #1a1a1a; padding: 15px; border-radius: 4px; margin: 10px 0; }
+    .file-item { padding: 10px; background: #2a2a2a; margin: 5px 0; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+    .remove-btn { background: #ff4444; padding: 5px 10px; font-size: 12px; }
+    #output { background: #1a1a1a; padding: 20px; border-radius: 4px; margin: 20px 0; max-height: 600px; overflow-y: auto; border: 1px solid #00ff00; white-space: pre-wrap; word-wrap: break-word; }
+    .success { color: #00ff00; }
+    .error { color: #ff4444; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;📄 Importador de Markdown&lt;/h1&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;1️⃣ Importar Arquivos&lt;/h2&gt;
+      
+      &lt;div class=&quot;input-group&quot;&gt;
+        &lt;label&gt;Selecione arquivos Markdown (.md):&lt;/label&gt;
+        &lt;input type=&quot;file&quot; id=&quot;mdFiles&quot; multiple accept=&quot;.md&quot; /&gt;
+      &lt;/div&gt;
+      
+      &lt;div class=&quot;input-group&quot;&gt;
+        &lt;label&gt;Ou importe um ZIP com arquivos:&lt;/label&gt;
+        &lt;input type=&quot;file&quot; id=&quot;zipFile&quot; accept=&quot;.zip&quot; /&gt;
+      &lt;/div&gt;
+      
+      &lt;button onclick=&quot;importMarkdowns()&quot;&gt;📥 Importar Markdown&lt;/button&gt;
+      &lt;button onclick=&quot;importZip()&quot;&gt;📦 Importar ZIP&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;2️⃣ Arquivos Importados&lt;/h2&gt;
+      &lt;div id=&quot;fileList&quot; class=&quot;file-list&quot;&gt;
+        &lt;p style=&quot;color: #888;&quot;&gt;Nenhum arquivo importado ainda...&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;3️⃣ Organizar Ordem&lt;/h2&gt;
+      &lt;div class=&quot;input-group&quot;&gt;
+        &lt;label&gt;Arraste para reorganizar ou use os botões:&lt;/label&gt;
+        &lt;div id=&quot;orderList&quot; style=&quot;background: #1a1a1a; padding: 10px; border-radius: 4px; min-height: 100px;&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;button onclick=&quot;moveUp()&quot;&gt;⬆️ Mover para Cima&lt;/button&gt;
+      &lt;button onclick=&quot;moveDown()&quot;&gt;⬇️ Mover para Baixo&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;4️⃣ Nomeação&lt;/h2&gt;
+      &lt;div class=&quot;input-group&quot;&gt;
+        &lt;label&gt;Nome do arquivo final:&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;finalName&quot; value=&quot;documento-completo&quot; /&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;input-group&quot;&gt;
+        &lt;label&gt;Separador entre arquivos:&lt;/label&gt;
+        &lt;select id=&quot;separator&quot;&gt;
+          &lt;option value=&quot;---&quot;&gt;--- (linha)&lt;/option&gt;
+          &lt;option value=&quot;\n\n&quot;&gt;Duas quebras de linha&lt;/option&gt;
+          &lt;option value=&quot;\n\n## ---\n\n&quot;&gt;Seção separadora&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;5️⃣ Ações&lt;/h2&gt;
+      &lt;button onclick=&quot;previewOutput()&quot;&gt;👁️ Visualizar&lt;/button&gt;
+      &lt;button onclick=&quot;downloadMarkdown()&quot;&gt;⬇️ Baixar Markdown&lt;/button&gt;
+      &lt;button onclick=&quot;copyToClipboard()&quot;&gt;📋 Copiar para Clipboard&lt;/button&gt;
+      &lt;button onclick=&quot;clearAll()&quot;&gt;🗑️ Limpar Tudo&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;6️⃣ Visualização&lt;/h2&gt;
+      &lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    let files = [];
+    let fileContents = {};
+
+    async function importMarkdowns() {
+      const input = document.getElementById('mdFiles');
+      const newFiles = Array.from(input.files);
+      
+      for (const file of newFiles) {
+        const text = await file.text();
+        const name = file.name.replace('.md', '');
+        files.push(name);
+        fileContents[name] = text;
+      }
+      
+      updateFileList();
+      input.value = '';
+    }
+
+    async function importZip() {
+      const input = document.getElementById('zipFile');
+      const file = input.files[0];
+      
+      if (!file) {
+        alert('Selecione um arquivo ZIP!');
+        return;
+      }
+      
+      const { unzip } = await import('https://cdn.jsdelivr.net/npm/fflate@0.8.0/+esm');
+      const arrayBuffer = await file.arrayBuffer();
+      const unzipped = unzip(new Uint8Array(arrayBuffer));
+      
+      for (const [path, data] of Object.entries(unzipped)) {
+        if (path.endsWith('.md')) {
+          const text = new TextDecoder().decode(data);
+          const name = path.split('/').pop().replace('.md', '');
+          files.push(name);
+          fileContents[name] = text;
+        }
+      }
+      
+      updateFileList();
+      input.value = '';
+    }
+
+    function updateFileList() {
+      const list = document.getElementById('fileList');
+      const order = document.getElementById('orderList');
+      
+      list.innerHTML = '';
+      order.innerHTML = '';
+      
+      files.forEach((name, index) =&gt; {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        item.innerHTML = `
+          &lt;span&gt;${index + 1}. ${name}&lt;/span&gt;
+          &lt;button class=&quot;remove-btn&quot; onclick=&quot;removeFile('${name}')&quot;&gt;✕ Remover&lt;/button&gt;
+        `;
+        list.appendChild(item);
+        
+        const orderItem = document.createElement('div');
+        orderItem.className = 'file-item';
+        orderItem.draggable = true;
+        orderItem.innerHTML = `&lt;span&gt;${index + 1}. ${name}&lt;/span&gt;`;
+        orderItem.ondragstart = (e) =&gt; e.dataTransfer.effectAllowed = 'move';
+        orderItem.ondrop = (e) =&gt; {
+          e.preventDefault();
+          const draggedIndex = parseInt(e.dataTransfer.getData('text'));
+          const targetIndex = files.indexOf(name);
+          [files[draggedIndex], files[targetIndex]] = [files[targetIndex], files[draggedIndex]];
+          updateFileList();
+        };
+        orderItem.ondragover = (e) =&gt; e.preventDefault();
+        order.appendChild(orderItem);
+      });
+    }
+
+    function removeFile(name) {
+      files = files.filter(f =&gt; f !== name);
+      delete fileContents[name];
+      updateFileList();
+    }
+
+    function moveUp() {
+      // Implementar depois
+    }
+
+    function moveDown() {
+      // Implementar depois
+    }
+
+    function previewOutput() {
+      const separator = document.getElementById('separator').value;
+      const content = files.map(name =&gt; fileContents[name]).join(separator);
+      document.getElementById('output').textContent = content;
+    }
+
+    function downloadMarkdown() {
+      const separator = document.getElementById('separator').value;
+      const content = files.map(name =&gt; fileContents[name]).join(separator);
+      const name = document.getElementById('finalName').value || 'documento';
+      
+      const blob = new Blob([content], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${name}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyToClipboard() {
+      const separator = document.getElementById('separator').value;
+      const content = files.map(name =&gt; fileContents[name]).join(separator);
+      navigator.clipboard.writeText(content).then(() =&gt; {
+        alert('✅ Copiado para clipboard!');
+      });
+    }
+
+    function clearAll() {
+      if (confirm('Tem certeza? Vai limpar tudo!')) {
+        files = [];
+        fileContents = {};
+        updateFileList();
+        document.getElementById('output').textContent = '';
+      }
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto1">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;/&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/&gt;
+  &lt;title&gt;Markdown para HTML com Referências&lt;/title&gt;
+  &lt;style&gt;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+    .container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    h1 { margin-bottom: 20px; color: #00ff00; grid-column: 1 / -1; }
+    .section { background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #00ff00; }
+    .input-group { margin: 15px 0; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #00ff00; border-radius: 4px; font-family: monospace; }
+    textarea { min-height: 300px; resize: vertical; }
+    button { background: #00ff00; color: #000; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 10px 5px 10px 0; }
+    button:hover { background: #00cc00; }
+    #markdown { grid-column: 1; }
+    #htmlOutput { grid-column: 2; }
+    #references { grid-column: 1 / -1; }
+    .reference-item { padding: 10px; background: #1a1a1a; margin: 5px 0; border-radius: 4px; cursor: pointer; border-left: 3px solid #00ff00; }
+    .reference-item:hover { background: #2a2a2a; }
+    .copy-section { padding: 10px; background: #1a1a1a; margin: 5px 0; border-radius: 4px; }
+    .copy-btn { background: #0066ff; padding: 5px 10px; font-size: 12px; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;📝 Markdown → HTML com Pontos de Referência&lt;/h1&gt;
+    
+    &lt;div class=&quot;section&quot; id=&quot;markdown&quot;&gt;
+      &lt;h2&gt;Markdown&lt;/h2&gt;
+      &lt;textarea id=&quot;markdownInput&quot; placeholder=&quot;Cole seu Markdown aqui...&quot;&gt;&lt;/textarea&gt;
+      &lt;button onclick=&quot;convertMarkdownToHtml()&quot;&gt;🔄 Converter&lt;/button&gt;
+      &lt;button onclick=&quot;loadSample()&quot;&gt;📋 Carregar Exemplo&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot; id=&quot;htmlOutput&quot;&gt;
+      &lt;h2&gt;HTML Gerado&lt;/h2&gt;
+      &lt;div id=&quot;htmlPreview&quot; style=&quot;background: #1a1a1a; padding: 15px; border-radius: 4px; min-height: 300px; border: 1px solid #00ff00; overflow-y: auto;&quot;&gt;&lt;/div&gt;
+      &lt;button onclick=&quot;downloadHtml()&quot;&gt;⬇️ Baixar HTML&lt;/button&gt;
+      &lt;button onclick=&quot;copyHtmlToClipboard()&quot;&gt;📋 Copiar HTML&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot; id=&quot;references&quot;&gt;
+      &lt;h2&gt;🔗 Pontos de Referência (Títulos e Seções)&lt;/h2&gt;
+      &lt;div id=&quot;referenceList&quot;&gt;&lt;/div&gt;
+      &lt;button onclick=&quot;copyAllReferences()&quot;&gt;📋 Copiar Todas as Referências&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    let htmlContent = '';
+    let references = [];
+
+    function convertMarkdownToHtml() {
+      const markdown = document.getElementById('markdownInput').value;
+      
+      // Simples conversão Markdown → HTML
+      let html = markdown
+        .replace(/^### (.*?)$/gm, '&lt;h3&gt;$1&lt;/h3&gt;')
+        .replace(/^## (.*?)$/gm, '&lt;h2&gt;$1&lt;/h2&gt;')
+        .replace(/^# (.*?)$/gm, '&lt;h1&gt;$1&lt;/h1&gt;')
+        .replace(/\*\*(.*?)\*\*/g, '&lt;strong&gt;$1&lt;/strong&gt;')
+        .replace(/\*(.*?)\*/g, '&lt;em&gt;$1&lt;/em&gt;')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '&lt;a href=&quot;$2&quot;&gt;$1&lt;/a&gt;')
+        .replace(/^- (.*?)$/gm, '&lt;li&gt;$1&lt;/li&gt;')
+        .replace(/(&lt;li&gt;.*?&lt;\/li&gt;)/s, '&lt;ul&gt;$1&lt;/ul&gt;')
+        .replace(/\n\n/g, '&lt;/p&gt;&lt;p&gt;')
+        .replace(/^/gm, '&lt;p&gt;')
+        .replace(/$/gm, '&lt;/p&gt;')
+        .replace(/&lt;p&gt;&lt;\/p&gt;/g, '');
+      
+      // Extrai referências
+      extractReferences(markdown);
+      
+      // Adiciona IDs aos títulos
+      html = html.replace(/&lt;h([1-6])&gt;(.*?)&lt;\/h\1&gt;/g, (match, level, text) =&gt; {
+        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        return `&lt;h${level} id=&quot;${id}&quot;&gt;${text}&lt;/h${level}&gt;`;
+      });
+      
+      htmlContent = html;
+      document.getElementById('htmlPreview').innerHTML = html;
+      updateReferences();
+    }
+
+    function extractReferences(markdown) {
+      references = [];
+      const lines = markdown.split('\n');
+      
+      lines.forEach((line, index) =&gt; {
+        if (line.match(/^#+\s/)) {
+          const level = line.match(/^#+/)[0].length;
+          const text = line.replace(/^#+\s/, '').trim();
+          const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          references.push({ level, text, id, line: index + 1 });
+        }
+      });
+    }
+
+    function updateReferences() {
+      const list = document.getElementById('referenceList');
+      list.innerHTML = '';
+      
+      references.forEach(ref =&gt; {
+        const item = document.createElement('div');
+        item.className = 'reference-item';
+        item.style.marginLeft = (ref.level - 1) * 20 + 'px';
+        item.innerHTML = `
+          &lt;strong&gt;#${ref.line}&lt;/strong&gt; - ${ref.text}
+          &lt;div style=&quot;margin-top: 5px;&quot;&gt;
+            &lt;button class=&quot;copy-btn&quot; onclick=&quot;copyReference('${ref.id}')&quot;&gt;📋 ID&lt;/button&gt;
+            &lt;button class=&quot;copy-btn&quot; onclick=&quot;copyReference('${ref.text}')&quot;&gt;📋 Texto&lt;/button&gt;
+            &lt;button class=&quot;copy-btn&quot; onclick=&quot;copyReference('#${ref.id}')&quot;&gt;🔗 Link&lt;/button&gt;
+          &lt;/div&gt;
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function copyReference(text) {
+      navigator.clipboard.writeText(text).then(() =&gt; {
+        alert('✅ Copiado: ' + text);
+      });
+    }
+
+    function copyAllReferences() {
+      const refs = references.map(r =&gt; `[${r.text}](#${r.id})`).join('\n');
+      navigator.clipboard.writeText(refs).then(() =&gt; {
+        alert('✅ Todas as referências copiadas!');
+      });
+    }
+
+    function downloadHtml() {
+      const fullHtml = `&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;/&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/&gt;
+  &lt;title&gt;Documento&lt;/title&gt;
+  &lt;style&gt;
+    body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 20px; }
+    h1, h2, h3 { margin-top: 20px; margin-bottom: 10px; }
+    a { color: #0066ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+${htmlContent}
+&lt;/body&gt;
+&lt;/html&gt;`;
+      
+      const blob = new Blob([fullHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'documento.html';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyHtmlToClipboard() {
+      navigator.clipboard.writeText(htmlContent).then(() =&gt; {
+        alert('✅ HTML copiado para clipboard!');
+      });
+    }
+
+    function loadSample() {
+      document.getElementById('markdownInput').value = `# Título Principal
+
+## Seção 1
+Conteúdo da seção 1.
+
+### Subseção 1.1
+Mais conteúdo aqui.
+
+## Seção 2
+Conteúdo da seção 2.
+
+- Item 1
+- Item 2
+- Item 3`;
+      convertMarkdownToHtml();
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto2">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;/&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/&gt;
+  &lt;title&gt;Importador de JSON para Markdown&lt;/title&gt;
+  &lt;style&gt;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { margin-bottom: 20px; color: #00ff00; }
+    .section { background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #00ff00; }
+    .input-group { margin: 15px 0; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #00ff00; border-radius: 4px; font-family: monospace; }
+    button { background: #00ff00; color: #000; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 10px 5px 10px 0; }
+    button:hover { background: #00cc00; }
+    #output { background: #1a1a1a; padding: 20px; border-radius: 4px; margin: 20px 0; max-height: 600px; overflow-y: auto; border: 1px solid #00ff00; white-space: pre-wrap; word-wrap: break-word; }
+    .success { color: #00ff00; }
+    .error { color: #ff4444; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;📊 Importador de JSON para Markdown&lt;/h1&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;1️⃣ Importar JSON&lt;/h2&gt;
+      
+      &lt;div class=&quot;input-group&quot;&gt;
+        &lt;label&gt;Selecione arquivo JSON:&lt;/label&gt;
+        &lt;input type=&quot;file&quot; id=&quot;jsonFile&quot; accept=&quot;.json&quot; /&gt;
+      &lt;/div&gt;
+      
+      &lt;button onclick=&quot;importJson()&quot;&gt;📥 Importar JSON&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;2️⃣ Configurar Conversão&lt;/h2&gt;
+      
+      &lt;div class=&quot;input-group&quot;&gt;
+        &lt;label&gt;Tipo de JSON:&lt;/label&gt;
+        &lt;select id=&quot;jsonType&quot;&gt;
+          &lt;option value=&quot;array&quot;&gt;Array de objetos&lt;/option&gt;
+          &lt;option value=&quot;object&quot;&gt;Objeto único&lt;/option&gt;
+          &lt;option value=&quot;nested&quot;&gt;Objeto aninhado&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      
+      &lt;div class=&quot;input-group&quot;&gt;
+        &lt;label&gt;Nível de título principal (h1-h6):&lt;/label&gt;
+        &lt;select id=&quot;titleLevel&quot;&gt;
+          &lt;option value=&quot;1&quot;&gt;H1 (#)&lt;/option&gt;
+          &lt;option value=&quot;2&quot;&gt;H2 (##)&lt;/option&gt;
+          &lt;option value=&quot;3&quot;&gt;H3 (###)&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      
+      &lt;div class=&quot;input-group&quot;&gt;
+        &lt;label&gt;Incluir chaves como títulos?&lt;/label&gt;
+        &lt;select id=&quot;includeKeys&quot;&gt;
+          &lt;option value=&quot;yes&quot;&gt;Sim&lt;/option&gt;
+          &lt;option value=&quot;no&quot;&gt;Não&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;3️⃣ Ações&lt;/h2&gt;
+      &lt;button onclick=&quot;convertToMarkdown()&quot;&gt;🔄 Converter para Markdown&lt;/button&gt;
+      &lt;button onclick=&quot;downloadMarkdown()&quot;&gt;⬇️ Baixar Markdown&lt;/button&gt;
+      &lt;button onclick=&quot;copyToClipboard()&quot;&gt;📋 Copiar para Clipboard&lt;/button&gt;
+      &lt;button onclick=&quot;clearAll()&quot;&gt;🗑️ Limpar Tudo&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section&quot;&gt;
+      &lt;h2&gt;4️⃣ Resultado&lt;/h2&gt;
+      &lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    let jsonData = null;
+    let markdownOutput = '';
+
+    async function importJson() {
+      const input = document.getElementById('jsonFile');
+      const file = input.files[0];
+      
+      if (!file) {
+        alert('Selecione um arquivo JSON!');
+        return;
+      }
+      
+      const text = await file.text();
+      try {
+        jsonData = JSON.parse(text);
+        alert('✅ JSON importado com sucesso!');
+      } catch (e) {
+        alert('❌ Erro ao parsear JSON: ' + e.message);
+      }
+    }
+
+    function convertToMarkdown() {
+      if (!jsonData) {
+        alert('Importe um JSON primeiro!');
+        return;
+      }
+      
+      const type = document.getElementById('jsonType').value;
+      const titleLevel = parseInt(document.getElementById('titleLevel').value);
+      const includeKeys = document.getElementById('includeKeys').value === 'yes';
+      
+      let markdown = '';
+      
+      if (type === 'array') {
+        markdown = convertArray(jsonData, titleLevel, includeKeys);
+      } else if (type === 'object') {
+        markdown = convertObject(jsonData, titleLevel, includeKeys);
+      } else if (type === 'nested') {
+        markdown = convertNested(jsonData, titleLevel, includeKeys);
+      }
+      
+      markdownOutput = markdown;
+      document.getElementById('output').textContent = markdown;
+    }
+
+    function convertArray(arr, titleLevel, includeKeys) {
+      let md = '';
+      arr.forEach((item, index) =&gt; {
+        md += `${'#'.repeat(titleLevel)} Item ${index + 1}\n\n`;
+        md += convertObject(item, titleLevel + 1, includeKeys);
+        md += '\n\n';
+      });
+      return md;
+    }
+
+    function convertObject(obj, titleLevel, includeKeys) {
+      let md = '';
+      for (const [key, value] of Object.entries(obj)) {
+        if (includeKeys) {
+          md += `${'#'.repeat(titleLevel)} ${key}\n\n`;
+        }
+        
+        if (typeof value === 'object' &amp;&amp; value !== null) {
+          if (Array.isArray(value)) {
+            md += convertArray(value, titleLevel + 1, includeKeys);
+          } else {
+            md += convertObject(value, titleLevel + 1, includeKeys);
+          }
+        } else {
+          md += `${value}\n\n`;
+        }
+      }
+      return md;
+    }
+
+    function convertNested(obj, titleLevel, includeKeys) {
+      let md = '';
+      
+      function traverse(current, level) {
+        for (const [key, value] of Object.entries(current)) {
+          md += `${'#'.repeat(level)} ${key}\n\n`;
+          
+          if (typeof value === 'object' &amp;&amp; value !== null) {
+            if (Array.isArray(value)) {
+              value.forEach((item, idx) =&gt; {
+                md += `- Item ${idx + 1}: ${JSON.stringify(item)}\n`;
+              });
+            } else {
+              traverse(value, level + 1);
+            }
+          } else {
+            md += `${value}\n\n`;
+          }
+        }
+      }
+      
+      traverse(obj, titleLevel);
+      return md;
+    }
+
+    function downloadMarkdown() {
+      if (!markdownOutput) {
+        alert('Converta o JSON primeiro!');
+        return;
+      }
+      
+      const blob = new Blob([markdownOutput], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'documento-convertido.md';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyToClipboard() {
+      if (!markdownOutput) {
+        alert('Converta o JSON primeiro!');
+        return;
+      }
+      navigator.clipboard.writeText(markdownOutput).then(() =&gt; {
+        alert('✅ Copiado para clipboard!');
+      });
+    }
+
+    function clearAll() {
+      if (confirm('Tem certeza? Vai limpar tudo!')) {
+        jsonData = null;
+        markdownOutput = '';
+        document.getElementById('output').textContent = '';
+        document.getElementById('jsonFile').value = '';
+      }
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto3">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;/&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/&gt;
+  &lt;title&gt;Organizador de Planos&lt;/title&gt;
+  &lt;style&gt;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { margin-bottom: 20px; color: #00ff00; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .section { background: #2a2a2a; padding: 20px; border-radius: 8px; border-left: 4px solid #00ff00; }
+    .input-group { margin: 15px 0; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #00ff00; border-radius: 4px; font-family: monospace; }
+    textarea { min-height: 200px; }
+    button { background: #00ff00; color: #000; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 10px 5px 10px 0; }
+    button:hover { background: #00cc00; }
+    .plan-item { padding: 15px; background: #1a1a1a; margin: 10px 0; border-radius: 4px; border-left: 3px solid #00ff00; }
+    .plan-item h3 { color: #00ff00; margin-bottom: 5px; }
+    .plan-item p { color: #aaa; font-size: 14px; }
+    .full-width { grid-column: 1 / -1; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;📊 Organizador de Planos com Pontos de Referência&lt;/h1&gt;
+    
+    &lt;div class=&quot;grid&quot;&gt;
+      &lt;div class=&quot;section&quot;&gt;
+        &lt;h2&gt;1️⃣ Criar Plano&lt;/h2&gt;
+        &lt;div class=&quot;input-group&quot;&gt;
+          &lt;label&gt;Nome do Plano:&lt;/label&gt;
+          &lt;input type=&quot;text&quot; id=&quot;planName&quot; placeholder=&quot;Ex: SK Tools v7&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;input-group&quot;&gt;
+          &lt;label&gt;Descrição:&lt;/label&gt;
+          &lt;textarea id=&quot;planDescription&quot; placeholder=&quot;Descreva o plano...&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;input-group&quot;&gt;
+          &lt;label&gt;Seções (separadas por vírgula):&lt;/label&gt;
+          &lt;input type=&quot;text&quot; id=&quot;planSections&quot; placeholder=&quot;Ex: Introdução, Funcionalidades, Instalação, Conclusão&quot; /&gt;
+        &lt;/div&gt;
+        &lt;button onclick=&quot;createPlan()&quot;&gt;✨ Criar Plano&lt;/button&gt;
+      &lt;/div&gt;
+      
+      &lt;div class=&quot;section&quot;&gt;
+        &lt;h2&gt;2️⃣ Adicionar Pontos&lt;/h2&gt;
+        &lt;div class=&quot;input-group&quot;&gt;
+          &lt;label&gt;Seção:&lt;/label&gt;
+          &lt;select id=&quot;sectionSelect&quot;&gt;&lt;/select&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;input-group&quot;&gt;
+          &lt;label&gt;Título do Ponto:&lt;/label&gt;
+          &lt;input type=&quot;text&quot; id=&quot;pointTitle&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;input-group&quot;&gt;
+          &lt;label&gt;Conteúdo:&lt;/label&gt;
+          &lt;textarea id=&quot;pointContent&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;button onclick=&quot;addPoint()&quot;&gt;📌 Adicionar Ponto&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section full-width&quot;&gt;
+      &lt;h2&gt;3️⃣ Planos Criados&lt;/h2&gt;
+      &lt;div id=&quot;plansList&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section full-width&quot;&gt;
+      &lt;h2&gt;4️⃣ Ações&lt;/h2&gt;
+      &lt;button onclick=&quot;generateMarkdown()&quot;&gt;📝 Gerar Markdown&lt;/button&gt;
+      &lt;button onclick=&quot;generateJson()&quot;&gt;📊 Gerar JSON&lt;/button&gt;
+      &lt;button onclick=&quot;downloadPlans()&quot;&gt;⬇️ Baixar Tudo&lt;/button&gt;
+      &lt;button onclick=&quot;clearPlans()&quot;&gt;🗑️ Limpar Tudo&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;div class=&quot;section full-width&quot;&gt;
+      &lt;h2&gt;5️⃣ Resultado&lt;/h2&gt;
+      &lt;textarea id=&quot;output&quot; style=&quot;min-height: 400px;&quot;&gt;&lt;/textarea&gt;
+      &lt;button onclick=&quot;copyOutput()&quot;&gt;📋 Copiar&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    let plans = [];
+    let currentPlan = null;
+
+    function createPlan() {
+      const name = document.getElementById('planName').value;
+      const description = document.getElementById('planDescription').value;
+      const sections = document.getElementById('planSections').value.split(',').map(s =&gt; s.trim());
+      
+      if (!name) {
+        alert('Digite um nome para o plano!');
+        return;
+      }
+      
+      currentPlan = {
+        name,
+        description,
+        sections: sections.map(s =&gt; ({ name: s, points: [] })),
+        createdAt: new Date().toLocaleString('pt-BR')
+      };
+      
+      plans.push(currentPlan);
+      updateUI();
+      clearForm();
+    }
+
+    function addPoint() {
+      if (!currentPlan) {
+        alert('Crie um plano primeiro!');
+        return;
+      }
+      
+      const sectionName = document.getElementById('sectionSelect').value;
+      const title = document.getElementById('pointTitle').value;
+      const content = document.getElementById('pointContent').value;
+      
+      if (!title) {
+        alert('Digite um título!');
+        return;
+      }
+      
+      const section = currentPlan.sections.find(s =&gt; s.name === sectionName);
+      if (section) {
+        section.points.push({
+          title,
+          content,
+          id: title.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+        });
+      }
+      
+      updateUI();
+      clearForm();
+    }
+
+    function updateUI() {
+      const sectionSelect = document.getElementById('sectionSelect');
+      sectionSelect.innerHTML = '';
+      
+      if (currentPlan) {
+        currentPlan.sections.forEach(section =&gt; {
+          const option = document.createElement('option');
+          option.value = section.name;
+          option.textContent = section.name;
+          sectionSelect.appendChild(option);
+        });
+      }
+      
+      updatePlansList();
+    }
+
+    function updatePlansList() {
+      const list = document.getElementById('plansList');
+      list.innerHTML = '';
+      
+      plans.forEach((plan, planIndex) =&gt; {
+        const planDiv = document.createElement('div');
+        planDiv.className = 'plan-item';
+        planDiv.innerHTML = `
+          &lt;h3&gt;${plan.name}&lt;/h3&gt;
+          &lt;p&gt;${plan.description}&lt;/p&gt;
+          &lt;p style=&quot;color: #666; font-size: 12px;&quot;&gt;Criado em: ${plan.createdAt}&lt;/p&gt;
+          &lt;div style=&quot;margin-top: 10px;&quot;&gt;
+            ${plan.sections.map(section =&gt; `
+              &lt;div style=&quot;margin-left: 20px; margin-top: 10px;&quot;&gt;
+                &lt;strong&gt;${section.name}&lt;/strong&gt; (${section.points.length} pontos)
+                ${section.points.map(point =&gt; `
+                  &lt;div style=&quot;margin-left: 20px; margin-top: 5px; font-size: 12px;&quot;&gt;
+                    • ${point.title}
+                  &lt;/div&gt;
+                `).join('')}
+              &lt;/div&gt;
+            `).join('')}
+          &lt;/div&gt;
+          &lt;button onclick=&quot;selectPlan(${planIndex})&quot; style=&quot;background: #0066ff; margin-top: 10px;&quot;&gt;✏️ Editar&lt;/button&gt;
+          &lt;button onclick=&quot;deletePlan(${planIndex})&quot; style=&quot;background: #ff4444;&quot;&gt;🗑️ Deletar&lt;/button&gt;
+        `;
+        list.appendChild(planDiv);
+      });
+    }
+
+    function selectPlan(index) {
+      currentPlan = plans[index];
+      updateUI();
+    }
+
+    function deletePlan(index) {
+      if (confirm('Tem certeza?')) {
+        plans.splice(index, 1);
+        if (currentPlan === plans[index]) currentPlan = null;
+        updateUI();
+      }
+    }
+
+    function generateMarkdown() {
+      let markdown = '';
+      
+      plans.forEach(plan =&gt; {
+        markdown += `# ${plan.name}\n\n`;
+        markdown += `${plan.description}\n\n`;
+        markdown += `*Criado em: ${plan.createdAt}*\n\n`;
+        
+        plan.sections.forEach(section =&gt; {
+          markdown += `## ${section.name}\n\n`;
+          section.points.forEach(point =&gt; {
+            markdown += `### ${point.title}\n\n`;
+            markdown += `${point.content}\n\n`;
+          });
+        });
+      });
+      
+      document.getElementById('output').value = markdown;
+    }
+
+    function generateJson() {
+      document.getElementById('output').value = JSON.stringify(plans, null, 2);
+    }
+
+    function downloadPlans() {
+      const markdown = generateMarkdownContent();
+      const blob = new Blob([markdown], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'planos.md';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function generateMarkdownContent() {
+      let markdown = '';
+      plans.forEach(plan =&gt; {
+        markdown += `# ${plan.name}\n\n${plan.description}\n\n`;
+        plan.sections.forEach(section =&gt; {
+          markdown += `## ${section.name}\n\n`;
+          section.points.forEach(point =&gt; {
+            markdown += `### ${point.title}\n\n${point.content}\n\n`;
+          });
+        });
+      });
+      return markdown;
+    }
+
+    function copyOutput() {
+      const output = document.getElementById('output').value;
+      navigator.clipboard.writeText(output).then(() =&gt; {
+        alert('✅ Copiado!');
+      });
+    }
+
+    function clearForm() {
+      document.getElementById('planName').value = '';
+      document.getElementById('planDescription').value = '';
+      document.getElementById('planSections').value = '';
+      document.getElementById('pointTitle').value = '';
+      document.getElementById('pointContent').value = '';
+    }
+
+    function clearPlans() {
+      if (confirm('Tem certeza? Vai deletar TUDO!')) {
+        plans = [];
+        currentPlan = null;
+        updateUI();
+      }
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto4">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;meta name=&quot;theme-color&quot; content=&quot;#141c0d&quot;&gt;
+&lt;title&gt;Visualizador de Markdown&lt;/title&gt;
+&lt;!-- Marked: parser de Markdown --&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js&quot;&gt;&lt;/script&gt;
+&lt;!-- Highlight.js: cor nos códigos --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css&quot;&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js&quot;&gt;&lt;/script&gt;
+&lt;style&gt;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#141c0d; --panel:#1c2714; --border:#2d4a1e;
+  --accent:#5aab56; --accent2:#7ec87a; --text:#e2e8f0;
+  --muted:#6b8f68; --code-bg:#0d1309; --user-bg:#1a3a14;
+  --err:#f87171; --warn:#fbbf24;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg); color:var(--text);
+  height:100dvh; display:flex; flex-direction:column; overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* HEADER */
+header{
+  flex-shrink:0; display:flex; align-items:center; gap:6px;
+  padding:10px 12px; background:var(--panel);
+  border-bottom:1px solid var(--border); min-height:50px;
+}
+header h1{font-size:14px; font-weight:700; flex:1; color:var(--accent2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.btn{
+  height:36px; padding:0 12px; border-radius:9px;
+  border:1px solid var(--border); background:rgba(90,171,86,0.12);
+  color:var(--accent2); font-size:12px; cursor:pointer;
+  white-space:nowrap; display:flex; align-items:center; gap:5px;
+}
+.btn:hover{background:rgba(90,171,86,0.22)}
+.btn.danger{color:var(--err); background:rgba(248,113,113,0.08)}
+.btn.danger:hover{background:rgba(248,113,113,0.18)}
+.icon-btn{
+  width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+  border-radius:9px; border:1px solid var(--border); background:var(--code-bg);
+  color:var(--muted); cursor:pointer; font-size:16px; flex-shrink:0;
+}
+.icon-btn:hover{color:var(--accent2); border-color:var(--accent)}
+.icon-btn.active{background:rgba(90,171,86,0.18); color:var(--accent2); border-color:var(--accent)}
+
+/* SEARCH BAR */
+#searchBar{
+  flex-shrink:0; padding:8px 12px; background:var(--panel);
+  border-bottom:1px solid var(--border); display:none; gap:6px;
+}
+#searchBar.show{display:flex}
+#searchInput{
+  flex:1; height:36px; padding:0 12px;
+  background:var(--code-bg); border:1px solid var(--border);
+  border-radius:9px; color:var(--text); font-size:13px; outline:none;
+}
+#searchInput:focus{border-color:var(--accent)}
+#searchCount{font-size:11px; color:var(--muted); display:flex; align-items:center; padding:0 6px}
+
+/* LAYOUT */
+.layout{flex:1; display:flex; overflow:hidden; position:relative}
+
+/* SIDEBAR / TOC */
+#toc{
+  width:280px; flex-shrink:0; background:var(--panel);
+  border-right:1px solid var(--border); overflow-y:auto;
+  padding:12px 8px; transition:transform 0.25s, width 0.25s;
+}
+#toc.hidden{width:0; padding:0; overflow:hidden}
+.toc-title{
+  font-size:10px; text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--muted); font-weight:700; padding:6px 10px; margin-bottom:4px;
+}
+.toc-item{
+  display:flex; align-items:center; gap:4px;
+  padding:6px 10px; border-radius:6px; cursor:pointer;
+  font-size:12px; color:var(--text); line-height:1.4;
+  border-left:2px solid transparent;
+}
+.toc-item:hover{background:rgba(90,171,86,0.1); color:var(--accent2)}
+.toc-item.active{background:rgba(90,171,86,0.15); color:var(--accent2); border-left-color:var(--accent)}
+.toc-item.h1{font-weight:700; padding-left:10px}
+.toc-item.h2{padding-left:22px}
+.toc-item.h3{padding-left:34px; font-size:11px}
+.toc-item.h4{padding-left:46px; font-size:11px; color:var(--muted)}
+.toc-item.h5,.toc-item.h6{padding-left:58px; font-size:10px; color:var(--muted)}
+.toc-text{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.toc-copy{
+  width:22px; height:22px; border-radius:5px; border:none;
+  background:transparent; color:var(--muted); cursor:pointer; font-size:11px;
+  display:none; align-items:center; justify-content:center; flex-shrink:0;
+}
+.toc-item:hover .toc-copy{display:flex}
+.toc-copy:hover{background:rgba(90,171,86,0.2); color:var(--accent2)}
+
+/* CONTEÚDO */
+#content{
+  flex:1; overflow-y:auto; padding:24px 32px 60px 32px;
+  scroll-behavior:smooth; max-width:100%;
+}
+#emptyState{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:100%; text-align:center; padding:24px; color:var(--muted);
+}
+#emptyState .big{font-size:64px; margin-bottom:14px}
+#emptyState h2{color:var(--accent2); font-size:18px; margin-bottom:10px}
+#emptyState p{font-size:13px; line-height:1.6; max-width:380px; margin-bottom:14px}
+#dropZone{
+  border:2px dashed var(--border); border-radius:12px;
+  padding:30px 20px; cursor:pointer; transition:all 0.2s;
+  background:var(--panel); width:100%; max-width:380px;
+}
+#dropZone:hover, #dropZone.dragover{
+  border-color:var(--accent); background:rgba(90,171,86,0.08);
+}
+#dropZone .icon{font-size:32px; margin-bottom:8px}
+
+/* MARKDOWN RENDERIZADO */
+.md h1,.md h2,.md h3,.md h4,.md h5,.md h6{
+  color:var(--accent2); margin:24px 0 12px 0; line-height:1.3;
+  scroll-margin-top:20px; position:relative;
+}
+.md h1{font-size:24px; border-bottom:2px solid var(--border); padding-bottom:8px}
+.md h2{font-size:20px; border-bottom:1px solid var(--border); padding-bottom:6px}
+.md h3{font-size:17px}
+.md h4{font-size:15px}
+.md h5,.md h6{font-size:13px}
+.md h1:first-child,.md h2:first-child{margin-top:0}
+
+/* Botão de copiar seção em cada heading */
+.section-copy{
+  position:absolute; right:0; top:50%; transform:translateY(-50%);
+  display:none; gap:4px; align-items:center;
+}
+.md h1:hover .section-copy,.md h2:hover .section-copy,
+.md h3:hover .section-copy,.md h4:hover .section-copy{display:flex}
+.section-copy button{
+  font-size:10px; padding:4px 8px; border-radius:5px;
+  border:1px solid var(--border); background:var(--panel);
+  color:var(--muted); cursor:pointer;
+}
+.section-copy button:hover{color:var(--accent2); border-color:var(--accent)}
+
+.md p{margin:10px 0; line-height:1.7; font-size:14px}
+.md strong{color:var(--accent2)}
+.md em{color:#a5c8a2; font-style:italic}
+.md a{color:#60a5fa; text-decoration:underline; word-break:break-all}
+.md ul,.md ol{margin:10px 0 10px 24px; line-height:1.7}
+.md li{margin:4px 0}
+.md blockquote{
+  border-left:3px solid var(--accent); padding:8px 14px;
+  margin:12px 0; background:rgba(90,171,86,0.06);
+  color:#a5c8a2; border-radius:0 6px 6px 0;
+}
+.md hr{border:none; border-top:1px solid var(--border); margin:20px 0}
+.md table{
+  border-collapse:collapse; margin:14px 0; font-size:13px;
+  display:block; overflow-x:auto; max-width:100%;
+}
+.md th,.md td{
+  border:1px solid var(--border); padding:8px 12px; text-align:left;
+}
+.md th{background:var(--panel); color:var(--accent2); font-weight:700}
+.md tr:nth-child(even){background:rgba(255,255,255,0.02)}
+.md img{max-width:100%; border-radius:6px; margin:10px 0}
+
+/* Inline code */
+.md :not(pre) &gt; code{
+  background:var(--code-bg); padding:2px 6px; border-radius:4px;
+  font-family:'Consolas','Courier New',monospace; font-size:12px;
+  color:#a8d5a2; border:1px solid var(--border);
+}
+
+/* Code block wrapper */
+.code-wrap{
+  margin:14px 0; border-radius:8px; overflow:hidden;
+  border:1px solid var(--border); background:var(--code-bg);
+}
+.code-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:6px 12px; background:#0a1008; font-size:10px;
+  font-family:monospace; color:var(--muted);
+  border-bottom:1px solid var(--border);
+}
+.code-lang{text-transform:uppercase; letter-spacing:0.05em}
+.code-copy{
+  background:none; border:none; color:var(--muted); cursor:pointer;
+  font-size:10px; font-family:inherit; display:flex; align-items:center; gap:4px;
+  padding:2px 6px; border-radius:4px;
+}
+.code-copy:hover{color:var(--accent2); background:rgba(90,171,86,0.1)}
+.md pre{
+  margin:0; padding:12px 14px; overflow-x:auto;
+  font-size:12px; line-height:1.55;
+  font-family:'Consolas','Courier New',monospace;
+}
+.md pre code{background:transparent !important; padding:0; color:#d4f1d4}
+
+/* Highlight de busca */
+mark.search-hit{background:#fbbf24; color:#000; padding:0 2px; border-radius:2px}
+mark.search-hit.current{background:#f87171; color:#fff}
+
+/* Toast */
+.toast{
+  position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
+  background:var(--panel); border:1px solid var(--accent);
+  color:var(--accent2); padding:10px 18px; border-radius:10px;
+  font-size:12px; z-index:9999; box-shadow:0 4px 14px rgba(0,0,0,0.5);
+  opacity:0; transition:opacity 0.2s; pointer-events:none;
+}
+.toast.show{opacity:1}
+.toast.err{border-color:var(--err); color:var(--err)}
+
+/* MOBILE */
+@media (max-width:768px){
+  #toc{
+    position:absolute; left:0; top:0; bottom:0; z-index:50;
+    transform:translateX(-100%); width:80%; max-width:300px;
+    box-shadow:4px 0 20px rgba(0,0,0,0.5);
+  }
+  #toc.show-mobile{transform:translateX(0)}
+  #content{padding:16px 18px 50px 18px}
+  .md h1{font-size:20px} .md h2{font-size:17px} .md h3{font-size:15px}
+  .section-copy{display:flex !important; opacity:0.6}
+  header h1{font-size:13px}
+  .btn span.lbl{display:none}
+}
+
+::-webkit-scrollbar{width:6px; height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border); border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* Backdrop mobile */
+.backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,0.5);
+  z-index:40; display:none;
+}
+.backdrop.show{display:block}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;button class=&quot;icon-btn&quot; id=&quot;tocToggle&quot; title=&quot;Mostrar/ocultar árvore&quot; onclick=&quot;toggleTOC()&quot;&gt;📑&lt;/button&gt;
+  &lt;h1 id=&quot;docTitle&quot;&gt;Visualizador de Markdown&lt;/h1&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Buscar (Ctrl+F)&quot; onclick=&quot;toggleSearch()&quot;&gt;🔍&lt;/button&gt;
+  &lt;button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileIn').click()&quot;&gt;
+    📂 &lt;span class=&quot;lbl&quot;&gt;Abrir&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class=&quot;btn&quot; id=&quot;exportBtn&quot; onclick=&quot;exportHTML()&quot; style=&quot;display:none&quot;&gt;
+    💾 &lt;span class=&quot;lbl&quot;&gt;Exportar&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;input type=&quot;file&quot; id=&quot;fileIn&quot; accept=&quot;.md,.markdown,.txt,.mdx&quot; style=&quot;display:none&quot; onchange=&quot;loadFile(event)&quot;&gt;
+&lt;/header&gt;
+
+&lt;div id=&quot;searchBar&quot;&gt;
+  &lt;input id=&quot;searchInput&quot; placeholder=&quot;Buscar no documento... (Enter = próximo, Shift+Enter = anterior)&quot;
+         oninput=&quot;doSearch()&quot; onkeydown=&quot;searchKey(event)&quot;&gt;
+  &lt;span id=&quot;searchCount&quot;&gt;0/0&lt;/span&gt;
+  &lt;button class=&quot;icon-btn&quot; onclick=&quot;toggleSearch()&quot; title=&quot;Fechar&quot;&gt;✕&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;layout&quot;&gt;
+  &lt;aside id=&quot;toc&quot;&gt;
+    &lt;div class=&quot;toc-title&quot;&gt;📑 Sumário&lt;/div&gt;
+    &lt;div id=&quot;tocList&quot;&gt;
+      &lt;div style=&quot;font-size:12px;color:var(--muted);text-align:center;padding:20px 10px&quot;&gt;
+        Abra um arquivo .md pra ver o sumário aqui
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/aside&gt;
+
+  &lt;div class=&quot;backdrop&quot; id=&quot;backdrop&quot; onclick=&quot;toggleTOC()&quot;&gt;&lt;/div&gt;
+
+  &lt;main id=&quot;content&quot;&gt;
+    &lt;div id=&quot;emptyState&quot;&gt;
+      &lt;div class=&quot;big&quot;&gt;📄&lt;/div&gt;
+      &lt;h2&gt;Visualizador de Markdown&lt;/h2&gt;
+      &lt;p&gt;
+        Abra qualquer arquivo &lt;strong&gt;.md&lt;/strong&gt; (Markdown) pra visualizar bonito,
+        com sumário lateral, busca e botões pra copiar cada pedaço.&lt;br&gt;&lt;br&gt;
+        Perfeito pra trazer documentação de projetos pra conversar com a IA.
+      &lt;/p&gt;
+      &lt;div id=&quot;dropZone&quot; onclick=&quot;document.getElementById('fileIn').click()&quot;&gt;
+        &lt;div class=&quot;icon&quot;&gt;📂&lt;/div&gt;
+        &lt;strong style=&quot;color:var(--accent2)&quot;&gt;Clique aqui ou arraste um arquivo&lt;/strong&gt;
+        &lt;div style=&quot;font-size:11px; color:var(--muted); margin-top:6px&quot;&gt;
+          Suporta: .md, .markdown, .mdx, .txt
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;p style=&quot;margin-top:18px; font-size:11px&quot;&gt;
+        💡 Você também pode &lt;strong&gt;colar texto Markdown&lt;/strong&gt; direto: Ctrl+V em qualquer lugar
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+'use strict';
+
+let rawMarkdown = '';
+let currentFileName = '';
+let searchHits = [];
+let searchIdx = 0;
+
+/*══════════════════════════════════════════════════════════════════
+  CONFIG MARKED
+══════════════════════════════════════════════════════════════════*/
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+  headerIds: true,
+  mangle: false,
+});
+
+// Renderer customizado pra blocos de código
+const renderer = new marked.Renderer();
+renderer.code = function(code, lang) {
+  const language = (lang || '').toLowerCase().trim() || 'texto';
+  let highlighted = escapeHTML(code);
+  try {
+    if (lang &amp;&amp; hljs.getLanguage(lang)) {
+      highlighted = hljs.highlight(code, { language: lang }).value;
+    } else {
+      highlighted = hljs.highlightAuto(code).value;
+    }
+  } catch(e) { /* fallback pra escape */ }
+
+  const safeCode = escapeAttr(code);
+  return (
+    '&lt;div class=&quot;code-wrap&quot;&gt;'+
+      '&lt;div class=&quot;code-head&quot;&gt;'+
+        '&lt;span class=&quot;code-lang&quot;&gt;'+language+'&lt;/span&gt;'+
+        '&lt;button class=&quot;code-copy&quot; data-code=&quot;'+safeCode+'&quot;&gt;📋 Copiar código&lt;/button&gt;'+
+      '&lt;/div&gt;'+
+      '&lt;pre&gt;&lt;code class=&quot;hljs language-'+language+'&quot;&gt;'+highlighted+'&lt;/code&gt;&lt;/pre&gt;'+
+    '&lt;/div&gt;'
+  );
+};
+
+// Headings com botões de copiar seção
+renderer.heading = function(text, level, raw) {
+  const slug = slugify(raw);
+  return (
+    '&lt;h'+level+' id=&quot;'+slug+'&quot; data-heading=&quot;'+level+'&quot; data-raw=&quot;'+escapeAttr(raw)+'&quot;&gt;'+
+      text+
+      '&lt;span class=&quot;section-copy&quot;&gt;'+
+        '&lt;button onclick=&quot;copySection(\''+slug+'\')&quot; title=&quot;Copiar essa seção inteira&quot;&gt;📋 Seção&lt;/button&gt;'+
+        '&lt;button onclick=&quot;copySectionMD(\''+slug+'\')&quot; title=&quot;Copiar a seção em Markdown&quot;&gt;📝 MD&lt;/button&gt;'+
+      '&lt;/span&gt;'+
+    '&lt;/h'+level+'&gt;'
+  );
+};
+
+marked.use({ renderer });
+
+/*══════════════════════════════════════════════════════════════════
+  CARREGAR ARQUIVO
+══════════════════════════════════════════════════════════════════*/
+function loadFile(e) {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  e.target.value = '';
+  readFile(file);
+}
+
+function readFile(file) {
+  currentFileName = file.name;
+  const reader = new FileReader();
+  reader.onload = ev =&gt; {
+    rawMarkdown = ev.target.result || '';
+    render();
+    toast('✓ '+file.name+' carregado');
+  };
+  reader.onerror = () =&gt; toast('Erro ao ler arquivo','err');
+  reader.readAsText(file, 'UTF-8');
+}
+
+/*══════════════════════════════════════════════════════════════════
+  RENDERIZAR
+══════════════════════════════════════════════════════════════════*/
+function render() {
+  if (!rawMarkdown) return;
+  const html = marked.parse(rawMarkdown);
+  const content = document.getElementById('content');
+  content.innerHTML = '&lt;div class=&quot;md&quot; id=&quot;md&quot;&gt;'+html+'&lt;/div&gt;';
+  document.getElementById('exportBtn').style.display = '';
+  document.getElementById('docTitle').textContent = currentFileName || 'Documento';
+  buildTOC();
+  bindCodeCopies();
+}
+
+function buildTOC() {
+  const list = document.getElementById('tocList');
+  const headings = document.querySelectorAll('#md h1, #md h2, #md h3, #md h4, #md h5, #md h6');
+  if (!headings.length) {
+    list.innerHTML = '&lt;div style=&quot;font-size:12px;color:var(--muted);text-align:center;padding:20px 10px&quot;&gt;Documento sem títulos&lt;/div&gt;';
+    return;
+  }
+  list.innerHTML = '';
+  headings.forEach(h =&gt; {
+    const lvl = h.tagName.toLowerCase();
+    const id  = h.id;
+    const txt = h.dataset.raw || h.textContent.replace(/📋.*$/,'').trim();
+    const item = document.createElement('div');
+    item.className = 'toc-item ' + lvl;
+    item.innerHTML =
+      '&lt;span class=&quot;toc-text&quot; title=&quot;'+escapeAttr(txt)+'&quot;&gt;'+escapeHTML(txt)+'&lt;/span&gt;'+
+      '&lt;button class=&quot;toc-copy&quot; title=&quot;Copiar essa seção&quot; onclick=&quot;event.stopPropagation();copySection(\''+id+'\')&quot;&gt;📋&lt;/button&gt;';
+    item.onclick = () =&gt; {
+      document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+      if (window.innerWidth &lt;= 768) toggleTOC();
+      document.querySelectorAll('.toc-item').forEach(i =&gt; i.classList.remove('active'));
+      item.classList.add('active');
+    };
+    list.appendChild(item);
+  });
+}
+
+function bindCodeCopies() {
+  document.querySelectorAll('.code-copy').forEach(btn =&gt; {
+    btn.onclick = () =&gt; {
+      const code = btn.dataset.code || '';
+      navigator.clipboard.writeText(decodeAttr(code)).then(() =&gt; {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✓ Copiado!';
+        setTimeout(() =&gt; btn.innerHTML = orig, 1500);
+      });
+    };
+  });
+}
+
+/*══════════════════════════════════════════════════════════════════
+  COPIAR SEÇÃO
+══════════════════════════════════════════════════════════════════*/
+function copySection(headingId, asMarkdown) {
+  const h = document.getElementById(headingId);
+  if (!h) return;
+  const level = parseInt(h.dataset.heading || '1');
+
+  // Coleta todos os elementos da seção (até o próximo heading de nível &lt;= )
+  const elements = [h];
+  let el = h.nextElementSibling;
+  while (el) {
+    if (/^H[1-6]$/.test(el.tagName)) {
+      const lvl = parseInt(el.dataset.heading || el.tagName[1]);
+      if (lvl &lt;= level) break;
+    }
+    elements.push(el);
+    el = el.nextElementSibling;
+  }
+
+  let text;
+  if (asMarkdown) {
+    text = extractMarkdownSection(headingId);
+  } else {
+    text = elements.map(e =&gt; extractText(e)).join('\n\n').trim();
+  }
+
+  navigator.clipboard.writeText(text).then(() =&gt; {
+    toast('✓ Seção copiada ('+text.length+' caracteres)');
+  }).catch(() =&gt; toast('Erro ao copiar','err'));
+}
+
+function copySectionMD(headingId) {
+  copySection(headingId, true);
+}
+
+function extractText(el) {
+  // Mantém quebras de bloco de código
+  if (el.classList?.contains('code-wrap')) {
+    const lang = el.querySelector('.code-lang')?.textContent || '';
+    const code = decodeAttr(el.querySelector('.code-copy')?.dataset.code || '');
+    return '```'+lang+'\n'+code+'\n```';
+  }
+  // Heading
+  if (/^H[1-6]$/.test(el.tagName)) {
+    const lvl = parseInt(el.tagName[1]);
+    const raw = el.dataset.raw || el.textContent.replace(/📋.*$/,'').trim();
+    return '#'.repeat(lvl)+' '+raw;
+  }
+  return el.innerText || el.textContent || '';
+}
+
+/* Extrai a seção do MD bruto (mais fiel) */
+function extractMarkdownSection(headingId) {
+  const lines = rawMarkdown.split('\n');
+  const headings = [];
+  lines.forEach((line, i) =&gt; {
+    const m = line.match(/^(#{1,6})\s+(.+?)\s*$/);
+    if (m) headings.push({ idx:i, level:m[1].length, text:m[2], slug:slugify(m[2]) });
+  });
+  const start = headings.find(h =&gt; h.slug === headingId);
+  if (!start) return '';
+  const next = headings.find(h =&gt; h.idx &gt; start.idx &amp;&amp; h.level &lt;= start.level);
+  const endIdx = next ? next.idx : lines.length;
+  return lines.slice(start.idx, endIdx).join('\n').trim();
+}
+
+/*══════════════════════════════════════════════════════════════════
+  EXPORTAR HTML
+══════════════════════════════════════════════════════════════════*/
+function exportHTML() {
+  if (!rawMarkdown) return;
+  const md = document.getElementById('md');
+  if (!md) return;
+
+  // CSS embutido pra o HTML ficar standalone bonito
+  const css = `
+    body{font-family:Georgia,Cambria,'Times New Roman',serif;max-width:860px;margin:30px auto;padding:0 24px;color:#222;line-height:1.7;background:#fafafa}
+    h1,h2,h3,h4{color:#2d4a1e;margin-top:28px;margin-bottom:12px}
+    h1{border-bottom:2px solid #5aab56;padding-bottom:8px}
+    h2{border-bottom:1px solid #ccc;padding-bottom:6px}
+    a{color:#0066cc}
+    code{background:#eee;padding:2px 5px;border-radius:3px;font-family:Consolas,monospace;font-size:90%}
+    pre{background:#0d1309;color:#a8d5a2;padding:14px;border-radius:6px;overflow-x:auto;font-size:13px;line-height:1.5}
+    pre code{background:transparent;color:inherit;padding:0}
+    blockquote{border-left:4px solid #5aab56;padding:6px 14px;margin:14px 0;background:#f0f7ed;color:#444}
+    table{border-collapse:collapse;margin:14px 0;width:100%}
+    th,td{border:1px solid #ccc;padding:8px 12px;text-align:left}
+    th{background:#e8f5e9}
+    .copy-btn{font-size:11px;padding:4px 10px;border:1px solid #5aab56;background:#fff;color:#2d4a1e;border-radius:5px;cursor:pointer;margin-left:8px}
+    .copy-btn:hover{background:#5aab56;color:#fff}
+    .code-wrap{position:relative;margin:14px 0}
+    .code-wrap .copy-btn{position:absolute;top:8px;right:8px}
+    @media print{.copy-btn{display:none}body{background:#fff}}
+  `;
+
+  // Clona conteúdo e adiciona botões de copiar funcionais (com JS embutido)
+  const clone = md.cloneNode(true);
+  // Remove botões antigos de seção
+  clone.querySelectorAll('.section-copy').forEach(s =&gt; s.remove());
+  // Substitui code-wrap pra simplificar
+  clone.querySelectorAll('.code-wrap').forEach(w =&gt; {
+    const code = decodeAttr(w.querySelector('.code-copy')?.dataset.code || '');
+    const lang = w.querySelector('.code-lang')?.textContent || '';
+    const newWrap = document.createElement('div');
+    newWrap.className = 'code-wrap';
+    newWrap.innerHTML =
+      '&lt;button class=&quot;copy-btn&quot; data-code=&quot;'+escapeAttr(code)+'&quot;&gt;📋 Copiar&lt;/button&gt;'+
+      '&lt;pre&gt;&lt;code class=&quot;language-'+lang+'&quot;&gt;'+escapeHTML(code)+'&lt;/code&gt;&lt;/pre&gt;';
+    w.replaceWith(newWrap);
+  });
+  // Adiciona botão em cada heading
+  clone.querySelectorAll('h1,h2,h3,h4').forEach(h =&gt; {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = '📋 Seção';
+    btn.dataset.section = h.id;
+    h.appendChild(btn);
+  });
+
+  const script = `
+    &lt;script&gt;
+    document.querySelectorAll('.copy-btn[data-code]').forEach(b=&gt;{
+      b.onclick=()=&gt;{navigator.clipboard.writeText(b.dataset.code);b.textContent='✓ Copiado!';setTimeout(()=&gt;b.textContent='📋 Copiar',1500)};
+    });
+    document.querySelectorAll('.copy-btn[data-section]').forEach(b=&gt;{
+      b.onclick=()=&gt;{
+        const h=document.getElementById(b.dataset.section);
+        const lvl=parseInt(h.tagName[1]);
+        let txt=h.innerText.replace('📋 Seção','').trim()+'\\n\\n';
+        let el=h.nextElementSibling;
+        while(el){
+          if(/^H[1-6]$/.test(el.tagName)&amp;&amp;parseInt(el.tagName[1])&lt;=lvl)break;
+          txt+=el.innerText+'\\n\\n';
+          el=el.nextElementSibling;
+        }
+        navigator.clipboard.writeText(txt.trim());
+        b.textContent='✓ Copiado!';setTimeout(()=&gt;b.textContent='📋 Seção',1500);
+      };
+    });
+    &lt;\/script&gt;
+  `;
+
+  const fullHTML =
+    '&lt;!DOCTYPE html&gt;&lt;html lang=&quot;pt-BR&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;'+
+    '&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;'+
+    '&lt;title&gt;'+escapeHTML(currentFileName||'Documento')+'&lt;/title&gt;'+
+    '&lt;style&gt;'+css+'&lt;/style&gt;&lt;/head&gt;&lt;body&gt;'+
+    '&lt;h1 style=&quot;border:none&quot;&gt;'+escapeHTML(currentFileName||'Documento')+'&lt;/h1&gt;'+
+    clone.outerHTML+
+    script+
+    '&lt;/body&gt;&lt;/html&gt;';
+
+  const blob = new Blob([fullHTML], { type:'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (currentFileName.replace(/\.(md|markdown|mdx|txt)$/i,'') || 'documento') + '.html';
+  a.click();
+  toast('💾 HTML exportado!');
+}
+
+/*══════════════════════════════════════════════════════════════════
+  BUSCA
+══════════════════════════════════════════════════════════════════*/
+function toggleSearch() {
+  const bar = document.getElementById('searchBar');
+  const show = !bar.classList.contains('show');
+  bar.classList.toggle('show', show);
+  if (show) {
+    document.getElementById('searchInput').focus();
+  } else {
+    clearSearch();
+  }
+}
+
+function clearSearch() {
+  document.querySelectorAll('mark.search-hit').forEach(m =&gt; {
+    const parent = m.parentNode;
+    parent.replaceChild(document.createTextNode(m.textContent), m);
+    parent.normalize();
+  });
+  searchHits = [];
+  searchIdx = 0;
+  document.getElementById('searchCount').textContent = '0/0';
+}
+
+function doSearch() {
+  clearSearch();
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q || q.length &lt; 2) { document.getElementById('searchCount').textContent='0/0'; return; }
+
+  const md = document.getElementById('md');
+  if (!md) return;
+
+  const re = new RegExp(escapeRegex(q), 'gi');
+  walkAndHighlight(md, re);
+  searchHits = [...document.querySelectorAll('mark.search-hit')];
+  searchIdx = 0;
+  if (searchHits.length) {
+    searchHits[0].classList.add('current');
+    searchHits[0].scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  document.getElementById('searchCount').textContent = (searchHits.length ? 1 : 0) + '/' + searchHits.length;
+}
+
+function walkAndHighlight(node, re) {
+  if (node.nodeType === 3) { // text
+    const text = node.nodeValue;
+    if (!re.test(text)) return;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index &gt; last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-hit';
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      last = m.index + m[0].length;
+    }
+    if (last &lt; text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  } else if (node.nodeType === 1 &amp;&amp; !['SCRIPT','STYLE','MARK'].includes(node.tagName)) {
+    [...node.childNodes].forEach(c =&gt; walkAndHighlight(c, re));
+  }
+}
+
+function searchKey(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (!searchHits.length) return;
+    searchHits[searchIdx].classList.remove('current');
+    searchIdx = e.shiftKey
+      ? (searchIdx - 1 + searchHits.length) % searchHits.length
+      : (searchIdx + 1) % searchHits.length;
+    searchHits[searchIdx].classList.add('current');
+    searchHits[searchIdx].scrollIntoView({ behavior:'smooth', block:'center' });
+    document.getElementById('searchCount').textContent = (searchIdx+1)+'/'+searchHits.length;
+  } else if (e.key === 'Escape') {
+    toggleSearch();
+  }
+}
+
+/*══════════════════════════════════════════════════════════════════
+  TOC TOGGLE
+══════════════════════════════════════════════════════════════════*/
+function toggleTOC() {
+  const toc = document.getElementById('toc');
+  const bd  = document.getElementById('backdrop');
+  if (window.innerWidth &lt;= 768) {
+    const show = !toc.classList.contains('show-mobile');
+    toc.classList.toggle('show-mobile', show);
+    bd.classList.toggle('show', show);
+  } else {
+    toc.classList.toggle('hidden');
+  }
+  document.getElementById('tocToggle').classList.toggle('active');
+}
+
+/*══════════════════════════════════════════════════════════════════
+  DRAG &amp; DROP / PASTE
+══════════════════════════════════════════════════════════════════*/
+const dz = document.getElementById('dropZone');
+['dragenter','dragover'].forEach(ev =&gt; {
+  document.addEventListener(ev, e =&gt; {
+    e.preventDefault();
+    dz?.classList.add('dragover');
+  });
+});
+['dragleave','drop'].forEach(ev =&gt; {
+  document.addEventListener(ev, e =&gt; {
+    e.preventDefault();
+    dz?.classList.remove('dragover');
+  });
+});
+document.addEventListener('drop', e =&gt; {
+  e.preventDefault();
+  const f = e.dataTransfer?.files?.[0];
+  if (f) readFile(f);
+});
+
+document.addEventListener('paste', e =&gt; {
+  if (document.activeElement?.tagName === 'INPUT') return;
+  const txt = e.clipboardData?.getData('text');
+  if (txt &amp;&amp; txt.length &gt; 50) {
+    rawMarkdown = txt;
+    currentFileName = 'colado.md';
+    render();
+    toast('✓ Texto colado renderizado');
+  }
+});
+
+/*══════════════════════════════════════════════════════════════════
+  ATALHOS
+══════════════════════════════════════════════════════════════════*/
+document.addEventListener('keydown', e =&gt; {
+  if ((e.ctrlKey || e.metaKey) &amp;&amp; e.key === 'f') {
+    e.preventDefault();
+    toggleSearch();
+  }
+});
+
+/*══════════════════════════════════════════════════════════════════
+  UTILS
+══════════════════════════════════════════════════════════════════*/
+function escapeHTML(s) {
+  return String(s)
+    .replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;')
+    .replace(/&gt;/g,'&amp;gt;').replace(/&quot;/g,'&amp;quot;').replace(/'/g,'&amp;#39;');
+}
+function escapeAttr(s) { return escapeHTML(s); }
+function decodeAttr(s) {
+  return String(s)
+    .replace(/&amp;#39;/g,&quot;'&quot;).replace(/&amp;quot;/g,'&quot;')
+    .replace(/&amp;gt;/g,'&gt;').replace(/&amp;lt;/g,'&lt;').replace(/&amp;amp;/g,'&amp;');
+}
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&amp;'); }
+function slugify(s) {
+  return String(s).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s-]/g,'')
+    .trim().replace(/\s+/g,'-').replace(/-+/g,'-');
+}
+
+let toastTimer;
+function toast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.toggle('err', type === 'err');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() =&gt; t.classList.remove('show'), 2200);
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+
+<script>
+function trocarProjeto(index) {
+  document.querySelectorAll('.project-container').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+</body>
+</html>

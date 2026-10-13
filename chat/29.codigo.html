@@ -1,0 +1,2581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Projetos PWA — Maikon Caldeira</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 10px 18px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+/* Isola estilos de cada projeto */
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Navegação -->
+<div class="project-nav">
+  <span style="font-size:14px;font-weight:700;color:#a3a082;margin-right:10px;">📂</span>
+  <button class="nav-btn active" onclick="trocarProjeto(0)">Scanner v3</button><button class="nav-btn " onclick="trocarProjeto(1)">Scanner v2</button><button class="nav-btn " onclick="trocarProjeto(2)">PwaScanner</button>
+</div>
+
+<!-- Projetos (cada um em iframe isolado) -->
+
+<div class="project-container active" id="projeto0">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;🔎 Scanner v3 — Paginação Inteligente&lt;/title&gt;
+  &lt;style&gt;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      padding: 16px;
+      border-bottom: 2px solid #3b82f6;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    h1 { font-size: 24px; margin: 0 0 8px; color: #60a5fa; }
+    .subtitulo { font-size: 12px; color: #64748b; }
+    main { padding: 16px; max-width: 1400px; margin: 0 auto; }
+    h2 { color: #bfdbfe; font-size: 18px; border-bottom: 2px solid #3b82f6; padding-bottom: 8px; }
+    input, button, textarea, select {
+      font-size: 14px;
+      font-family: inherit;
+    }
+    button {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 6px 4px 6px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+    button.secondary { background: linear-gradient(135deg, #475569 0%, #334155 100%); }
+    button.danger { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    button.success { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 1200px) { .grid { grid-template-columns: 1fr 1fr; } }
+    textarea {
+      width: 100%;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+    }
+    textarea.tall { min-height: 400px; }
+    textarea.medium { min-height: 250px; }
+    pre {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .file-list {
+      max-height: 400px;
+      overflow-y: auto;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .file-item {
+      padding: 8px;
+      border-bottom: 1px solid #1f2937;
+      cursor: pointer;
+      word-break: break-all;
+      transition: background 0.2s;
+    }
+    .file-item:hover { background: #1e293b; }
+    .file-item.selected { background: #1e3a8a; border-left: 3px solid #3b82f6; }
+    .small { font-size: 13px; color: #cbd5e1; }
+    .search-box {
+      width: 100%;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 6px 0;
+    }
+    .control-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .control-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      border-bottom: 1px solid #334155;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: transparent;
+      color: #cbd5e1;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin: 0;
+      transition: all 0.3s;
+    }
+    .tab-btn.active { color: #60a5fa; border-bottom-color: #3b82f6; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #334155;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      min-width: 300px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 12px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+    }
+    .paginacao {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      margin: 12px 0;
+      flex-wrap: wrap;
+    }
+    .paginacao button {
+      width: auto;
+      padding: 8px 12px;
+      margin: 0;
+      font-size: 12px;
+    }
+    .paginacao-info {
+      font-size: 12px;
+      color: #64748b;
+      padding: 0 8px;
+    }
+    .filtro-tipo {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 8px 0;
+    }
+    .filtro-tipo button {
+      width: auto;
+      padding: 6px 12px;
+      margin: 0;
+      font-size: 12px;
+    }
+    .filtro-tipo button.ativo {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    }
+    .resultado-item {
+      background: #020617;
+      border-left: 3px solid #3b82f6;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .resultado-item.replit { border-left-color: #dc2626; }
+    .resultado-item.api { border-left-color: #16a34a; }
+    .resultado-item.bug { border-left-color: #f59e0b; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;h1&gt;🔎 Scanner v3 — Paginação Inteligente&lt;/h1&gt;
+  &lt;div class=&quot;subtitulo&quot;&gt;Mostra 20 por página · Relatório com TODOS · IA integrada · Sem limites&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;!-- IA CONFIG --&gt;
+  &lt;div class=&quot;card&quot; style=&quot;background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%); border: 2px solid #3b82f6;&quot;&gt;
+    &lt;h2&gt;🤖 Configuração de IA&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Provedor:&lt;/label&gt;
+      &lt;select id=&quot;iaProvider&quot; onchange=&quot;atualizarProvedor()&quot;&gt;
+        &lt;option value=&quot;openai&quot;&gt;OpenAI (GPT-4, GPT-3.5)&lt;/option&gt;
+        &lt;option value=&quot;anthropic&quot;&gt;Anthropic (Claude)&lt;/option&gt;
+        &lt;option value=&quot;groq&quot;&gt;Groq (Mixtral - Rápido)&lt;/option&gt;
+        &lt;option value=&quot;google&quot;&gt;Google (Gemini)&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Chave de API:&lt;/label&gt;
+      &lt;input type=&quot;password&quot; id=&quot;iaChave&quot; class=&quot;search-box&quot; placeholder=&quot;Cole sua chave aqui&quot; style=&quot;flex: 1; margin: 0;&quot;&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;testarConexaoIA()&quot;&gt;🔗 Testar&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;statusIA&quot; class=&quot;small&quot; style=&quot;color: #fde68a;&quot;&gt;Aguardando configuração...&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- IMPORTAÇÃO --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;📥 1. Importar Arquivo&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Formato:&lt;/label&gt;
+      &lt;select id=&quot;formatoArquivo&quot;&gt;
+        &lt;option value=&quot;auto&quot;&gt;Auto-detectar&lt;/option&gt;
+        &lt;option value=&quot;zip&quot;&gt;ZIP&lt;/option&gt;
+        &lt;option value=&quot;tar&quot;&gt;TAR&lt;/option&gt;
+        &lt;option value=&quot;taz&quot;&gt;TAZ (TAR.GZ)&lt;/option&gt;
+        &lt;option value=&quot;html&quot;&gt;HTML&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;file&quot; id=&quot;arquivoInput&quot; accept=&quot;.zip,.tar,.tar.gz,.tgz,.html&quot;&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button onclick=&quot;carregarArquivo()&quot;&gt;📂 Carregar Arquivo&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;mostrarOpcoesSaida()&quot;&gt;💾 Salvar Nota&lt;/button&gt;
+      &lt;button class=&quot;danger&quot; onclick=&quot;limparTudo()&quot;&gt;🗑️ Limpar Tudo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- GRID --&gt;
+  &lt;div class=&quot;grid&quot;&gt;
+    &lt;!-- ARQUIVOS --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;📄 2. Arquivos Encontrados&lt;/h2&gt;
+      &lt;input class=&quot;search-box&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar arquivo...&quot; oninput=&quot;renderArquivos()&quot;&gt;
+      &lt;div class=&quot;small&quot; id=&quot;contadorArquivos&quot;&gt;0 arquivos&lt;/div&gt;
+      &lt;div id=&quot;listaArquivos&quot; class=&quot;file-list&quot;&gt;Nenhum arquivo carregado.&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- CONTEÚDO --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;📋 3. Conteúdo do Arquivo&lt;/h2&gt;
+      &lt;div id=&quot;arquivoAtual&quot; class=&quot;small&quot;&gt;Nenhum arquivo selecionado.&lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;copiarConteudo()&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;baixarConteudo()&quot;&gt;⬇️ Baixar&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;textarea id=&quot;conteudoArquivo&quot; class=&quot;tall&quot; readonly&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ANÁLISE COM PAGINAÇÃO --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;🔍 4. Detectar Problemas&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarReplit()&quot;&gt;🚨 Replit&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarAPIs()&quot;&gt;🌐 APIs/Endpoints&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarFuncoes()&quot;&gt;🔧 Funções&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarBugs()&quot;&gt;🐛 Bugs Potenciais&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarDependencias()&quot;&gt;📦 Dependências&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- FILTROS --&gt;
+    &lt;div class=&quot;filtro-tipo&quot; id=&quot;filtroTipo&quot; style=&quot;display: none;&quot;&gt;
+      &lt;button onclick=&quot;filtrarResultados('todos')&quot; class=&quot;ativo&quot;&gt;📊 Todos&lt;/button&gt;
+      &lt;button onclick=&quot;filtrarResultados('replit')&quot;&gt;🚨 Replit&lt;/button&gt;
+      &lt;button onclick=&quot;filtrarResultados('api')&quot;&gt;🌐 APIs&lt;/button&gt;
+      &lt;button onclick=&quot;filtrarResultados('bug')&quot;&gt;🐛 Bugs&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- PAGINAÇÃO --&gt;
+    &lt;div class=&quot;paginacao&quot; id=&quot;paginacaoTop&quot; style=&quot;display: none;&quot;&gt;
+      &lt;button onclick=&quot;paginaAnterior()&quot; class=&quot;secondary&quot;&gt;⬅️ Anterior&lt;/button&gt;
+      &lt;span class=&quot;paginacao-info&quot; id=&quot;infoPageTop&quot;&gt;Página 1 de 1 (0 itens)&lt;/span&gt;
+      &lt;button onclick=&quot;proximaPagina()&quot; class=&quot;secondary&quot;&gt;Próxima ➡️&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- RESULTADOS --&gt;
+    &lt;div id=&quot;resultadoDeteccao&quot;&gt;&lt;/div&gt;
+
+    &lt;!-- PAGINAÇÃO BOTTOM --&gt;
+    &lt;div class=&quot;paginacao&quot; id=&quot;paginacaoBottom&quot; style=&quot;display: none;&quot;&gt;
+      &lt;button onclick=&quot;paginaAnterior()&quot; class=&quot;secondary&quot;&gt;⬅️ Anterior&lt;/button&gt;
+      &lt;span class=&quot;paginacao-info&quot; id=&quot;infoPageBottom&quot;&gt;Página 1 de 1 (0 itens)&lt;/span&gt;
+      &lt;button onclick=&quot;proximaPagina()&quot; class=&quot;secondary&quot;&gt;Próxima ➡️&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- BOTÃO RELATÓRIO --&gt;
+    &lt;button onclick=&quot;gerarRelatorio()&quot; class=&quot;success&quot; id=&quot;btnRelatorio&quot; style=&quot;display: none; margin-top: 12px;&quot;&gt;📊 Gerar Relatório Completo&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- IA --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;🤖 5. IA - Análise e Correção&lt;/h2&gt;
+    &lt;div class=&quot;tabs&quot;&gt;
+      &lt;button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('ia-analise')&quot;&gt;📊 Análise&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-correcao')&quot;&gt;✏️ Correção&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-orientacao')&quot;&gt;💡 Orientação&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;ia-analise&quot; class=&quot;tab-content active&quot;&gt;
+      &lt;h3&gt;Análise do Projeto/Arquivo&lt;/h3&gt;
+      &lt;textarea id=&quot;promptAnalise&quot; class=&quot;medium&quot; placeholder=&quot;Digite sua pergunta...&quot;&gt;Analise este projeto e me diga:
+1. Qual é a estrutura principal?
+2. Há erros óbvios?
+3. Recomendações de melhorias?
+4. Compatibilidade jurídica/segurança?&lt;/textarea&gt;
+      &lt;button onclick=&quot;enviarParaIA('analise')&quot;&gt;🚀 Analisar com IA&lt;/button&gt;
+      &lt;div id=&quot;respostaAnalise&quot; style=&quot;margin-top: 12px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;ia-correcao&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Solicitar Correção Automática&lt;/h3&gt;
+      &lt;textarea id=&quot;promptCorrecao&quot; class=&quot;medium&quot; placeholder=&quot;Descreva o que precisa ser corrigido...&quot;&gt;Corrija os seguintes problemas:
+1. Remover referências ao Replit
+2. Erros de sintaxe
+3. Imports não utilizados
+4. Melhorias de performance&lt;/textarea&gt;
+      &lt;button onclick=&quot;enviarParaIA('correcao')&quot;&gt;🔧 Corrigir&lt;/button&gt;
+      &lt;div id=&quot;respostaCorrecao&quot; style=&quot;margin-top: 12px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;ia-orientacao&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Orientação Jurídica/Técnica&lt;/h3&gt;
+      &lt;textarea id=&quot;promptOrientacao&quot; class=&quot;medium&quot; placeholder=&quot;Faça sua pergunta...&quot;&gt;Como devo proceder com:
+1. Licenças de software?
+2. Proteção de dados?
+3. Conformidade legal?
+4. Publicação segura?&lt;/textarea&gt;
+      &lt;button onclick=&quot;enviarParaIA('orientacao')&quot;&gt;❓ Obter Orientação&lt;/button&gt;
+      &lt;div id=&quot;respostaOrientacao&quot; style=&quot;margin-top: 12px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/main&gt;
+
+&lt;!-- MODAL: NOTA --&gt;
+&lt;div id=&quot;modalNota&quot; class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;📝 Salvar como Nota&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalNota')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;display: grid; gap: 12px;&quot;&gt;
+      &lt;input type=&quot;text&quot; id=&quot;nomaNota&quot; class=&quot;search-box&quot; placeholder=&quot;Nome da nota&quot;&gt;
+      &lt;textarea id=&quot;conteudoNota&quot; class=&quot;medium&quot; placeholder=&quot;Adicione observações...&quot;&gt;&lt;/textarea&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;salvarNotaJSON()&quot;&gt;💾 Salvar como JSON&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;salvarNotaTXT()&quot;&gt;💾 Salvar como TXT&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;fecharModal('modalNota')&quot;&gt;Cancelar&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- MODAL: RELATÓRIO --&gt;
+&lt;div id=&quot;modalRelatorio&quot; class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;📊 Relatório Completo&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalRelatorio')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;display: grid; gap: 12px; height: 100%;&quot;&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;copiarRelatorio()&quot;&gt;📋 Copiar&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;baixarRelatorio()&quot;&gt;⬇️ Baixar TXT&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;baixarRelatorioJSON()&quot;&gt;⬇️ Baixar JSON&lt;/button&gt;
+      &lt;textarea id=&quot;conteudoRelatorio&quot; readonly style=&quot;flex: 1; font-size: 11px;&quot;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  // ═══════════════════════════════════════════════════════════
+  // ESTADO GLOBAL
+  // ═══════════════════════════════════════════════════════════
+  let arquivos = [];
+  let conteudosTexto = {};
+  let iaProvider = 'openai';
+  let iaChave = '';
+  let iaConectado = false;
+
+  // PAGINAÇÃO
+  let resultadosCompletos = [];
+  let resultadosFiltrados = [];
+  let paginaAtual = 1;
+  const ITENS_POR_PAGINA = 20;
+  let filtroAtual = 'todos';
+
+  const extensoesTexto = [
+    '.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.html', '.css',
+    '.scss', '.xml', '.yml', '.yaml', '.toml', '.env', '.sql', '.gitignore',
+    '.nix', '.config', '.cjs', '.mjs', '.py', '.java', '.cpp', '.c', '.go',
+    '.rb', '.php', '.sh', '.bash', '.dockerfile', '.properties', '.gradle'
+  ];
+
+  // ═══════════════════════════════════════════════════════════
+  // IA
+  // ═══════════════════════════════════════════════════════════
+  function atualizarProvedor() {
+    iaProvider = document.getElementById('iaProvider').value;
+    document.getElementById('statusIA').textContent = `Provedor: ${iaProvider} - Cole sua chave`;
+    document.getElementById('statusIA').style.color = '#fde68a';
+  }
+
+  async function testarConexaoIA() {
+    iaChave = document.getElementById('iaChave').value.trim();
+    if (!iaChave) { alert('Cole uma chave de API primeiro!'); return; }
+
+    const status = document.getElementById('statusIA');
+    status.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Testando...';
+
+    try {
+      const resposta = await chamarIA('Responda com uma única palavra: OK');
+      if (resposta.includes('OK') || resposta.length &gt; 0) {
+        status.innerHTML = '&lt;span style=&quot;color: #86efac;&quot;&gt;✅ IA Conectada!&lt;/span&gt;';
+        iaConectado = true;
+      }
+    } catch (e) {
+      status.innerHTML = `&lt;span style=&quot;color: #fca5a5;&quot;&gt;❌ Erro: ${e.message}&lt;/span&gt;`;
+      iaConectado = false;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // CARREGAR ARQUIVO
+  // ═══════════════════════════════════════════════════════════
+  async function carregarArquivo() {
+    const input = document.getElementById('arquivoInput');
+    if (!input.files || !input.files[0]) { alert('Selecione um arquivo primeiro.'); return; }
+
+    const file = input.files[0];
+    const buffer = await file.arrayBuffer();
+    const formato = document.getElementById('formatoArquivo').value;
+
+    arquivos = [];
+    conteudosTexto = {};
+
+    try {
+      if (formato === 'auto' || formato === 'zip') {
+        if (file.name.endsWith('.zip')) { await processarZIP(buffer); return; }
+      }
+      if (formato === 'auto' || formato === 'tar' || formato === 'taz') {
+        if (file.name.endsWith('.tar') || file.name.endsWith('.tar.gz') || file.name.endsWith('.tgz')) { await processarTAR(buffer); return; }
+      }
+      if (formato === 'auto' || formato === 'html') {
+        if (file.name.endsWith('.html')) { processarHTML(buffer); return; }
+      }
+      alert('Formato não suportado.');
+    } catch (e) {
+      alert('Erro: ' + e.message);
+      console.error(e);
+    }
+  }
+
+  async function processarZIP(buffer) {
+    const zip = await JSZip.loadAsync(buffer);
+    zip.forEach((path, entry) =&gt; {
+      arquivos.push({ nome: path, dir: entry.dir, tamanho: entry._data.uncompressedSize });
+    });
+
+    for (const item of arquivos) {
+      if (!item.dir &amp;&amp; ehTexto(item.nome)) {
+        try {
+          conteudosTexto[item.nome] = await zip.file(item.nome).async('string');
+        } catch (e) {
+          conteudosTexto[item.nome] = '[ERRO AO LER]';
+        }
+      }
+    }
+
+    arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+    renderArquivos();
+  }
+
+  async function processarTAR(buffer) {
+    let dados = new Uint8Array(buffer);
+    if (document.getElementById('arquivoInput').files[0].name.endsWith('.gz') || document.getElementById('arquivoInput').files[0].name.endsWith('.tgz')) {
+      dados = pako.inflate(dados);
+    }
+
+    let offset = 0;
+    while (offset &lt; dados.length) {
+      const headerBytes = dados.slice(offset, offset + 512);
+      if (headerBytes.every(b =&gt; b === 0)) break;
+
+      const nome = new TextDecoder().decode(headerBytes.slice(0, 100)).split('\0')[0];
+      const tamanhoStr = new TextDecoder().decode(headerBytes.slice(124, 136)).trim();
+      const tamanho = parseInt(tamanhoStr, 8);
+      const tipo = String.fromCharCode(headerBytes[156]);
+
+      offset += 512;
+
+      if (nome &amp;&amp; tipo !== '5') {
+        arquivos.push({ nome, dir: false, tamanho });
+        if (ehTexto(nome)) {
+          const conteudo = new TextDecoder().decode(dados.slice(offset, offset + tamanho));
+          conteudosTexto[nome] = conteudo;
+        }
+      }
+
+      offset += Math.ceil(tamanho / 512) * 512;
+    }
+
+    arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+    renderArquivos();
+  }
+
+  function processarHTML(buffer) {
+    const html = new TextDecoder().decode(buffer);
+    const nome = document.getElementById('arquivoInput').files[0].name;
+    arquivos.push({ nome, dir: false, tamanho: buffer.byteLength });
+    conteudosTexto[nome] = html;
+    renderArquivos();
+  }
+
+  function ehTexto(nome) {
+    const lower = nome.toLowerCase();
+    if (lower.endsWith('/')) return false;
+    return extensoesTexto.some(ext =&gt; lower.endsWith(ext));
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // RENDERIZAR ARQUIVOS
+  // ═══════════════════════════════════════════════════════════
+  function renderArquivos() {
+    const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+    const el = document.getElementById('listaArquivos');
+
+    if (!arquivos.length) {
+      el.innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('contadorArquivos').textContent = '0 arquivos';
+      return;
+    }
+
+    const filtrados = arquivos.filter(a =&gt; a.nome.toLowerCase().includes(filtro));
+    document.getElementById('contadorArquivos').textContent = `${filtrados.length} de ${arquivos.length} arquivos`;
+
+    el.innerHTML = filtrados.map(a =&gt; {
+      const tipo = a.dir ? '📁' : ehTexto(a.nome) ? '📄' : '📦';
+      const tamanhoKB = a.tamanho ? (a.tamanho / 1024).toFixed(1) : '?';
+      return `&lt;div class=&quot;file-item&quot; onclick=&quot;abrirArquivo('${a.nome.replace(/'/g, &quot;\\'&quot;)}')&quot; title=&quot;${a.nome}&quot;&gt;
+        ${tipo} ${a.nome} &lt;span class=&quot;small&quot;&gt;(${tamanhoKB} KB)&lt;/span&gt;
+      &lt;/div&gt;`;
+    }).join('');
+  }
+
+  function abrirArquivo(nome) {
+    document.getElementById('arquivoAtual').textContent = nome;
+    const area = document.getElementById('conteudoArquivo');
+
+    if (conteudosTexto[nome] !== undefined) {
+      area.value = conteudosTexto[nome];
+    } else {
+      area.value = '[Arquivo binário, pasta, ou tipo não lido como texto]';
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // DETECTAR PROBLEMAS
+  // ═══════════════════════════════════════════════════════════
+  function detectarReplit() {
+    resultadosCompletos = [];
+    let encontrados = 0;
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) =&gt; {
+      const linhas = conteudo.split(/\r?\n/);
+      linhas.forEach((linha, idx) =&gt; {
+        if (linha.toLowerCase().includes('replit')) {
+          encontrados++;
+          const inicio = Math.max(0, idx - 2);
+          const fim = Math.min(linhas.length, idx + 3);
+          const contexto = linhas.slice(inicio, fim).join('\n');
+          resultadosCompletos.push({
+            tipo: 'replit',
+            arquivo: nome,
+            linha: idx + 1,
+            conteudo: linha.trim().substring(0, 100),
+            contexto
+          });
+        }
+      });
+    });
+
+    if (encontrados === 0) {
+      resultadosCompletos = [{ tipo: 'info', conteudo: '✅ Nenhuma referência ao Replit encontrada!' }];
+    }
+
+    mostrarResultados('Replit', encontrados);
+  }
+
+  function detectarAPIs() {
+    resultadosCompletos = [];
+    const regexAPI = /(?:https?:\/\/[^\s'&quot;]+|\/api\/[^\s'&quot;]+|fetch\(['&quot;](.*?)['&quot;]\)|axios\.(get|post|put|delete)\(['&quot;](.*?)['&quot;]\))/gi;
+    let encontrados = 0;
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) =&gt; {
+      const linhas = conteudo.split('\n');
+      linhas.forEach((linha, idx) =&gt; {
+        let match;
+        regexAPI.lastIndex = 0;
+        while ((match = regexAPI.exec(linha)) !== null) {
+          encontrados++;
+          const inicio = Math.max(0, idx - 1);
+          const fim = Math.min(linhas.length, idx + 2);
+          const contexto = linhas.slice(inicio, fim).join('\n');
+          resultadosCompletos.push({
+            tipo: 'api',
+            arquivo: nome,
+            linha: idx + 1,
+            conteudo: match[0].substring(0, 100),
+            contexto
+          });
+        }
+      });
+    });
+
+    if (encontrados === 0) {
+      resultadosCompletos = [{ tipo: 'info', conteudo: 'Nenhuma API/endpoint encontrada.' }];
+    }
+
+    mostrarResultados('APIs', encontrados);
+  }
+
+  function detectarFuncoes() {
+    resultadosCompletos = [];
+    const regexFunc = /(?:function|const|let|var)\s+(\w+)\s*(?:=\s*)?(?:function|\(|async)/g;
+    let funcoes = new Set();
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) =&gt; {
+      let match;
+      while ((match = regexFunc.exec(conteudo)) !== null) {
+        funcoes.add(match[1]);
+      }
+    });
+
+    if (funcoes.size === 0) {
+      resultadosCompletos = [{ tipo: 'info', conteudo: 'Nenhuma função encontrada.' }];
+    } else {
+      Array.from(funcoes).forEach(f =&gt; {
+        resultadosCompletos.push({ tipo: 'function', conteudo: f });
+      });
+    }
+
+    mostrarResultados('Funções', funcoes.size);
+  }
+
+  function detectarBugs() {
+    resultadosCompletos = [];
+    const padroes = [
+      { regex: /console\.log\(/g, nome: 'console.log (debug)' },
+      { regex: /TODO|FIXME|BUG|HACK/gi, nome: 'Comentários de TODO/FIXME' },
+      { regex: /var\s+/g, nome: 'Uso de var (use let/const)' },
+      { regex: /==\s*(?![=])/g, nome: 'Comparação == (use ===)' },
+      { regex: /catch\s*\(\s*\)/g, nome: 'Catch vazio' },
+      { regex: /undefined/g, nome: 'Referências a undefined' }
+    ];
+
+    let totalBugs = 0;
+
+    padroes.forEach(padrao =&gt; {
+      let count = 0;
+      Object.entries(conteudosTexto).forEach(([nome, conteudo]) =&gt; {
+        const linhas = conteudo.split('\n');
+        linhas.forEach((linha, idx) =&gt; {
+          let match;
+          padrao.regex.lastIndex = 0;
+          while ((match = padrao.regex.exec(linha)) !== null) {
+            count++;
+            const inicio = Math.max(0, idx - 1);
+            const fim = Math.min(linhas.length, idx + 2);
+            const contexto = linhas.slice(inicio, fim).join('\n');
+            resultadosCompletos.push({
+              tipo: 'bug',
+              arquivo: nome,
+              linha: idx + 1,
+              problema: padrao.nome,
+              conteudo: linha.trim().substring(0, 100),
+              contexto
+            });
+            totalBugs++;
+          }
+        });
+      });
+    });
+
+    if (totalBugs === 0) {
+      resultadosCompletos = [{ tipo: 'info', conteudo: '✅ Nenhum bug potencial detectado!' }];
+    }
+
+    mostrarResultados('Bugs', totalBugs);
+  }
+
+  function detectarDependencias() {
+    resultadosCompletos = [];
+    const packageJson = conteudosTexto['package.json'];
+
+    if (packageJson) {
+      try {
+        const pkg = JSON.parse(packageJson);
+        if (pkg.dependencies) {
+          Object.entries(pkg.dependencies).forEach(([nome, versao]) =&gt; {
+            resultadosCompletos.push({ tipo: 'dep', conteudo: `${nome}: ${versao}` });
+          });
+        }
+        if (pkg.devDependencies) {
+          Object.entries(pkg.devDependencies).forEach(([nome, versao]) =&gt; {
+            resultadosCompletos.push({ tipo: 'dep', conteudo: `${nome} (dev): ${versao}` });
+          });
+        }
+      } catch (e) {
+        resultadosCompletos = [{ tipo: 'info', conteudo: '❌ Erro ao parsear package.json' }];
+      }
+    } else {
+      resultadosCompletos = [{ tipo: 'info', conteudo: '⚠️ Nenhum package.json encontrado' }];
+    }
+
+    mostrarResultados('Dependências', resultadosCompletos.length);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // PAGINAÇÃO
+  // ═══════════════════════════════════════════════════════════
+  function mostrarResultados(titulo, total) {
+    filtrarResultados('todos');
+    document.getElementById('filtroTipo').style.display = 'flex';
+    document.getElementById('paginacaoTop').style.display = 'flex';
+    document.getElementById('paginacaoBottom').style.display = 'flex';
+    document.getElementById('btnRelatorio').style.display = 'block';
+    paginaAtual = 1;
+    renderizarPagina();
+  }
+
+  function filtrarResultados(tipo) {
+    filtroAtual = tipo;
+    if (tipo === 'todos') {
+      resultadosFiltrados = resultadosCompletos;
+    } else {
+      resultadosFiltrados = resultadosCompletos.filter(r =&gt; r.tipo === tipo);
+    }
+    paginaAtual = 1;
+    renderizarPagina();
+  }
+
+  function renderizarPagina() {
+    const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
+    const fim = inicio + ITENS_POR_PAGINA;
+    const paginaAtualResultados = resultadosFiltrados.slice(inicio, fim);
+
+    const totalPaginas = Math.ceil(resultadosFiltrados.length / ITENS_POR_PAGINA);
+
+    let html = '';
+    paginaAtualResultados.forEach(r =&gt; {
+      if (r.tipo === 'info') {
+        html += `&lt;div style=&quot;padding: 12px; text-align: center; color: #64748b;&quot;&gt;${r.conteudo}&lt;/div&gt;`;
+      } else if (r.tipo === 'replit') {
+        html += `&lt;div class=&quot;resultado-item replit&quot; onclick=&quot;mostrarContexto('${r.arquivo}', ${r.linha})&quot;&gt;
+          &lt;strong&gt;🚨 Replit&lt;/strong&gt; - Linha ${r.linha} em ${r.arquivo}
+          &lt;div style=&quot;margin-top: 4px; color: #cbd5e1;&quot;&gt;${r.conteudo}&lt;/div&gt;
+        &lt;/div&gt;`;
+      } else if (r.tipo === 'api') {
+        html += `&lt;div class=&quot;resultado-item api&quot; onclick=&quot;mostrarContexto('${r.arquivo}', ${r.linha})&quot;&gt;
+          &lt;strong&gt;🌐 API&lt;/strong&gt; - Linha ${r.linha} em ${r.arquivo}
+          &lt;div style=&quot;margin-top: 4px; color: #cbd5e1;&quot;&gt;${r.conteudo}&lt;/div&gt;
+        &lt;/div&gt;`;
+      } else if (r.tipo === 'bug') {
+        html += `&lt;div class=&quot;resultado-item bug&quot; onclick=&quot;mostrarContexto('${r.arquivo}', ${r.linha})&quot;&gt;
+          &lt;strong&gt;🐛 ${r.problema}&lt;/strong&gt; - Linha ${r.linha} em ${r.arquivo}
+          &lt;div style=&quot;margin-top: 4px; color: #cbd5e1;&quot;&gt;${r.conteudo}&lt;/div&gt;
+        &lt;/div&gt;`;
+      } else if (r.tipo === 'function') {
+        html += `&lt;div class=&quot;resultado-item&quot; style=&quot;border-left-color: #8b5cf6;&quot;&gt;
+          &lt;strong&gt;📋 Função:&lt;/strong&gt; ${r.conteudo}
+        &lt;/div&gt;`;
+      } else if (r.tipo === 'dep') {
+        html += `&lt;div class=&quot;resultado-item&quot; style=&quot;border-left-color: #a78bfa;&quot;&gt;
+          &lt;strong&gt;📦&lt;/strong&gt; ${r.conteudo}
+        &lt;/div&gt;`;
+      }
+    });
+
+    document.getElementById('resultadoDeteccao').innerHTML = html;
+
+    const infoText = `Página ${paginaAtual} de ${totalPaginas} (${resultadosFiltrados.length} itens)`;
+    document.getElementById('infoPageTop').textContent = infoText;
+    document.getElementById('infoPageBottom').textContent = infoText;
+
+    document.querySelectorAll('.paginacao button').forEach(btn =&gt; {
+      if (btn.textContent.includes('Anterior')) btn.disabled = paginaAtual === 1;
+      if (btn.textContent.includes('Próxima')) btn.disabled = paginaAtual === totalPaginas;
+    });
+  }
+
+  function proximaPagina() {
+    const totalPaginas = Math.ceil(resultadosFiltrados.length / ITENS_POR_PAGINA);
+    if (paginaAtual &lt; totalPaginas) {
+      paginaAtual++;
+      renderizarPagina();
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function paginaAnterior() {
+    if (paginaAtual &gt; 1) {
+      paginaAtual--;
+      renderizarPagina();
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function mostrarContexto(arquivo, linha) {
+    const conteudo = conteudosTexto[arquivo];
+    if (!conteudo) return;
+
+    const linhas = conteudo.split('\n');
+    const inicio = Math.max(0, linha - 5);
+    const fim = Math.min(linhas.length, linha + 10);
+
+    let contexto = '';
+    for (let i = inicio; i &lt; fim; i++) {
+      const marca = i + 1 === linha ? '&gt;&gt;&gt; ' : '    ';
+      contexto += `${marca}[${i + 1}] ${linhas[i]}\n`;
+    }
+
+    document.getElementById('conteudoArquivo').value = contexto;
+    document.getElementById('arquivoAtual').textContent = `${arquivo} (Linha ${linha})`;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // RELATÓRIO
+  // ═══════════════════════════════════════════════════════════
+  function gerarRelatorio() {
+    let relatorio = `═══════════════════════════════════════════════════════════
+RELATÓRIO COMPLETO — SCANNER v3
+═══════════════════════════════════════════════════════════
+
+DATA: ${new Date().toLocaleString('pt-BR')}
+TOTAL DE RESULTADOS: ${resultadosCompletos.length}
+
+═══════════════════════════════════════════════════════════
+TODOS OS RESULTADOS (SEM PAGINAÇÃO)
+═══════════════════════════════════════════════════════════
+
+`;
+
+    resultadosCompletos.forEach((r, i) =&gt; {
+      if (r.tipo === 'replit') {
+        relatorio += `\n${i + 1}. 🚨 REPLIT - Linha ${r.linha} em ${r.arquivo}\n`;
+        relatorio += `   Código: ${r.conteudo}\n`;
+        relatorio += `   Contexto:\n${r.contexto.split('\n').map(l =&gt; '   ' + l).join('\n')}\n`;
+      } else if (r.tipo === 'api') {
+        relatorio += `\n${i + 1}. 🌐 API - Linha ${r.linha} em ${r.arquivo}\n`;
+        relatorio += `   Código: ${r.conteudo}\n`;
+        relatorio += `   Contexto:\n${r.contexto.split('\n').map(l =&gt; '   ' + l).join('\n')}\n`;
+      } else if (r.tipo === 'bug') {
+        relatorio += `\n${i + 1}. 🐛 BUG: ${r.problema} - Linha ${r.linha} em ${r.arquivo}\n`;
+        relatorio += `   Código: ${r.conteudo}\n`;
+        relatorio += `   Contexto:\n${r.contexto.split('\n').map(l =&gt; '   ' + l).join('\n')}\n`;
+      } else if (r.tipo === 'function') {
+        relatorio += `\n${i + 1}. 📋 FUNÇÃO: ${r.conteudo}\n`;
+      } else if (r.tipo === 'dep') {
+        relatorio += `\n${i + 1}. 📦 DEPENDÊNCIA: ${r.conteudo}\n`;
+      }
+    });
+
+    relatorio += `\n═══════════════════════════════════════════════════════════
+FIM DO RELATÓRIO
+═══════════════════════════════════════════════════════════`;
+
+    document.getElementById('conteudoRelatorio').value = relatorio;
+    abrirModal('modalRelatorio');
+  }
+
+  function copiarRelatorio() {
+    const texto = document.getElementById('conteudoRelatorio').value;
+    navigator.clipboard.writeText(texto).then(() =&gt; alert('✅ Relatório copiado!'));
+  }
+
+  function baixarRelatorio() {
+    const texto = document.getElementById('conteudoRelatorio').value;
+    const blob = new Blob([texto], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio-${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function baixarRelatorioJSON() {
+    const json = JSON.stringify(resultadosCompletos, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio-${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // IA
+  // ═══════════════════════════════════════════════════════════
+  async function chamarIA(mensagem) {
+    if (!iaChave) throw new Error('Configure sua chave de IA primeiro!');
+
+    let url, headers, body;
+
+    if (iaProvider === 'openai') {
+      url = 'https://api.openai.com/v1/chat/completions';
+      headers = { 'Authorization': `Bearer ${iaChave}`, 'Content-Type': 'application/json' };
+      body = { model: 'gpt-3.5-turbo', messages: [{ role: 'user', content: mensagem }], max_tokens: 2000 };
+    } else if (iaProvider === 'anthropic') {
+      url = 'https://api.anthropic.com/v1/messages';
+      headers = { 'x-api-key': iaChave, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' };
+      body = { model: 'claude-3-sonnet-20240229', max_tokens: 2000, messages: [{ role: 'user', content: mensagem }] };
+    } else if (iaProvider === 'groq') {
+      url = 'https://api.groq.com/openai/v1/chat/completions';
+      headers = { 'Authorization': `Bearer ${iaChave}`, 'Content-Type': 'application/json' };
+      body = { model: 'mixtral-8x7b-32768', messages: [{ role: 'user', content: mensagem }], max_tokens: 2000 };
+    } else if (iaProvider === 'google') {
+      url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${iaChave}`;
+      headers = { 'Content-Type': 'application/json' };
+      body = { contents: [{ parts: [{ text: mensagem }] }] };
+    }
+
+    const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) });
+    if (!response.ok) throw new Error(`Erro ${response.status}`);
+
+    const data = await response.json();
+    if (iaProvider === 'openai' || iaProvider === 'groq') return data.choices[0].message.content;
+    if (iaProvider === 'anthropic') return data.content[0].text;
+    if (iaProvider === 'google') return data.candidates[0].content.parts[0].text;
+  }
+
+  async function enviarParaIA(tipo) {
+    let prompt = '';
+    let respEl = '';
+
+    if (tipo === 'analise') { prompt = document.getElementById('promptAnalise').value; respEl = 'respostaAnalise'; }
+    else if (tipo === 'correcao') { prompt = document.getElementById('promptCorrecao').value; respEl = 'respostaCorrecao'; }
+    else if (tipo === 'orientacao') { prompt = document.getElementById('promptOrientacao').value; respEl = 'respostaOrientacao'; }
+
+    if (!prompt.trim()) { alert('Digite um prompt primeiro.'); return; }
+    if (!iaConectado) { alert('Conecte a IA primeiro!'); return; }
+
+    const resposta = document.getElementById(respEl);
+    resposta.innerHTML = '&lt;div class=&quot;spinner&quot;&gt;&lt;/div&gt; Processando...';
+
+    try {
+      let contexto = 'CONTEXTO DO PROJETO:\n\n';
+      const arquivosPrincipais = Object.keys(conteudosTexto)
+        .filter(a =&gt; a.includes('package.json') || a.includes('README') || a.includes('main') || a.includes('index'))
+        .slice(0, 3);
+
+      for (const arquivo of arquivosPrincipais) {
+        let conteudo = conteudosTexto[arquivo];
+        if (conteudo.length &gt; 1500) conteudo = conteudo.substring(0, 1500) + '\n[... truncado]';
+        contexto += `\n--- ${arquivo} ---\n${conteudo}\n`;
+      }
+
+      const mensagemCompleta = `${contexto}\n\nPERGUNTA:\n${prompt}`;
+      const respostaIA = await chamarIA(mensagemCompleta);
+      resposta.innerHTML = `&lt;pre&gt;${respostaIA}&lt;/pre&gt;`;
+    } catch (e) {
+      resposta.innerHTML = `&lt;div style=&quot;color: #fca5a5;&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // UTILITÁRIOS
+  // ═══════════════════════════════════════════════════════════
+  function copiarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    navigator.clipboard.writeText(area.value).then(() =&gt; alert('✅ Copiado!'));
+  }
+
+  function baixarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    const nome = document.getElementById('arquivoAtual').textContent || 'arquivo.txt';
+    const blob = new Blob([area.value], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nome;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function mostrarOpcoesSaida() {
+    if (!arquivos.length) { alert('Carregue um arquivo primeiro.'); return; }
+    document.getElementById('modalNota').classList.add('active');
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('active');
+  }
+
+  function salvarNotaJSON() {
+    const nome = document.getElementById('nomaNota').value || 'nota';
+    const obs = document.getElementById('conteudoNota').value;
+    const nota = {
+      data: new Date().toISOString(),
+      nome,
+      observacoes: obs,
+      arquivos: arquivos.map(a =&gt; ({ nome: a.nome, tamanho: a.tamanho })),
+      resultados: resultadosCompletos
+    };
+    const blob = new Blob([JSON.stringify(nota, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${nome}_${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalNota');
+    alert('✅ Nota salva!');
+  }
+
+  function salvarNotaTXT() {
+    const nome = document.getElementById('nomaNota').value || 'nota';
+    const obs = document.getElementById('conteudoNota').value;
+    let conteudo = `NOTA: ${nome}\nData: ${new Date().toLocaleString('pt-BR')}\n\n`;
+    conteudo += `OBSERVAÇÕES:\n${obs}\n\n`;
+    conteudo += `RESULTADOS:\n${resultadosCompletos.length} itens encontrados`;
+    const blob = new Blob([conteudo], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${nome}_${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalNota');
+    alert('✅ Nota salva!');
+  }
+
+  function mudarAba(nomeAba) {
+    document.querySelectorAll('.tab-content').forEach(el =&gt; el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el =&gt; el.classList.remove('active'));
+    document.getElementById(nomeAba).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function limparTudo() {
+    if (confirm('Limpar tudo?')) {
+      arquivos = [];
+      conteudosTexto = {};
+      resultadosCompletos = [];
+      resultadosFiltrados = [];
+      document.getElementById('listaArquivos').innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('conteudoArquivo').value = '';
+      document.getElementById('resultadoDeteccao').innerHTML = '';
+      document.getElementById('filtroTipo').style.display = 'none';
+      document.getElementById('paginacaoTop').style.display = 'none';
+      document.getElementById('paginacaoBottom').style.display = 'none';
+      document.getElementById('btnRelatorio').style.display = 'none';
+      alert('✅ Tudo limpo!');
+    }
+  }
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto1">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;🔎 Scanner Multi-Formato + IA Jurídica v2&lt;/title&gt;
+  &lt;style&gt;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      padding: 16px;
+      border-bottom: 2px solid #3b82f6;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    main {
+      padding: 16px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 8px;
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2 {
+      color: #bfdbfe;
+      font-size: 18px;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 8px;
+    }
+    input, button, textarea, select {
+      font-size: 14px;
+      font-family: inherit;
+    }
+    button {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin: 6px 4px 6px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    button.secondary { background: linear-gradient(135deg, #475569 0%, #334155 100%); }
+    button.danger { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    button.success { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 1200px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    textarea {
+      width: 100%;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+    }
+    textarea.tall { min-height: 400px; }
+    textarea.medium { min-height: 250px; }
+    textarea.small { min-height: 120px; }
+    pre {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .ok { color: #86efac; }
+    .warn { color: #fde68a; }
+    .bad { color: #fca5a5; }
+    .info { color: #93c5fd; }
+    .file-list {
+      max-height: 400px;
+      overflow-y: auto;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .file-item {
+      padding: 8px;
+      border-bottom: 1px solid #1f2937;
+      cursor: pointer;
+      word-break: break-all;
+      transition: background 0.2s;
+    }
+    .file-item:hover { background: #1e293b; }
+    .file-item.selected {
+      background: #1e3a8a;
+      border-left: 3px solid #3b82f6;
+    }
+    .small { font-size: 13px; color: #cbd5e1; }
+    .search-box {
+      width: 100%;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 6px 0;
+    }
+    .control-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .control-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      border-bottom: 1px solid #334155;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: transparent;
+      color: #cbd5e1;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin: 0;
+      transition: all 0.3s;
+    }
+    .tab-btn.active {
+      color: #60a5fa;
+      border-bottom-color: #3b82f6;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #334155;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin: 4px 4px 4px 0;
+    }
+    .status-badge.success { background: #065f46; color: #86efac; }
+    .status-badge.warning { background: #78350f; color: #fde68a; }
+    .status-badge.error { background: #7f1d1d; color: #fca5a5; }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      min-width: 300px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 12px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+    }
+    .result-item {
+      background: #020617;
+      border-left: 3px solid #3b82f6;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .result-item.replit { border-left-color: #dc2626; }
+    .result-item.api { border-left-color: #16a34a; }
+    .result-item.bug { border-left-color: #f59e0b; }
+    .result-item.function { border-left-color: #8b5cf6; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;h1&gt;🔎 Scanner Multi-Formato + IA Jurídica v2&lt;/h1&gt;
+  &lt;div class=&quot;small&quot;&gt;Importa ZIP, TAR, TAZ, HTML | Lê conteúdo COMPLETO | IA integrada | Salva notas&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;!-- SEÇÃO 0: CONFIGURAÇÃO DE IA --&gt;
+  &lt;div class=&quot;card&quot; style=&quot;background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%); border: 2px solid #3b82f6;&quot;&gt;
+    &lt;h2&gt;🤖 Configuração de IA&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Provedor de IA:&lt;/label&gt;
+      &lt;select id=&quot;iaProvider&quot; onchange=&quot;atualizarProvedor()&quot;&gt;
+        &lt;option value=&quot;openai&quot;&gt;OpenAI (GPT-4, GPT-3.5)&lt;/option&gt;
+        &lt;option value=&quot;anthropic&quot;&gt;Anthropic (Claude)&lt;/option&gt;
+        &lt;option value=&quot;groq&quot;&gt;Groq (Mixtral - Rápido)&lt;/option&gt;
+        &lt;option value=&quot;google&quot;&gt;Google (Gemini)&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Chave de API:&lt;/label&gt;
+      &lt;input type=&quot;password&quot; id=&quot;iaChave&quot; class=&quot;search-box&quot; placeholder=&quot;Cole sua chave de API aqui&quot; style=&quot;flex: 1; margin: 0;&quot;&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;testarConexaoIA()&quot;&gt;🔗 Testar&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;statusIA&quot; class=&quot;small&quot; style=&quot;color: #fde68a;&quot;&gt;Aguardando configuração...&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 1: IMPORTAÇÃO --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;📥 1. Importar Arquivo&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Formato:&lt;/label&gt;
+      &lt;select id=&quot;formatoArquivo&quot;&gt;
+        &lt;option value=&quot;auto&quot;&gt;Auto-detectar&lt;/option&gt;
+        &lt;option value=&quot;zip&quot;&gt;ZIP&lt;/option&gt;
+        &lt;option value=&quot;tar&quot;&gt;TAR&lt;/option&gt;
+        &lt;option value=&quot;taz&quot;&gt;TAZ (TAR.GZ)&lt;/option&gt;
+        &lt;option value=&quot;html&quot;&gt;HTML&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;file&quot; id=&quot;arquivoInput&quot; accept=&quot;.zip,.tar,.tar.gz,.tgz,.html&quot;&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button onclick=&quot;carregarArquivo()&quot;&gt;📂 Carregar Arquivo&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;mostrarOpcoesSaida()&quot;&gt;💾 Salvar Nota&lt;/button&gt;
+      &lt;button class=&quot;danger&quot; onclick=&quot;limparTudo()&quot;&gt;🗑️ Limpar Tudo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 2: GRID PRINCIPAL --&gt;
+  &lt;div class=&quot;grid&quot;&gt;
+    &lt;!-- COLUNA 1: LISTA DE ARQUIVOS --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;📄 2. Arquivos Encontrados&lt;/h2&gt;
+      &lt;input class=&quot;search-box&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar arquivo...&quot; oninput=&quot;renderArquivos()&quot;&gt;
+      &lt;div class=&quot;small&quot; id=&quot;contadorArquivos&quot;&gt;0 arquivos&lt;/div&gt;
+      &lt;div id=&quot;listaArquivos&quot; class=&quot;file-list&quot;&gt;Nenhum arquivo carregado.&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- COLUNA 2: CONTEÚDO DO ARQUIVO --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;📋 3. Conteúdo do Arquivo (COMPLETO)&lt;/h2&gt;
+      &lt;div id=&quot;arquivoAtual&quot; class=&quot;small&quot;&gt;Nenhum arquivo selecionado.&lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;copiarConteudo()&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;baixarConteudo()&quot;&gt;⬇️ Baixar&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;textarea id=&quot;conteudoArquivo&quot; class=&quot;tall&quot; readonly&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 3: BUSCA INTELIGENTE --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;🔍 4. Detectar Problemas&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarReplit()&quot;&gt;🚨 Replit&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarAPIs()&quot;&gt;🌐 APIs/Endpoints&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarFuncoes()&quot;&gt;🔧 Funções&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarBugs()&quot;&gt;🐛 Bugs Potenciais&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;detectarDependencias()&quot;&gt;📦 Dependências&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;pre id=&quot;resultadoDeteccao&quot;&gt;Clique em um botão para detectar.&lt;/pre&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 4: IA INTEGRADA --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;🤖 5. IA - Análise e Correção&lt;/h2&gt;
+    &lt;div class=&quot;tabs&quot;&gt;
+      &lt;button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('ia-analise')&quot;&gt;📊 Análise&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-correcao')&quot;&gt;✏️ Correção&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-orientacao')&quot;&gt;💡 Orientação&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: ANÁLISE --&gt;
+    &lt;div id=&quot;ia-analise&quot; class=&quot;tab-content active&quot;&gt;
+      &lt;h3&gt;Análise do Projeto/Arquivo&lt;/h3&gt;
+      &lt;textarea id=&quot;promptAnalise&quot; class=&quot;medium&quot; placeholder=&quot;Digite sua pergunta...&quot;&gt;Analise este projeto e me diga:
+1. Qual é a estrutura principal?
+2. Há erros óbvios?
+3. Recomendações de melhorias?
+4. Compatibilidade jurídica/segurança?&lt;/textarea&gt;
+      &lt;button onclick=&quot;enviarParaIA('analise')&quot;&gt;🚀 Analisar com IA&lt;/button&gt;
+      &lt;div id=&quot;respostaAnalise&quot; style=&quot;margin-top: 12px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: CORREÇÃO --&gt;
+    &lt;div id=&quot;ia-correcao&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Solicitar Correção Automática&lt;/h3&gt;
+      &lt;textarea id=&quot;promptCorrecao&quot; class=&quot;medium&quot; placeholder=&quot;Descreva o que precisa ser corrigido...&quot;&gt;Corrija os seguintes problemas:
+1. Remover referências ao Replit
+2. Erros de sintaxe
+3. Imports não utilizados
+4. Melhorias de performance&lt;/textarea&gt;
+      &lt;button onclick=&quot;enviarParaIA('correcao')&quot;&gt;🔧 Corrigir&lt;/button&gt;
+      &lt;div id=&quot;respostaCorrecao&quot; style=&quot;margin-top: 12px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: ORIENTAÇÃO --&gt;
+    &lt;div id=&quot;ia-orientacao&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Orientação Jurídica/Técnica&lt;/h3&gt;
+      &lt;textarea id=&quot;promptOrientacao&quot; class=&quot;medium&quot; placeholder=&quot;Faça sua pergunta...&quot;&gt;Como devo proceder com:
+1. Licenças de software?
+2. Proteção de dados?
+3. Conformidade legal?
+4. Publicação segura?&lt;/textarea&gt;
+      &lt;button onclick=&quot;enviarParaIA('orientacao')&quot;&gt;❓ Obter Orientação&lt;/button&gt;
+      &lt;div id=&quot;respostaOrientacao&quot; style=&quot;margin-top: 12px;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/main&gt;
+
+&lt;!-- MODAL: SALVAR NOTA --&gt;
+&lt;div id=&quot;modalNota&quot; class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;📝 Salvar como Nota&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalNota')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;display: grid; gap: 12px;&quot;&gt;
+      &lt;input type=&quot;text&quot; id=&quot;nomaNota&quot; class=&quot;search-box&quot; placeholder=&quot;Nome da nota&quot;&gt;
+      &lt;textarea id=&quot;conteudoNota&quot; class=&quot;medium&quot; placeholder=&quot;Adicione observações...&quot;&gt;&lt;/textarea&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;salvarNotaJSON()&quot;&gt;💾 Salvar como JSON&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;salvarNotaTXT()&quot;&gt;💾 Salvar como TXT&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;fecharModal('modalNota')&quot;&gt;Cancelar&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/pako@2.0.4/dist/pako.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  // ═══════════════════════════════════════════════════════════
+  // ESTADO GLOBAL
+  // ═══════════════════════════════════════════════════════════
+  let arquivos = [];
+  let conteudosTexto = {};
+  let iaProvider = 'openai';
+  let iaChave = '';
+  let iaConectado = false;
+
+  const extensoesTexto = [
+    '.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.html', '.css',
+    '.scss', '.xml', '.yml', '.yaml', '.toml', '.env', '.sql', '.gitignore',
+    '.nix', '.config', '.cjs', '.mjs', '.py', '.java', '.cpp', '.c', '.go',
+    '.rb', '.php', '.sh', '.bash', '.dockerfile', '.properties', '.gradle'
+  ];
+
+  // ═══════════════════════════════════════════════════════════
+  // IA - CONFIGURAÇÃO
+  // ═══════════════════════════════════════════════════════════
+  function atualizarProvedor() {
+    iaProvider = document.getElementById('iaProvider').value;
+    document.getElementById('statusIA').textContent = `Provedor: ${iaProvider} - Cole sua chave`;
+    document.getElementById('statusIA').style.color = '#fde68a';
+  }
+
+  async function testarConexaoIA() {
+    iaChave = document.getElementById('iaChave').value.trim();
+    if (!iaChave) {
+      alert('Cole uma chave de API primeiro!');
+      return;
+    }
+
+    const status = document.getElementById('statusIA');
+    status.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Testando...';
+
+    try {
+      const resposta = await chamarIA('Responda com uma única palavra: OK');
+      if (resposta.includes('OK') || resposta.length &gt; 0) {
+        status.innerHTML = '&lt;span class=&quot;ok&quot;&gt;✅ IA Conectada!&lt;/span&gt;';
+        iaConectado = true;
+      }
+    } catch (e) {
+      status.innerHTML = `&lt;span class=&quot;bad&quot;&gt;❌ Erro: ${e.message}&lt;/span&gt;`;
+      iaConectado = false;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // CARREGAR ARQUIVO
+  // ═══════════════════════════════════════════════════════════
+  async function carregarArquivo() {
+    const input = document.getElementById('arquivoInput');
+    if (!input.files || !input.files[0]) {
+      alert('Selecione um arquivo primeiro.');
+      return;
+    }
+
+    const file = input.files[0];
+    const buffer = await file.arrayBuffer();
+    const formato = document.getElementById('formatoArquivo').value;
+
+    arquivos = [];
+    conteudosTexto = {};
+
+    try {
+      if (formato === 'auto' || formato === 'zip') {
+        if (file.name.endsWith('.zip')) {
+          await processarZIP(buffer);
+          return;
+        }
+      }
+
+      if (formato === 'auto' || formato === 'tar' || formato === 'taz') {
+        if (file.name.endsWith('.tar') || file.name.endsWith('.tar.gz') || file.name.endsWith('.tgz')) {
+          await processarTAR(buffer);
+          return;
+        }
+      }
+
+      if (formato === 'auto' || formato === 'html') {
+        if (file.name.endsWith('.html')) {
+          processarHTML(buffer);
+          return;
+        }
+      }
+
+      alert('Formato não suportado.');
+    } catch (e) {
+      alert('Erro: ' + e.message);
+      console.error(e);
+    }
+  }
+
+  async function processarZIP(buffer) {
+    const zip = await JSZip.loadAsync(buffer);
+    zip.forEach((path, entry) =&gt; {
+      arquivos.push({ nome: path, dir: entry.dir, tamanho: entry._data.uncompressedSize });
+    });
+
+    for (const item of arquivos) {
+      if (!item.dir &amp;&amp; ehTexto(item.nome)) {
+        try {
+          conteudosTexto[item.nome] = await zip.file(item.nome).async('string');
+        } catch (e) {
+          conteudosTexto[item.nome] = '[ERRO AO LER]';
+        }
+      }
+    }
+
+    arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+    renderArquivos();
+  }
+
+  async function processarTAR(buffer) {
+    let dados = new Uint8Array(buffer);
+
+    if (document.getElementById('arquivoInput').files[0].name.endsWith('.gz') ||
+        document.getElementById('arquivoInput').files[0].name.endsWith('.tgz')) {
+      dados = pako.inflate(dados);
+    }
+
+    const view = new DataView(dados.buffer);
+    let offset = 0;
+
+    while (offset &lt; dados.length) {
+      const headerBytes = dados.slice(offset, offset + 512);
+      if (headerBytes.every(b =&gt; b === 0)) break;
+
+      const nome = new TextDecoder().decode(headerBytes.slice(0, 100)).split('\0')[0];
+      const tamanhoStr = new TextDecoder().decode(headerBytes.slice(124, 136)).trim();
+      const tamanho = parseInt(tamanhoStr, 8);
+      const tipo = String.fromCharCode(headerBytes[156]);
+
+      offset += 512;
+
+      if (nome &amp;&amp; tipo !== '5') {
+        arquivos.push({ nome, dir: false, tamanho });
+
+        if (ehTexto(nome)) {
+          const conteudo = new TextDecoder().decode(dados.slice(offset, offset + tamanho));
+          conteudosTexto[nome] = conteudo;
+        }
+      }
+
+      offset += Math.ceil(tamanho / 512) * 512;
+    }
+
+    arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+    renderArquivos();
+  }
+
+  function processarHTML(buffer) {
+    const html = new TextDecoder().decode(buffer);
+    const nome = document.getElementById('arquivoInput').files[0].name;
+
+    arquivos.push({ nome, dir: false, tamanho: buffer.byteLength });
+    conteudosTexto[nome] = html;
+
+    renderArquivos();
+  }
+
+  function ehTexto(nome) {
+    const lower = nome.toLowerCase();
+    if (lower.endsWith('/')) return false;
+    return extensoesTexto.some(ext =&gt; lower.endsWith(ext));
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // RENDERIZAR ARQUIVOS
+  // ═══════════════════════════════════════════════════════════
+  function renderArquivos() {
+    const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+    const el = document.getElementById('listaArquivos');
+
+    if (!arquivos.length) {
+      el.innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('contadorArquivos').textContent = '0 arquivos';
+      return;
+    }
+
+    const filtrados = arquivos.filter(a =&gt; a.nome.toLowerCase().includes(filtro));
+    document.getElementById('contadorArquivos').textContent = `${filtrados.length} de ${arquivos.length} arquivos`;
+
+    el.innerHTML = filtrados.map(a =&gt; {
+      const tipo = a.dir ? '📁' : ehTexto(a.nome) ? '📄' : '📦';
+      const tamanhoKB = a.tamanho ? (a.tamanho / 1024).toFixed(1) : '?';
+      return `&lt;div class=&quot;file-item&quot; onclick=&quot;abrirArquivo('${a.nome.replace(/'/g, &quot;\\'&quot;)}')&quot; title=&quot;${a.nome}&quot;&gt;
+        ${tipo} ${a.nome} &lt;span class=&quot;small&quot;&gt;(${tamanhoKB} KB)&lt;/span&gt;
+      &lt;/div&gt;`;
+    }).join('');
+  }
+
+  function abrirArquivo(nome) {
+    document.getElementById('arquivoAtual').textContent = nome;
+    const area = document.getElementById('conteudoArquivo');
+
+    if (conteudosTexto[nome] !== undefined) {
+      area.value = conteudosTexto[nome]; // SEM TRUNCAR!
+    } else {
+      area.value = '[Arquivo binário, pasta, ou tipo não lido como texto]';
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // DETECTAR PROBLEMAS
+  // ═══════════════════════════════════════════════════════════
+  function detectarReplit() {
+    let resultado = '=== DETECÇÃO DE REPLIT ===\n\n';
+    let encontrados = 0;
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) =&gt; {
+      const linhas = conteudo.split(/\r?\n/);
+      linhas.forEach((linha, idx) =&gt; {
+        if (linha.toLowerCase().includes('replit')) {
+          encontrados++;
+          resultado += `📄 ${nome}:${idx + 1}\n`;
+          resultado += `   ${linha.trim().substring(0, 100)}\n\n`;
+          if (encontrados &gt;= 20) return; // Limitar a 20
+        }
+      });
+    });
+
+    if (encontrados === 0) {
+      resultado += '✅ Nenhuma referência ao Replit encontrada!';
+    } else {
+      resultado += `\n🚨 Total: ${encontrados} referências (mostrando até 20)`;
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  function detectarAPIs() {
+    let resultado = '=== DETECÇÃO DE APIs/Endpoints ===\n\n';
+    const regexAPI = /(?:https?:\/\/[^\s'&quot;]+|\/api\/[^\s'&quot;]+|fetch\(['&quot;](.*?)['&quot;]\)|axios\.(get|post|put|delete)\(['&quot;](.*?)['&quot;]\))/gi;
+    let encontrados = 0;
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) =&gt; {
+      let match;
+      while ((match = regexAPI.exec(conteudo)) !== null &amp;&amp; encontrados &lt; 20) {
+        encontrados++;
+        resultado += `📄 ${nome}\n`;
+        resultado += `   ${match[0].substring(0, 100)}\n\n`;
+      }
+    });
+
+    if (encontrados === 0) {
+      resultado += 'Nenhuma API/endpoint encontrada.';
+    } else {
+      resultado += `\n✅ Total: ${encontrados} APIs (mostrando até 20)`;
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  function detectarFuncoes() {
+    let resultado = '=== DETECÇÃO DE FUNÇÕES ===\n\n';
+    const regexFunc = /(?:function|const|let|var)\s+(\w+)\s*(?:=\s*)?(?:function|\(|async)/g;
+    let funcoes = new Set();
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) =&gt; {
+      let match;
+      while ((match = regexFunc.exec(conteudo)) !== null) {
+        funcoes.add(match[1]);
+      }
+    });
+
+    if (funcoes.size === 0) {
+      resultado += 'Nenhuma função encontrada.';
+    } else {
+      resultado += `✅ Total: ${funcoes.size} funções\n\n`;
+      Array.from(funcoes).slice(0, 30).forEach(f =&gt; {
+        resultado += `  • ${f}\n`;
+      });
+      if (funcoes.size &gt; 30) {
+        resultado += `\n  ... e ${funcoes.size - 30} mais`;
+      }
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  function detectarBugs() {
+    let resultado = '=== DETECÇÃO DE BUGS POTENCIAIS ===\n\n';
+    const padroes = [
+      { regex: /console\.log\(/g, nome: 'console.log (debug)' },
+      { regex: /TODO|FIXME|BUG|HACK/gi, nome: 'Comentários de TODO/FIXME' },
+      { regex: /var\s+/g, nome: 'Uso de var (use let/const)' },
+      { regex: /==\s*(?![=])/g, nome: 'Comparação == (use ===)' },
+      { regex: /catch\s*\(\s*\)/g, nome: 'Catch vazio' },
+      { regex: /undefined/g, nome: 'Referências a undefined' }
+    ];
+
+    let totalBugs = 0;
+
+    padroes.forEach(padrao =&gt; {
+      let count = 0;
+      Object.values(conteudosTexto).forEach(conteudo =&gt; {
+        const matches = conteudo.match(padrao.regex);
+        if (matches) count += matches.length;
+      });
+
+      if (count &gt; 0) {
+        resultado += `⚠️ ${padrao.nome}: ${count} ocorrências\n`;
+        totalBugs += count;
+      }
+    });
+
+    if (totalBugs === 0) {
+      resultado += '✅ Nenhum bug potencial detectado!';
+    } else {
+      resultado += `\n🐛 Total: ${totalBugs} problemas potenciais`;
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  function detectarDependencias() {
+    let resultado = '=== DETECÇÃO DE DEPENDÊNCIAS ===\n\n';
+
+    const packageJson = conteudosTexto['package.json'];
+    if (packageJson) {
+      try {
+        const pkg = JSON.parse(packageJson);
+        resultado += '📦 Dependências:\n';
+        if (pkg.dependencies) {
+          Object.entries(pkg.dependencies).slice(0, 15).forEach(([nome, versao]) =&gt; {
+            resultado += `  • ${nome}: ${versao}\n`;
+          });
+        }
+        resultado += '\n📦 Dev Dependências:\n';
+        if (pkg.devDependencies) {
+          Object.entries(pkg.devDependencies).slice(0, 15).forEach(([nome, versao]) =&gt; {
+            resultado += `  • ${nome}: ${versao}\n`;
+          });
+        }
+      } catch (e) {
+        resultado += '❌ Erro ao parsear package.json';
+      }
+    } else {
+      resultado += '⚠️ Nenhum package.json encontrado';
+    }
+
+    document.getElementById('resultadoDeteccao').textContent = resultado;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // IA - CHAMAR API
+  // ═══════════════════════════════════════════════════════════
+  async function chamarIA(mensagem) {
+    if (!iaChave) {
+      throw new Error('Configure sua chave de IA primeiro!');
+    }
+
+    let url, headers, body;
+
+    if (iaProvider === 'openai') {
+      url = 'https://api.openai.com/v1/chat/completions';
+      headers = {
+        'Authorization': `Bearer ${iaChave}`,
+        'Content-Type': 'application/json'
+      };
+      body = {
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: mensagem }],
+        max_tokens: 2000
+      };
+    } else if (iaProvider === 'anthropic') {
+      url = 'https://api.anthropic.com/v1/messages';
+      headers = {
+        'x-api-key': iaChave,
+        'anthropic-version': '2023-06-01',
+        'Content-Type': 'application/json'
+      };
+      body = {
+        model: 'claude-3-sonnet-20240229',
+        max_tokens: 2000,
+        messages: [{ role: 'user', content: mensagem }]
+      };
+    } else if (iaProvider === 'groq') {
+      url = 'https://api.groq.com/openai/v1/chat/completions';
+      headers = {
+        'Authorization': `Bearer ${iaChave}`,
+        'Content-Type': 'application/json'
+      };
+      body = {
+        model: 'mixtral-8x7b-32768',
+        messages: [{ role: 'user', content: mensagem }],
+        max_tokens: 2000
+      };
+    } else if (iaProvider === 'google') {
+      url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${iaChave}`;
+      headers = { 'Content-Type': 'application/json' };
+      body = {
+        contents: [{
+          parts: [{ text: mensagem }]
+        }]
+      };
+    }
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    if (iaProvider === 'openai' || iaProvider === 'groq') {
+      return data.choices[0].message.content;
+    } else if (iaProvider === 'anthropic') {
+      return data.content[0].text;
+    } else if (iaProvider === 'google') {
+      return data.candidates[0].content.parts[0].text;
+    }
+  }
+
+  async function enviarParaIA(tipo) {
+    let prompt = '';
+    let respEl = '';
+
+    if (tipo === 'analise') {
+      prompt = document.getElementById('promptAnalise').value;
+      respEl = 'respostaAnalise';
+    } else if (tipo === 'correcao') {
+      prompt = document.getElementById('promptCorrecao').value;
+      respEl = 'respostaCorrecao';
+    } else if (tipo === 'orientacao') {
+      prompt = document.getElementById('promptOrientacao').value;
+      respEl = 'respostaOrientacao';
+    }
+
+    if (!prompt.trim()) {
+      alert('Digite um prompt primeiro.');
+      return;
+    }
+
+    if (!iaConectado) {
+      alert('Conecte a IA primeiro!');
+      return;
+    }
+
+    const resposta = document.getElementById(respEl);
+    resposta.innerHTML = '&lt;div class=&quot;spinner&quot;&gt;&lt;/div&gt; Processando...';
+
+    try {
+      // Construir contexto
+      let contexto = 'CONTEXTO DO PROJETO:\n\n';
+      const arquivosPrincipais = Object.keys(conteudosTexto)
+        .filter(a =&gt; a.includes('package.json') || a.includes('README') || a.includes('main') || a.includes('index'))
+        .slice(0, 3);
+
+      for (const arquivo of arquivosPrincipais) {
+        let conteudo = conteudosTexto[arquivo];
+        if (conteudo.length &gt; 1500) {
+          conteudo = conteudo.substring(0, 1500) + '\n[... truncado]';
+        }
+        contexto += `\n--- ${arquivo} ---\n${conteudo}\n`;
+      }
+
+      const mensagemCompleta = `${contexto}\n\nPERGUNTA:\n${prompt}`;
+      const respostaIA = await chamarIA(mensagemCompleta);
+      resposta.innerHTML = `&lt;pre&gt;${respostaIA}&lt;/pre&gt;`;
+    } catch (e) {
+      resposta.innerHTML = `&lt;div class=&quot;bad&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // COPIAR/BAIXAR
+  // ═══════════════════════════════════════════════════════════
+  function copiarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    navigator.clipboard.writeText(area.value).then(() =&gt; {
+      alert('✅ Copiado!');
+    }).catch(() =&gt; alert('❌ Erro ao copiar.'));
+  }
+
+  function baixarConteudo() {
+    const area = document.getElementById('conteudoArquivo');
+    const nome = document.getElementById('arquivoAtual').textContent || 'arquivo.txt';
+    const blob = new Blob([area.value], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nome;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // SALVAR NOTA
+  // ═══════════════════════════════════════════════════════════
+  function mostrarOpcoesSaida() {
+    if (!arquivos.length) {
+      alert('Carregue um arquivo primeiro.');
+      return;
+    }
+    document.getElementById('modalNota').classList.add('active');
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('active');
+  }
+
+  function salvarNotaJSON() {
+    const nome = document.getElementById('nomaNota').value || 'nota';
+    const obs = document.getElementById('conteudoNota').value;
+
+    const nota = {
+      data: new Date().toISOString(),
+      nome,
+      observacoes: obs,
+      arquivos: arquivos.map(a =&gt; ({ nome: a.nome, tamanho: a.tamanho })),
+      diagnostico: document.getElementById('resultadoDeteccao').textContent
+    };
+
+    const blob = new Blob([JSON.stringify(nota, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${nome}_${new Date().getTime()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalNota');
+    alert('✅ Nota salva!');
+  }
+
+  function salvarNotaTXT() {
+    const nome = document.getElementById('nomaNota').value || 'nota';
+    const obs = document.getElementById('conteudoNota').value;
+
+    let conteudo = `NOTA: ${nome}\nData: ${new Date().toLocaleString('pt-BR')}\n\n`;
+    conteudo += `OBSERVAÇÕES:\n${obs}\n\n`;
+    conteudo += `DIAGNÓSTICO:\n${document.getElementById('resultadoDeteccao').textContent}`;
+
+    const blob = new Blob([conteudo], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${nome}_${new Date().getTime()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fecharModal('modalNota');
+    alert('✅ Nota salva!');
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // ABAS
+  // ═══════════════════════════════════════════════════════════
+  function mudarAba(nomeAba) {
+    document.querySelectorAll('.tab-content').forEach(el =&gt; el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el =&gt; el.classList.remove('active'));
+    document.getElementById(nomeAba).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // LIMPAR
+  // ═══════════════════════════════════════════════════════════
+  function limparTudo() {
+    if (confirm('Limpar tudo?')) {
+      arquivos = [];
+      conteudosTexto = {};
+      document.getElementById('listaArquivos').innerHTML = 'Nenhum arquivo carregado.';
+      document.getElementById('conteudoArquivo').value = '';
+      document.getElementById('resultadoDeteccao').textContent = 'Clique em um botão para detectar.';
+      alert('✅ Tudo limpo!');
+    }
+  }
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto2">
+  <iframe srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;PWA Scanner ZIP Jurídico&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: #020617;
+      padding: 14px;
+      border-bottom: 1px solid #334155;
+    }
+    main {
+      padding: 14px;
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 8px;
+      color: #93c5fd;
+    }
+    h2 {
+      color: #bfdbfe;
+      font-size: 18px;
+    }
+    input, button, textarea, select {
+      font-size: 15px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin: 6px 4px 6px 0;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: #475569;
+    }
+    button.danger {
+      background: #b91c1c;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 12px 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    textarea {
+      width: 100%;
+      min-height: 280px;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      box-sizing: border-box;
+      white-space: pre;
+    }
+    pre {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+    .ok { color: #86efac; }
+    .warn { color: #fde68a; }
+    .bad { color: #fca5a5; }
+    .file-list {
+      max-height: 320px;
+      overflow: auto;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .file-item {
+      padding: 6px;
+      border-bottom: 1px solid #1f2937;
+      cursor: pointer;
+      word-break: break-all;
+    }
+    .file-item:hover {
+      background: #1e293b;
+    }
+    .small {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .search-box {
+      width: 100%;
+      box-sizing: border-box;
+      background: #020617;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 6px 0;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;header&gt;
+  &lt;h1&gt;🔎 PWA Scanner ZIP Jurídico&lt;/h1&gt;
+  &lt;div class=&quot;small&quot;&gt;Importa ZIP, lista arquivos, lê conteúdo, encontra termos e gera relatório.&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;1. Importar ZIP&lt;/h2&gt;
+    &lt;input type=&quot;file&quot; id=&quot;zipInput&quot; accept=&quot;.zip&quot;&gt;
+    &lt;br&gt;
+    &lt;button onclick=&quot;carregarZip()&quot;&gt;Carregar ZIP&lt;/button&gt;
+    &lt;button class=&quot;secondary&quot; onclick=&quot;gerarRelatorio()&quot;&gt;Gerar relatório&lt;/button&gt;
+    &lt;button class=&quot;danger&quot; onclick=&quot;limparTudo()&quot;&gt;Limpar&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;grid&quot;&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;2. Arquivos encontrados&lt;/h2&gt;
+      &lt;input class=&quot;search-box&quot; id=&quot;filtroArquivo&quot; placeholder=&quot;Filtrar arquivo. Ex: package, src, replit, vite&quot; oninput=&quot;renderArquivos()&quot;&gt;
+      &lt;div id=&quot;listaArquivos&quot; class=&quot;file-list&quot;&gt;Nenhum ZIP carregado.&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;3. Conteúdo do arquivo&lt;/h2&gt;
+      &lt;div id=&quot;arquivoAtual&quot; class=&quot;small&quot;&gt;Nenhum arquivo selecionado.&lt;/div&gt;
+      &lt;textarea id=&quot;conteudoArquivo&quot; readonly&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;4. Buscar termos dentro dos arquivos&lt;/h2&gt;
+    &lt;input class=&quot;search-box&quot; id=&quot;termosBusca&quot; value=&quot;replit,.replit,replit.nix,package.json,vite,react,capacitor,netlify,supabase,neon,manifest,service-worker,dist,build,error,TODO,FIXME&quot; placeholder=&quot;Termos separados por vírgula&quot;&gt;
+    &lt;button onclick=&quot;buscarTermos()&quot;&gt;Buscar termos&lt;/button&gt;
+    &lt;pre id=&quot;resultadoBusca&quot;&gt;Resultado da busca aparecerá aqui.&lt;/pre&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;5. Diagnóstico automático&lt;/h2&gt;
+    &lt;pre id=&quot;diagnostico&quot;&gt;Carregue um ZIP para diagnosticar.&lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/main&gt;
+
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  let zipGlobal = null;
+  let arquivos = [];
+  let conteudosTexto = {};
+
+  const extensoesTexto = [
+    '.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.html', '.css',
+    '.scss', '.xml', '.yml', '.yaml', '.toml', '.env', '.sql', '.gitignore',
+    '.nix', '.config', '.cjs', '.mjs'
+  ];
+
+  function ehTexto(nome) {
+    const lower = nome.toLowerCase();
+    if (lower.includes('package.json')) return true;
+    if (lower.endsWith('/')) return false;
+    return extensoesTexto.some(ext =&gt; lower.endsWith(ext));
+  }
+
+  async function carregarZip() {
+    const input = document.getElementById('zipInput');
+    if (!input.files || !input.files[0]) {
+      alert('Selecione um arquivo ZIP primeiro.');
+      return;
+    }
+
+    const file = input.files[0];
+    const buffer = await file.arrayBuffer();
+
+    zipGlobal = await JSZip.loadAsync(buffer);
+    arquivos = [];
+    conteudosTexto = {};
+
+    zipGlobal.forEach((path, entry) =&gt; {
+      arquivos.push({
+        nome: path,
+        dir: entry.dir
+      });
+    });
+
+    arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+
+    for (const item of arquivos) {
+      if (!item.dir &amp;&amp; ehTexto(item.nome)) {
+        try {
+          conteudosTexto[item.nome] = await zipGlobal.file(item.nome).async('string');
+        } catch (e) {
+          conteudosTexto[item.nome] = '[ERRO AO LER COMO TEXTO]';
+        }
+      }
+    }
+
+    renderArquivos();
+    diagnosticar();
+  }
+
+  function renderArquivos() {
+    const filtro = document.getElementById('filtroArquivo').value.toLowerCase();
+    const el = document.getElementById('listaArquivos');
+
+    if (!arquivos.length) {
+      el.innerHTML = 'Nenhum ZIP carregado.';
+      return;
+    }
+
+    const filtrados = arquivos.filter(a =&gt; a.nome.toLowerCase().includes(filtro));
+
+    el.innerHTML = filtrados.map(a =&gt; {
+      const tipo = a.dir ? '📁' : ehTexto(a.nome) ? '📄' : '📦';
+      return '&lt;div class=&quot;file-item&quot; onclick=&quot;abrirArquivo(' + JSON.stringify(a.nome).replace(/&quot;/g, '&amp;quot;') + ')&quot;&gt;' + tipo + ' ' + a.nome + '&lt;/div&gt;';
+    }).join('');
+  }
+
+  function abrirArquivo(nome) {
+    document.getElementById('arquivoAtual').textContent = nome;
+    const area = document.getElementById('conteudoArquivo');
+
+    if (conteudosTexto[nome] !== undefined) {
+      area.value = conteudosTexto[nome];
+    } else {
+      area.value = '[Arquivo binário, pasta, ou tipo não lido como texto]';
+    }
+  }
+
+  function buscarTermos() {
+    const termos = document.getElementById('termosBusca').value
+      .split(',')
+      .map(t =&gt; t.trim().toLowerCase())
+      .filter(Boolean);
+
+    let saida = '';
+
+    Object.entries(conteudosTexto).forEach(([nome, conteudo]) =&gt; {
+      const linhas = conteudo.split(/\r?\n/);
+      linhas.forEach((linha, idx) =&gt; {
+        const low = linha.toLowerCase();
+        termos.forEach(termo =&gt; {
+          if (low.includes(termo)) {
+            saida += nome + ':' + (idx + 1) + ' | termo: ' + termo + '\n';
+            saida += linha.slice(0, 300) + '\n\n';
+          }
+        });
+      });
+    });
+
+    if (!saida) saida = 'Nenhum termo encontrado.';
+    document.getElementById('resultadoBusca').textContent = saida;
+  }
+
+  function temArquivo(parte) {
+    return arquivos.some(a =&gt; a.nome.toLowerCase().includes(parte.toLowerCase()));
+  }
+
+  function temConteudo(parte) {
+    const p = parte.toLowerCase();
+    return Object.values(conteudosTexto).some(c =&gt; c.toLowerCase().includes(p));
+  }
+
+  function diagnosticar() {
+    let d = '';
+    d += '=== DIAGNÓSTICO ===\n\n';
+    d += 'Total de itens no ZIP: ' + arquivos.length + '\n';
+    d += 'Arquivos de texto lidos: ' + Object.keys(conteudosTexto).length + '\n\n';
+
+    const hasPackage = temArquivo('package.json');
+    const hasSrc = temArquivo('src/');
+    const hasDist = temArquivo('dist/') || temArquivo('assets/');
+    const hasVite = temArquivo('vite.config') || temConteudo('&quot;vite&quot;') || temConteudo('vite build');
+    const hasReact = temConteudo('&quot;react&quot;') || temArquivo('.tsx') || temArquivo('App.tsx') || temArquivo('main.tsx');
+    const hasNext = temArquivo('next.config') || temConteudo('&quot;next&quot;');
+    const hasCapacitor = temArquivo('capacitor.config') || temConteudo('@capacitor') || temArquivo('android/');
+    const hasReplit = temArquivo('.replit') || temArquivo('replit.nix') || temArquivo('.config/') || temConteudo('replit');
+    const hasNetlify = temArquivo('netlify.toml') || temConteudo('netlify');
+    const hasManifest = temArquivo('manifest.json');
+    const hasServiceWorker = temArquivo('service-worker') || temArquivo('sw.js') || temConteudo('serviceWorker');
+    const hasSupabase = temConteudo('supabase') || temArquivo('supabase/');
+    const hasNeon = temConteudo('neon');
+
+    d += hasPackage ? '✅ Tem package.json\n' : '❌ Não achei package.json\n';
+    d += hasSrc ? '✅ Tem pasta src/ ou código fonte\n' : '⚠️ Não achei src/ claramente\n';
+    d += hasDist ? '⚠️ Tem dist/assets. Pode ser build compilado.\n' : '✅ Não parece ser só dist/build\n';
+    d += hasVite ? '✅ Indício de Vite\n' : '⚠️ Não confirmei Vite\n';
+    d += hasReact ? '✅ Indício de React\n' : '⚠️ Não confirmei React\n';
+    d += hasNext ? '⚠️ Indício de Next.js\n' : '';
+    d += hasCapacitor ? '⚠️ Indício de Capacitor/APK\n' : '';
+    d += hasReplit ? '⚠️ Tem marcas/arquivos ligados ao Replit\n' : '✅ Não achei marcas óbvias do Replit\n';
+    d += hasNetlify ? '✅ Indício de Netlify\n' : '';
+    d += hasManifest ? '✅ Tem manifest.json\n' : '⚠️ Não achei manifest.json\n';
+    d += hasServiceWorker ? '✅ Tem service worker\n' : '⚠️ Não achei service worker\n';
+    d += hasSupabase ? '⚠️ Indício de Supabase\n' : '';
+    d += hasNeon ? '⚠️ Indício de Neon\n' : '';
+
+    d += '\n=== INTERPRETAÇÃO ===\n';
+
+    if (hasPackage &amp;&amp; hasSrc &amp;&amp; hasVite &amp;&amp; hasReact) {
+      d += 'Parece ser um projeto fonte React + Vite. Melhor caminho: corrigir package.json/build e publicar como web/PWA.\n';
+      d += 'Netlify provável: build command npm run build, publish directory dist.\n';
+    } else if (!hasPackage &amp;&amp; hasDist) {
+      d += 'Parece ser uma versão compilada. Pode abrir como site, mas é ruim para editar.\n';
+    } else if (hasNext) {
+      d += 'Parece Next.js. Vercel costuma ser mais fácil que Netlify.\n';
+    } else {
+      d += 'Tipo não confirmado. Precisa olhar package.json e estrutura.\n';
+    }
+
+    d += '\n=== SOBRE REPLIT ===\n';
+    d += 'Arquivos como .replit e replit.nix geralmente são configuração do ambiente, não necessariamente o erro principal.\n';
+    d += 'Não apague cegamente antes de saber se o build funciona.\n';
+
+    document.getElementById('diagnostico').textContent = d;
+  }
+
+  function gerarRelatorio() {
+    diagnosticar();
+    buscarTermos();
+
+    const rel = [
+      document.getElementById('diagnostico').textContent,
+      '\n\n=== BUSCA ===\n',
+      document.getElementById('resultadoBusca').textContent,
+      '\n\n=== LISTA DE ARQUIVOS ===\n',
+      arquivos.map(a =&gt; a.nome).join('\n')
+    ].join('');
+
+    navigator.clipboard.writeText(rel).then(() =&gt; {
+      alert('Relatório copiado para a área de transferência.');
+    }).catch(() =&gt; {
+      document.getElementById('conteudoArquivo').value = rel;
+      document.getElementById('arquivoAtual').textContent = 'Relatório gerado';
+      alert('Não consegui copiar automático. Coloquei o relatório na caixa de conteúdo.');
+    });
+  }
+
+  function limparTudo() {
+    zipGlobal = null;
+    arquivos = [];
+    conteudosTexto = {};
+    document.getElementById('listaArquivos').innerHTML = 'Nenhum ZIP carregado.';
+    document.getElementById('conteudoArquivo').value = '';
+    document.getElementById('arquivoAtual').textContent = 'Nenhum arquivo selecionado.';
+    document.getElementById('resultadoBusca').textContent = 'Resultado da busca aparecerá aqui.';
+    document.getElementById('diagnostico').textContent = 'Carregue um ZIP para diagnosticar.';
+  }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+
+<script>
+function trocarProjeto(index) {
+  // Esconde todos
+  document.querySelectorAll('.project-container').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  // Mostra o selecionado
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  // Salva preferência
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+// Restaura último projeto aberto
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+</script>
+</body>
+</html>

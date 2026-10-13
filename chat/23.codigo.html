@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Projetos PWA — Maikon Caldeira</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 10px 18px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+/* Isola estilos de cada projeto */
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Navegação -->
+<div class="project-nav">
+  <span style="font-size:14px;font-weight:700;color:#a3a082;margin-right:10px;">📂</span>
+  <button class="nav-btn active" onclick="trocarProjeto(0)">1.Sk v2</button><button class="nav-btn " onclick="trocarProjeto(1)">2. SK V3</button><button class="nav-btn " onclick="trocarProjeto(2)">3.Sk v4</button>
+</div>
+
+<!-- Projetos (cada um em iframe isolado) -->
+
+<div class="project-container active" id="projeto0">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;SK Editor Jurídico v2 - Combinador&lt;/title&gt;
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;&gt;&lt;/script&gt;
+  &lt;!-- Tailwind CSS para manter o design idêntico ao seu --&gt;
+  &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            darkBg: '#0f1a0a',
+            panelBg: '#0d1309',
+            borderGreen: '#2d4a1e',
+            textGreen: '#a8d5a2',
+            brandGreen: '#7ec87a',
+            focusGreen: '#5aab56',
+          }
+        }
+      }
+    }
+  &lt;/script&gt;
+  &lt;style&gt;
+    /* Custom scrollbar para ficar bonito */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f1a0a; }
+    ::-webkit-scrollbar-thumb { background: #2d4a1e; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #5aab56; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body class=&quot;bg-darkBg text-textGreen font-sans min-h-screen flex flex-col&quot;&gt;
+
+  &lt;!-- Header --&gt;
+  &lt;header class=&quot;bg-panelBg border-b border-borderGreen p-4 flex flex-col md:flex-row justify-between items-center gap-4&quot;&gt;
+    &lt;div&gt;
+      &lt;h1 class=&quot;text-brandGreen font-bold text-xl flex items-center gap-2&quot;&gt;
+        &lt;span&gt;🔧&lt;/span&gt; SK Editor Jurídico v2
+      &lt;/h1&gt;
+      &lt;p class=&quot;text-xs text-[#6b8f68]&quot;&gt;Seu ambiente de desenvolvimento e combinação de códigos sem complicação&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;flex gap-2&quot;&gt;
+      &lt;button onclick=&quot;showSection('editor')&quot; class=&quot;nav-btn bg-borderGreen text-brandGreen px-4 py-2 rounded-lg text-sm font-semibold hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;📂 Editor &amp; ZIP&lt;/button&gt;
+      &lt;button onclick=&quot;showSection('combinar')&quot; class=&quot;nav-btn bg-borderGreen text-brandGreen px-4 py-2 rounded-lg text-sm font-semibold hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;🔗 Combinar Apps&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;!-- CONTEÚDO PRINCIPAL --&gt;
+  &lt;main class=&quot;flex-1 flex flex-col md:flex-row overflow-hidden h-[calc(100vh-80px)]&quot;&gt;
+    
+    &lt;!-- SEÇÃO 1: EDITOR E IMPORTADOR DE ZIP --&gt;
+    &lt;section id=&quot;section-editor&quot; class=&quot;flex-1 flex flex-col p-4 space-y-4 overflow-y-auto&quot;&gt;
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-4&quot;&gt;
+        &lt;h2 class=&quot;text-brandGreen font-bold mb-2 flex items-center gap-2&quot;&gt;📥 Importar Projeto Base&lt;/h2&gt;
+        &lt;p class=&quot;text-xs text-[#6b8f68] mb-4&quot;&gt;Carregue o ZIP do seu projeto jurídico ou de qualquer outro app para analisar o código real.&lt;/p&gt;
+        
+        &lt;div class=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;&gt;
+          &lt;div class=&quot;border border-dashed border-borderGreen p-4 rounded-lg text-center&quot;&gt;
+            &lt;label class=&quot;block text-xs font-semibold mb-2 text-focusGreen&quot;&gt;SELECIONAR ARQUIVO ZIP&lt;/label&gt;
+            &lt;input type=&quot;file&quot; id=&quot;zipInput&quot; accept=&quot;.zip&quot; class=&quot;hidden&quot;&gt;
+            &lt;button onclick=&quot;document.getElementById('zipInput').click()&quot; class=&quot;bg-borderGreen text-brandGreen px-4 py-2 rounded-lg text-xs hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;Escolher ZIP&lt;/button&gt;
+            &lt;span id=&quot;zipName&quot; class=&quot;block text-[10px] mt-2 text-[#6b8f68]&quot;&gt;Nenhum arquivo selecionado&lt;/span&gt;
+          &lt;/div&gt;
+          
+          &lt;div class=&quot;border border-dashed border-borderGreen p-4 rounded-lg text-center&quot;&gt;
+            &lt;label class=&quot;block text-xs font-semibold mb-2 text-focusGreen&quot;&gt;REPOSITÓRIO GITHUB&lt;/label&gt;
+            &lt;input type=&quot;text&quot; id=&quot;githubUrl&quot; placeholder=&quot;https://github.com/usuario/projeto&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-1 text-xs text-textGreen placeholder-[#3d6e2a] outline-none mb-2&quot;&gt;
+            &lt;button onclick=&quot;loadFromGitHub()&quot; class=&quot;bg-borderGreen text-brandGreen px-4 py-2 rounded-lg text-xs hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;Baixar do GitHub&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Lista de Arquivos e Visualizador --&gt;
+      &lt;div class=&quot;flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 min-h-[300px]&quot;&gt;
+        &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-3 flex flex-col&quot;&gt;
+          &lt;h3 class=&quot;text-xs font-bold text-brandGreen uppercase mb-2&quot;&gt;📁 Arquivos do Projeto&lt;/h3&gt;
+          &lt;input type=&quot;text&quot; id=&quot;search&quot; placeholder=&quot;Buscar arquivo...&quot; onkeyup=&quot;filterFiles()&quot; class=&quot;bg-darkBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-textGreen placeholder-[#3d6e2a] outline-none mb-2&quot;&gt;
+          &lt;div id=&quot;fileList&quot; class=&quot;flex-1 overflow-y-auto space-y-1 text-xs&quot;&gt;
+            &lt;p class=&quot;text-[#6b8f68] italic p-2&quot;&gt;Nenhum projeto carregado ainda...&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div class=&quot;md:col-span-2 bg-panelBg border border-borderGreen rounded-xl p-3 flex flex-col&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center mb-2&quot;&gt;
+            &lt;h3 id=&quot;currentFileName&quot; class=&quot;text-xs font-bold text-brandGreen uppercase&quot;&gt;📝 Visualizador de Código&lt;/h3&gt;
+            &lt;button onclick=&quot;copyCode()&quot; class=&quot;text-[10px] bg-borderGreen text-brandGreen px-2 py-1 rounded hover:bg-focusGreen hover:text-darkBg&quot;&gt;Copiar Código&lt;/button&gt;
+          &lt;/div&gt;
+          &lt;textarea id=&quot;fileContent&quot; readonly class=&quot;flex-1 w-full bg-darkBg border border-borderGreen rounded-lg p-3 text-xs font-mono text-textGreen outline-none resize-none&quot; placeholder=&quot;Selecione um arquivo ao lado para visualizar ou editar...&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;!-- SEÇÃO 2: COMBINAR APLICATIVOS (Sua ferramenta adaptada!) --&gt;
+    &lt;section id=&quot;section-combinar&quot; class=&quot;flex-1 flex flex-col p-4 space-y-4 overflow-y-auto hidden&quot;&gt;
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-4 flex flex-col space-y-4&quot;&gt;
+        &lt;div class=&quot;flex justify-between items-center border-b border-borderGreen pb-2&quot;&gt;
+          &lt;div&gt;
+            &lt;h2 class=&quot;text-brandGreen font-bold text-lg flex items-center gap-2&quot;&gt;🔗 Combinar Projetos &amp; Códigos&lt;/h2&gt;
+            &lt;p class=&quot;text-xs text-[#6b8f68]&quot;&gt;Monte a estrutura ideal e gere o prompt perfeito para a IA unificar seus códigos.&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;button onclick=&quot;clearAllCombiner()&quot; class=&quot;flex items-center gap-1 text-xs px-2 py-1 rounded-lg border border-borderGreen text-focusGreen hover:bg-borderGreen hover:text-brandGreen transition-all&quot;&gt;
+            🧹 Limpar Tudo
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Objetivo --&gt;
+        &lt;div&gt;
+          &lt;label class=&quot;block text-focusGreen text-xs font-semibold mb-1&quot;&gt;🎯 Objetivo do Aplicativo Final&lt;/label&gt;
+          &lt;textarea id=&quot;combinerGoal&quot; rows=&quot;2&quot; placeholder=&quot;Ex: Quero unificar meu PWA Jurídico com a função de gerar relatórios em PDF e salvar no banco Neon...&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-sm text-textGreen placeholder-[#3d6e2a] outline-none focus:border-focusGreen resize-none&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Lista de Apps a Combinar --&gt;
+        &lt;div id=&quot;appsContainer&quot; class=&quot;space-y-4&quot;&gt;
+          &lt;!-- Os cards de apps serão gerados dinamicamente aqui --&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Botões de Ação --&gt;
+        &lt;div class=&quot;flex flex-col sm:flex-row gap-2 pt-2&quot;&gt;
+          &lt;button onclick=&quot;addAppCard()&quot; class=&quot;flex-1 py-2.5 border border-dashed border-borderGreen rounded-xl text-focusGreen text-xs font-bold hover:border-focusGreen hover:bg-[#0d2210] transition-colors&quot;&gt;
+            ➕ Adicionar Outro App/Código
+          &lt;/button&gt;
+          &lt;button onclick=&quot;generateSuperPrompt()&quot; class=&quot;flex-1 py-2.5 bg-borderGreen hover:bg-focusGreen hover:text-darkBg text-brandGreen font-bold text-xs rounded-xl transition-all&quot;&gt;
+            ✨ Gerar Prompt de Unificação
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Prompt Gerado --&gt;
+        &lt;div id=&quot;promptResultContainer&quot; class=&quot;hidden bg-darkBg border border-borderGreen rounded-xl overflow-hidden mt-4&quot;&gt;
+          &lt;div class=&quot;flex items-center justify-between px-3 py-2 bg-borderGreen/30 border-b border-borderGreen&quot;&gt;
+            &lt;span class=&quot;text-brandGreen text-xs font-bold&quot;&gt;📋 Prompt Pronto para Copiar&lt;/span&gt;
+            &lt;button onclick=&quot;copyGeneratedPrompt()&quot; class=&quot;text-xs bg-borderGreen text-brandGreen px-3 py-1 rounded hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;
+              Copiar Prompt
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;textarea id=&quot;generatedPromptTextarea&quot; rows=&quot;8&quot; class=&quot;w-full bg-darkBg p-3 text-xs text-[#8cba89] font-mono leading-relaxed outline-none resize-none&quot; readonly&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+  &lt;/main&gt;
+
+  &lt;script&gt;
+    // ==================== ESTADO GLOBAL ====================
+    let currentFiles = [];
+    let fileContents = {};
+    let appsToCombine = [];
+
+    // ==================== NAVEGAÇÃO DE SEÇÕES ====================
+    function showSection(sectionId) {
+      document.getElementById('section-editor').classList.toggle('hidden', sectionId !== 'editor');
+      document.getElementById('section-combinar').classList.toggle('hidden', sectionId !== 'combinar');
+    }
+
+    // ==================== CONTROLE DO ZIP &amp; GITHUB ====================
+    document.getElementById('zipInput').addEventListener('change', async (e) =&gt; {
+      const file = e.target.files[0];
+      if (!file) return;
+      document.getElementById('zipName').innerText = file.name;
+      
+      const buffer = await file.arrayBuffer();
+      const zip = await JSZip.loadAsync(buffer);
+      processZip(zip);
+    });
+
+    function processZip(zip) {
+      currentFiles = [];
+      fileContents = {};
+
+      zip.forEach((path, entry) =&gt; {
+        if (!entry.dir) currentFiles.push(path);
+      });
+
+      currentFiles.sort();
+
+      let promises = currentFiles.map(async (path) =&gt; {
+        const lower = path.toLowerCase();
+        if (lower.match(/\.(js|ts|tsx|jsx|html|css|json|md|txt|sql)$/)) {
+          try {
+            fileContents[path] = await zip.file(path).async('string');
+          } catch(e) {
+            fileContents[path] = &quot;[Erro ao ler arquivo]&quot;;
+          }
+        } else {
+          fileContents[path] = &quot;[Arquivo binário ou não suportado para leitura direta]&quot;;
+        }
+      });
+
+      Promise.all(promises).then(() =&gt; {
+        renderFileList();
+        alert(&quot;Projeto carregado com sucesso! Arquivos prontos no visualizador.&quot;);
+      });
+    }
+
+    function renderFileList() {
+      const container = document.getElementById('fileList');
+      if (currentFiles.length === 0) {
+        container.innerHTML = '&lt;p class=&quot;text-[#6b8f68] italic p-2&quot;&gt;Nenhum arquivo encontrado.&lt;/p&gt;';
+        return;
+      }
+      container.innerHTML = currentFiles.map(file =&gt; 
+        `&lt;div class=&quot;p-1.5 hover:bg-borderGreen/30 rounded cursor-pointer truncate border-b border-borderGreen/10&quot; onclick=&quot;openFile('${file}')&quot;&gt;📄 ${file}&lt;/div&gt;`
+      ).join('');
+    }
+
+    function openFile(filename) {
+      document.getElementById('currentFileName').innerText = `📝 ${filename}`;
+      document.getElementById('fileContent').value = fileContents[filename] || &quot;&quot;;
+    }
+
+    function filterFiles() {
+      const term = document.getElementById('search').value.toLowerCase();
+      const filtered = currentFiles.filter(f =&gt; f.toLowerCase().includes(term));
+      const container = document.getElementById('fileList');
+      container.innerHTML = filtered.map(file =&gt; 
+        `&lt;div class=&quot;p-1.5 hover:bg-borderGreen/30 rounded cursor-pointer truncate border-b border-borderGreen/10&quot; onclick=&quot;openFile('${file}')&quot;&gt;📄 ${file}&lt;/div&gt;`
+      ).join('');
+    }
+
+    function copyCode() {
+      const content = document.getElementById('fileContent').value;
+      navigator.clipboard.writeText(content);
+      alert(&quot;Código copiado para a área de transferência!&quot;);
+    }
+
+    async function loadFromGitHub() {
+      let url = document.getElementById('githubUrl').value.trim();
+      if (!url) return alert(&quot;Por favor, cole o link do repositório GitHub.&quot;);
+      
+      // Converte URL normal do GitHub para URL de download do ZIP da API
+      if (url.includes('github.com') &amp;&amp; !url.includes('api.github.com')) {
+        url = url.replace('github.com', 'api.github.com/repos') + '/zipball/main';
+      }
+
+      try {
+        alert(&quot;Baixando repositório do GitHub... Aguarde.&quot;);
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error(&quot;Erro ao acessar repositório. Verifique se ele é público.&quot;);
+        const blob = await resp.blob();
+        const buffer = await blob.arrayBuffer();
+        const zip = await JSZip.loadAsync(buffer);
+        processZip(zip);
+      } catch(e) {
+        alert(&quot;Falha ao baixar: &quot; + e.message);
+      }
+    }
+
+    // ==================== LÓGICA DO COMBINADOR (ADAPTADA) ====================
+    const STORAGE_KEY = &quot;sk-combinador:v1&quot;;
+
+    function createEmptyApp() {
+      return {
+        id: Math.random().toString(36).slice(2, 9),
+        name: &quot;&quot;,
+        sourceType: &quot;github&quot;, // github ou zip
+        sourceLocation: &quot;&quot;,   // URL do GitHub ou nome do arquivo ZIP
+        works: &quot;&quot;,
+        broken: &quot;&quot;
+      };
+    }
+
+    // Salvar estado no LocalStorage automaticamente
+    function saveCombinerState() {
+      const goal = document.getElementById('combinerGoal').value;
+      const state = { apps: appsToCombine, goal: goal };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    // Carregar estado salvo
+    function loadCombinerState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          appsToCombine = parsed.apps || [];
+          document.getElementById('combinerGoal').value = parsed.goal || &quot;&quot;;
+        }
+      } catch(e) {
+        console.log(&quot;Erro ao carregar cache do combinador:&quot;, e);
+      }
+      
+      if (appsToCombine.length === 0) {
+        appsToCombine.push(createEmptyApp());
+      }
+      renderAppCards();
+    }
+
+    function renderAppCards() {
+      const container = document.getElementById('appsContainer');
+      container.innerHTML = appsToCombine.map((app, idx) =&gt; `
+        &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-4 space-y-3 relative&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center&quot;&gt;
+            &lt;span class=&quot;text-brandGreen text-xs font-bold uppercase tracking-wider&quot;&gt;📦 Código/App de Origem #${idx + 1}&lt;/span&gt;
+            ${appsToCombine.length &gt; 1 ? `
+              &lt;button onclick=&quot;removeAppCard('${app.id}')&quot; class=&quot;text-xs text-red-400 hover:text-red-300 transition-colors&quot;&gt;
+                ❌ Remover
+              &lt;/button&gt;
+            ` : ''}
+          &lt;/div&gt;
+
+          &lt;div class=&quot;grid grid-cols-1 md:grid-cols-3 gap-3&quot;&gt;
+            &lt;div&gt;
+              &lt;label class=&quot;block text-focusGreen text-[11px] font-semibold mb-1&quot;&gt;Nome de Identificação&lt;/label&gt;
+              &lt;input type=&quot;text&quot; value=&quot;${app.name}&quot; onchange=&quot;updateAppField('${app.id}', 'name', this.value)&quot; placeholder=&quot;Ex: PWA Jurídico Base&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-textGreen placeholder-[#3d6e2a] outline-none&quot;&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;label class=&quot;block text-focusGreen text-[11px] font-semibold mb-1&quot;&gt;Origem do Código&lt;/label&gt;
+              &lt;select onchange=&quot;updateAppField('${app.id}', 'sourceType', this.value)&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-textGreen outline-none&quot;&gt;
+                &lt;option value=&quot;github&quot; ${app.sourceType === 'github' ? 'selected' : ''}&gt;Repositório GitHub&lt;/option&gt;
+                &lt;option value=&quot;zip&quot; ${app.sourceType === 'zip' ? 'selected' : ''}&gt;Arquivo ZIP local&lt;/option&gt;
+              &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;label class=&quot;block text-focusGreen text-[11px] font-semibold mb-1&quot;&gt;Endereço / Nome do Arquivo&lt;/label&gt;
+              &lt;input type=&quot;text&quot; value=&quot;${app.sourceLocation}&quot; onchange=&quot;updateAppField('${app.id}', 'sourceLocation', this.value)&quot; placeholder=&quot;Link do GitHub ou nome do ZIP&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-textGreen placeholder-[#3d6e2a] outline-none&quot;&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class=&quot;grid grid-cols-1 md:grid-cols-2 gap-3&quot;&gt;
+            &lt;div&gt;
+              &lt;label class=&quot;block text-focusGreen text-[11px] font-semibold mb-1&quot;&gt;✅ O que funciona perfeitamente e deve ser mantido&lt;/label&gt;
+              &lt;textarea rows=&quot;2&quot; onchange=&quot;updateAppField('${app.id}', 'works', this.value)&quot; placeholder=&quot;Ex: O sistema de importação de ZIP de 70 mil arquivos funciona muito bem no arquivo app.js...&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-textGreen placeholder-[#3d6e2a] outline-none focus:border-focusGreen resize-none&quot;&gt;${app.works}&lt;/textarea&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;label class=&quot;block text-focusGreen text-[11px] font-semibold mb-1&quot;&gt;❌ O que está quebrado ou precisa ser refeito&lt;/label&gt;
+              &lt;textarea rows=&quot;2&quot; onchange=&quot;updateAppField('${app.id}', 'broken', this.value)&quot; placeholder=&quot;Ex: A tela de preview ao vivo dá tela azul quando clica no botão de renderizar...&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-textGreen placeholder-[#3d6e2a] outline-none focus:border-focusGreen resize-none&quot;&gt;${app.broken}&lt;/textarea&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      `).join('');
+    }
+
+    function addAppCard() {
+      appsToCombine.push(createEmptyApp());
+      renderAppCards();
+      saveCombinerState();
+    }
+
+    function removeAppCard(id) {
+      appsToCombine = appsToCombine.filter(app =&gt; app.id !== id);
+      renderAppCards();
+      saveCombinerState();
+    }
+
+    function updateAppField(id, field, value) {
+      appsToCombine = appsToCombine.map(app =&gt; app.id === id ? { ...app, [field]: value } : app);
+      saveCombinerState();
+    }
+
+    function clearAllCombiner() {
+      if (confirm(&quot;Tem certeza que deseja limpar todos os dados do combinador?&quot;)) {
+        appsToCombine = [createEmptyApp()];
+        document.getElementById('combinerGoal').value = &quot;&quot;;
+        document.getElementById('promptResultContainer').classList.add('hidden');
+        renderAppCards();
+        saveCombinerState();
+      }
+    }
+
+    // ==================== GERADOR DE SUPER PROMPT ====================
+    function generateSuperPrompt() {
+      const goal = document.getElementById('combinerGoal').value.trim();
+      const filledApps = appsToCombine.filter(app =&gt; app.name.trim() || app.sourceLocation.trim() || app.works.trim() || app.broken.trim());
+
+      if (filledApps.length === 0) {
+        alert(&quot;Por favor, preencha pelo menos um aplicativo ou código de origem.&quot;);
+        return;
+      }
+
+      let prompt = `Estou usando o SK Editor Jurídico v2 e preciso unificar códigos de projetos diferentes em uma única versão estável.
+
+🎯 OBJETIVO DO PROJETO UNIFICADO:
+${goal ? goal : &quot;Combinar os códigos mantendo a estabilidade e eliminando erros de dependência/Replit.&quot;}
+
+--------------------------------------------------
+📦 FONTES DE CÓDIGO A SEREM ANALISADAS:
+`;
+
+      filledApps.forEach((app, idx) =&gt; {
+        prompt += `\n[CÓDIGO ${idx + 1}: ${app.name || 'Sem Nome'}]\n`;
+        prompt += `- Origem: ${app.sourceType === 'github' ? 'Repositório GitHub' : 'Arquivo ZIP'}\n`;
+        prompt += `- Endereço/Referência: ${app.sourceLocation || 'Não especificado'}\n`;
+        prompt += `- ✅ O QUE FUNCIONA E DEVE SER MANTIDO:\n  ${app.works || 'Não especificado'}\n`;
+        prompt += `- ❌ O QUE ESTÁ QUEBRADO E DEVE SER CORRIGIDO:\n  ${app.broken || 'Não especificado'}\n`;
+      });
+
+      prompt += `
+--------------------------------------------------
+🛠️ INSTRUÇÕES DE ARQUITETURA PARA A IA (CRÍTICAS):
+1. NÃO comece o projeto do zero. Aproveite a lógica de importação de arquivos pesados e persistência local que já funciona.
+2. Remova qualquer dependência desnecessária do Replit (como arquivos .replit, replit.nix ou pacotes que dependem de terminal).
+3. O projeto final deve rodar como um PWA de arquivo único (HTML/JS) ou uma estrutura limpa de Vite+React que possa ser aberta diretamente no navegador sem precisar de servidores locais complexos.
+4. Explique detalhadamente quais partes de código você unificou e de qual arquivo original elas vieram.
+5. Apresente o código pronto e limpo para ser copiado.
+
+Por favor, analise a estrutura e me dê o plano de unificação e o código corrigido.`;
+
+      document.getElementById('generatedPromptTextarea').value = prompt;
+      document.getElementById('promptResultContainer').classList.remove('hidden');
+      document.getElementById('promptResultContainer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyGeneratedPrompt() {
+      const txt = document.getElementById('generatedPromptTextarea');
+      txt.select();
+      document.execCommand('copy');
+      alert(&quot;Prompt copiado com sucesso! Agora você pode colar na IA (Gemini, ChatGPT, etc.) para ela gerar o código unificado.&quot;);
+    }
+
+    // Inicialização
+    window.onload = () =&gt; {
+      loadCombinerState();
+    };
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto1">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;SK Editor Jurídico v3 - Maikon Caldeira&lt;/title&gt;
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            darkBg: '#0a0f1e',
+            panelBg: '#0d1626',
+            borderGreen: '#1e2d45',
+            textGreen: '#94a3b8',
+            brandGreen: '#38bdf8',
+            focusGreen: '#0284c7',
+            matrixGreen: '#22c55e',
+            matrixBg: '#0d1309',
+            matrixBorder: '#2d4a1e'
+          }
+        }
+      }
+    }
+  &lt;/script&gt;
+  &lt;style&gt;
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0f1e; }
+    ::-webkit-scrollbar-thumb { background: #1e2d45; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 0.8s linear infinite; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body class=&quot;bg-darkBg text-textGreen font-sans min-h-screen flex flex-col&quot;&gt;
+
+  &lt;!-- Header Unificado --&gt;
+  &lt;header class=&quot;bg-panelBg border-b border-borderGreen p-4 flex flex-col md:flex-row justify-between items-center gap-4 shrink-0&quot;&gt;
+    &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+      &lt;span class=&quot;text-2xl&quot;&gt;🔍&lt;/span&gt;
+      &lt;div&gt;
+        &lt;h1 class=&quot;text-brandGreen font-bold text-lg flex items-center gap-2&quot;&gt;
+          SK Editor &amp; Scanner Jurídico &lt;span class=&quot;text-xs bg-brandGreen/20 text-brandGreen px-2 py-0.5 rounded&quot;&gt;v3&lt;/span&gt;
+        &lt;/h1&gt;
+        &lt;p class=&quot;text-[11px] text-matrixGreen font-mono&quot;&gt;Maikon Caldeira OAB/MG 183712 — 100% Local &amp; Seguro&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Menu de Abas --&gt;
+    &lt;div class=&quot;flex flex-wrap gap-1&quot;&gt;
+      &lt;button onclick=&quot;showSection('importar')&quot; class=&quot;tab-btn bg-borderGreen text-brandGreen px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-focusGreen hover:text-white transition-all&quot;&gt;📥 Importar&lt;/button&gt;
+      &lt;button onclick=&quot;showSection('editor')&quot; class=&quot;tab-btn bg-borderGreen text-brandGreen px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-focusGreen hover:text-white transition-all&quot;&gt;📂 Editor de Código&lt;/button&gt;
+      &lt;button onclick=&quot;showSection('scanner')&quot; class=&quot;tab-btn bg-borderGreen text-brandGreen px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-focusGreen hover:text-white transition-all&quot;&gt;🛡️ Scanner de Dependências&lt;/button&gt;
+      &lt;button onclick=&quot;showSection('combinar')&quot; class=&quot;tab-btn bg-borderGreen text-brandGreen px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-focusGreen hover:text-white transition-all&quot;&gt;🔗 Combinar Apps&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;!-- ÁREA DE CONTEÚDO --&gt;
+  &lt;main class=&quot;flex-1 overflow-hidden relative flex flex-col&quot;&gt;
+
+    &lt;!-- SEÇÃO 1: IMPORTAR --&gt;
+    &lt;section id=&quot;section-importar&quot; class=&quot;section-panel p-6 space-y-6 overflow-y-auto max-w-4xl mx-auto w-full&quot;&gt;
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-6 text-center space-y-4&quot;&gt;
+        &lt;div class=&quot;text-4xl&quot;&gt;📦&lt;/div&gt;
+        &lt;h2 class=&quot;text-white font-bold text-lg&quot;&gt;Arraste ou Selecione seu Projeto&lt;/h2&gt;
+        &lt;p class=&quot;text-xs text-textGreen&quot;&gt;Suporta arquivos .ZIP, .APK, .AAB, .HTML ou códigos avulsos.&lt;/p&gt;
+        
+        &lt;div class=&quot;border-2 border-dashed border-borderGreen p-8 rounded-lg bg-darkBg/50 hover:border-brandGreen cursor-pointer transition-all&quot; onclick=&quot;document.getElementById('zipInput').click()&quot;&gt;
+          &lt;p class=&quot;text-xs text-brandGreen font-bold&quot;&gt;Clique para procurar arquivo local&lt;/p&gt;
+          &lt;span id=&quot;zipName&quot; class=&quot;block text-[10px] mt-2 text-textGreen&quot;&gt;Nenhum arquivo carregado&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;input type=&quot;file&quot; id=&quot;zipInput&quot; accept=&quot;.zip,.apk,.aab,.html,.js,.json&quot; class=&quot;hidden&quot;&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-6 space-y-4&quot;&gt;
+        &lt;h3 class=&quot;text-white font-bold text-sm flex items-center gap-2&quot;&gt;🌐 Importar direto do GitHub&lt;/h3&gt;
+        &lt;div class=&quot;space-y-2&quot;&gt;
+          &lt;input type=&quot;text&quot; id=&quot;githubUrl&quot; placeholder=&quot;https://github.com/usuario/repositorio&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none&quot;&gt;
+          &lt;div class=&quot;grid grid-cols-2 gap-2&quot;&gt;
+            &lt;input type=&quot;text&quot; id=&quot;githubBranch&quot; placeholder=&quot;branch (padrão: main)&quot; class=&quot;bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none&quot;&gt;
+            &lt;input type=&quot;password&quot; id=&quot;githubToken&quot; placeholder=&quot;Token de Acesso (opcional para privados)&quot; class=&quot;bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none&quot;&gt;
+          &lt;/div&gt;
+          &lt;button onclick=&quot;loadFromGitHub()&quot; class=&quot;w-full bg-focusGreen text-white py-2 rounded-lg text-xs font-bold hover:bg-brandGreen transition-all&quot;&gt;Baixar e Processar Repositório&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;!-- SEÇÃO 2: EDITOR DE CÓDIGO --&gt;
+    &lt;section id=&quot;section-editor&quot; class=&quot;section-panel hidden flex-1 flex flex-col md:flex-row overflow-hidden h-full&quot;&gt;
+      &lt;!-- Lista de arquivos lateral --&gt;
+      &lt;div class=&quot;w-full md:w-80 bg-panelBg border-r border-borderGreen p-3 flex flex-col shrink-0&quot;&gt;
+        &lt;h3 class=&quot;text-xs font-bold text-brandGreen uppercase mb-2 flex justify-between&quot;&gt;
+          &lt;span&gt;📁 Arquivos carregados&lt;/span&gt;
+          &lt;span id=&quot;filesCount&quot; class=&quot;text-matrixGreen&quot;&gt;0&lt;/span&gt;
+        &lt;/h3&gt;
+        &lt;input type=&quot;text&quot; id=&quot;fileSearch&quot; placeholder=&quot;Buscar arquivo...&quot; onkeyup=&quot;filterFiles()&quot; class=&quot;bg-darkBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-white placeholder-gray-600 outline-none mb-2&quot;&gt;
+        &lt;div id=&quot;fileList&quot; class=&quot;flex-1 overflow-y-auto space-y-1 text-xs&quot;&gt;
+          &lt;p class=&quot;text-gray-500 italic p-2 text-center&quot;&gt;Nenhum projeto carregado. Vá em &quot;Importar&quot;.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Editor de código --&gt;
+      &lt;div class=&quot;flex-1 bg-darkBg p-3 flex flex-col overflow-hidden&quot;&gt;
+        &lt;div class=&quot;flex justify-between items-center mb-2 bg-panelBg p-2 rounded-lg border border-borderGreen&quot;&gt;
+          &lt;span id=&quot;currentFileName&quot; class=&quot;text-xs font-mono text-brandGreen font-bold&quot;&gt;📝 Nenhum arquivo selecionado&lt;/span&gt;
+          &lt;div class=&quot;flex gap-2&quot;&gt;
+            &lt;button onclick=&quot;saveCurrentFileChanges()&quot; class=&quot;text-[10px] bg-matrixGreen/20 text-matrixGreen border border-matrixGreen/30 px-2.5 py-1 rounded hover:bg-matrixGreen hover:text-black transition-all&quot;&gt;Salvar Alteração&lt;/button&gt;
+            &lt;button onclick=&quot;downloadModifiedZip()&quot; class=&quot;text-[10px] bg-brandGreen/20 text-brandGreen border border-brandGreen/30 px-2.5 py-1 rounded hover:bg-brandGreen hover:text-black transition-all&quot;&gt;Exportar ZIP Corrigido&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;textarea id=&quot;fileContent&quot; class=&quot;flex-1 w-full bg-[#020617] border border-borderGreen rounded-lg p-4 text-xs font-mono text-matrixGreen outline-none resize-none&quot; placeholder=&quot;// Selecione um arquivo na barra lateral para ler ou editar o código...&quot;&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;!-- SEÇÃO 3: SCANNER DE DEPENDÊNCIAS (Seu código adaptado!) --&gt;
+    &lt;section id=&quot;section-scanner&quot; class=&quot;section-panel hidden p-6 overflow-y-auto max-w-5xl mx-auto w-full space-y-6&quot;&gt;
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-6 space-y-4&quot;&gt;
+        &lt;div class=&quot;flex justify-between items-center border-b border-borderGreen pb-3&quot;&gt;
+          &lt;div&gt;
+            &lt;h2 class=&quot;text-brandGreen font-bold text-lg&quot;&gt;🛡️ Scanner de Dependências &amp; Sujeiras&lt;/h2&gt;
+            &lt;p class=&quot;text-xs text-textGreen&quot;&gt;Detecta referências do Replit, erros de nó e termos customizados.&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;span class=&quot;text-xs text-matrixGreen font-mono&quot;&gt;100% Local&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Busca Customizada --&gt;
+        &lt;div class=&quot;bg-darkBg/50 p-4 rounded-lg border border-borderGreen space-y-2&quot;&gt;
+          &lt;label class=&quot;block text-xs font-bold text-brandGreen&quot;&gt;🔍 Adicionar Busca Customizada (Opcional)&lt;/label&gt;
+          &lt;div class=&quot;flex gap-2&quot;&gt;
+            &lt;input type=&quot;text&quot; id=&quot;customSearchTerm&quot; placeholder=&quot;Digite uma palavra para buscar no projeto (ex: localhost, neon, senha, api)&quot; class=&quot;flex-1 bg-darkBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-white placeholder-gray-600 outline-none&quot;&gt;
+            &lt;button onclick=&quot;runScan()&quot; class=&quot;bg-brandGreen text-black px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-white transition-all&quot;&gt;Escanear Projeto&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Ações do Scanner --&gt;
+        &lt;div id=&quot;scannerActions&quot; class=&quot;hidden flex gap-2&quot;&gt;
+          &lt;button onclick=&quot;downloadScanReport()&quot; class=&quot;bg-borderGreen text-brandGreen border border-brandGreen/30 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-brandGreen hover:text-black transition-all&quot;&gt;📥 Baixar Relatório .TXT&lt;/button&gt;
+          &lt;button onclick=&quot;autoCleanReplitFiles()&quot; class=&quot;bg-red-950/40 text-red-400 border border-red-900/50 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-500 hover:text-white transition-all&quot;&gt;🧹 Limpar Replit e Baixar ZIP&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Resultados do Scan --&gt;
+        &lt;div id=&quot;scannerResults&quot; class=&quot;space-y-3&quot;&gt;
+          &lt;p class=&quot;text-xs text-gray-500 italic text-center py-8&quot;&gt;Importe um projeto e clique em &quot;Escanear Projeto&quot; para ver os resultados.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;!-- SEÇÃO 4: COMBINAR APLICATIVOS --&gt;
+    &lt;section id=&quot;section-combinar&quot; class=&quot;section-panel hidden p-6 overflow-y-auto max-w-4xl mx-auto w-full space-y-6&quot;&gt;
+      &lt;div class=&quot;bg-matrixBg border border-matrixBorder rounded-xl p-6 space-y-4&quot;&gt;
+        &lt;div class=&quot;flex justify-between items-center border-b border-matrixBorder pb-3&quot;&gt;
+          &lt;div&gt;
+            &lt;h2 class=&quot;text-matrixGreen font-bold text-lg&quot;&gt;🔗 Combinar Projetos &amp; Códigos&lt;/h2&gt;
+            &lt;p class=&quot;text-xs text-[#6b8f68]&quot;&gt;Monte a estrutura ideal e gere o prompt perfeito para a IA unificar seus códigos.&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;button onclick=&quot;clearCombiner()&quot; class=&quot;text-xs border border-matrixBorder text-[#6b8f68] px-2.5 py-1 rounded hover:text-matrixGreen transition-all&quot;&gt;Limpar Tudo&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+          &lt;label class=&quot;block text-matrixGreen text-xs font-semibold mb-1&quot;&gt;🎯 Objetivo do Aplicativo Final&lt;/label&gt;
+          &lt;textarea id=&quot;combinerGoal&quot; rows=&quot;2&quot; placeholder=&quot;Ex: Unificar meu PWA Jurídico com a função de gerar relatórios em PDF...&quot; class=&quot;w-full bg-darkBg border border-matrixBorder rounded-lg px-3 py-2 text-xs text-textGreen placeholder-[#3d6e2a] outline-none resize-none&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;appsContainer&quot; class=&quot;space-y-4&quot;&gt;&lt;/div&gt;
+
+        &lt;div class=&quot;flex gap-2&quot;&gt;
+          &lt;button onclick=&quot;addAppCard()&quot; class=&quot;flex-1 py-2 border border-dashed border-matrixBorder rounded-lg text-matrixGreen text-xs font-bold hover:bg-matrixBorder/20 transition-all&quot;&gt;➕ Adicionar Outro Código&lt;/button&gt;
+          &lt;button onclick=&quot;generateSuperPrompt()&quot; class=&quot;flex-1 py-2 bg-matrixBorder text-matrixGreen font-bold text-xs rounded-lg hover:bg-matrixGreen hover:text-black transition-all&quot;&gt;✨ Gerar Prompt de Unificação&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Prompt Gerado --&gt;
+        &lt;div id=&quot;promptResultContainer&quot; class=&quot;hidden bg-darkBg border border-matrixBorder rounded-xl overflow-hidden mt-4&quot;&gt;
+          &lt;div class=&quot;flex items-center justify-between px-3 py-2 bg-matrixBorder/30 border-b border-matrixBorder&quot;&gt;
+            &lt;span class=&quot;text-matrixGreen text-xs font-bold&quot;&gt;📋 Prompt Pronto para Copiar&lt;/span&gt;
+            &lt;button onclick=&quot;copyGeneratedPrompt()&quot; class=&quot;text-xs bg-matrixBorder text-matrixGreen px-3 py-1 rounded hover:bg-matrixGreen hover:text-black transition-all&quot;&gt;Copiar Prompt&lt;/button&gt;
+          &lt;/div&gt;
+          &lt;textarea id=&quot;generatedPromptTextarea&quot; rows=&quot;8&quot; class=&quot;w-full bg-darkBg p-3 text-xs text-[#8cba89] font-mono leading-relaxed outline-none resize-none&quot; readonly&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+  &lt;/main&gt;
+
+  &lt;!-- Loader de Processamento Global --&gt;
+  &lt;div id=&quot;globalLoader&quot; class=&quot;hidden fixed inset-0 bg-black/80 z-50 flex flex-col items-center justify-center space-y-4&quot;&gt;
+    &lt;div class=&quot;w-12 h-12 border-4 border-brandGreen border-t-transparent rounded-full spinner&quot;&gt;&lt;/div&gt;
+    &lt;p id=&quot;loaderMsg&quot; class=&quot;text-brandGreen font-mono text-xs&quot;&gt;Processando arquivos...&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    // ==================== ESTADO GLOBAL ====================
+    let currentFiles = [];
+    let fileContents = {};
+    let appsToCombine = [];
+    let activeFile = null;
+
+    // Lógica do Scanner de Dependências (Igual ao seu código original)
+    const _p = String.fromCharCode(114,101,112,108,105,116); // &quot;replit&quot;
+    const PATS = [
+      { re: new RegExp(_p + &quot;\\.com&quot;,    &quot;gi&quot;), lb: &quot;url-plataforma&quot; },
+      { re: new RegExp(&quot;repl\\.it&quot;,      &quot;gi&quot;), lb: &quot;url-plataforma-antiga&quot; },
+      { re: new RegExp(_p.toUpperCase() + &quot;_&quot;, &quot;g&quot;),  lb: &quot;var-plataforma&quot; },
+      { re: new RegExp(&quot;REPL_ID&quot;,        &quot;g&quot;),  lb: &quot;var-id-plataforma&quot; },
+      { re: new RegExp(&quot;REPL_SLUG&quot;,      &quot;g&quot;),  lb: &quot;var-slug-plataforma&quot; },
+      { re: new RegExp(&quot;REPL_OWNER&quot;,     &quot;g&quot;),  lb: &quot;var-owner-plataforma&quot; },
+      { re: new RegExp(&quot;@&quot; + _p + &quot;/&quot;,   &quot;gi&quot;), lb: &quot;pacote-externo&quot; },
+      { re: /vite-plugin-runtime-error-modal/gi,  lb: &quot;plugin-error-externo&quot; },
+      { re: /vite-plugin-cartographer/gi,         lb: &quot;plugin-cartographer-externo&quot; },
+      { re: /vite-plugin-dev-banner/gi,           lb: &quot;plugin-banner-externo&quot; },
+      { re: new RegExp(&quot;\\.&quot; + _p + &quot;\\b&quot;, &quot;gi&quot;), lb: &quot;config-plataforma&quot; },
+      { re: new RegExp(_p + &quot;\\.app&quot;,    &quot;gi&quot;), lb: &quot;dominio-hospedagem&quot; },
+      { re: new RegExp(_p + &quot;-dev\\.com&quot;,&quot;gi&quot;), lb: &quot;dominio-dev-externo&quot; },
+      { re: new RegExp(&quot;pid1\\.&quot; + _p,   &quot;gi&quot;), lb: &quot;processo-plataforma&quot; },
+    ];
+
+    const SKIP_EXT = new Set([&quot;png&quot;,&quot;jpg&quot;,&quot;jpeg&quot;,&quot;gif&quot;,&quot;webp&quot;,&quot;ico&quot;,&quot;woff&quot;,&quot;woff2&quot;,&quot;ttf&quot;,&quot;eot&quot;,&quot;otf&quot;,&quot;mp3&quot;,&quot;mp4&quot;,&quot;webm&quot;,&quot;ogg&quot;,&quot;bin&quot;,&quot;class&quot;,&quot;dex&quot;]);
+
+    // ==================== NAVEGAÇÃO DE ABAS ====================
+    function showSection(id) {
+      document.querySelectorAll('.section-panel').forEach(p =&gt; p.classList.add('hidden'));
+      document.getElementById(`section-${id}`).classList.remove('hidden');
+    }
+
+    // ==================== LOADER CONTROL ====================
+    function showLoader(msg) {
+      document.getElementById('loaderMsg').innerText = msg;
+      document.getElementById('globalLoader').classList.remove('hidden');
+    }
+    function hideLoader() {
+      document.getElementById('globalLoader').classList.add('hidden');
+    }
+
+    // ==================== PROCESSAMENTO DE ARQUIVOS ====================
+    document.getElementById('zipInput').addEventListener('change', async (e) =&gt; {
+      const file = e.target.files[0];
+      if (!file) return;
+      document.getElementById('zipName').innerText = file.name;
+      showLoader(&quot;Carregando arquivo...&quot;);
+      
+      try {
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (['zip', 'apk', 'aab', 'aar'].includes(ext)) {
+          const buffer = await file.arrayBuffer();
+          const zip = await JSZip.loadAsync(buffer);
+          await processZip(zip);
+        } else {
+          // Arquivo único
+          const text = await file.text();
+          currentFiles = [file.name];
+          fileContents[file.name] = text;
+          renderFileList();
+          showSection('editor');
+        }
+      } catch(e) {
+        alert(&quot;Erro ao ler arquivo: &quot; + e.message);
+      } finally {
+        hideLoader();
+      }
+    });
+
+    async function processZip(zip) {
+      currentFiles = [];
+      fileContents = {};
+
+      zip.forEach((path, entry) =&gt; {
+        if (!entry.dir) currentFiles.push(path);
+      });
+
+      currentFiles.sort();
+      showLoader(`Processando ${currentFiles.length} arquivos...`);
+
+      let promises = currentFiles.map(async (path) =&gt; {
+        const ext = path.split('.').pop().toLowerCase();
+        if (SKIP_EXT.has(ext)) {
+          fileContents[path] = &quot;[Arquivo binário/mídia não legível]&quot;;
+          return;
+        }
+        try {
+          fileContents[path] = await zip.file(path).async('string');
+        } catch(e) {
+          fileContents[path] = &quot;[Erro ao ler arquivo]&quot;;
+        }
+      });
+
+      await Promise.all(promises);
+      renderFileList();
+      showSection('editor');
+    }
+
+    function renderFileList() {
+      const container = document.getElementById('fileList');
+      document.getElementById('filesCount').innerText = currentFiles.length;
+      
+      if (currentFiles.length === 0) {
+        container.innerHTML = '&lt;p class=&quot;text-gray-500 italic p-2 text-center&quot;&gt;Nenhum arquivo encontrado.&lt;/p&gt;';
+        return;
+      }
+
+      container.innerHTML = currentFiles.map(file =&gt; {
+        const isSujo = checkSingleFileIsDirty(file);
+        const badge = isSujo ? '&lt;span class=&quot;text-[9px] bg-red-950 text-red-400 px-1 rounded&quot;&gt;sujo&lt;/span&gt;' : '';
+        return `&lt;div class=&quot;p-1.5 hover:bg-borderGreen rounded cursor-pointer flex justify-between items-center truncate border-b border-borderGreen/10&quot; onclick=&quot;openFile('${file}')&quot;&gt;
+          &lt;span class=&quot;truncate&quot;&gt;📄 ${file}&lt;/span&gt;
+          ${badge}
+        &lt;/div&gt;`;
+      }).join('');
+    }
+
+    function checkSingleFileIsDirty(filename) {
+      const content = fileContents[filename] || &quot;&quot;;
+      return PATS.some(p =&gt; {
+        p.re.lastIndex = 0;
+        const test = p.re.test(content);
+        p.re.lastIndex = 0;
+        return test;
+      });
+    }
+
+    function openFile(filename) {
+      activeFile = filename;
+      document.getElementById('currentFileName').innerText = `📝 ${filename}`;
+      document.getElementById('fileContent').value = fileContents[filename] || &quot;&quot;;
+      showSection('editor');
+    }
+
+    function filterFiles() {
+      const term = document.getElementById('fileSearch').value.toLowerCase();
+      const filtered = currentFiles.filter(f =&gt; f.toLowerCase().includes(term));
+      const container = document.getElementById('fileList');
+      container.innerHTML = filtered.map(file =&gt; {
+        const isSujo = checkSingleFileIsDirty(file);
+        const badge = isSujo ? '&lt;span class=&quot;text-[9px] bg-red-950 text-red-400 px-1 rounded&quot;&gt;sujo&lt;/span&gt;' : '';
+        return `&lt;div class=&quot;p-1.5 hover:bg-borderGreen rounded cursor-pointer flex justify-between items-center truncate border-b border-borderGreen/10&quot; onclick=&quot;openFile('${file}')&quot;&gt;
+          &lt;span class=&quot;truncate&quot;&gt;📄 ${file}&lt;/span&gt;
+          ${badge}
+        &lt;/div&gt;`;
+      }).join('');
+    }
+
+    function saveCurrentFileChanges() {
+      if (!activeFile) return alert(&quot;Selecione um arquivo primeiro!&quot;);
+      fileContents[activeFile] = document.getElementById('fileContent').value;
+      alert(&quot;Alteração salva na memória local!&quot;);
+      renderFileList();
+    }
+
+    async function downloadModifiedZip() {
+      showLoader(&quot;Gerando novo arquivo ZIP...&quot;);
+      const zip = new JSZip();
+      currentFiles.forEach(file =&gt; {
+        zip.file(file, fileContents[file]);
+      });
+      const content = await zip.generateAsync({type:&quot;blob&quot;});
+      const link = document.createElement(&quot;a&quot;);
+      link.href = URL.createObjectURL(content);
+      link.download = &quot;projeto-corrigido-sk.zip&quot;;
+      link.click();
+      hideLoader();
+    }
+
+    // ==================== GITHUB IMPORT ====================
+    async function loadFromGitHub() {
+      let url = document.getElementById('githubUrl').value.trim();
+      let branch = document.getElementById('githubBranch').value.trim() || 'main';
+      let token = document.getElementById('githubToken').value.trim();
+
+      if (!url) return alert(&quot;Por favor, cole o link do repositório GitHub.&quot;);
+      
+      const m = url.match(/github\.com\/([^/]+)\/([^/]+)/);
+      if (!m) return alert(&quot;URL inválida. Use: https://github.com/usuario/repositorio&quot;);
+      const [, owner, repo] = m;
+
+      showLoader(&quot;Baixando repositório do GitHub...&quot;);
+      const zipUrl = `https://codeload.github.com/${owner}/${repo}/zip/refs/heads/${branch}`;
+      const hdrs = token ? { Authorization: `token ${token}` } : {};
+
+      try {
+        let resp = await fetch(zipUrl, { headers: hdrs });
+        if (!resp.ok) {
+          showLoader(&quot;Tentando via proxy secundário...&quot;);
+          const px = `https://api.allorigins.win/raw?url=${encodeURIComponent(zipUrl)}`;
+          resp = await fetch(px);
+        }
+        if (!resp.ok) throw new Error(&quot;Não foi possível baixar o repositório. Verifique se ele é público.&quot;);
+        
+        const blob = await resp.blob();
+        const buffer = await blob.arrayBuffer();
+        const zip = await JSZip.loadAsync(buffer);
+        
+        // Remove prefixo de pasta que o GitHub coloca no ZIP
+        const tempFiles = Object.keys(zip.files).filter(n =&gt; !zip.files[n].dir);
+        const prefix = (tempFiles[0]?.split(&quot;/&quot;)[0] ?? &quot;&quot;) + &quot;/&quot;;
+
+        currentFiles = [];
+        fileContents = {};
+
+        for (const n of tempFiles) {
+          const rel = n.startsWith(prefix) ? n.slice(prefix.length) : n;
+          if (!rel) continue;
+          currentFiles.push(rel);
+          fileContents[rel] = await zip.files[n].async(&quot;string&quot;);
+        }
+
+        currentFiles.sort();
+        renderFileList();
+        showSection('editor');
+        alert(&quot;Repositório importado com sucesso!&quot;);
+      } catch(e) {
+        alert(&quot;Erro: &quot; + e.message);
+      } finally {
+        hideLoader();
+      }
+    }
+
+    // ==================== LÓGICA DO SCANNER ====================
+    let scanResultsData = [];
+
+    function runScan() {
+      if (currentFiles.length === 0) return alert(&quot;Por favor, carregue um projeto primeiro!&quot;);
+      
+      const customTerm = document.getElementById('customSearchTerm').value.trim();
+      let customRegex = null;
+      if (customTerm) {
+        customRegex = new RegExp(customTerm, &quot;gi&quot;);
+      }
+
+      scanResultsData = [];
+      showLoader(&quot;Escaneando arquivos...&quot;);
+
+      currentFiles.forEach(file =&gt; {
+        const content = fileContents[file] || &quot;&quot;;
+        const lines = content.split('\n');
+        const hits = [];
+
+        lines.forEach((line, idx) =&gt; {
+          const foundLabels = [];
+          
+          // Verifica regras padrões do Replit
+          PATS.forEach(p =&gt; {
+            p.re.lastIndex = 0;
+            if (p.re.test(line)) {
+              foundLabels.push(p.lb);
+            }
+            p.re.lastIndex = 0;
+          });
+
+          // Verifica termo customizado
+          if (customRegex) {
+            customRegex.lastIndex = 0;
+            if (customRegex.test(line)) {
+              foundLabels.push(`busca:&quot;${customTerm}&quot;`);
+            }
+            customRegex.lastIndex = 0;
+          }
+
+          if (foundLabels.length &gt; 0) {
+            hits.push({
+              ln: idx + 1,
+              txt: line.trim().slice(0, 150),
+              labels: foundLabels
+            });
+          }
+        });
+
+        if (hits.length &gt; 0) {
+          scanResultsData.push({
+            nome: file,
+            hits: hits
+          });
+        }
+      });
+
+      renderScanResults();
+      document.getElementById('scannerActions').classList.remove('hidden');
+      hideLoader();
+    }
+
+    function renderScanResults() {
+      const container = document.getElementById('scannerResults');
+      if (scanResultsData.length === 0) {
+        container.innerHTML = `
+          &lt;div class=&quot;text-center py-8 text-matrixGreen bg-matrixBg/20 border border-matrixBorder rounded-lg&quot;&gt;
+            🟢 Nenhuma dependência indesejada ou termo de busca encontrado! Projeto limpo.
+          &lt;/div&gt;`;
+        return;
+      }
+
+      container.innerHTML = `
+        &lt;div class=&quot;text-xs text-red-400 mb-2 font-mono&quot;&gt;⚠️ Encontrados ${scanResultsData.length} arquivos com possíveis problemas:&lt;/div&gt;
+        &lt;div class=&quot;space-y-2&quot;&gt;
+          ${scanResultsData.map((res, idx) =&gt; `
+            &lt;div class=&quot;bg-darkBg border border-red-950 rounded-lg overflow-hidden&quot;&gt;
+              &lt;div class=&quot;bg-red-950/20 px-3 py-2 flex justify-between items-center border-b border-red-950/40&quot;&gt;
+                &lt;span class=&quot;font-mono text-xs text-red-300 truncate cursor-pointer hover:underline&quot; onclick=&quot;openFile('${res.nome}')&quot;&gt;📄 ${res.nome}&lt;/span&gt;
+                &lt;button onclick=&quot;openFile('${res.nome}')&quot; class=&quot;text-[10px] bg-brandGreen/20 text-brandGreen px-2 py-0.5 rounded hover:bg-brandGreen hover:text-black&quot;&gt;Abrir no Editor&lt;/button&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;p-2 space-y-1 bg-black/30&quot;&gt;
+                ${res.hits.map(h =&gt; `
+                  &lt;div class=&quot;text-[11px] font-mono text-red-200/80 flex gap-2&quot;&gt;
+                    &lt;span class=&quot;text-gray-600&quot;&gt;Linha ${h.ln}:&lt;/span&gt;
+                    &lt;span class=&quot;text-yellow-500/80 bg-yellow-500/10 px-1 rounded text-[9px]&quot;&gt;${h.labels.join(', ')}&lt;/span&gt;
+                    &lt;span class=&quot;truncate&quot;&gt;${h.txt}&lt;/span&gt;
+                  &lt;/div&gt;
+                `).join('')}
+              &lt;/div&gt;
+            &lt;/div&gt;
+          `).join('')}
+        &lt;/div&gt;`;
+    }
+
+    function downloadScanReport() {
+      let txt = `=== RELATÓRIO DE DEPENDÊNCIAS ===\n`;
+      txt += `Gerado em: ${new Date().toLocaleString('pt-BR')}\n`;
+      txt += `Assinado: Maikon Caldeira OAB/MG 183712\n`;
+      txt += `Total de arquivos com problemas: ${scanResultsData.length}\n\n`;
+
+      scanResultsData.forEach(res =&gt; {
+        txt += `\n► ARQUIVO: ${res.nome}\n`;
+        res.hits.forEach(h =&gt; {
+          txt += `  [L${h.ln}] [${h.labels.join(', ')}] -&gt; ${h.txt}\n`;
+        });
+      });
+
+      const blob = new Blob([txt], {type: &quot;text/plain;charset=utf-8&quot;});
+      const link = document.createElement(&quot;a&quot;);
+      link.href = URL.createObjectURL(blob);
+      link.download = &quot;relatorio-scanner-maikon.txt&quot;;
+      link.click();
+    }
+
+    async function autoCleanReplitFiles() {
+      if (!confirm(&quot;Isso vai remover automaticamente as linhas contendo referências do Replit nos arquivos detectados. Deseja continuar?&quot;)) return;
+      
+      showLoader(&quot;Limpando arquivos...&quot;);
+      scanResultsData.forEach(res =&gt; {
+        let content = fileContents[res.nome] || &quot;&quot;;
+        let lines = content.split('\n');
+        
+        // Filtra as linhas que não dão match com nenhum padrão do Replit
+        let cleanLines = lines.filter(line =&gt; {
+          return !PATS.some(p =&gt; {
+            p.re.lastIndex = 0;
+            const isMatch = p.re.test(line);
+            p.re.lastIndex = 0;
+            return isMatch;
+          });
+        });
+
+        fileContents[res.nome] = cleanLines.join('\n');
+      });
+
+      alert(&quot;Arquivos limpos localmente! Iniciando download do ZIP corrigido.&quot;);
+      await downloadModifiedZip();
+      runScan(); // Refaz o scan para atualizar a tela
+    }
+
+    // ==================== LÓGICA DO COMBINADOR ====================
+    const COMBINER_STORAGE_KEY = &quot;sk-combinador-v3:data&quot;;
+
+    function createEmptyApp() {
+      return {
+        id: Math.random().toString(36).slice(2, 9),
+        name: &quot;&quot;,
+        sourceType: &quot;github&quot;,
+        sourceLocation: &quot;&quot;,
+        works: &quot;&quot;,
+        broken: &quot;&quot;
+      };
+    }
+
+    function loadCombiner() {
+      try {
+        const raw = localStorage.getItem(COMBINER_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          appsToCombine = parsed.apps || [];
+          document.getElementById('combinerGoal').value = parsed.goal || &quot;&quot;;
+        }
+      } catch(e) {}
+
+      if (appsToCombine.length === 0) {
+        appsToCombine.push(createEmptyApp());
+      }
+      renderAppCards();
+    }
+
+    function saveCombiner() {
+      const goal = document.getElementById('combinerGoal').value;
+      localStorage.setItem(COMBINER_STORAGE_KEY, JSON.stringify({ apps: appsToCombine, goal }));
+    }
+
+    function renderAppCards() {
+      const container = document.getElementById('appsContainer');
+      container.innerHTML = appsToCombine.map((app, idx) =&gt; `
+        &lt;div class=&quot;bg-darkBg border border-matrixBorder rounded-xl p-4 space-y-3&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center&quot;&gt;
+            &lt;span class=&quot;text-matrixGreen text-xs font-bold uppercase&quot;&gt;📦 Código Fonte #${idx + 1}&lt;/span&gt;
+            ${appsToCombine.length &gt; 1 ? `&lt;button onclick=&quot;removeAppCard('${app.id}')&quot; class=&quot;text-xs text-red-400 hover:underline&quot;&gt;Remover&lt;/button&gt;` : ''}
+          &lt;/div&gt;
+          &lt;div class=&quot;grid grid-cols-1 md:grid-cols-3 gap-3&quot;&gt;
+            &lt;input type=&quot;text&quot; value=&quot;${app.name}&quot; onchange=&quot;updateAppField('${app.id}', 'name', this.value)&quot; placeholder=&quot;Nome (ex: PWA Jurídico)&quot; class=&quot;bg-matrixBg border border-matrixBorder rounded-lg px-3 py-1.5 text-xs text-textGreen outline-none&quot;&gt;
+            &lt;select onchange=&quot;updateAppField('${app.id}', 'sourceType', this.value)&quot; class=&quot;bg-matrixBg border border-matrixBorder rounded-lg px-3 py-1.5 text-xs text-textGreen outline-none&quot;&gt;
+              &lt;option value=&quot;github&quot; ${app.sourceType === 'github' ? 'selected' : ''}&gt;GitHub&lt;/option&gt;
+              &lt;option value=&quot;zip&quot; ${app.sourceType === 'zip' ? 'selected' : ''}&gt;Arquivo ZIP&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;input type=&quot;text&quot; value=&quot;${app.sourceLocation}&quot; onchange=&quot;updateAppField('${app.id}', 'sourceLocation', this.value)&quot; placeholder=&quot;Link do GitHub ou Nome do ZIP&quot; class=&quot;bg-matrixBg border border-matrixBorder rounded-lg px-3 py-1.5 text-xs text-textGreen outline-none&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;grid grid-cols-1 md:grid-cols-2 gap-3&quot;&gt;
+            &lt;textarea rows=&quot;2&quot; onchange=&quot;updateAppField('${app.id}', 'works', this.value)&quot; placeholder=&quot;✅ O que funciona perfeitamente...&quot; class=&quot;bg-matrixBg border border-matrixBorder rounded-lg px-3 py-2 text-xs text-textGreen outline-none resize-none&quot;&gt;${app.works}&lt;/textarea&gt;
+            &lt;textarea rows=&quot;2&quot; onchange=&quot;updateAppField('${app.id}', 'broken', this.value)&quot; placeholder=&quot;❌ O que está quebrado...&quot; class=&quot;bg-matrixBg border border-matrixBorder rounded-lg px-3 py-2 text-xs text-textGreen outline-none resize-none&quot;&gt;${app.broken}&lt;/textarea&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      `).join('');
+    }
+
+    function addAppCard() {
+      appsToCombine.push(createEmptyApp());
+      renderAppCards();
+      saveCombiner();
+    }
+
+    function removeAppCard(id) {
+      appsToCombine = appsToCombine.filter(app =&gt; app.id !== id);
+      renderAppCards();
+      saveCombiner();
+    }
+
+    function updateAppField(id, field, value) {
+      appsToCombine = appsToCombine.map(app =&gt; app.id === id ? { ...app, [field]: value } : app);
+      saveCombiner();
+    }
+
+    function clearCombiner() {
+      if (confirm(&quot;Limpar dados do combinador?&quot;)) {
+        appsToCombine = [createEmptyApp()];
+        document.getElementById('combinerGoal').value = &quot;&quot;;
+        document.getElementById('promptResultContainer').classList.add('hidden');
+        renderAppCards();
+        saveCombiner();
+      }
+    }
+
+    function generateSuperPrompt() {
+      const goal = document.getElementById('combinerGoal').value.trim();
+      const filled = appsToCombine.filter(a =&gt; a.name || a.sourceLocation || a.works);
+
+      let prompt = `Estou usando o SK Editor Jurídico v3 e preciso unificar códigos de projetos diferentes em uma única versão estável.
+
+🎯 OBJETIVO DO PROJETO UNIFICADO:
+${goal ? goal : &quot;Combinar os códigos mantendo a estabilidade e eliminando erros de dependência/Replit.&quot;}
+
+--------------------------------------------------
+📦 FONTES DE CÓDIGO A SEREM ANALISADAS:
+`;
+
+      filled.forEach((app, idx) =&gt; {
+        prompt += `\n[CÓDIGO ${idx + 1}: ${app.name || 'Sem Nome'}]\n`;
+        prompt += `- Origem: ${app.sourceType === 'github' ? 'Repositório GitHub' : 'Arquivo ZIP'}\n`;
+        prompt += `- Endereço/Referência: ${app.sourceLocation || 'Não especificado'}\n`;
+        prompt += `- ✅ O QUE FUNCIONA E DEVE SER MANTIDO:\n  ${app.works || 'Não especificado'}\n`;
+        prompt += `- ❌ O QUE ESTÁ QUEBRADO E DEVE SER CORRIGIDO:\n  ${app.broken || 'Não especificado'}\n`;
+      });
+
+      prompt += `
+--------------------------------------------------
+🛠️ INSTRUÇÕES DE ARQUITETURA PARA A IA (CRÍTICAS):
+1. NÃO comece o projeto do zero. Aproveite a lógica de importação de arquivos pesados e persistência local que já funciona.
+2. Remova qualquer dependência desnecessária do Replit (como arquivos .replit, replit.nix ou pacotes que dependem de terminal).
+3. O projeto final deve rodar como um PWA de arquivo único (HTML/JS) ou uma estrutura limpa de Vite+React que possa ser aberta diretamente no navegador sem precisar de servidores locais complexos.
+4. Explique detalhadamente quais partes de código você unificou e de qual arquivo original elas vieram.
+5. Apresente o código pronto e limpo para ser copiado.`;
+
+      document.getElementById('generatedPromptTextarea').value = prompt;
+      document.getElementById('promptResultContainer').classList.remove('hidden');
+    }
+
+    function copyGeneratedPrompt() {
+      const txt = document.getElementById('generatedPromptTextarea');
+      txt.select();
+      document.execCommand('copy');
+      alert(&quot;Prompt copiado! Cole na IA para unificar seu projeto.&quot;);
+    }
+
+    // Inicialização
+    window.onload = () =&gt; {
+      loadCombiner();
+      showSection('importar');
+    };
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto2">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;SK Oficina Jurídica v4 - Maikon Caldeira&lt;/title&gt;
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            darkBg: '#0d1208',
+            panelBg: '#141c0d',
+            borderGreen: '#223018',
+            textGreen: '#c8dda8',
+            brandGreen: '#5fad3c',
+            focusGreen: '#7dcf55',
+            matrixGreen: '#22c55e',
+            accentGold: '#d4aa4e',
+            accentBlue: '#56b6c2'
+          }
+        }
+      }
+    }
+  &lt;/script&gt;
+  &lt;style&gt;
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0d1208; }
+    ::-webkit-scrollbar-thumb { background: #223018; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #5fad3c; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 0.8s linear infinite; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body class=&quot;bg-darkBg text-textGreen font-sans min-h-screen flex flex-col&quot;&gt;
+
+  &lt;!-- Header Unificado --&gt;
+  &lt;header class=&quot;bg-panelBg border-b border-borderGreen p-4 flex flex-col md:flex-row justify-between items-center gap-4 shrink-0&quot;&gt;
+    &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+      &lt;span class=&quot;text-2xl&quot;&gt;⚖️&lt;/span&gt;
+      &lt;div&gt;
+        &lt;h1 class=&quot;text-brandGreen font-bold text-lg flex items-center gap-2&quot;&gt;
+          SK Oficina Jurídica Unificada &lt;span class=&quot;text-xs bg-brandGreen/20 text-brandGreen px-2 py-0.5 rounded&quot;&gt;v4&lt;/span&gt;
+        &lt;/h1&gt;
+        &lt;p class=&quot;text-[11px] text-focusGreen font-mono&quot;&gt;Maikon Caldeira OAB/MG 183712 — Extrator + Scanner + Combiner&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Menu de Abas --&gt;
+    &lt;div class=&quot;flex flex-wrap gap-1&quot;&gt;
+      &lt;button onclick=&quot;showSection('importar')&quot; class=&quot;tab-btn bg-borderGreen text-brandGreen px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;📥 Importar ZIP/APK&lt;/button&gt;
+      &lt;button onclick=&quot;showSection('extrator')&quot; class=&quot;tab-btn bg-borderGreen text-brandGreen px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;🔎 Extrator Web&lt;/button&gt;
+      &lt;button onclick=&quot;showSection('editor')&quot; class=&quot;tab-btn bg-borderGreen text-brandGreen px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;📂 Editor&lt;/button&gt;
+      &lt;button onclick=&quot;showSection('scanner')&quot; class=&quot;tab-btn bg-borderGreen text-brandGreen px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;🛡️ Scanner&lt;/button&gt;
+      &lt;button onclick=&quot;showSection('combinar')&quot; class=&quot;tab-btn bg-borderGreen text-brandGreen px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-focusGreen hover:text-darkBg transition-all&quot;&gt;🔗 Combinar Apps&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;!-- CONTEÚDO PRINCIPAL --&gt;
+  &lt;main class=&quot;flex-1 overflow-hidden relative flex flex-col&quot;&gt;
+
+    &lt;!-- ABA 1: IMPORTAR LOCAL --&gt;
+    &lt;section id=&quot;section-importar&quot; class=&quot;section-panel p-6 space-y-6 overflow-y-auto max-w-4xl mx-auto w-full&quot;&gt;
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-6 text-center space-y-4&quot;&gt;
+        &lt;div class=&quot;text-4xl&quot;&gt;📦&lt;/div&gt;
+        &lt;h2 class=&quot;text-white font-bold text-lg&quot;&gt;Carregar Projeto Local (ZIP ou APK)&lt;/h2&gt;
+        &lt;p class=&quot;text-xs text-textGreen&quot;&gt;Arraste ou selecione o arquivo para extrair e analisar o código-fonte.&lt;/p&gt;
+        
+        &lt;div class=&quot;border-2 border-dashed border-borderGreen p-8 rounded-lg bg-darkBg/50 hover:border-brandGreen cursor-pointer transition-all&quot; onclick=&quot;document.getElementById('zipInput').click()&quot;&gt;
+          &lt;p class=&quot;text-xs text-brandGreen font-bold&quot;&gt;Clique para procurar arquivo local (.zip, .apk, .aab)&lt;/p&gt;
+          &lt;span id=&quot;zipName&quot; class=&quot;block text-[10px] mt-2 text-textGreen&quot;&gt;Nenhum arquivo carregado&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;input type=&quot;file&quot; id=&quot;zipInput&quot; accept=&quot;.zip,.apk,.aab&quot; class=&quot;hidden&quot;&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-6 space-y-4&quot;&gt;
+        &lt;h3 class=&quot;text-white font-bold text-sm flex items-center gap-2&quot;&gt;🌐 Baixar Repositório do GitHub&lt;/h3&gt;
+        &lt;div class=&quot;space-y-2&quot;&gt;
+          &lt;input type=&quot;text&quot; id=&quot;githubUrl&quot; placeholder=&quot;https://github.com/usuario/repositorio&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none&quot;&gt;
+          &lt;div class=&quot;grid grid-cols-2 gap-2&quot;&gt;
+            &lt;input type=&quot;text&quot; id=&quot;githubBranch&quot; placeholder=&quot;branch (padrão: main)&quot; class=&quot;bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none&quot;&gt;
+            &lt;input type=&quot;password&quot; id=&quot;githubToken&quot; placeholder=&quot;Token GitHub (opcional)&quot; class=&quot;bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none&quot;&gt;
+          &lt;/div&gt;
+          &lt;button onclick=&quot;loadFromGitHub()&quot; class=&quot;w-full bg-brandGreen text-darkBg py-2 rounded-lg text-xs font-bold hover:bg-focusGreen transition-all&quot;&gt;Baixar e Processar Repositório&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;!-- ABA 2: EXTRATOR WEB JURÍDICO --&gt;
+    &lt;section id=&quot;section-extrator&quot; class=&quot;section-panel hidden p-6 overflow-y-auto max-w-5xl mx-auto w-full space-y-6&quot;&gt;
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-6 space-y-4&quot;&gt;
+        &lt;h2 class=&quot;text-brandGreen font-bold text-lg&quot;&gt;🔎 Extrator de Sites e Cálculos Jurídicos&lt;/h2&gt;
+        &lt;p class=&quot;text-xs text-textGreen&quot;&gt;Varre sites de tribunais, extrai textos de processos, scripts de cálculo e APIs.&lt;/p&gt;
+
+        &lt;div class=&quot;flex gap-2 flex-wrap&quot;&gt;
+          &lt;input type=&quot;text&quot; id=&quot;extractorUrl&quot; placeholder=&quot;https://www.tjmg.jus.br&quot; class=&quot;flex-1 bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-white outline-none&quot;&gt;
+          &lt;select id=&quot;extractorDepth&quot; class=&quot;bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-textGreen outline-none&quot;&gt;
+            &lt;option value=&quot;1&quot;&gt;Apenas página principal&lt;/option&gt;
+            &lt;option value=&quot;2&quot;&gt;Página + Subpáginas&lt;/option&gt;
+          &lt;/select&gt;
+          &lt;button onclick=&quot;runWebExtractor()&quot; class=&quot;bg-brandGreen text-darkBg px-4 py-2 rounded-lg text-xs font-bold hover:bg-focusGreen transition-all&quot;&gt;Extrair Site&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Atalhos Rápidos --&gt;
+        &lt;div class=&quot;flex flex-wrap gap-1.5 pt-2&quot;&gt;
+          &lt;button onclick=&quot;setExtractorUrl('https://www.tjmg.jus.br')&quot; class=&quot;text-[10px] bg-darkBg border border-borderGreen px-2.5 py-1 rounded hover:border-brandGreen&quot;&gt;TJMG&lt;/button&gt;
+          &lt;button onclick=&quot;setExtractorUrl('https://www.stj.jus.br')&quot; class=&quot;text-[10px] bg-darkBg border border-borderGreen px-2.5 py-1 rounded hover:border-brandGreen&quot;&gt;STJ&lt;/button&gt;
+          &lt;button onclick=&quot;setExtractorUrl('https://www.stf.jus.br')&quot; class=&quot;text-[10px] bg-darkBg border border-borderGreen px-2.5 py-1 rounded hover:border-brandGreen&quot;&gt;STF&lt;/button&gt;
+          &lt;button onclick=&quot;setExtractorUrl('https://www.calculojuridico.com.br')&quot; class=&quot;text-[10px] bg-darkBg border border-borderGreen px-2.5 py-1 rounded hover:border-brandGreen&quot;&gt;Cálculo Jurídico&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Resultados da Extração --&gt;
+        &lt;div id=&quot;extractorResults&quot; class=&quot;hidden space-y-4 pt-4 border-t border-borderGreen&quot;&gt;
+          &lt;div class=&quot;grid grid-cols-2 md:grid-cols-4 gap-2&quot;&gt;
+            &lt;div class=&quot;bg-darkBg p-3 rounded-lg border border-borderGreen text-center&quot;&gt;
+              &lt;span id=&quot;extPagesCount&quot; class=&quot;block text-xl font-mono text-brandGreen&quot;&gt;0&lt;/span&gt;
+              &lt;span class=&quot;text-[10px] text-textGreen&quot;&gt;Páginas Varridas&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;bg-darkBg p-3 rounded-lg border border-borderGreen text-center&quot;&gt;
+              &lt;span id=&quot;extScriptsCount&quot; class=&quot;block text-xl font-mono text-accentGold&quot;&gt;0&lt;/span&gt;
+              &lt;span class=&quot;text-[10px] text-textGreen&quot;&gt;Scripts de Cálculo&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;bg-darkBg p-3 rounded-lg border border-borderGreen text-center&quot;&gt;
+              &lt;span id=&quot;extLinksCount&quot; class=&quot;block text-xl font-mono text-accentBlue&quot;&gt;0&lt;/span&gt;
+              &lt;span class=&quot;text-[10px] text-textGreen&quot;&gt;Links Encontrados&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;bg-darkBg p-3 rounded-lg border border-borderGreen text-center&quot;&gt;
+              &lt;span id=&quot;extApisCount&quot; class=&quot;block text-xl font-mono text-purple-400&quot;&gt;0&lt;/span&gt;
+              &lt;span class=&quot;text-[10px] text-textGreen&quot;&gt;APIs Detectadas&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;!-- Abas internas do Extrator --&gt;
+          &lt;div class=&quot;border-b border-borderGreen flex gap-2&quot;&gt;
+            &lt;button onclick=&quot;showExtSubTab('overview')&quot; class=&quot;ext-subtab text-xs py-1 px-3 border-b-2 border-brandGreen text-white&quot;&gt;Visão Geral&lt;/button&gt;
+            &lt;button onclick=&quot;showExtSubTab('scripts')&quot; class=&quot;ext-subtab text-xs py-1 px-3 text-textGreen&quot;&gt;Scripts &amp; Cálculos&lt;/button&gt;
+            &lt;button onclick=&quot;showExtSubTab('text')&quot; class=&quot;ext-subtab text-xs py-1 px-3 text-textGreen&quot;&gt;Texto Extraído&lt;/button&gt;
+          &lt;/div&gt;
+
+          &lt;div id=&quot;ext-subtab-overview&quot; class=&quot;ext-panel space-y-2&quot;&gt;&lt;/div&gt;
+          &lt;div id=&quot;ext-subtab-scripts&quot; class=&quot;ext-panel space-y-2 hidden&quot;&gt;&lt;/div&gt;
+          &lt;div id=&quot;ext-subtab-text&quot; class=&quot;ext-panel space-y-2 hidden&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;!-- ABA 3: EDITOR DE CÓDIGO --&gt;
+    &lt;section id=&quot;section-editor&quot; class=&quot;section-panel hidden flex-1 flex flex-col md:flex-row overflow-hidden h-full&quot;&gt;
+      &lt;!-- Lista de arquivos lateral --&gt;
+      &lt;div class=&quot;w-full md:w-80 bg-panelBg border-r border-borderGreen p-3 flex flex-col shrink-0&quot;&gt;
+        &lt;h3 class=&quot;text-xs font-bold text-brandGreen uppercase mb-2 flex justify-between&quot;&gt;
+          &lt;span&gt;📁 Arquivos do Projeto&lt;/span&gt;
+          &lt;span id=&quot;filesCount&quot; class=&quot;text-matrixGreen&quot;&gt;0&lt;/span&gt;
+        &lt;/h3&gt;
+        &lt;input type=&quot;text&quot; id=&quot;fileSearch&quot; placeholder=&quot;Buscar arquivo...&quot; onkeyup=&quot;filterFiles()&quot; class=&quot;bg-darkBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-white outline-none mb-2&quot;&gt;
+        &lt;div id=&quot;fileList&quot; class=&quot;flex-1 overflow-y-auto space-y-1 text-xs&quot;&gt;
+          &lt;p class=&quot;text-gray-500 italic p-2 text-center&quot;&gt;Nenhum arquivo carregado.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Editor de código --&gt;
+      &lt;div class=&quot;flex-1 bg-darkBg p-3 flex flex-col overflow-hidden&quot;&gt;
+        &lt;div class=&quot;flex justify-between items-center mb-2 bg-panelBg p-2 rounded-lg border border-borderGreen&quot;&gt;
+          &lt;span id=&quot;currentFileName&quot; class=&quot;text-xs font-mono text-brandGreen font-bold&quot;&gt;📝 Nenhum arquivo selecionado&lt;/span&gt;
+          &lt;div class=&quot;flex gap-2&quot;&gt;
+            &lt;button onclick=&quot;saveCurrentFileChanges()&quot; class=&quot;text-[10px] bg-brandGreen/20 text-brandGreen border border-brandGreen/30 px-2.5 py-1 rounded hover:bg-brandGreen hover:text-black transition-all&quot;&gt;Salvar Alteração&lt;/button&gt;
+            &lt;button onclick=&quot;downloadModifiedZip()&quot; class=&quot;text-[10px] bg-accentBlue/20 text-accentBlue border border-accentBlue/30 px-2.5 py-1 rounded hover:bg-accentBlue hover:text-black transition-all&quot;&gt;Exportar ZIP&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;textarea id=&quot;fileContent&quot; class=&quot;flex-1 w-full bg-[#020617] border border-borderGreen rounded-lg p-4 text-xs font-mono text-matrixGreen outline-none resize-none&quot; placeholder=&quot;// Selecione um arquivo para editar...&quot;&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;!-- ABA 4: SCANNER DE DEPENDÊNCIAS --&gt;
+    &lt;section id=&quot;section-scanner&quot; class=&quot;section-panel hidden p-6 overflow-y-auto max-w-5xl mx-auto w-full space-y-6&quot;&gt;
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-6 space-y-4&quot;&gt;
+        &lt;h2 class=&quot;text-brandGreen font-bold text-lg&quot;&gt;🛡️ Scanner de Dependências &amp; Limpeza&lt;/h2&gt;
+        &lt;p class=&quot;text-xs text-textGreen&quot;&gt;Identifique sujeiras do Replit, erros de nó ou termos personalizados em todo o projeto.&lt;/p&gt;
+
+        &lt;div class=&quot;bg-darkBg/50 p-4 rounded-lg border border-borderGreen space-y-2&quot;&gt;
+          &lt;label class=&quot;block text-xs font-bold text-brandGreen&quot;&gt;🔍 Termo de Busca Personalizado (Opcional)&lt;/label&gt;
+          &lt;div class=&quot;flex gap-2&quot;&gt;
+            &lt;input type=&quot;text&quot; id=&quot;customSearchTerm&quot; placeholder=&quot;Ex: localhost, neon, api_key, banco&quot; class=&quot;flex-1 bg-darkBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-white outline-none&quot;&gt;
+            &lt;button onclick=&quot;runScan()&quot; class=&quot;bg-brandGreen text-darkBg px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-focusGreen transition-all&quot;&gt;Escanear Projeto&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;scannerActions&quot; class=&quot;hidden flex gap-2&quot;&gt;
+          &lt;button onclick=&quot;downloadScanReport()&quot; class=&quot;bg-borderGreen text-brandGreen border border-brandGreen/30 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-brandGreen hover:text-black transition-all&quot;&gt;📥 Baixar Relatório .TXT&lt;/button&gt;
+          &lt;button onclick=&quot;autoCleanReplitFiles()&quot; class=&quot;bg-red-950/40 text-red-400 border border-red-900/50 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-500 hover:text-white transition-all&quot;&gt;🧹 Limpar Replit e Baixar ZIP&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;scannerResults&quot; class=&quot;space-y-3&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;!-- ABA 5: COMBINAR APLICATIVOS (Sua ferramenta recuperada!) --&gt;
+    &lt;section id=&quot;section-combinar&quot; class=&quot;section-panel hidden p-6 overflow-y-auto max-w-4xl mx-auto w-full space-y-6&quot;&gt;
+      &lt;div class=&quot;bg-panelBg border border-borderGreen rounded-xl p-6 space-y-4&quot;&gt;
+        &lt;div class=&quot;flex justify-between items-center border-b border-borderGreen pb-3&quot;&gt;
+          &lt;div&gt;
+            &lt;h2 class=&quot;text-brandGreen font-bold text-lg&quot;&gt;🔗 Combinar Projetos &amp; Códigos&lt;/h2&gt;
+            &lt;p class=&quot;text-xs text-textGreen&quot;&gt;Monte a estrutura ideal e gere o prompt perfeito para a IA unificar seus códigos.&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;button onclick=&quot;clearCombiner()&quot; class=&quot;text-xs border border-borderGreen text-textGreen px-2.5 py-1 rounded hover:text-brandGreen transition-all&quot;&gt;Limpar Tudo&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+          &lt;label class=&quot;block text-brandGreen text-xs font-semibold mb-1&quot;&gt;🎯 Objetivo do Aplicativo Final&lt;/label&gt;
+          &lt;textarea id=&quot;combinerGoal&quot; rows=&quot;2&quot; placeholder=&quot;Ex: Unificar meu PWA Jurídico com a função de gerar relatórios em PDF...&quot; class=&quot;w-full bg-darkBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-textGreen placeholder-gray-600 outline-none resize-none&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;appsContainer&quot; class=&quot;space-y-4&quot;&gt;&lt;/div&gt;
+
+        &lt;div class=&quot;flex gap-2&quot;&gt;
+          &lt;button onclick=&quot;addAppCard()&quot; class=&quot;flex-1 py-2 border border-dashed border-borderGreen rounded-lg text-brandGreen text-xs font-bold hover:bg-borderGreen/20 transition-all&quot;&gt;➕ Adicionar Outro Código&lt;/button&gt;
+          &lt;button onclick=&quot;generateSuperPrompt()&quot; class=&quot;flex-1 py-2 bg-borderGreen text-brandGreen font-bold text-xs rounded-lg hover:bg-brandGreen hover:text-black transition-all&quot;&gt;✨ Gerar Prompt de Unificação&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Prompt Gerado --&gt;
+        &lt;div id=&quot;promptResultContainer&quot; class=&quot;hidden bg-darkBg border border-borderGreen rounded-xl overflow-hidden mt-4&quot;&gt;
+          &lt;div class=&quot;flex items-center justify-between px-3 py-2 bg-borderGreen/30 border-b border-borderGreen&quot;&gt;
+            &lt;span class=&quot;text-brandGreen text-xs font-bold&quot;&gt;📋 Prompt Pronto para Copiar&lt;/span&gt;
+            &lt;button onclick=&quot;copyGeneratedPrompt()&quot; class=&quot;text-xs bg-borderGreen text-brandGreen px-3 py-1 rounded hover:bg-brandGreen hover:text-black transition-all&quot;&gt;Copiar Prompt&lt;/button&gt;
+          &lt;/div&gt;
+          &lt;textarea id=&quot;generatedPromptTextarea&quot; rows=&quot;8&quot; class=&quot;w-full bg-darkBg p-3 text-xs text-textGreen font-mono leading-relaxed outline-none resize-none&quot; readonly&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+  &lt;/main&gt;
+
+  &lt;!-- Loader Global --&gt;
+  &lt;div id=&quot;globalLoader&quot; class=&quot;hidden fixed inset-0 bg-black/80 z-50 flex flex-col items-center justify-center space-y-4&quot;&gt;
+    &lt;div class=&quot;w-12 h-12 border-4 border-brandGreen border-t-transparent rounded-full spinner&quot;&gt;&lt;/div&gt;
+    &lt;p id=&quot;loaderMsg&quot; class=&quot;text-brandGreen font-mono text-xs&quot;&gt;Processando...&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    // ==================== ESTADO GLOBAL ====================
+    let currentFiles = [];
+    let fileContents = {};
+    let appsToCombine = [];
+    let activeFile = null;
+    let extractedData = null;
+
+    // Padrões de busca do Replit
+    const _p = String.fromCharCode(114,101,112,108,105,116);
+    const PATS = [
+      { re: new RegExp(_p + &quot;\\.com&quot;,    &quot;gi&quot;), lb: &quot;url-plataforma&quot; },
+      { re: new RegExp(&quot;repl\\.it&quot;,      &quot;gi&quot;), lb: &quot;url-plataforma-antiga&quot; },
+      { re: new RegExp(_p.toUpperCase() + &quot;_&quot;, &quot;g&quot;),  lb: &quot;var-plataforma&quot; },
+      { re: new RegExp(&quot;REPL_ID&quot;,        &quot;g&quot;),  lb: &quot;var-id-plataforma&quot; },
+      { re: new RegExp(&quot;REPL_SLUG&quot;,      &quot;g&quot;),  lb: &quot;var-slug-plataforma&quot; },
+      { re: new RegExp(&quot;REPL_OWNER&quot;,     &quot;g&quot;),  lb: &quot;var-owner-plataforma&quot; },
+      { re: new RegExp(&quot;@&quot; + _p + &quot;/&quot;,   &quot;gi&quot;), lb: &quot;pacote-externo&quot; },
+      { re: /vite-plugin-runtime-error-modal/gi,  lb: &quot;plugin-error-externo&quot; },
+      { re: /vite-plugin-cartographer/gi,         lb: &quot;plugin-cartographer-externo&quot; },
+      { re: /vite-plugin-dev-banner/gi,           lb: &quot;plugin-banner-externo&quot; },
+      { re: new RegExp(&quot;\\.&quot; + _p + &quot;\\b&quot;, &quot;gi&quot;), lb: &quot;config-plataforma&quot; },
+      { re: new RegExp(_p + &quot;\\.app&quot;,    &quot;gi&quot;), lb: &quot;dominio-hospedagem&quot; },
+      { re: new RegExp(_p + &quot;-dev\\.com&quot;,&quot;gi&quot;), lb: &quot;dominio-dev-externo&quot; },
+      { re: new RegExp(&quot;pid1\\.&quot; + _p,   &quot;gi&quot;), lb: &quot;processo-plataforma&quot; },
+    ];
+
+    const SKIP_EXT = new Set([&quot;png&quot;,&quot;jpg&quot;,&quot;jpeg&quot;,&quot;gif&quot;,&quot;webp&quot;,&quot;ico&quot;,&quot;woff&quot;,&quot;woff2&quot;,&quot;ttf&quot;,&quot;eot&quot;,&quot;otf&quot;,&quot;mp3&quot;,&quot;mp4&quot;,&quot;webm&quot;,&quot;ogg&quot;,&quot;bin&quot;,&quot;class&quot;,&quot;dex&quot;]);
+
+    const PROXIES = [
+      { name:&quot;allorigins.win&quot;, fn:u=&gt;`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}` },
+      { name:&quot;corsproxy.io&quot;,   fn:u=&gt;`https://corsproxy.io/?${encodeURIComponent(u)}` },
+      { name:&quot;codetabs.com&quot;,   fn:u=&gt;`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}` },
+    ];
+
+    // ==================== ABAS ====================
+    function showSection(id) {
+      document.querySelectorAll('.section-panel').forEach(p =&gt; p.classList.add('hidden'));
+      document.getElementById(`section-${id}`).classList.remove('hidden');
+    }
+
+    function showLoader(msg) {
+      document.getElementById('loaderMsg').innerText = msg;
+      document.getElementById('globalLoader').classList.remove('hidden');
+    }
+    function hideLoader() {
+      document.getElementById('globalLoader').classList.add('hidden');
+    }
+
+    // ==================== IMPORTAÇÃO ZIP/APK ====================
+    document.getElementById('zipInput').addEventListener('change', async (e) =&gt; {
+      const file = e.target.files[0];
+      if (!file) return;
+      document.getElementById('zipName').innerText = file.name;
+      showLoader(&quot;Processando arquivo local...&quot;);
+
+      try {
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (['zip', 'apk', 'aab', 'jar', 'aar'].includes(ext)) {
+          const buffer = await file.arrayBuffer();
+          const zip = await JSZip.loadAsync(buffer);
+          await processZip(zip);
+        } else {
+          const text = await file.text();
+          currentFiles = [file.name];
+          fileContents[file.name] = text;
+          renderFileList();
+          showSection('editor');
+        }
+      } catch(e) {
+        alert(&quot;Erro ao ler arquivo: &quot; + e.message);
+      } finally {
+        hideLoader();
+      }
+    });
+
+    async function processZip(zip) {
+      currentFiles = [];
+      fileContents = {};
+
+      zip.forEach((path, entry) =&gt; {
+        if (!entry.dir) currentFiles.push(path);
+      });
+
+      currentFiles.sort();
+      showLoader(`Carregando ${currentFiles.length} arquivos...`);
+
+      let promises = currentFiles.map(async (path) =&gt; {
+        const ext = path.split('.').pop().toLowerCase();
+        if (SKIP_EXT.has(ext)) {
+          fileContents[path] = &quot;[Arquivo binário/mídia]&quot;;
+          return;
+        }
+        try {
+          fileContents[path] = await zip.file(path).async('string');
+        } catch(e) {
+          fileContents[path] = &quot;[Erro ao ler arquivo]&quot;;
+        }
+      });
+
+      await Promise.all(promises);
+      renderFileList();
+      showSection('editor');
+    }
+
+    // ==================== GITHUB ====================
+    async function loadFromGitHub() {
+      let url = document.getElementById('githubUrl').value.trim();
+      let branch = document.getElementById('githubBranch').value.trim() || 'main';
+      let token = document.getElementById('githubToken').value.trim();
+
+      if (!url) return alert(&quot;Por favor, indique a URL do repositório.&quot;);
+      const m = url.match(/github\.com\/([^/]+)\/([^/]+)/);
+      if (!m) return alert(&quot;URL inválida.&quot;);
+      const [, owner, repo] = m;
+
+      showLoader(&quot;Baixando do GitHub...&quot;);
+      const zipUrl = `https://codeload.github.com/${owner}/${repo}/zip/refs/heads/${branch}`;
+      const hdrs = token ? { Authorization: `token ${token}` } : {};
+
+      try {
+        let resp = await fetch(zipUrl, { headers: hdrs });
+        if (!resp.ok) {
+          showLoader(&quot;Tentando via proxy secundário...&quot;);
+          const px = `https://api.allorigins.win/raw?url=${encodeURIComponent(zipUrl)}`;
+          resp = await fetch(px);
+        }
+        if (!resp.ok) throw new Error(&quot;Falha ao baixar repositório.&quot;);
+
+        const blob = await resp.blob();
+        const buffer = await blob.arrayBuffer();
+        const zip = await JSZip.loadAsync(buffer);
+
+        const tempFiles = Object.keys(zip.files).filter(n =&gt; !zip.files[n].dir);
+        const prefix = (tempFiles[0]?.split(&quot;/&quot;)[0] ?? &quot;&quot;) + &quot;/&quot;;
+
+        currentFiles = [];
+        fileContents = {};
+
+        for (const n of tempFiles) {
+          const rel = n.startsWith(prefix) ? n.slice(prefix.length) : n;
+          if (!rel) continue;
+          currentFiles.push(rel);
+          fileContents[rel] = await zip.files[n].async(&quot;string&quot;);
+        }
+
+        currentFiles.sort();
+        renderFileList();
+        showSection('editor');
+        alert(&quot;Repositório importado!&quot;);
+      } catch(e) {
+        alert(&quot;Erro: &quot; + e.message);
+      } finally {
+        hideLoader();
+      }
+    }
+
+    // ==================== EDITOR DE CÓDIGO ====================
+    function renderFileList() {
+      const container = document.getElementById('fileList');
+      document.getElementById('filesCount').innerText = currentFiles.length;
+      
+      if (currentFiles.length === 0) {
+        container.innerHTML = '&lt;p class=&quot;text-gray-500 italic p-2 text-center&quot;&gt;Nenhum arquivo.&lt;/p&gt;';
+        return;
+      }
+
+      container.innerHTML = currentFiles.map(file =&gt; {
+        const isSujo = checkSingleFileIsDirty(file);
+        const badge = isSujo ? '&lt;span class=&quot;text-[9px] bg-red-950 text-red-400 px-1 rounded&quot;&gt;sujo&lt;/span&gt;' : '';
+        return `&lt;div class=&quot;p-1.5 hover:bg-borderGreen rounded cursor-pointer flex justify-between items-center truncate border-b border-borderGreen/10&quot; onclick=&quot;openFile('${file}')&quot;&gt;
+          &lt;span class=&quot;truncate&quot;&gt;📄 ${file}&lt;/span&gt;
+          ${badge}
+        &lt;/div&gt;`;
+      }).join('');
+    }
+
+    function checkSingleFileIsDirty(filename) {
+      const content = fileContents[filename] || &quot;&quot;;
+      return PATS.some(p =&gt; {
+        p.re.lastIndex = 0;
+        const test = p.re.test(content);
+        p.re.lastIndex = 0;
+        return test;
+      });
+    }
+
+    function openFile(filename) {
+      activeFile = filename;
+      document.getElementById('currentFileName').innerText = `📝 ${filename}`;
+      document.getElementById('fileContent').value = fileContents[filename] || &quot;&quot;;
+      showSection('editor');
+    }
+
+    function filterFiles() {
+      const term = document.getElementById('fileSearch').value.toLowerCase();
+      const filtered = currentFiles.filter(f =&gt; f.toLowerCase().includes(term));
+      const container = document.getElementById('fileList');
+      container.innerHTML = filtered.map(file =&gt; {
+        const isSujo = checkSingleFileIsDirty(file);
+        const badge = isSujo ? '&lt;span class=&quot;text-[9px] bg-red-950 text-red-400 px-1 rounded&quot;&gt;sujo&lt;/span&gt;' : '';
+        return `&lt;div class=&quot;p-1.5 hover:bg-borderGreen rounded cursor-pointer flex justify-between items-center truncate border-b border-borderGreen/10&quot; onclick=&quot;openFile('${file}')&quot;&gt;
+          &lt;span class=&quot;truncate&quot;&gt;📄 ${file}&lt;/span&gt;
+          ${badge}
+        &lt;/div&gt;`;
+      }).join('');
+    }
+
+    function saveCurrentFileChanges() {
+      if (!activeFile) return alert(&quot;Selecione um arquivo!&quot;);
+      fileContents[activeFile] = document.getElementById('fileContent').value;
+      alert(&quot;Alteração salva na memória!&quot;);
+      renderFileList();
+    }
+
+    async function downloadModifiedZip() {
+      showLoader(&quot;Gerando ZIP...&quot;);
+      const zip = new JSZip();
+      currentFiles.forEach(file =&gt; {
+        zip.file(file, fileContents[file]);
+      });
+      const content = await zip.generateAsync({type:&quot;blob&quot;});
+      const link = document.createElement(&quot;a&quot;);
+      link.href = URL.createObjectURL(content);
+      link.download = &quot;projeto-oficina-sk.zip&quot;;
+      link.click();
+      hideLoader();
+    }
+
+    // ==================== EXTRATOR WEB JURÍDICO ====================
+    function setExtractorUrl(url) {
+      document.getElementById('extractorUrl').value = url;
+    }
+
+    async function fetchViaProxy(url) {
+      let lastErr = null;
+      for (let i = 0; i &lt; PROXIES.length; i++) {
+        const p = PROXIES[i];
+        try {
+          const r = await fetch(p.fn(url));
+          if (!r.ok) continue;
+          const text = await r.text();
+          if (text.length &gt; 40) return text;
+        } catch (e) { lastErr = e; }
+      }
+      throw new Error(&quot;Falha ao acessar o site via proxies.&quot;);
+    }
+
+    async function runWebExtractor() {
+      let url = document.getElementById('extractorUrl').value.trim();
+      if (!url) return alert(&quot;Insira uma URL.&quot;);
+      if (!/^https?:\/\//i.test(url)) url = &quot;https://&quot; + url;
+
+      showLoader(&quot;Varrendo site jurídico...&quot;);
+      try {
+        const html = await fetchViaProxy(url);
+        
+        // Parsing básico
+        const title = html.match(/&lt;title[^&gt;]*&gt;([^&lt;]*)&lt;\/title&gt;/i)?.[1] || &quot;Sem Título&quot;;
+        const textContent = html.replace(/&lt;script[\s\S]*?&lt;\/script&gt;/gi, &quot;&quot;).replace(/&lt;[^&gt;]+&gt;/g, &quot; &quot;).replace(/\s{2,}/g,&quot; &quot;).trim();
+        
+        // Scripts de cálculo
+        const scripts = [];
+        const p = /&lt;script(?![^&gt;]+src=)[^&gt;]*&gt;([\s\S]*?)&lt;\/script&gt;/gi;
+        let m;
+        while ((m = p.exec(html)) !== null) {
+          const c = (m[1] ?? &quot;&quot;).trim();
+          if (c.length &gt; 30) {
+            const isCalc = /calc|cálculo|previdenci|inss|aposentad|correção|juros/i.test(c);
+            scripts.push({ content: c, isCalc });
+          }
+        }
+
+        extractedData = { url, title, textContent, scripts };
+
+        // Atualizar UI do Extrator
+        document.getElementById('extPagesCount').innerText = &quot;1&quot;;
+        document.getElementById('extScriptsCount').innerText = scripts.filter(s =&gt; s.isCalc).length;
+        document.getElementById('extLinksCount').innerText = (html.match(/href=/g) || []).length;
+        document.getElementById('extApisCount').innerText = (html.match(/\/api\//g) || []).length;
+
+        document.getElementById('extractorResults').classList.remove('hidden');
+
+        // Renderizar subtabs
+        renderExtractorOverview();
+      } catch(e) {
+        alert(e.message);
+      } finally {
+        hideLoader();
+      }
+    }
+
+    function showExtSubTab(tabId) {
+      document.querySelectorAll('.ext-panel').forEach(p =&gt; p.classList.add('hidden'));
+      document.querySelectorAll('.ext-subtab').forEach(b =&gt; b.className = &quot;ext-subtab text-xs py-1 px-3 text-textGreen&quot;);
+      
+      document.getElementById(`ext-subtab-${tabId}`).classList.remove('hidden');
+      event.target.className = &quot;ext-subtab text-xs py-1 px-3 border-b-2 border-brandGreen text-white&quot;;
+
+      if (tabId === 'scripts') renderExtractorScripts();
+      if (tabId === 'text') renderExtractorText();
+    }
+
+    function renderExtractorOverview() {
+      const panel = document.getElementById('ext-subtab-overview');
+      panel.innerHTML = `
+        &lt;div class=&quot;bg-darkBg p-4 rounded-lg border border-borderGreen&quot;&gt;
+          &lt;h3 class=&quot;text-brandGreen font-bold text-sm&quot;&gt;🏷️ ${extractedData.title}&lt;/h3&gt;
+          &lt;p class=&quot;text-xs text-gray-400 mt-1&quot;&gt;URL: ${extractedData.url}&lt;/p&gt;
+          &lt;button onclick=&quot;importExtractedToProject()&quot; class=&quot;mt-3 bg-brandGreen text-darkBg px-3 py-1.5 rounded text-xs font-bold hover:bg-focusGreen&quot;&gt;📥 Importar Texto para o Editor&lt;/button&gt;
+        &lt;/div&gt;`;
+    }
+
+    function renderExtractorScripts() {
+      const panel = document.getElementById('ext-subtab-scripts');
+      const calcs = extractedData.scripts.filter(s =&gt; s.isCalc);
+      if (calcs.length === 0) {
+        panel.innerHTML = '&lt;p class=&quot;text-xs text-gray-500 italic&quot;&gt;Nenhum script de cálculo jurídico identificado.&lt;/p&gt;';
+        return;
+      }
+      panel.innerHTML = calcs.map((s, i) =&gt; `
+        &lt;div class=&quot;bg-darkBg border border-accentGold rounded-lg p-3 space-y-2&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center&quot;&gt;
+            &lt;span class=&quot;text-xs text-accentGold font-bold&quot;&gt;⚖️ Script de Cálculo #${i+1}&lt;/span&gt;
+            &lt;button onclick=&quot;openScriptInEditor(${i})&quot; class=&quot;text-[10px] bg-borderGreen text-brandGreen px-2 py-0.5 rounded&quot;&gt;Abrir no Editor&lt;/button&gt;
+          &lt;/div&gt;
+          &lt;pre class=&quot;text-[10px] font-mono text-textGreen overflow-x-auto max-h-32 p-2 bg-black/40 rounded&quot;&gt;${s.content.slice(0, 500)}...&lt;/pre&gt;
+        &lt;/div&gt;
+      `).join('');
+    }
+
+    function renderExtractorText() {
+      const panel = document.getElementById('ext-subtab-text');
+      panel.innerHTML = `
+        &lt;div class=&quot;bg-darkBg border border-borderGreen rounded-lg p-3&quot;&gt;
+          &lt;textarea readonly class=&quot;w-full h-64 bg-transparent text-xs font-mono text-textGreen outline-none resize-none&quot;&gt;${extractedData.textContent}&lt;/textarea&gt;
+        &lt;/div&gt;`;
+    }
+
+    function importExtractedToProject() {
+      if (!extractedData) return;
+      const filename = &quot;texto-extraido.txt&quot;;
+      if (!currentFiles.includes(filename)) {
+        currentFiles.push(filename);
+      }
+      fileContents[filename] = extractedData.textContent;
+      renderFileList();
+      openFile(filename);
+      alert(&quot;Texto importado para o arquivo 'texto-extraido.txt' no Editor!&quot;);
+    }
+
+    function openScriptInEditor(idx) {
+      const calcs = extractedData.scripts.filter(s =&gt; s.isCalc);
+      const filename = `script-calculo-${idx+1}.js`;
+      if (!currentFiles.includes(filename)) {
+        currentFiles.push(filename);
+      }
+      fileContents[filename] = calcs[idx].content;
+      renderFileList();
+      openFile(filename);
+    }
+
+    // ==================== SCANNER DE DEPENDÊNCIAS ====================
+    let scanResultsData = [];
+
+    function runScan() {
+      if (currentFiles.length === 0) return alert(&quot;Carregue um projeto primeiro!&quot;);
+      
+      const customTerm = document.getElementById('customSearchTerm').value.trim();
+      let customRegex = null;
+      if (customTerm) {
+        customRegex = new RegExp(customTerm, &quot;gi&quot;);
+      }
+
+      scanResultsData = [];
+      showLoader(&quot;Escaneando arquivos...&quot;);
+
+      currentFiles.forEach(file =&gt; {
+        const content = fileContents[file] || &quot;&quot;;
+        const lines = content.split('\n');
+        const hits = [];
+
+        lines.forEach((line, idx) =&gt; {
+          const foundLabels = [];
+          
+          PATS.forEach(p =&gt; {
+            p.re.lastIndex = 0;
+            if (p.re.test(line)) foundLabels.push(p.lb);
+            p.re.lastIndex = 0;
+          });
+
+          if (customRegex) {
+            customRegex.lastIndex = 0;
+            if (customRegex.test(line)) foundLabels.push(`busca:&quot;${customTerm}&quot;`);
+            customRegex.lastIndex = 0;
+          }
+
+          if (foundLabels.length &gt; 0) {
+            hits.push({
+              ln: idx + 1,
+              txt: line.trim().slice(0, 150),
+              labels: foundLabels
+            });
+          }
+        });
+
+        if (hits.length &gt; 0) {
+          scanResultsData.push({ nome: file, hits });
+        }
+      });
+
+      renderScanResults();
+      document.getElementById('scannerActions').classList.remove('hidden');
+      hideLoader();
+    }
+
+    function renderScanResults() {
+      const container = document.getElementById('scannerResults');
+      if (scanResultsData.length === 0) {
+        container.innerHTML = '&lt;div class=&quot;text-center py-8 text-matrixGreen&quot;&gt;🟢 Projeto Limpo! Nenhuma dependência indesejada encontrada.&lt;/div&gt;';
+        return;
+      }
+
+      container.innerHTML = `
+        &lt;div class=&quot;text-xs text-red-400 mb-2 font-mono&quot;&gt;⚠️ Encontrados ${scanResultsData.length} arquivos com referências indesejadas:&lt;/div&gt;
+        &lt;div class=&quot;space-y-2&quot;&gt;
+          ${scanResultsData.map(res =&gt; `
+            &lt;div class=&quot;bg-darkBg border border-red-950 rounded-lg overflow-hidden&quot;&gt;
+              &lt;div class=&quot;bg-red-950/20 px-3 py-2 flex justify-between items-center border-b border-red-950/40&quot;&gt;
+                &lt;span class=&quot;font-mono text-xs text-red-300 truncate cursor-pointer hover:underline&quot; onclick=&quot;openFile('${res.nome}')&quot;&gt;📄 ${res.nome}&lt;/span&gt;
+                &lt;button onclick=&quot;openFile('${res.nome}')&quot; class=&quot;text-[10px] bg-brandGreen/20 text-brandGreen px-2 py-0.5 rounded hover:bg-brandGreen hover:text-black&quot;&gt;Abrir no Editor&lt;/button&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;p-2 space-y-1 bg-black/30&quot;&gt;
+                ${res.hits.map(h =&gt; `
+                  &lt;div class=&quot;text-[11px] font-mono text-red-200/80 flex gap-2&quot;&gt;
+                    &lt;span class=&quot;text-gray-600&quot;&gt;L${h.ln}:&lt;/span&gt;
+                    &lt;span class=&quot;text-yellow-500/80 bg-yellow-500/10 px-1 rounded text-[9px]&quot;&gt;${h.labels.join(', ')}&lt;/span&gt;
+                    &lt;span class=&quot;truncate&quot;&gt;${h.txt}&lt;/span&gt;
+                  &lt;/div&gt;
+                `).join('')}
+              &lt;/div&gt;
+            &lt;/div&gt;
+          `).join('')}
+        &lt;/div&gt;`;
+    }
+
+    function downloadScanReport() {
+      let txt = `=== RELATÓRIO DE DEPENDÊNCIAS ===\n`;
+      txt += `Gerado em: ${new Date().toLocaleString('pt-BR')}\n`;
+      txt += `Assinado: Maikon Caldeira OAB/MG 183712\n`;
+      txt += `Total de arquivos com problemas: ${scanResultsData.length}\n\n`;
+
+      scanResultsData.forEach(res =&gt; {
+        txt += `\n► ARQUIVO: ${res.nome}\n`;
+        res.hits.forEach(h =&gt; {
+          txt += `  [L${h.ln}] [${h.labels.join(', ')}] -&gt; ${h.txt}\n`;
+        });
+      });
+
+      const blob = new Blob([txt], {type: &quot;text/plain;charset=utf-8&quot;});
+      const link = document.createElement(&quot;a&quot;);
+      link.href = URL.createObjectURL(blob);
+      link.download = &quot;relatorio-scanner-maikon.txt&quot;;
+      link.click();
+    }
+
+    async function autoCleanReplitFiles() {
+      if (!confirm(&quot;Remover automaticamente as linhas com referências do Replit?&quot;)) return;
+      
+      showLoader(&quot;Limpando arquivos...&quot;);
+      scanResultsData.forEach(res =&gt; {
+        let content = fileContents[res.nome] || &quot;&quot;;
+        let lines = content.split('\n');
+        
+        let cleanLines = lines.filter(line =&gt; {
+          return !PATS.some(p =&gt; {
+            p.re.lastIndex = 0;
+            const isMatch = p.re.test(line);
+            p.re.lastIndex = 0;
+            return isMatch;
+          });
+        });
+
+        fileContents[res.nome] = cleanLines.join('\n');
+      });
+
+      alert(&quot;Arquivos limpos localmente! Iniciando download.&quot;);
+      await downloadModifiedZip();
+      runScan();
+    }
+
+    // ==================== COMBINAR APLICATIVOS (RECUPERADO) ====================
+    const COMBINER_STORAGE_KEY = &quot;sk-combinador-v4:data&quot;;
+
+    function createEmptyApp() {
+      return {
+        id: Math.random().toString(36).slice(2, 9),
+        name: &quot;&quot;,
+        sourceType: &quot;github&quot;,
+        sourceLocation: &quot;&quot;,
+        works: &quot;&quot;,
+        broken: &quot;&quot;
+      };
+    }
+
+    function loadCombiner() {
+      try {
+        const raw = localStorage.getItem(COMBINER_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          appsToCombine = parsed.apps || [];
+          document.getElementById('combinerGoal').value = parsed.goal || &quot;&quot;;
+        }
+      } catch(e) {}
+
+      if (appsToCombine.length === 0) {
+        appsToCombine.push(createEmptyApp());
+      }
+      renderAppCards();
+    }
+
+    function saveCombiner() {
+      const goal = document.getElementById('combinerGoal').value;
+      localStorage.setItem(COMBINER_STORAGE_KEY, JSON.stringify({ apps: appsToCombine, goal }));
+    }
+
+    function renderAppCards() {
+      const container = document.getElementById('appsContainer');
+      container.innerHTML = appsToCombine.map((app, idx) =&gt; `
+        &lt;div class=&quot;bg-darkBg border border-borderGreen rounded-xl p-4 space-y-3&quot;&gt;
+          &lt;div class=&quot;flex justify-between items-center&quot;&gt;
+            &lt;span class=&quot;text-brandGreen text-xs font-bold uppercase&quot;&gt;📦 Código/App de Origem #${idx + 1}&lt;/span&gt;
+            ${appsToCombine.length &gt; 1 ? `&lt;button onclick=&quot;removeAppCard('${app.id}')&quot; class=&quot;text-xs text-red-400 hover:underline&quot;&gt;Remover&lt;/button&gt;` : ''}
+          &lt;/div&gt;
+          &lt;div class=&quot;grid grid-cols-1 md:grid-cols-3 gap-3&quot;&gt;
+            &lt;input type=&quot;text&quot; value=&quot;${app.name}&quot; onchange=&quot;updateAppField('${app.id}', 'name', this.value)&quot; placeholder=&quot;Nome (ex: PWA Jurídico)&quot; class=&quot;bg-panelBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-textGreen outline-none&quot;&gt;
+            &lt;select onchange=&quot;updateAppField('${app.id}', 'sourceType', this.value)&quot; class=&quot;bg-panelBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-textGreen outline-none&quot;&gt;
+              &lt;option value=&quot;github&quot; ${app.sourceType === 'github' ? 'selected' : ''}&gt;GitHub&lt;/option&gt;
+              &lt;option value=&quot;zip&quot; ${app.sourceType === 'zip' ? 'selected' : ''}&gt;Arquivo ZIP&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;input type=&quot;text&quot; value=&quot;${app.sourceLocation}&quot; onchange=&quot;updateAppField('${app.id}', 'sourceLocation', this.value)&quot; placeholder=&quot;Link do GitHub ou Nome do ZIP&quot; class=&quot;bg-panelBg border border-borderGreen rounded-lg px-3 py-1.5 text-xs text-textGreen outline-none&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;grid grid-cols-1 md:grid-cols-2 gap-3&quot;&gt;
+            &lt;textarea rows=&quot;2&quot; onchange=&quot;updateAppField('${app.id}', 'works', this.value)&quot; placeholder=&quot;✅ O que funciona perfeitamente...&quot; class=&quot;bg-panelBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-textGreen outline-none resize-none&quot;&gt;${app.works}&lt;/textarea&gt;
+            &lt;textarea rows=&quot;2&quot; onchange=&quot;updateAppField('${app.id}', 'broken', this.value)&quot; placeholder=&quot;❌ O que está quebrado...&quot; class=&quot;bg-panelBg border border-borderGreen rounded-lg px-3 py-2 text-xs text-textGreen outline-none resize-none&quot;&gt;${app.broken}&lt;/textarea&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      `).join('');
+    }
+
+    function addAppCard() {
+      appsToCombine.push(createEmptyApp());
+      renderAppCards();
+      saveCombiner();
+    }
+
+    function removeAppCard(id) {
+      appsToCombine = appsToCombine.filter(app =&gt; app.id !== id);
+      renderAppCards();
+      saveCombiner();
+    }
+
+    function updateAppField(id, field, value) {
+      appsToCombine = appsToCombine.map(app =&gt; app.id === id ? { ...app, [field]: value } : app);
+      saveCombiner();
+    }
+
+    function clearCombiner() {
+      if (confirm(&quot;Limpar dados do combinador?&quot;)) {
+        appsToCombine = [createEmptyApp()];
+        document.getElementById('combinerGoal').value = &quot;&quot;;
+        document.getElementById('promptResultContainer').classList.add('hidden');
+        renderAppCards();
+        saveCombiner();
+      }
+    }
+
+    function generateSuperPrompt() {
+      const goal = document.getElementById('combinerGoal').value.trim();
+      const filled = appsToCombine.filter(a =&gt; a.name || a.sourceLocation || a.works);
+
+      let prompt = `Estou usando o SK Oficina Jurídica v4 e preciso unificar códigos de projetos diferentes em uma única versão estável.
+
+🎯 OBJETIVO DO PROJETO UNIFICADO:
+${goal ? goal : &quot;Combinar os códigos mantendo a estabilidade e eliminando erros de dependência/Replit.&quot;}
+
+--------------------------------------------------
+📦 FONTES DE CÓDIGO A SEREM ANALISADAS:
+`;
+
+      filled.forEach((app, idx) =&gt; {
+        prompt += `\n[CÓDIGO ${idx + 1}: ${app.name || 'Sem Nome'}]\n`;
+        prompt += `- Origem: ${app.sourceType === 'github' ? 'Repositório GitHub' : 'Arquivo ZIP'}\n`;
+        prompt += `- Endereço/Referência: ${app.sourceLocation || 'Não especificado'}\n`;
+        prompt += `- ✅ O QUE FUNCIONA E DEVE SER MANTIDO:\n  ${app.works || 'Não especificado'}\n`;
+        prompt += `- ❌ O QUE ESTÁ QUEBRADO E DEVE SER CORRIGIDO:\n  ${app.broken || 'Não especificado'}\n`;
+      });
+
+      prompt += `
+--------------------------------------------------
+🛠️ INSTRUÇÕES DE ARQUITETURA PARA A IA (CRÍTICAS):
+1. NÃO comece o projeto do zero. Aproveite a lógica de importação de arquivos pesados e persistência local que já funciona.
+2. Remova qualquer dependência desnecessária do Replit (como arquivos .replit, replit.nix ou pacotes que dependem de terminal).
+3. O projeto final deve rodar como um PWA de arquivo único (HTML/JS) ou uma estrutura limpa de Vite+React que possa ser aberta diretamente no navegador sem precisar de servidores locais complexos.
+4. Explique detalhadamente quais partes de código você unificou e de qual arquivo original elas vieram.
+5. Apresente o código pronto e limpo para ser copiado.`;
+
+      document.getElementById('generatedPromptTextarea').value = prompt;
+      document.getElementById('promptResultContainer').classList.remove('hidden');
+    }
+
+    function copyGeneratedPrompt() {
+      const txt = document.getElementById('generatedPromptTextarea');
+      txt.select();
+      document.execCommand('copy');
+      alert(&quot;Prompt copiado! Cole na sua IA preferida.&quot;);
+    }
+
+    // Inicialização
+    window.onload = () =&gt; {
+      loadCombiner();
+      showSection('importar');
+    };
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+
+<script>
+function trocarProjeto(index) {
+  // Esconde todos
+  document.querySelectorAll('.project-container').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  // Mostra o selecionado
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  // Salva preferência
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+// Restaura último projeto aberto
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+</script>
+</body>
+</html>

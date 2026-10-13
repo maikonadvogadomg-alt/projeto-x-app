@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerenciador de Arquivos</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <style>
+    :root {
+      --fundo: #0f1117;
+      --card: #1a1d27;
+      --borda: #2a2d3e;
+      --input: #12151f;
+      --primario: #4A90D9;
+      --primario-escuro: #2c6fad;
+      --sucesso: #28a745;
+      --perigo: #dc3545;
+      --aviso: #ffc107;
+      --texto: #e0e0e0;
+      --fraco: #888;
+      --raio: 10px;
+      --raio-p: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--fundo);
+      color: var(--texto);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, #1a1d27, #12151f);
+      border-bottom: 1px solid var(--borda);
+      padding: 1rem 1.5rem;
+      text-align: center;
+    }
+    .header h1 { font-size: 1.5rem; color: #fff; margin-bottom: 0.2rem; }
+    .header p  { font-size: 0.82rem; color: var(--fraco); }
+
+    /* ── ABAS ── */
+    .abas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      padding: 0.8rem 1rem;
+      background: #13161f;
+      border-bottom: 1px solid var(--borda);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .aba-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-p);
+      background: transparent;
+      color: var(--fraco);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .aba-btn:hover  { background: var(--borda); color: var(--texto); }
+    .aba-btn.active { background: var(--primario); color: #fff; border-color: var(--primario); font-weight: bold; }
+
+    /* ── CONTEÚDO ── */
+    .container { max-width: 850px; margin: 0 auto; padding: 1rem 1rem 5rem; }
+    .tela { display: none; }
+    .tela.active { display: block; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--borda);
+      border-radius: var(--raio);
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .card h2 { font-size: 1rem; color: var(--primario); margin-bottom: 1rem; }
+    .card h3 { font-size: 0.95rem; color: #fff; margin-bottom: 0.6rem; }
+
+    /* ── INPUTS ── */
+    label { display: block; font-size: 0.82rem; color: var(--fraco); margin-bottom: 0.3rem; }
+    input[type="text"], textarea, select {
+      width: 100%;
+      background: var(--input);
+      color: var(--texto);
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-p);
+      padding: 0.6rem 0.8rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      margin-bottom: 0.8rem;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--primario); }
+    textarea { resize: vertical; font-family: 'Courier New', monospace; font-size: 0.82rem; }
+
+    /* ── BOTÕES ── */
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    button {
+      padding: 0.55rem 1.1rem;
+      border: none;
+      border-radius: var(--raio-p);
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      font-family: inherit;
+    }
+    .btn-p  { background: var(--primario); color: #fff; }
+    .btn-p:hover  { background: var(--primario-escuro); transform: translateY(-1px); }
+    .btn-s  { background: var(--borda); color: var(--texto); }
+    .btn-s:hover  { background: #3a3d4e; transform: translateY(-1px); }
+    .btn-ok { background: var(--sucesso); color: #fff; }
+    .btn-ok:hover { background: #1e7e34; transform: translateY(-1px); }
+    .btn-x  { background: var(--perigo); color: #fff; }
+    .btn-x:hover  { background: #b02a37; transform: translateY(-1px); }
+    .btn-av { background: var(--aviso); color: #000; }
+    .btn-av:hover { background: #d39e00; transform: translateY(-1px); }
+
+    /* ── LISTA DE ARQUIVOS ── */
+    .arquivo-item {
+      background: var(--input);
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-p);
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      transition: border-color 0.2s;
+    }
+    .arquivo-item:hover { border-color: var(--primario); }
+    .arquivo-info { flex: 1; min-width: 150px; }
+    .arquivo-nome { font-weight: bold; color: var(--primario); font-size: 0.95rem; }
+    .arquivo-meta { font-size: 0.78rem; color: var(--fraco); margin-top: 0.2rem; }
+    .arquivo-acoes { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .btn-mini {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.78rem;
+      border: none;
+      border-radius: var(--raio-p);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .bm-ver    { background: var(--primario); color: #fff; }
+    .bm-editar { background: var(--aviso); color: #000; }
+    .bm-apagar { background: var(--perigo); color: #fff; }
+
+    /* ── ESTRUTURA VISUAL ── */
+    .arvore {
+      background: #0a0c10;
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-p);
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 2;
+      white-space: pre;
+      overflow-x: auto;
+      min-height: 80px;
+    }
+    .arv-raiz    { color: #f0c040; font-weight: bold; }
+    .arv-pasta   { color: #7ec87e; }
+    .arv-arquivo { color: #7eb8e8; }
+
+    /* ── PREVIEW ── */
+    .preview-box {
+      background: #0a0c10;
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-p);
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.6;
+    }
+
+    /* ── MODAL ── */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal.aberto { display: flex; }
+    .modal-box {
+      background: var(--card);
+      border: 1px solid var(--borda);
+      border-radius: var(--raio);
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 700px;
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+    .modal-titulo {
+      font-size: 1.1rem;
+      color: var(--primario);
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-fechar {
+      background: var(--borda);
+      color: var(--texto);
+      border: none;
+      border-radius: var(--raio-p);
+      padding: 0.3rem 0.7rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    /* ── CONTADOR ── */
+    .contador {
+      display: inline-block;
+      background: var(--primario);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: 20px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      padding: 0.7rem 1.2rem;
+      border-radius: var(--raio-p);
+      font-size: 0.88rem;
+      color: #fff;
+      z-index: 9999;
+      animation: fadeUp 0.3s ease;
+      max-width: 300px;
+    }
+    .toast-ok   { background: var(--sucesso); }
+    .toast-erro { background: var(--perigo); }
+    .toast-av   { background: #b07d00; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── VAZIO ── */
+    .vazio { color: var(--fraco); font-style: italic; text-align: center; padding: 2rem 0; }
+
+    /* ── BARRA SALVO ── */
+    .barra-salvo {
+      background: #0d1f0d;
+      border: 1px solid #1a4a1a;
+      border-radius: var(--raio-p);
+      padding: 0.5rem 0.8rem;
+      font-size: 0.8rem;
+      color: #7ec87e;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ── RESPONSIVO ── */
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.2rem; }
+      .aba-btn { font-size: 0.75rem; padding: 0.4rem 0.6rem; }
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--fundo); }
+    ::-webkit-scrollbar-thumb { background: var(--borda); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primario); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>📦 Gerenciador de Arquivos</h1>
+  <p>Adicione, organize, visualize e baixe seus arquivos em ZIP</p>
+</div>
+
+<!-- ABAS -->
+<div class="abas">
+  <button class="aba-btn active" data-tela="adicionar">➕ Adicionar</button>
+  <button class="aba-btn" data-tela="lista">📋 Arquivos <span class="contador" id="contador">0</span></button>
+  <button class="aba-btn" data-tela="estrutura">🌳 Estrutura</button>
+  <button class="aba-btn" data-tela="exportar">📦 Exportar</button>
+  <button class="aba-btn" data-tela="importar">📂 Importar ZIP</button>
+</div>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TELA 1: ADICIONAR                         -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="tela active" id="tela-adicionar">
+
+    <div class="barra-salvo" id="barra-salvo">
+      💾 Salvamento automático ativo — seus arquivos ficam salvos no navegador
+    </div>
+
+    <div class="card">
+      <h2>➕ Adicionar Arquivo</h2>
+
+      <label>Nome do arquivo (com extensão):</label>
+      <input type="text" id="inp-nome" placeholder="Ex: index.html, app.js, style.css, contrato.txt..."/>
+
+      <label>Caminho / pasta (opcional):</label>
+      <input type="text" id="inp-caminho" placeholder="Ex: css/ ou js/ ou deixe vazio para raiz"/>
+
+      <label>Descrição (opcional — para o prompt de IA):</label>
+      <input type="text" id="inp-desc" placeholder="Ex: Arquivo principal do app, Estilos do menu..."/>
+
+      <label>Conteúdo do arquivo:</label>
+      <textarea id="inp-codigo" rows="14" placeholder="Cole o código ou texto aqui..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn-ok" id="btn-adicionar">✅ Adicionar Arquivo</button>
+        <button class="btn-s"  id="btn-limpar-form">🗑 Limpar</button>
+        <button class="btn-s"  id="btn-importar-arquivo">📂 Importar do PC</button>
+        <input type="file" id="file-input" style="display:none" multiple/>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TELA 2: LISTA                             -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="tela" id="tela-lista">
+    <div class="card">
+      <h2>📋 Arquivos Adicionados</h2>
+      <div id="lista-arquivos">
+        <p class="vazio">Nenhum arquivo adicionado ainda.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TELA 3: ESTRUTURA                         -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="tela" id="tela-estrutura">
+    <div class="card">
+      <h2>🌳 Estrutura Visual do Projeto</h2>
+      <div class="arvore" id="arvore-visual">
+        Nenhum arquivo adicionado ainda.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📊 Resumo</h2>
+      <div id="resumo-estrutura" style="font-size:0.88rem; line-height:2; color:var(--texto);">
+        —
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TELA 4: EXPORTAR                          -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="tela" id="tela-exportar">
+
+    <div class="card">
+      <h2>📦 Baixar ZIP com todos os arquivos</h2>
+      <p style="font-size:0.85rem; color:var(--fraco); margin-bottom:1rem;">
+        Gera um ZIP com todos os arquivos na estrutura de pastas correta.
+      </p>
+      <div class="btn-row">
+        <button class="btn-ok" id="btn-baixar-zip">📦 Baixar ZIP</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🤖 Gerar Prompt para IA</h2>
+      <p style="font-size:0.85rem; color:var(--fraco); margin-bottom:1rem;">
+        Gera um texto com todos os arquivos e problemas para colar numa IA.
+      </p>
+      <div class="btn-row">
+        <button class="btn-p" id="btn-gerar-prompt">⚡ Gerar Prompt</button>
+        <button class="btn-s" id="btn-copiar-prompt">📋 Copiar</button>
+        <button class="btn-s" id="btn-baixar-prompt">⬇ Baixar .txt</button>
+      </div>
+      <textarea id="output-prompt" rows="16" readonly style="margin-top:0.8rem;"
+        placeholder="Clique em Gerar Prompt..."></textarea>
+    </div>
+
+    <div class="card">
+      <h2>🗑 Limpar Tudo</h2>
+      <p style="font-size:0.85rem; color:var(--fraco); margin-bottom:1rem;">
+        Apaga todos os arquivos salvos. Não pode ser desfeito!
+      </p>
+      <div class="btn-row">
+        <button class="btn-x" id="btn-limpar-tudo">🗑 Apagar Tudo</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TELA 5: IMPORTAR ZIP                      -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="tela" id="tela-importar">
+    <div class="card">
+      <h2>📂 Importar Projeto ZIP</h2>
+      <p style="font-size:0.85rem; color:var(--fraco); margin-bottom:1rem;">
+        Selecione um ZIP existente. Todos os arquivos dentro dele serão carregados automaticamente.
+      </p>
+      <div class="btn-row">
+        <button class="btn-p" id="btn-importar-zip">📂 Selecionar ZIP</button>
+        <input type="file" id="zip-input" accept=".zip" style="display:none"/>
+      </div>
+      <div id="resultado-importacao" style="margin-top:1rem; font-size:0.85rem; color:var(--fraco);">
+        —
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- ══════════════════════════════════════════ -->
+<!-- MODAL: VER / EDITAR ARQUIVO               -->
+<!-- ══════════════════════════════════════════ -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div class="modal-titulo">
+      <span id="modal-titulo-txt">📄 Arquivo</span>
+      <button class="modal-fechar" id="modal-fechar">✕</button>
+    </div>
+    <div id="modal-corpo"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SCRIPT PRINCIPAL                          -->
+<!-- ══════════════════════════════════════════ -->
+<script>
+// ════════════════════════════════════════════
+// ESTADO — memória do app
+// ════════════════════════════════════════════
+const Estado = {
+  arquivos: [],
+  _id: 1,
+
+  adicionar(dados) {
+    const arq = {
+      id:        this._id++,
+      nome:      dados.nome      || 'sem-nome.txt',
+      caminho:   dados.caminho   || '',
+      descricao: dados.descricao || '',
+      codigo:    dados.codigo    || '',
+      tamanho:   (dados.codigo || '').length,
+      adicionado: new Date().toLocaleString('pt-BR')
+    };
+    this.arquivos.push(arq);
+    this._salvar();
+    return arq;
+  },
+
+  editar(id, dados) {
+    const i = this.arquivos.findIndex(a => a.id === id);
+    if (i === -1) return false;
+    this.arquivos[i] = {
+      ...this.arquivos[i],
+      ...dados,
+      tamanho: (dados.codigo || this.arquivos[i].codigo).length
+    };
+    this._salvar();
+    return true;
+  },
+
+  remover(id) {
+    this.arquivos = this.arquivos.filter(a => a.id !== id);
+    this._salvar();
+  },
+
+  buscar(id) {
+    return this.arquivos.find(a => a.id === id) || null;
+  },
+
+  caminhoCompleto(arq) {
+    const c = arq.caminho.trim().replace(/\/$/, '');
+    return c ? c + '/' + arq.nome : arq.nome;
+  },
+
+  limpar() {
+    this.arquivos = [];
+    this._id = 1;
+    localStorage.removeItem('gerenciador_v1');
+  },
+
+  _salvar() {
+    localStorage.setItem('gerenciador_v1', JSON.stringify({
+      arquivos: this.arquivos,
+      _id: this._id
+    }));
+  },
+
+  carregar() {
+    try {
+      const raw = localStorage.getItem('gerenciador_v1');
+      if (!raw) return;
+      const d = JSON.parse(raw);
+      this.arquivos = d.arquivos || [];
+      this._id      = d._id     || 1;
+    } catch(e) {}
+  }
+};
+
+// ════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════
+function toast(msg, tipo = 'ok') {
+  const t = document.createElement('div');
+  t.className = 'toast toast-' + tipo;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ════════════════════════════════════════════
+// ABAS
+// ════════════════════════════════════════════
+function trocarAba(nome) {
+  document.querySelectorAll('.aba-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tela === nome);
+  });
+  document.querySelectorAll('.tela').forEach(t => {
+    t.classList.toggle('active', t.id === 'tela-' + nome);
+  });
+  if (nome === 'lista')     renderLista();
+  if (nome === 'estrutura') renderEstrutura();
+}
+
+document.querySelectorAll('.aba-btn').forEach(b => {
+  b.addEventListener('click', () => trocarAba(b.dataset.tela));
+});
+
+// ════════════════════════════════════════════
+// ADICIONAR ARQUIVO
+// ════════════════════════════════════════════
+function limparForm() {
+  document.getElementById('inp-nome').value    = '';
+  document.getElementById('inp-caminho').value = '';
+  document.getElementById('inp-desc').value    = '';
+  document.getElementById('inp-codigo').value  = '';
+  const btn = document.getElementById('btn-adicionar');
+  btn.textContent = '✅ Adicionar Arquivo';
+  delete btn.dataset.editandoId;
+}
+
+document.getElementById('btn-limpar-form')
+  .addEventListener('click', limparForm);
+
+document.getElementById('btn-adicionar').addEventListener('click', () => {
+  const nome    = document.getElementById('inp-nome').value.trim();
+  const caminho = document.getElementById('inp-caminho').value.trim();
+  const desc    = document.getElementById('inp-desc').value.trim();
+  const codigo  = document.getElementById('inp-codigo').value;
+
+  if (!nome) {
+    toast('⚠️ Dê um nome para o arquivo!', 'erro');
+    return;
+  }
+
+  const btn = document.getElementById('btn-adicionar');
+  const editId = btn.dataset.editandoId;
+
+  if (editId) {
+    Estado.editar(Number(editId), { nome, caminho, descricao: desc, codigo });
+    toast('✅ Arquivo editado: ' + nome);
+  } else {
+    Estado.adicionar({ nome, caminho, descricao: desc, codigo });
+    toast('✅ Adicionado: ' + nome);
+  }
+
+  limparForm();
+  atualizarContador();
+});
+
+// ════════════════════════════════════════════
+// IMPORTAR ARQUIVO DO PC
+// ════════════════════════════════════════════
+document.getElementById('btn-importar-arquivo')
+  .addEventListener('click', () => document.getElementById('file-input').click());
+
+document.getElementById('file-input')
+  .addEventListener('change', async (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    for (const file of files) {
+      const conteudo = await lerArquivo(file);
+      Estado.adicionar({
+        nome:    file.name,
+        caminho: '',
+        codigo:  conteudo
+      });
+    }
+
+    toast(`✅ ${files.length} arquivo(s) importado(s)!`);
+    atualizarContador();
+    e.target.value = '';
+  });
+
+function lerArquivo(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload  = e => res(e.target.result);
+    r.onerror = () => rej(new Error('Erro ao ler ' + file.name));
+    r.readAsText(file, 'UTF-8');
+  });
+}
+
+// ════════════════════════════════════════════
+// LISTA DE ARQUIVOS
+// ════════════════════════════════════════════
+function renderLista() {
+  const el = document.getElementById('lista-arquivos');
+
+  if (Estado.arquivos.length === 0) {
+    el.innerHTML = '<p class="vazio">Nenhum arquivo adicionado ainda.</p>';
+    return;
+  }
+
+  el.innerHTML = Estado.arquivos.map(a => {
+    const caminho = Estado.caminhoCompleto(a);
+    const kb = (a.tamanho / 1024).toFixed(1);
+    return `
+      <div class="arquivo-item">
+        <div class="arquivo-info">
+          <div class="arquivo-nome">📄 ${esc(caminho)}</div>
+          <div class="arquivo-meta">
+            ${a.descricao ? esc(a.descricao) + ' · ' : ''}
+            ${kb} KB · ${a.adicionado}
+          </div>
+        </div>
+        <div class="arquivo-acoes">
+          <button class="btn-mini bm-ver"    data-id="${a.id}">👁 Ver</button>
+          <button class="btn-mini bm-editar" data-id="${a.id}">✏️ Editar</button>
+          <button class="btn-mini bm-apagar" data-id="${a.id}">🗑</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  el.querySelectorAll('.bm-ver').forEach(b =>
+    b.addEventListener('click', () => abrirModal(Number(b.dataset.id), 'ver')));
+  el.querySelectorAll('.bm-editar').forEach(b =>
+    b.addEventListener('click', () => editarArquivo(Number(b.dataset.id))));
+  el.querySelectorAll('.bm-apagar').forEach(b =>
+    b.addEventListener('click', () => apagarArquivo(Number(b.dataset.id))));
+}
+
+function apagarArquivo(id) {
+  const a = Estado.buscar(id);
+  if (!a) return;
+  if (!confirm(`Apagar "${a.nome}"?`)) return;
+  Estado.remover(id);
+  renderLista();
+  atualizarContador();
+  toast('🗑 Apagado: ' + a.nome);
+}
+
+function editarArquivo(id) {
+  const a = Estado.buscar(id);
+  if (!a) return;
+  document.getElementById('inp-nome').value    = a.nome;
+  document.getElementById('inp-caminho').value = a.caminho;
+  document.getElementById('inp-desc').value    = a.descricao;
+  document.getElementById('inp-codigo').value  = a.codigo;
+  const btn = document.getElementById('btn-adicionar');
+  btn.textContent = '💾 Salvar Edição';
+  btn.dataset.editandoId = id;
+  trocarAba('adicionar');
+  toast('✏️ Editando: ' + a.nome, 'av');
+}
+
+// ════════════════════════════════════════════
+// MODAL: VER ARQUIVO
+// ════════════════════════════════════════════
+function abrirModal(id, modo) {
+  const a = Estado.buscar(id);
+  if (!a) return;
+
+  document.getElementById('modal-titulo-txt').textContent = '📄 ' + Estado.caminhoCompleto(a);
+
+  document.getElementById('modal-corpo').innerHTML = `
+    ${a.descricao ? `<p style="font-size:0.85rem;color:var(--fraco);margin-bottom:0.8rem;">📝 ${esc(a.descricao)}</p>` : ''}
+    <p style="font-size:0.78rem;color:var(--fraco);margin-bottom:0.5rem;">
+      Tamanho: ${(a.tamanho/1024).toFixed(1)} KB · Adicionado: ${a.adicionado}
+    </p>
+    <div class="preview-box">${esc(a.codigo) || '<span style="color:var(--fraco)">Arquivo vazio</span>'}</div>
+  `;
+
+  document.getElementById('modal').classList.add('aberto');
+}
+
+document.getElementById('modal-fechar')
+  .addEventListener('click', () => document.getElementById('modal').classList.remove('aberto'));
+document.getElementById('modal')
+  .addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) {
+      document.getElementById('modal').classList.remove('aberto');
+    }
+  });
+
+// ════════════════════════════════════════════
+// ESTRUTURA VISUAL
+// ════════════════════════════════════════════
+function renderEstrutura() {
+  const el      = document.getElementById('arvore-visual');
+  const resumo  = document.getElementById('resumo-estrutura');
+
+  if (Estado.arquivos.length === 0) {
+    el.innerHTML = 'Nenhum arquivo adicionado ainda.';
+    resumo.innerHTML = '—';
+    return;
+  }
+
+  // Monta árvore
+  const pastasVistas = new Set();
+  const linhas = [];
+  linhas.push(`<span class="arv-raiz">📁 projeto/</span>`);
+
+  // Ordena: pastas primeiro, depois raiz
+  const comPasta = Estado.arquivos.filter(a => a.caminho.trim() !== '');
+  const semPasta = Estado.arquivos.filter(a => a.caminho.trim() === '');
+
+  comPasta.forEach(a => {
+    const pasta = a.caminho.trim().replace(/\/$/, '');
+    if (!pastasVistas.has(pasta)) {
+      pastasVistas.add(pasta);
+      linhas.push(`<span class="arv-pasta">  📁 ${esc(pasta)}/</span>`);
+    }
+    linhas.push(`<span class="arv-arquivo">    📄 ${esc(a.nome)}</span>`);
+  });
+
+  semPasta.forEach(a => {
+    linhas.push(`<span class="arv-arquivo">  📄 ${esc(a.nome)}</span>`);
+  });
+
+  el.innerHTML = linhas.join('\n');
+
+  // Resumo
+  const totalKB = Estado.arquivos.reduce((s, a) => s + a.tamanho, 0);
+  resumo.innerHTML = `
+    📦 Total de arquivos: <strong>${Estado.arquivos.length}</strong><br/>
+    📁 Pastas: <strong>${pastasVistas.size}</strong><br/>
+    💾 Tamanho total: <strong>${(totalKB/1024).toFixed(1)} KB</strong>
+  `;
+}
+
+// ════════════════════════════════════════════
+// GERAR PROMPT PARA IA
+// ════════════════════════════════════════════
+function gerarPrompt() {
+  if (Estado.arquivos.length === 0) return '⚠️ Nenhum arquivo adicionado.';
+
+  const linhas = [];
+  linhas.push('═══════════════════════════════════════════');
+  linhas.push('  PROMPT PARA IA — GERENCIADOR DE ARQUIVOS');
+  linhas.push('═══════════════════════════════════════════');
+  linhas.push(`Total de arquivos: ${Estado.arquivos.length}`);
+  linhas.push('');
+
+  Estado.arquivos.forEach((a, i) => {
+    const caminho = Estado.caminhoCompleto(a);
+    linhas.push(`─── ARQUIVO ${i + 1}: ${caminho} ───`);
+    if (a.descricao) linhas.push(`Descrição: ${a.descricao}`);
+    linhas.push('--- CÓDIGO ---');
+    linhas.push(a.codigo || '(vazio)');
+    linhas.push('--- FIM ---');
+    linhas.push('');
+  });
+
+  linhas.push('═══════════════════════════════════════════');
+  linhas.push('Por favor analise os arquivos acima.');
+  linhas.push('═══════════════════════════════════════════');
+
+  return linhas.join('\n');
+}
+
+document.getElementById('btn-gerar-prompt').addEventListener('click', () => {
+  document.getElementById('output-prompt').value = gerarPrompt();
+  toast('🤖 Prompt gerado!');
+});
+
+document.getElementById('btn-copiar-prompt').addEventListener('click', () => {
+  const txt = document.getElementById('output-prompt').value;
+  if (!txt) { toast('⚠️ Gere o prompt primeiro!', 'av'); return; }
+  navigator.clipboard.writeText(txt).then(() => toast('📋 Copiado!'));
+});
+
+document.getElementById('btn-baixar-prompt').addEventListener('click', () => {
+  const txt = document.getElementById('output-prompt').value;
+  if (!txt) { toast('⚠️ Gere o prompt primeiro!', 'av'); return; }
+  baixarTexto(txt, 'prompt.txt');
+});
+
+// ════════════════════════════════════════════
+// BAIXAR ZIP
+// ════════════════════════════════════════════
+document.getElementById('btn-baixar-zip').addEventListener('click', async () => {
+  if (Estado.arquivos.length === 0) {
+    toast('⚠️ Nenhum arquivo para baixar!', 'av');
+    return;
+  }
+  if (typeof JSZip === 'undefined') {
+    toast('❌ JSZip não carregou. Verifique a internet.', 'erro');
+    return;
+  }
+
+  const zip = new JSZip();
+
+  Estado.arquivos.forEach(a => {
+    const caminho = Estado.caminhoCompleto(a);
+    zip.file(caminho, a.codigo || '');
+  });
+
+  const blob = await zip.generateAsync({ type: 'blob' });
+  const url  = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href     = url;
+  link.download = 'projeto.zip';
+  link.click();
+  URL.revokeObjectURL(url);
+  toast('✅ ZIP baixado!');
+});
+
+// ════════════════════════════════════════════
+// IMPORTAR ZIP
+// ════════════════════════════════════════════
+document.getElementById('btn-importar-zip')
+  .addEventListener('click', () => document.getElementById('zip-input').click());
+
+document.getElementById('zip-input')
+  .addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (typeof JSZip === 'undefined') {
+      toast('❌ JSZip não carregou.', 'erro');
+      return;
+    }
+
+    const resultado = document.getElementById('resultado-importacao');
+    resultado.textContent = '⏳ Lendo ZIP...';
+
+    try {
+      const zip      = await JSZip.loadAsync(file);
+      const arquivos = Object.keys(zip.files).filter(n => !zip.files[n].dir);
+      let importados = 0;
+
+      for (const caminho of arquivos) {
+        try {
+          const conteudo = await zip.files[caminho].async('string');
+          const partes   = caminho.split('/');
+          const nome     = partes.pop();
+          const pasta    = partes.join('/');
+
+          Estado.adicionar({
+            nome:    nome,
+            caminho: pasta,
+            codigo:  conteudo
+          });
+          importados++;
+        } catch(err) {
+          console.warn('Pulando:', caminho);
+        }
+      }
+
+      resultado.innerHTML = `✅ <strong>${importados}</strong> arquivo(s) importado(s) do ZIP <strong>${file.name}</strong>`;
+      atualizarContador();
+      toast(`✅ ${importados} arquivo(s) importado(s)!`);
+    } catch(err) {
+      resultado.textContent = '❌ Erro ao ler o ZIP: ' + err.message;
+      toast('❌ Erro ao importar ZIP', 'erro');
+    }
+
+    e.target.value = '';
+  });
+
+// ════════════════════════════════════════════
+// LIMPAR TUDO
+// ════════════════════════════════════════════
+document.getElementById('btn-limpar-tudo').addEventListener('click', () => {
+  if (!confirm('⚠️ Apagar TODOS os arquivos? Isso não pode ser desfeito!')) return;
+  Estado.limpar();
+  atualizarContador();
+  toast('🗑 Tudo apagado!');
+});
+
+// ════════════════════════════════════════════
+// UTILITÁRIOS
+// ════════════════════════════════════════════
+function esc(txt) {
+  return String(txt || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function baixarTexto(conteudo, nome) {
+  const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url; link.download = nome; link.click();
+  URL.revokeObjectURL(url);
+}
+
+function atualizarContador() {
+  document.getElementById('contador').textContent = Estado.arquivos.length;
+}
+
+// ════════════════════════════════════════════
+// INICIAR
+// ════════════════════════════════════════════
+Estado.carregar();
+atualizarContador();
+</script>
+</body>
+</html>

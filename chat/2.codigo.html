@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Maikon Caldeira — Advocacia Digital</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0a0a0f; font-family:system-ui,sans-serif; }
+
+.nav {
+  position:fixed;
+  top:0; left:0; right:0;
+  background:#12121a;
+  border-bottom:2px solid #a3a082;
+  padding:10px 16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  z-index:9999;
+  box-shadow:0 3px 15px rgba(0,0,0,0.6);
+}
+
+.nav-titulo {
+  font-size:12px;
+  font-weight:700;
+  color:#a3a082;
+  letter-spacing:2px;
+  margin-right:8px;
+  white-space:nowrap;
+}
+
+.nav-btn {
+  padding:8px 16px;
+  background:#1a1a2e;
+  border:1px solid #2d2d3a;
+  border-radius:8px;
+  color:#94a3b8;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+
+.nav-btn:hover { background:#a3a082; color:#000; border-color:#a3a082; }
+.nav-btn.active { background:#a3a082; color:#000; border-color:#d4d0a8; }
+
+.projeto { display:none; padding-top:110px; min-height:100vh; }
+.projeto.ativo { display:block; }
+
+.projeto iframe {
+  width:100%;
+  min-height:calc(100vh - 110px);
+  border:none;
+  display:block;
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-titulo">⚖️ MC</span>
+  <button class="nav-btn active" onclick="trocar(0)">🔷 Importar maekon</button>
+  <button class="nav-btn " onclick="trocar(1)">🔶 Importar json</button>
+  <button class="nav-btn " onclick="trocar(2)">🔸 Marlon html</button>
+  <button class="nav-btn " onclick="trocar(3)">🟢 Organizar planos </button>
+  <button class="nav-btn " onclick="trocar(4)">🟣 Macrom (1)</button>
+</div>
+
+<div class="projeto ativo" id="p0"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;UTF-8&quot;/>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/>
+  <title>Importador de Markdown</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { margin-bottom: 20px; color: #00ff00; }
+    .section { background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #00ff00; }
+    .input-group { margin: 15px 0; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #00ff00; border-radius: 4px; font-family: monospace; }
+    button { background: #00ff00; color: #000; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 10px 5px 10px 0; }
+    button:hover { background: #00cc00; }
+    .file-list { background: #1a1a1a; padding: 15px; border-radius: 4px; margin: 10px 0; }
+    .file-item { padding: 10px; background: #2a2a2a; margin: 5px 0; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+    .remove-btn { background: #ff4444; padding: 5px 10px; font-size: 12px; }
+    #output { background: #1a1a1a; padding: 20px; border-radius: 4px; margin: 20px 0; max-height: 600px; overflow-y: auto; border: 1px solid #00ff00; white-space: pre-wrap; word-wrap: break-word; }
+    .success { color: #00ff00; }
+    .error { color: #ff4444; }
+  </style>
+</head>
+<body>
+  <div class=&quot;container&quot;>
+    <h1>📄 Importador de Markdown</h1>
+    
+    <div class=&quot;section&quot;>
+      <h2>1️⃣ Importar Arquivos</h2>
+      
+      <div class=&quot;input-group&quot;>
+        <label>Selecione arquivos Markdown (.md):</label>
+        <input type=&quot;file&quot; id=&quot;mdFiles&quot; multiple accept=&quot;.md&quot; />
+      </div>
+      
+      <div class=&quot;input-group&quot;>
+        <label>Ou importe um ZIP com arquivos:</label>
+        <input type=&quot;file&quot; id=&quot;zipFile&quot; accept=&quot;.zip&quot; />
+      </div>
+      
+      <button onclick=&quot;importMarkdowns()&quot;>📥 Importar Markdown</button>
+      <button onclick=&quot;importZip()&quot;>📦 Importar ZIP</button>
+    </div>
+    
+    <div class=&quot;section&quot;>
+      <h2>2️⃣ Arquivos Importados</h2>
+      <div id=&quot;fileList&quot; class=&quot;file-list&quot;>
+        <p style=&quot;color: #888;&quot;>Nenhum arquivo importado ainda...</p>
+      </div>
+    </div>
+    
+    <div class=&quot;section&quot;>
+      <h2>3️⃣ Organizar Ordem</h2>
+      <div class=&quot;input-group&quot;>
+        <label>Arraste para reorganizar ou use os botões:</label>
+        <div id=&quot;orderList&quot; style=&quot;background: #1a1a1a; padding: 10px; border-radius: 4px; min-height: 100px;&quot;></div>
+      </div>
+      <button onclick=&quot;moveUp()&quot;>⬆️ Mover para Cima</button>
+      <button onclick=&quot;moveDown()&quot;>⬇️ Mover para Baixo</button>
+    </div>
+    
+    <div class=&quot;section&quot;>
+      <h2>4️⃣ Nomeação</h2>
+      <div class=&quot;input-group&quot;>
+        <label>Nome do arquivo final:</label>
+        <input type=&quot;text&quot; id=&quot;finalName&quot; value=&quot;documento-completo&quot; />
+      </div>
+      <div class=&quot;input-group&quot;>
+        <label>Separador entre arquivos:</label>
+        <select id=&quot;separator&quot;>
+          <option value=&quot;---&quot;>--- (linha)</option>
+          <option value=&quot;\n\n&quot;>Duas quebras de linha</option>
+          <option value=&quot;\n\n## ---\n\n&quot;>Seção separadora</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class=&quot;section&quot;>
+      <h2>5️⃣ Ações</h2>
+      <button onclick=&quot;previewOutput()&quot;>👁️ Visualizar</button>
+      <button onclick=&quot;downloadMarkdown()&quot;>⬇️ Baixar Markdown</button>
+      <button onclick=&quot;copyToClipboard()&quot;>📋 Copiar para Clipboard</button>
+      <button onclick=&quot;clearAll()&quot;>🗑️ Limpar Tudo</button>
+    </div>
+    
+    <div class=&quot;section&quot;>
+      <h2>6️⃣ Visualização</h2>
+      <div id=&quot;output&quot;></div>
+    </div>
+  </div>
+
+  <script>
+    let files = [];
+    let fileContents = {};
+
+    async function importMarkdowns() {
+      const input = document.getElementById('mdFiles');
+      const newFiles = Array.from(input.files);
+      
+      for (const file of newFiles) {
+        const text = await file.text();
+        const name = file.name.replace('.md', '');
+        files.push(name);
+        fileContents[name] = text;
+      }
+      
+      updateFileList();
+      input.value = '';
+    }
+
+    async function importZip() {
+      const input = document.getElementById('zipFile');
+      const file = input.files[0];
+      
+      if (!file) {
+        alert('Selecione um arquivo ZIP!');
+        return;
+      }
+      
+      const { unzip } = await import('https://cdn.jsdelivr.net/npm/fflate@0.8.0/+esm');
+      const arrayBuffer = await file.arrayBuffer();
+      const unzipped = unzip(new Uint8Array(arrayBuffer));
+      
+      for (const [path, data] of Object.entries(unzipped)) {
+        if (path.endsWith('.md')) {
+          const text = new TextDecoder().decode(data);
+          const name = path.split('/').pop().replace('.md', '');
+          files.push(name);
+          fileContents[name] = text;
+        }
+      }
+      
+      updateFileList();
+      input.value = '';
+    }
+
+    function updateFileList() {
+      const list = document.getElementById('fileList');
+      const order = document.getElementById('orderList');
+      
+      list.innerHTML = '';
+      order.innerHTML = '';
+      
+      files.forEach((name, index) => {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        item.innerHTML = `
+          <span>${index + 1}. ${name}</span>
+          <button class=&quot;remove-btn&quot; onclick=&quot;removeFile('${name}')&quot;>✕ Remover</button>
+        `;
+        list.appendChild(item);
+        
+        const orderItem = document.createElement('div');
+        orderItem.className = 'file-item';
+        orderItem.draggable = true;
+        orderItem.innerHTML = `<span>${index + 1}. ${name}</span>`;
+        orderItem.ondragstart = (e) => e.dataTransfer.effectAllowed = 'move';
+        orderItem.ondrop = (e) => {
+          e.preventDefault();
+          const draggedIndex = parseInt(e.dataTransfer.getData('text'));
+          const targetIndex = files.indexOf(name);
+          [files[draggedIndex], files[targetIndex]] = [files[targetIndex], files[draggedIndex]];
+          updateFileList();
+        };
+        orderItem.ondragover = (e) => e.preventDefault();
+        order.appendChild(orderItem);
+      });
+    }
+
+    function removeFile(name) {
+      files = files.filter(f => f !== name);
+      delete fileContents[name];
+      updateFileList();
+    }
+
+    function moveUp() {
+      // Implementar depois
+    }
+
+    function moveDown() {
+      // Implementar depois
+    }
+
+    function previewOutput() {
+      const separator = document.getElementById('separator').value;
+      const content = files.map(name => fileContents[name]).join(separator);
+      document.getElementById('output').textContent = content;
+    }
+
+    function downloadMarkdown() {
+      const separator = document.getElementById('separator').value;
+      const content = files.map(name => fileContents[name]).join(separator);
+      const name = document.getElementById('finalName').value || 'documento';
+      
+      const blob = new Blob([content], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${name}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyToClipboard() {
+      const separator = document.getElementById('separator').value;
+      const content = files.map(name => fileContents[name]).join(separator);
+      navigator.clipboard.writeText(content).then(() => {
+        alert('✅ Copiado para clipboard!');
+      });
+    }
+
+    function clearAll() {
+      if (confirm('Tem certeza? Vai limpar tudo!')) {
+        files = [];
+        fileContents = {};
+        updateFileList();
+        document.getElementById('output').textContent = '';
+      }
+    }
+  </script>
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p1"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;UTF-8&quot;/>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/>
+  <title>Importador de JSON para Markdown</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { margin-bottom: 20px; color: #00ff00; }
+    .section { background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #00ff00; }
+    .input-group { margin: 15px 0; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #00ff00; border-radius: 4px; font-family: monospace; }
+    button { background: #00ff00; color: #000; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 10px 5px 10px 0; }
+    button:hover { background: #00cc00; }
+    #output { background: #1a1a1a; padding: 20px; border-radius: 4px; margin: 20px 0; max-height: 600px; overflow-y: auto; border: 1px solid #00ff00; white-space: pre-wrap; word-wrap: break-word; }
+    .success { color: #00ff00; }
+    .error { color: #ff4444; }
+  </style>
+</head>
+<body>
+  <div class=&quot;container&quot;>
+    <h1>📊 Importador de JSON para Markdown</h1>
+    
+    <div class=&quot;section&quot;>
+      <h2>1️⃣ Importar JSON</h2>
+      
+      <div class=&quot;input-group&quot;>
+        <label>Selecione arquivo JSON:</label>
+        <input type=&quot;file&quot; id=&quot;jsonFile&quot; accept=&quot;.json&quot; />
+      </div>
+      
+      <button onclick=&quot;importJson()&quot;>📥 Importar JSON</button>
+    </div>
+    
+    <div class=&quot;section&quot;>
+      <h2>2️⃣ Configurar Conversão</h2>
+      
+      <div class=&quot;input-group&quot;>
+        <label>Tipo de JSON:</label>
+        <select id=&quot;jsonType&quot;>
+          <option value=&quot;array&quot;>Array de objetos</option>
+          <option value=&quot;object&quot;>Objeto único</option>
+          <option value=&quot;nested&quot;>Objeto aninhado</option>
+        </select>
+      </div>
+      
+      <div class=&quot;input-group&quot;>
+        <label>Nível de título principal (h1-h6):</label>
+        <select id=&quot;titleLevel&quot;>
+          <option value=&quot;1&quot;>H1 (#)</option>
+          <option value=&quot;2&quot;>H2 (##)</option>
+          <option value=&quot;3&quot;>H3 (###)</option>
+        </select>
+      </div>
+      
+      <div class=&quot;input-group&quot;>
+        <label>Incluir chaves como títulos?</label>
+        <select id=&quot;includeKeys&quot;>
+          <option value=&quot;yes&quot;>Sim</option>
+          <option value=&quot;no&quot;>Não</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class=&quot;section&quot;>
+      <h2>3️⃣ Ações</h2>
+      <button onclick=&quot;convertToMarkdown()&quot;>🔄 Converter para Markdown</button>
+      <button onclick=&quot;downloadMarkdown()&quot;>⬇️ Baixar Markdown</button>
+      <button onclick=&quot;copyToClipboard()&quot;>📋 Copiar para Clipboard</button>
+      <button onclick=&quot;clearAll()&quot;>🗑️ Limpar Tudo</button>
+    </div>
+    
+    <div class=&quot;section&quot;>
+      <h2>4️⃣ Resultado</h2>
+      <div id=&quot;output&quot;></div>
+    </div>
+  </div>
+
+  <script>
+    let jsonData = null;
+    let markdownOutput = '';
+
+    async function importJson() {
+      const input = document.getElementById('jsonFile');
+      const file = input.files[0];
+      
+      if (!file) {
+        alert('Selecione um arquivo JSON!');
+        return;
+      }
+      
+      const text = await file.text();
+      try {
+        jsonData = JSON.parse(text);
+        alert('✅ JSON importado com sucesso!');
+      } catch (e) {
+        alert('❌ Erro ao parsear JSON: ' + e.message);
+      }
+    }
+
+    function convertToMarkdown() {
+      if (!jsonData) {
+        alert('Importe um JSON primeiro!');
+        return;
+      }
+      
+      const type = document.getElementById('jsonType').value;
+      const titleLevel = parseInt(document.getElementById('titleLevel').value);
+      const includeKeys = document.getElementById('includeKeys').value === 'yes';
+      
+      let markdown = '';
+      
+      if (type === 'array') {
+        markdown = convertArray(jsonData, titleLevel, includeKeys);
+      } else if (type === 'object') {
+        markdown = convertObject(jsonData, titleLevel, includeKeys);
+      } else if (type === 'nested') {
+        markdown = convertNested(jsonData, titleLevel, includeKeys);
+      }
+      
+      markdownOutput = markdown;
+      document.getElementById('output').textContent = markdown;
+    }
+
+    function convertArray(arr, titleLevel, includeKeys) {
+      let md = '';
+      arr.forEach((item, index) => {
+        md += `${'#'.repeat(titleLevel)} Item ${index + 1}\n\n`;
+        md += convertObject(item, titleLevel + 1, includeKeys);
+        md += '\n\n';
+      });
+      return md;
+    }
+
+    function convertObject(obj, titleLevel, includeKeys) {
+      let md = '';
+      for (const [key, value] of Object.entries(obj)) {
+        if (includeKeys) {
+          md += `${'#'.repeat(titleLevel)} ${key}\n\n`;
+        }
+        
+        if (typeof value === 'object' &amp;&amp; value !== null) {
+          if (Array.isArray(value)) {
+            md += convertArray(value, titleLevel + 1, includeKeys);
+          } else {
+            md += convertObject(value, titleLevel + 1, includeKeys);
+          }
+        } else {
+          md += `${value}\n\n`;
+        }
+      }
+      return md;
+    }
+
+    function convertNested(obj, titleLevel, includeKeys) {
+      let md = '';
+      
+      function traverse(current, level) {
+        for (const [key, value] of Object.entries(current)) {
+          md += `${'#'.repeat(level)} ${key}\n\n`;
+          
+          if (typeof value === 'object' &amp;&amp; value !== null) {
+            if (Array.isArray(value)) {
+              value.forEach((item, idx) => {
+                md += `- Item ${idx + 1}: ${JSON.stringify(item)}\n`;
+              });
+            } else {
+              traverse(value, level + 1);
+            }
+          } else {
+            md += `${value}\n\n`;
+          }
+        }
+      }
+      
+      traverse(obj, titleLevel);
+      return md;
+    }
+
+    function downloadMarkdown() {
+      if (!markdownOutput) {
+        alert('Converta o JSON primeiro!');
+        return;
+      }
+      
+      const blob = new Blob([markdownOutput], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'documento-convertido.md';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyToClipboard() {
+      if (!markdownOutput) {
+        alert('Converta o JSON primeiro!');
+        return;
+      }
+      navigator.clipboard.writeText(markdownOutput).then(() => {
+        alert('✅ Copiado para clipboard!');
+      });
+    }
+
+    function clearAll() {
+      if (confirm('Tem certeza? Vai limpar tudo!')) {
+        jsonData = null;
+        markdownOutput = '';
+        document.getElementById('output').textContent = '';
+        document.getElementById('jsonFile').value = '';
+      }
+    }
+  </script>
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p2"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;UTF-8&quot;/>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/>
+  <title>Markdown para HTML com Referências</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+    .container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    h1 { margin-bottom: 20px; color: #00ff00; grid-column: 1 / -1; }
+    .section { background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #00ff00; }
+    .input-group { margin: 15px 0; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #00ff00; border-radius: 4px; font-family: monospace; }
+    textarea { min-height: 300px; resize: vertical; }
+    button { background: #00ff00; color: #000; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 10px 5px 10px 0; }
+    button:hover { background: #00cc00; }
+    #markdown { grid-column: 1; }
+    #htmlOutput { grid-column: 2; }
+    #references { grid-column: 1 / -1; }
+    .reference-item { padding: 10px; background: #1a1a1a; margin: 5px 0; border-radius: 4px; cursor: pointer; border-left: 3px solid #00ff00; }
+    .reference-item:hover { background: #2a2a2a; }
+    .copy-section { padding: 10px; background: #1a1a1a; margin: 5px 0; border-radius: 4px; }
+    .copy-btn { background: #0066ff; padding: 5px 10px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class=&quot;container&quot;>
+    <h1>📝 Markdown → HTML com Pontos de Referência</h1>
+    
+    <div class=&quot;section&quot; id=&quot;markdown&quot;>
+      <h2>Markdown</h2>
+      <textarea id=&quot;markdownInput&quot; placeholder=&quot;Cole seu Markdown aqui...&quot;></textarea>
+      <button onclick=&quot;convertMarkdownToHtml()&quot;>🔄 Converter</button>
+      <button onclick=&quot;loadSample()&quot;>📋 Carregar Exemplo</button>
+    </div>
+    
+    <div class=&quot;section&quot; id=&quot;htmlOutput&quot;>
+      <h2>HTML Gerado</h2>
+      <div id=&quot;htmlPreview&quot; style=&quot;background: #1a1a1a; padding: 15px; border-radius: 4px; min-height: 300px; border: 1px solid #00ff00; overflow-y: auto;&quot;></div>
+      <button onclick=&quot;downloadHtml()&quot;>⬇️ Baixar HTML</button>
+      <button onclick=&quot;copyHtmlToClipboard()&quot;>📋 Copiar HTML</button>
+    </div>
+    
+    <div class=&quot;section&quot; id=&quot;references&quot;>
+      <h2>🔗 Pontos de Referência (Títulos e Seções)</h2>
+      <div id=&quot;referenceList&quot;></div>
+      <button onclick=&quot;copyAllReferences()&quot;>📋 Copiar Todas as Referências</button>
+    </div>
+  </div>
+
+  <script>
+    let htmlContent = '';
+    let references = [];
+
+    function convertMarkdownToHtml() {
+      const markdown = document.getElementById('markdownInput').value;
+      
+      // Simples conversão Markdown → HTML
+      let html = markdown
+        .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
+        .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
+        .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href=&quot;$2&quot;>$1</a>')
+        .replace(/^- (.*?)$/gm, '<li>$1</li>')
+        .replace(/(<li>.*?<\/li>)/s, '<ul>$1</ul>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/^/gm, '<p>')
+        .replace(/$/gm, '</p>')
+        .replace(/<p><\/p>/g, '');
+      
+      // Extrai referências
+      extractReferences(markdown);
+      
+      // Adiciona IDs aos títulos
+      html = html.replace(/<h([1-6])>(.*?)<\/h\1>/g, (match, level, text) => {
+        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        return `<h${level} id=&quot;${id}&quot;>${text}</h${level}>`;
+      });
+      
+      htmlContent = html;
+      document.getElementById('htmlPreview').innerHTML = html;
+      updateReferences();
+    }
+
+    function extractReferences(markdown) {
+      references = [];
+      const lines = markdown.split('\n');
+      
+      lines.forEach((line, index) => {
+        if (line.match(/^#+\s/)) {
+          const level = line.match(/^#+/)[0].length;
+          const text = line.replace(/^#+\s/, '').trim();
+          const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          references.push({ level, text, id, line: index + 1 });
+        }
+      });
+    }
+
+    function updateReferences() {
+      const list = document.getElementById('referenceList');
+      list.innerHTML = '';
+      
+      references.forEach(ref => {
+        const item = document.createElement('div');
+        item.className = 'reference-item';
+        item.style.marginLeft = (ref.level - 1) * 20 + 'px';
+        item.innerHTML = `
+          <strong>#${ref.line}</strong> - ${ref.text}
+          <div style=&quot;margin-top: 5px;&quot;>
+            <button class=&quot;copy-btn&quot; onclick=&quot;copyReference('${ref.id}')&quot;>📋 ID</button>
+            <button class=&quot;copy-btn&quot; onclick=&quot;copyReference('${ref.text}')&quot;>📋 Texto</button>
+            <button class=&quot;copy-btn&quot; onclick=&quot;copyReference('#${ref.id}')&quot;>🔗 Link</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function copyReference(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('✅ Copiado: ' + text);
+      });
+    }
+
+    function copyAllReferences() {
+      const refs = references.map(r => `[${r.text}](#${r.id})`).join('\n');
+      navigator.clipboard.writeText(refs).then(() => {
+        alert('✅ Todas as referências copiadas!');
+      });
+    }
+
+    function downloadHtml() {
+      const fullHtml = `<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;UTF-8&quot;/>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/>
+  <title>Documento</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 20px; }
+    h1, h2, h3 { margin-top: 20px; margin-bottom: 10px; }
+    a { color: #0066ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+${htmlContent}
+</body>
+</html>`;
+      
+      const blob = new Blob([fullHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'documento.html';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyHtmlToClipboard() {
+      navigator.clipboard.writeText(htmlContent).then(() => {
+        alert('✅ HTML copiado para clipboard!');
+      });
+    }
+
+    function loadSample() {
+      document.getElementById('markdownInput').value = `# Título Principal
+
+## Seção 1
+Conteúdo da seção 1.
+
+### Subseção 1.1
+Mais conteúdo aqui.
+
+## Seção 2
+Conteúdo da seção 2.
+
+- Item 1
+- Item 2
+- Item 3`;
+      convertMarkdownToHtml();
+    }
+  </script>
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p3"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;UTF-8&quot;/>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;/>
+  <title>Organizador de Planos</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { margin-bottom: 20px; color: #00ff00; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .section { background: #2a2a2a; padding: 20px; border-radius: 8px; border-left: 4px solid #00ff00; }
+    .input-group { margin: 15px 0; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #00ff00; border-radius: 4px; font-family: monospace; }
+    textarea { min-height: 200px; }
+    button { background: #00ff00; color: #000; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 10px 5px 10px 0; }
+    button:hover { background: #00cc00; }
+    .plan-item { padding: 15px; background: #1a1a1a; margin: 10px 0; border-radius: 4px; border-left: 3px solid #00ff00; }
+    .plan-item h3 { color: #00ff00; margin-bottom: 5px; }
+    .plan-item p { color: #aaa; font-size: 14px; }
+    .full-width { grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+  <div class=&quot;container&quot;>
+    <h1>📊 Organizador de Planos com Pontos de Referência</h1>
+    
+    <div class=&quot;grid&quot;>
+      <div class=&quot;section&quot;>
+        <h2>1️⃣ Criar Plano</h2>
+        <div class=&quot;input-group&quot;>
+          <label>Nome do Plano:</label>
+          <input type=&quot;text&quot; id=&quot;planName&quot; placeholder=&quot;Ex: SK Tools v7&quot; />
+        </div>
+        <div class=&quot;input-group&quot;>
+          <label>Descrição:</label>
+          <textarea id=&quot;planDescription&quot; placeholder=&quot;Descreva o plano...&quot;></textarea>
+        </div>
+        <div class=&quot;input-group&quot;>
+          <label>Seções (separadas por vírgula):</label>
+          <input type=&quot;text&quot; id=&quot;planSections&quot; placeholder=&quot;Ex: Introdução, Funcionalidades, Instalação, Conclusão&quot; />
+        </div>
+        <button onclick=&quot;createPlan()&quot;>✨ Criar Plano</button>
+      </div>
+      
+      <div class=&quot;section&quot;>
+        <h2>2️⃣ Adicionar Pontos</h2>
+        <div class=&quot;input-group&quot;>
+          <label>Seção:</label>
+          <select id=&quot;sectionSelect&quot;></select>
+        </div>
+        <div class=&quot;input-group&quot;>
+          <label>Título do Ponto:</label>
+          <input type=&quot;text&quot; id=&quot;pointTitle&quot; />
+        </div>
+        <div class=&quot;input-group&quot;>
+          <label>Conteúdo:</label>
+          <textarea id=&quot;pointContent&quot;></textarea>
+        </div>
+        <button onclick=&quot;addPoint()&quot;>📌 Adicionar Ponto</button>
+      </div>
+    </div>
+    
+    <div class=&quot;section full-width&quot;>
+      <h2>3️⃣ Planos Criados</h2>
+      <div id=&quot;plansList&quot;></div>
+    </div>
+    
+    <div class=&quot;section full-width&quot;>
+      <h2>4️⃣ Ações</h2>
+      <button onclick=&quot;generateMarkdown()&quot;>📝 Gerar Markdown</button>
+      <button onclick=&quot;generateJson()&quot;>📊 Gerar JSON</button>
+      <button onclick=&quot;downloadPlans()&quot;>⬇️ Baixar Tudo</button>
+      <button onclick=&quot;clearPlans()&quot;>🗑️ Limpar Tudo</button>
+    </div>
+    
+    <div class=&quot;section full-width&quot;>
+      <h2>5️⃣ Resultado</h2>
+      <textarea id=&quot;output&quot; style=&quot;min-height: 400px;&quot;></textarea>
+      <button onclick=&quot;copyOutput()&quot;>📋 Copiar</button>
+    </div>
+  </div>
+
+  <script>
+    let plans = [];
+    let currentPlan = null;
+
+    function createPlan() {
+      const name = document.getElementById('planName').value;
+      const description = document.getElementById('planDescription').value;
+      const sections = document.getElementById('planSections').value.split(',').map(s => s.trim());
+      
+      if (!name) {
+        alert('Digite um nome para o plano!');
+        return;
+      }
+      
+      currentPlan = {
+        name,
+        description,
+        sections: sections.map(s => ({ name: s, points: [] })),
+        createdAt: new Date().toLocaleString('pt-BR')
+      };
+      
+      plans.push(currentPlan);
+      updateUI();
+      clearForm();
+    }
+
+    function addPoint() {
+      if (!currentPlan) {
+        alert('Crie um plano primeiro!');
+        return;
+      }
+      
+      const sectionName = document.getElementById('sectionSelect').value;
+      const title = document.getElementById('pointTitle').value;
+      const content = document.getElementById('pointContent').value;
+      
+      if (!title) {
+        alert('Digite um título!');
+        return;
+      }
+      
+      const section = currentPlan.sections.find(s => s.name === sectionName);
+      if (section) {
+        section.points.push({
+          title,
+          content,
+          id: title.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+        });
+      }
+      
+      updateUI();
+      clearForm();
+    }
+
+    function updateUI() {
+      const sectionSelect = document.getElementById('sectionSelect');
+      sectionSelect.innerHTML = '';
+      
+      if (currentPlan) {
+        currentPlan.sections.forEach(section => {
+          const option = document.createElement('option');
+          option.value = section.name;
+          option.textContent = section.name;
+          sectionSelect.appendChild(option);
+        });
+      }
+      
+      updatePlansList();
+    }
+
+    function updatePlansList() {
+      const list = document.getElementById('plansList');
+      list.innerHTML = '';
+      
+      plans.forEach((plan, planIndex) => {
+        const planDiv = document.createElement('div');
+        planDiv.className = 'plan-item';
+        planDiv.innerHTML = `
+          <h3>${plan.name}</h3>
+          <p>${plan.description}</p>
+          <p style=&quot;color: #666; font-size: 12px;&quot;>Criado em: ${plan.createdAt}</p>
+          <div style=&quot;margin-top: 10px;&quot;>
+            ${plan.sections.map(section => `
+              <div style=&quot;margin-left: 20px; margin-top: 10px;&quot;>
+                <strong>${section.name}</strong> (${section.points.length} pontos)
+                ${section.points.map(point => `
+                  <div style=&quot;margin-left: 20px; margin-top: 5px; font-size: 12px;&quot;>
+                    • ${point.title}
+                  </div>
+                `).join('')}
+              </div>
+            `).join('')}
+          </div>
+          <button onclick=&quot;selectPlan(${planIndex})&quot; style=&quot;background: #0066ff; margin-top: 10px;&quot;>✏️ Editar</button>
+          <button onclick=&quot;deletePlan(${planIndex})&quot; style=&quot;background: #ff4444;&quot;>🗑️ Deletar</button>
+        `;
+        list.appendChild(planDiv);
+      });
+    }
+
+    function selectPlan(index) {
+      currentPlan = plans[index];
+      updateUI();
+    }
+
+    function deletePlan(index) {
+      if (confirm('Tem certeza?')) {
+        plans.splice(index, 1);
+        if (currentPlan === plans[index]) currentPlan = null;
+        updateUI();
+      }
+    }
+
+    function generateMarkdown() {
+      let markdown = '';
+      
+      plans.forEach(plan => {
+        markdown += `# ${plan.name}\n\n`;
+        markdown += `${plan.description}\n\n`;
+        markdown += `*Criado em: ${plan.createdAt}*\n\n`;
+        
+        plan.sections.forEach(section => {
+          markdown += `## ${section.name}\n\n`;
+          section.points.forEach(point => {
+            markdown += `### ${point.title}\n\n`;
+            markdown += `${point.content}\n\n`;
+          });
+        });
+      });
+      
+      document.getElementById('output').value = markdown;
+    }
+
+    function generateJson() {
+      document.getElementById('output').value = JSON.stringify(plans, null, 2);
+    }
+
+    function downloadPlans() {
+      const markdown = generateMarkdownContent();
+      const blob = new Blob([markdown], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'planos.md';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function generateMarkdownContent() {
+      let markdown = '';
+      plans.forEach(plan => {
+        markdown += `# ${plan.name}\n\n${plan.description}\n\n`;
+        plan.sections.forEach(section => {
+          markdown += `## ${section.name}\n\n`;
+          section.points.forEach(point => {
+            markdown += `### ${point.title}\n\n${point.content}\n\n`;
+          });
+        });
+      });
+      return markdown;
+    }
+
+    function copyOutput() {
+      const output = document.getElementById('output').value;
+      navigator.clipboard.writeText(output).then(() => {
+        alert('✅ Copiado!');
+      });
+    }
+
+    function clearForm() {
+      document.getElementById('planName').value = '';
+      document.getElementById('planDescription').value = '';
+      document.getElementById('planSections').value = '';
+      document.getElementById('pointTitle').value = '';
+      document.getElementById('pointContent').value = '';
+    }
+
+    function clearPlans() {
+      if (confirm('Tem certeza? Vai deletar TUDO!')) {
+        plans = [];
+        currentPlan = null;
+        updateUI();
+      }
+    }
+  </script>
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p4"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;>
+<meta name=&quot;theme-color&quot; content=&quot;#141c0d&quot;>
+<title>Visualizador de Markdown</title>
+<!-- Marked: parser de Markdown -->
+<script src=&quot;https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js&quot;></script>
+<!-- Highlight.js: cor nos códigos -->
+<link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css&quot;>
+<script src=&quot;https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js&quot;></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#141c0d; --panel:#1c2714; --border:#2d4a1e;
+  --accent:#5aab56; --accent2:#7ec87a; --text:#e2e8f0;
+  --muted:#6b8f68; --code-bg:#0d1309; --user-bg:#1a3a14;
+  --err:#f87171; --warn:#fbbf24;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg); color:var(--text);
+  height:100dvh; display:flex; flex-direction:column; overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* HEADER */
+header{
+  flex-shrink:0; display:flex; align-items:center; gap:6px;
+  padding:10px 12px; background:var(--panel);
+  border-bottom:1px solid var(--border); min-height:50px;
+}
+header h1{font-size:14px; font-weight:700; flex:1; color:var(--accent2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.btn{
+  height:36px; padding:0 12px; border-radius:9px;
+  border:1px solid var(--border); background:rgba(90,171,86,0.12);
+  color:var(--accent2); font-size:12px; cursor:pointer;
+  white-space:nowrap; display:flex; align-items:center; gap:5px;
+}
+.btn:hover{background:rgba(90,171,86,0.22)}
+.btn.danger{color:var(--err); background:rgba(248,113,113,0.08)}
+.btn.danger:hover{background:rgba(248,113,113,0.18)}
+.icon-btn{
+  width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+  border-radius:9px; border:1px solid var(--border); background:var(--code-bg);
+  color:var(--muted); cursor:pointer; font-size:16px; flex-shrink:0;
+}
+.icon-btn:hover{color:var(--accent2); border-color:var(--accent)}
+.icon-btn.active{background:rgba(90,171,86,0.18); color:var(--accent2); border-color:var(--accent)}
+
+/* SEARCH BAR */
+#searchBar{
+  flex-shrink:0; padding:8px 12px; background:var(--panel);
+  border-bottom:1px solid var(--border); display:none; gap:6px;
+}
+#searchBar.show{display:flex}
+#searchInput{
+  flex:1; height:36px; padding:0 12px;
+  background:var(--code-bg); border:1px solid var(--border);
+  border-radius:9px; color:var(--text); font-size:13px; outline:none;
+}
+#searchInput:focus{border-color:var(--accent)}
+#searchCount{font-size:11px; color:var(--muted); display:flex; align-items:center; padding:0 6px}
+
+/* LAYOUT */
+.layout{flex:1; display:flex; overflow:hidden; position:relative}
+
+/* SIDEBAR / TOC */
+#toc{
+  width:280px; flex-shrink:0; background:var(--panel);
+  border-right:1px solid var(--border); overflow-y:auto;
+  padding:12px 8px; transition:transform 0.25s, width 0.25s;
+}
+#toc.hidden{width:0; padding:0; overflow:hidden}
+.toc-title{
+  font-size:10px; text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--muted); font-weight:700; padding:6px 10px; margin-bottom:4px;
+}
+.toc-item{
+  display:flex; align-items:center; gap:4px;
+  padding:6px 10px; border-radius:6px; cursor:pointer;
+  font-size:12px; color:var(--text); line-height:1.4;
+  border-left:2px solid transparent;
+}
+.toc-item:hover{background:rgba(90,171,86,0.1); color:var(--accent2)}
+.toc-item.active{background:rgba(90,171,86,0.15); color:var(--accent2); border-left-color:var(--accent)}
+.toc-item.h1{font-weight:700; padding-left:10px}
+.toc-item.h2{padding-left:22px}
+.toc-item.h3{padding-left:34px; font-size:11px}
+.toc-item.h4{padding-left:46px; font-size:11px; color:var(--muted)}
+.toc-item.h5,.toc-item.h6{padding-left:58px; font-size:10px; color:var(--muted)}
+.toc-text{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.toc-copy{
+  width:22px; height:22px; border-radius:5px; border:none;
+  background:transparent; color:var(--muted); cursor:pointer; font-size:11px;
+  display:none; align-items:center; justify-content:center; flex-shrink:0;
+}
+.toc-item:hover .toc-copy{display:flex}
+.toc-copy:hover{background:rgba(90,171,86,0.2); color:var(--accent2)}
+
+/* CONTEÚDO */
+#content{
+  flex:1; overflow-y:auto; padding:24px 32px 60px 32px;
+  scroll-behavior:smooth; max-width:100%;
+}
+#emptyState{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:100%; text-align:center; padding:24px; color:var(--muted);
+}
+#emptyState .big{font-size:64px; margin-bottom:14px}
+#emptyState h2{color:var(--accent2); font-size:18px; margin-bottom:10px}
+#emptyState p{font-size:13px; line-height:1.6; max-width:380px; margin-bottom:14px}
+#dropZone{
+  border:2px dashed var(--border); border-radius:12px;
+  padding:30px 20px; cursor:pointer; transition:all 0.2s;
+  background:var(--panel); width:100%; max-width:380px;
+}
+#dropZone:hover, #dropZone.dragover{
+  border-color:var(--accent); background:rgba(90,171,86,0.08);
+}
+#dropZone .icon{font-size:32px; margin-bottom:8px}
+
+/* MARKDOWN RENDERIZADO */
+.md h1,.md h2,.md h3,.md h4,.md h5,.md h6{
+  color:var(--accent2); margin:24px 0 12px 0; line-height:1.3;
+  scroll-margin-top:20px; position:relative;
+}
+.md h1{font-size:24px; border-bottom:2px solid var(--border); padding-bottom:8px}
+.md h2{font-size:20px; border-bottom:1px solid var(--border); padding-bottom:6px}
+.md h3{font-size:17px}
+.md h4{font-size:15px}
+.md h5,.md h6{font-size:13px}
+.md h1:first-child,.md h2:first-child{margin-top:0}
+
+/* Botão de copiar seção em cada heading */
+.section-copy{
+  position:absolute; right:0; top:50%; transform:translateY(-50%);
+  display:none; gap:4px; align-items:center;
+}
+.md h1:hover .section-copy,.md h2:hover .section-copy,
+.md h3:hover .section-copy,.md h4:hover .section-copy{display:flex}
+.section-copy button{
+  font-size:10px; padding:4px 8px; border-radius:5px;
+  border:1px solid var(--border); background:var(--panel);
+  color:var(--muted); cursor:pointer;
+}
+.section-copy button:hover{color:var(--accent2); border-color:var(--accent)}
+
+.md p{margin:10px 0; line-height:1.7; font-size:14px}
+.md strong{color:var(--accent2)}
+.md em{color:#a5c8a2; font-style:italic}
+.md a{color:#60a5fa; text-decoration:underline; word-break:break-all}
+.md ul,.md ol{margin:10px 0 10px 24px; line-height:1.7}
+.md li{margin:4px 0}
+.md blockquote{
+  border-left:3px solid var(--accent); padding:8px 14px;
+  margin:12px 0; background:rgba(90,171,86,0.06);
+  color:#a5c8a2; border-radius:0 6px 6px 0;
+}
+.md hr{border:none; border-top:1px solid var(--border); margin:20px 0}
+.md table{
+  border-collapse:collapse; margin:14px 0; font-size:13px;
+  display:block; overflow-x:auto; max-width:100%;
+}
+.md th,.md td{
+  border:1px solid var(--border); padding:8px 12px; text-align:left;
+}
+.md th{background:var(--panel); color:var(--accent2); font-weight:700}
+.md tr:nth-child(even){background:rgba(255,255,255,0.02)}
+.md img{max-width:100%; border-radius:6px; margin:10px 0}
+
+/* Inline code */
+.md :not(pre) > code{
+  background:var(--code-bg); padding:2px 6px; border-radius:4px;
+  font-family:'Consolas','Courier New',monospace; font-size:12px;
+  color:#a8d5a2; border:1px solid var(--border);
+}
+
+/* Code block wrapper */
+.code-wrap{
+  margin:14px 0; border-radius:8px; overflow:hidden;
+  border:1px solid var(--border); background:var(--code-bg);
+}
+.code-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:6px 12px; background:#0a1008; font-size:10px;
+  font-family:monospace; color:var(--muted);
+  border-bottom:1px solid var(--border);
+}
+.code-lang{text-transform:uppercase; letter-spacing:0.05em}
+.code-copy{
+  background:none; border:none; color:var(--muted); cursor:pointer;
+  font-size:10px; font-family:inherit; display:flex; align-items:center; gap:4px;
+  padding:2px 6px; border-radius:4px;
+}
+.code-copy:hover{color:var(--accent2); background:rgba(90,171,86,0.1)}
+.md pre{
+  margin:0; padding:12px 14px; overflow-x:auto;
+  font-size:12px; line-height:1.55;
+  font-family:'Consolas','Courier New',monospace;
+}
+.md pre code{background:transparent !important; padding:0; color:#d4f1d4}
+
+/* Highlight de busca */
+mark.search-hit{background:#fbbf24; color:#000; padding:0 2px; border-radius:2px}
+mark.search-hit.current{background:#f87171; color:#fff}
+
+/* Toast */
+.toast{
+  position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
+  background:var(--panel); border:1px solid var(--accent);
+  color:var(--accent2); padding:10px 18px; border-radius:10px;
+  font-size:12px; z-index:9999; box-shadow:0 4px 14px rgba(0,0,0,0.5);
+  opacity:0; transition:opacity 0.2s; pointer-events:none;
+}
+.toast.show{opacity:1}
+.toast.err{border-color:var(--err); color:var(--err)}
+
+/* MOBILE */
+@media (max-width:768px){
+  #toc{
+    position:absolute; left:0; top:0; bottom:0; z-index:50;
+    transform:translateX(-100%); width:80%; max-width:300px;
+    box-shadow:4px 0 20px rgba(0,0,0,0.5);
+  }
+  #toc.show-mobile{transform:translateX(0)}
+  #content{padding:16px 18px 50px 18px}
+  .md h1{font-size:20px} .md h2{font-size:17px} .md h3{font-size:15px}
+  .section-copy{display:flex !important; opacity:0.6}
+  header h1{font-size:13px}
+  .btn span.lbl{display:none}
+}
+
+::-webkit-scrollbar{width:6px; height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border); border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* Backdrop mobile */
+.backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,0.5);
+  z-index:40; display:none;
+}
+.backdrop.show{display:block}
+</style>
+</head>
+<body>
+
+<header>
+  <button class=&quot;icon-btn&quot; id=&quot;tocToggle&quot; title=&quot;Mostrar/ocultar árvore&quot; onclick=&quot;toggleTOC()&quot;>📑</button>
+  <h1 id=&quot;docTitle&quot;>Visualizador de Markdown</h1>
+  <button class=&quot;icon-btn&quot; title=&quot;Buscar (Ctrl+F)&quot; onclick=&quot;toggleSearch()&quot;>🔍</button>
+  <button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileIn').click()&quot;>
+    📂 <span class=&quot;lbl&quot;>Abrir</span>
+  </button>
+  <button class=&quot;btn&quot; id=&quot;exportBtn&quot; onclick=&quot;exportHTML()&quot; style=&quot;display:none&quot;>
+    💾 <span class=&quot;lbl&quot;>Exportar</span>
+  </button>
+  <input type=&quot;file&quot; id=&quot;fileIn&quot; accept=&quot;.md,.markdown,.txt,.mdx&quot; style=&quot;display:none&quot; onchange=&quot;loadFile(event)&quot;>
+</header>
+
+<div id=&quot;searchBar&quot;>
+  <input id=&quot;searchInput&quot; placeholder=&quot;Buscar no documento... (Enter = próximo, Shift+Enter = anterior)&quot;
+         oninput=&quot;doSearch()&quot; onkeydown=&quot;searchKey(event)&quot;>
+  <span id=&quot;searchCount&quot;>0/0</span>
+  <button class=&quot;icon-btn&quot; onclick=&quot;toggleSearch()&quot; title=&quot;Fechar&quot;>✕</button>
+</div>
+
+<div class=&quot;layout&quot;>
+  <aside id=&quot;toc&quot;>
+    <div class=&quot;toc-title&quot;>📑 Sumário</div>
+    <div id=&quot;tocList&quot;>
+      <div style=&quot;font-size:12px;color:var(--muted);text-align:center;padding:20px 10px&quot;>
+        Abra um arquivo .md pra ver o sumário aqui
+      </div>
+    </div>
+  </aside>
+
+  <div class=&quot;backdrop&quot; id=&quot;backdrop&quot; onclick=&quot;toggleTOC()&quot;></div>
+
+  <main id=&quot;content&quot;>
+    <div id=&quot;emptyState&quot;>
+      <div class=&quot;big&quot;>📄</div>
+      <h2>Visualizador de Markdown</h2>
+      <p>
+        Abra qualquer arquivo <strong>.md</strong> (Markdown) pra visualizar bonito,
+        com sumário lateral, busca e botões pra copiar cada pedaço.<br><br>
+        Perfeito pra trazer documentação de projetos pra conversar com a IA.
+      </p>
+      <div id=&quot;dropZone&quot; onclick=&quot;document.getElementById('fileIn').click()&quot;>
+        <div class=&quot;icon&quot;>📂</div>
+        <strong style=&quot;color:var(--accent2)&quot;>Clique aqui ou arraste um arquivo</strong>
+        <div style=&quot;font-size:11px; color:var(--muted); margin-top:6px&quot;>
+          Suporta: .md, .markdown, .mdx, .txt
+        </div>
+      </div>
+      <p style=&quot;margin-top:18px; font-size:11px&quot;>
+        💡 Você também pode <strong>colar texto Markdown</strong> direto: Ctrl+V em qualquer lugar
+      </p>
+    </div>
+  </main>
+</div>
+
+<div class=&quot;toast&quot; id=&quot;toast&quot;></div>
+
+<script>
+'use strict';
+
+let rawMarkdown = '';
+let currentFileName = '';
+let searchHits = [];
+let searchIdx = 0;
+
+/*══════════════════════════════════════════════════════════════════
+  CONFIG MARKED
+══════════════════════════════════════════════════════════════════*/
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+  headerIds: true,
+  mangle: false,
+});
+
+// Renderer customizado pra blocos de código
+const renderer = new marked.Renderer();
+renderer.code = function(code, lang) {
+  const language = (lang || '').toLowerCase().trim() || 'texto';
+  let highlighted = escapeHTML(code);
+  try {
+    if (lang &amp;&amp; hljs.getLanguage(lang)) {
+      highlighted = hljs.highlight(code, { language: lang }).value;
+    } else {
+      highlighted = hljs.highlightAuto(code).value;
+    }
+  } catch(e) { /* fallback pra escape */ }
+
+  const safeCode = escapeAttr(code);
+  return (
+    '<div class=&quot;code-wrap&quot;>'+
+      '<div class=&quot;code-head&quot;>'+
+        '<span class=&quot;code-lang&quot;>'+language+'</span>'+
+        '<button class=&quot;code-copy&quot; data-code=&quot;'+safeCode+'&quot;>📋 Copiar código</button>'+
+      '</div>'+
+      '<pre><code class=&quot;hljs language-'+language+'&quot;>'+highlighted+'</code></pre>'+
+    '</div>'
+  );
+};
+
+// Headings com botões de copiar seção
+renderer.heading = function(text, level, raw) {
+  const slug = slugify(raw);
+  return (
+    '<h'+level+' id=&quot;'+slug+'&quot; data-heading=&quot;'+level+'&quot; data-raw=&quot;'+escapeAttr(raw)+'&quot;>'+
+      text+
+      '<span class=&quot;section-copy&quot;>'+
+        '<button onclick=&quot;copySection(\''+slug+'\')&quot; title=&quot;Copiar essa seção inteira&quot;>📋 Seção</button>'+
+        '<button onclick=&quot;copySectionMD(\''+slug+'\')&quot; title=&quot;Copiar a seção em Markdown&quot;>📝 MD</button>'+
+      '</span>'+
+    '</h'+level+'>'
+  );
+};
+
+marked.use({ renderer });
+
+/*══════════════════════════════════════════════════════════════════
+  CARREGAR ARQUIVO
+══════════════════════════════════════════════════════════════════*/
+function loadFile(e) {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  e.target.value = '';
+  readFile(file);
+}
+
+function readFile(file) {
+  currentFileName = file.name;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    rawMarkdown = ev.target.result || '';
+    render();
+    toast('✓ '+file.name+' carregado');
+  };
+  reader.onerror = () => toast('Erro ao ler arquivo','err');
+  reader.readAsText(file, 'UTF-8');
+}
+
+/*══════════════════════════════════════════════════════════════════
+  RENDERIZAR
+══════════════════════════════════════════════════════════════════*/
+function render() {
+  if (!rawMarkdown) return;
+  const html = marked.parse(rawMarkdown);
+  const content = document.getElementById('content');
+  content.innerHTML = '<div class=&quot;md&quot; id=&quot;md&quot;>'+html+'</div>';
+  document.getElementById('exportBtn').style.display = '';
+  document.getElementById('docTitle').textContent = currentFileName || 'Documento';
+  buildTOC();
+  bindCodeCopies();
+}
+
+function buildTOC() {
+  const list = document.getElementById('tocList');
+  const headings = document.querySelectorAll('#md h1, #md h2, #md h3, #md h4, #md h5, #md h6');
+  if (!headings.length) {
+    list.innerHTML = '<div style=&quot;font-size:12px;color:var(--muted);text-align:center;padding:20px 10px&quot;>Documento sem títulos</div>';
+    return;
+  }
+  list.innerHTML = '';
+  headings.forEach(h => {
+    const lvl = h.tagName.toLowerCase();
+    const id  = h.id;
+    const txt = h.dataset.raw || h.textContent.replace(/📋.*$/,'').trim();
+    const item = document.createElement('div');
+    item.className = 'toc-item ' + lvl;
+    item.innerHTML =
+      '<span class=&quot;toc-text&quot; title=&quot;'+escapeAttr(txt)+'&quot;>'+escapeHTML(txt)+'</span>'+
+      '<button class=&quot;toc-copy&quot; title=&quot;Copiar essa seção&quot; onclick=&quot;event.stopPropagation();copySection(\''+id+'\')&quot;>📋</button>';
+    item.onclick = () => {
+      document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+      if (window.innerWidth <= 768) toggleTOC();
+      document.querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    };
+    list.appendChild(item);
+  });
+}
+
+function bindCodeCopies() {
+  document.querySelectorAll('.code-copy').forEach(btn => {
+    btn.onclick = () => {
+      const code = btn.dataset.code || '';
+      navigator.clipboard.writeText(decodeAttr(code)).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✓ Copiado!';
+        setTimeout(() => btn.innerHTML = orig, 1500);
+      });
+    };
+  });
+}
+
+/*══════════════════════════════════════════════════════════════════
+  COPIAR SEÇÃO
+══════════════════════════════════════════════════════════════════*/
+function copySection(headingId, asMarkdown) {
+  const h = document.getElementById(headingId);
+  if (!h) return;
+  const level = parseInt(h.dataset.heading || '1');
+
+  // Coleta todos os elementos da seção (até o próximo heading de nível <= )
+  const elements = [h];
+  let el = h.nextElementSibling;
+  while (el) {
+    if (/^H[1-6]$/.test(el.tagName)) {
+      const lvl = parseInt(el.dataset.heading || el.tagName[1]);
+      if (lvl <= level) break;
+    }
+    elements.push(el);
+    el = el.nextElementSibling;
+  }
+
+  let text;
+  if (asMarkdown) {
+    text = extractMarkdownSection(headingId);
+  } else {
+    text = elements.map(e => extractText(e)).join('\n\n').trim();
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    toast('✓ Seção copiada ('+text.length+' caracteres)');
+  }).catch(() => toast('Erro ao copiar','err'));
+}
+
+function copySectionMD(headingId) {
+  copySection(headingId, true);
+}
+
+function extractText(el) {
+  // Mantém quebras de bloco de código
+  if (el.classList?.contains('code-wrap')) {
+    const lang = el.querySelector('.code-lang')?.textContent || '';
+    const code = decodeAttr(el.querySelector('.code-copy')?.dataset.code || '');
+    return '```'+lang+'\n'+code+'\n```';
+  }
+  // Heading
+  if (/^H[1-6]$/.test(el.tagName)) {
+    const lvl = parseInt(el.tagName[1]);
+    const raw = el.dataset.raw || el.textContent.replace(/📋.*$/,'').trim();
+    return '#'.repeat(lvl)+' '+raw;
+  }
+  return el.innerText || el.textContent || '';
+}
+
+/* Extrai a seção do MD bruto (mais fiel) */
+function extractMarkdownSection(headingId) {
+  const lines = rawMarkdown.split('\n');
+  const headings = [];
+  lines.forEach((line, i) => {
+    const m = line.match(/^(#{1,6})\s+(.+?)\s*$/);
+    if (m) headings.push({ idx:i, level:m[1].length, text:m[2], slug:slugify(m[2]) });
+  });
+  const start = headings.find(h => h.slug === headingId);
+  if (!start) return '';
+  const next = headings.find(h => h.idx > start.idx &amp;&amp; h.level <= start.level);
+  const endIdx = next ? next.idx : lines.length;
+  return lines.slice(start.idx, endIdx).join('\n').trim();
+}
+
+/*══════════════════════════════════════════════════════════════════
+  EXPORTAR HTML
+══════════════════════════════════════════════════════════════════*/
+function exportHTML() {
+  if (!rawMarkdown) return;
+  const md = document.getElementById('md');
+  if (!md) return;
+
+  // CSS embutido pra o HTML ficar standalone bonito
+  const css = `
+    body{font-family:Georgia,Cambria,'Times New Roman',serif;max-width:860px;margin:30px auto;padding:0 24px;color:#222;line-height:1.7;background:#fafafa}
+    h1,h2,h3,h4{color:#2d4a1e;margin-top:28px;margin-bottom:12px}
+    h1{border-bottom:2px solid #5aab56;padding-bottom:8px}
+    h2{border-bottom:1px solid #ccc;padding-bottom:6px}
+    a{color:#0066cc}
+    code{background:#eee;padding:2px 5px;border-radius:3px;font-family:Consolas,monospace;font-size:90%}
+    pre{background:#0d1309;color:#a8d5a2;padding:14px;border-radius:6px;overflow-x:auto;font-size:13px;line-height:1.5}
+    pre code{background:transparent;color:inherit;padding:0}
+    blockquote{border-left:4px solid #5aab56;padding:6px 14px;margin:14px 0;background:#f0f7ed;color:#444}
+    table{border-collapse:collapse;margin:14px 0;width:100%}
+    th,td{border:1px solid #ccc;padding:8px 12px;text-align:left}
+    th{background:#e8f5e9}
+    .copy-btn{font-size:11px;padding:4px 10px;border:1px solid #5aab56;background:#fff;color:#2d4a1e;border-radius:5px;cursor:pointer;margin-left:8px}
+    .copy-btn:hover{background:#5aab56;color:#fff}
+    .code-wrap{position:relative;margin:14px 0}
+    .code-wrap .copy-btn{position:absolute;top:8px;right:8px}
+    @media print{.copy-btn{display:none}body{background:#fff}}
+  `;
+
+  // Clona conteúdo e adiciona botões de copiar funcionais (com JS embutido)
+  const clone = md.cloneNode(true);
+  // Remove botões antigos de seção
+  clone.querySelectorAll('.section-copy').forEach(s => s.remove());
+  // Substitui code-wrap pra simplificar
+  clone.querySelectorAll('.code-wrap').forEach(w => {
+    const code = decodeAttr(w.querySelector('.code-copy')?.dataset.code || '');
+    const lang = w.querySelector('.code-lang')?.textContent || '';
+    const newWrap = document.createElement('div');
+    newWrap.className = 'code-wrap';
+    newWrap.innerHTML =
+      '<button class=&quot;copy-btn&quot; data-code=&quot;'+escapeAttr(code)+'&quot;>📋 Copiar</button>'+
+      '<pre><code class=&quot;language-'+lang+'&quot;>'+escapeHTML(code)+'</code></pre>';
+    w.replaceWith(newWrap);
+  });
+  // Adiciona botão em cada heading
+  clone.querySelectorAll('h1,h2,h3,h4').forEach(h => {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = '📋 Seção';
+    btn.dataset.section = h.id;
+    h.appendChild(btn);
+  });
+
+  const script = `
+    <script>
+    document.querySelectorAll('.copy-btn[data-code]').forEach(b=>{
+      b.onclick=()=>{navigator.clipboard.writeText(b.dataset.code);b.textContent='✓ Copiado!';setTimeout(()=>b.textContent='📋 Copiar',1500)};
+    });
+    document.querySelectorAll('.copy-btn[data-section]').forEach(b=>{
+      b.onclick=()=>{
+        const h=document.getElementById(b.dataset.section);
+        const lvl=parseInt(h.tagName[1]);
+        let txt=h.innerText.replace('📋 Seção','').trim()+'\\n\\n';
+        let el=h.nextElementSibling;
+        while(el){
+          if(/^H[1-6]$/.test(el.tagName)&amp;&amp;parseInt(el.tagName[1])<=lvl)break;
+          txt+=el.innerText+'\\n\\n';
+          el=el.nextElementSibling;
+        }
+        navigator.clipboard.writeText(txt.trim());
+        b.textContent='✓ Copiado!';setTimeout(()=>b.textContent='📋 Seção',1500);
+      };
+    });
+    <\/script>
+  `;
+
+  const fullHTML =
+    '<!DOCTYPE html><html lang=&quot;pt-BR&quot;><head><meta charset=&quot;UTF-8&quot;>'+
+    '<meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;>'+
+    '<title>'+escapeHTML(currentFileName||'Documento')+'</title>'+
+    '<style>'+css+'</style></head><body>'+
+    '<h1 style=&quot;border:none&quot;>'+escapeHTML(currentFileName||'Documento')+'</h1>'+
+    clone.outerHTML+
+    script+
+    '</body></html>';
+
+  const blob = new Blob([fullHTML], { type:'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (currentFileName.replace(/\.(md|markdown|mdx|txt)$/i,'') || 'documento') + '.html';
+  a.click();
+  toast('💾 HTML exportado!');
+}
+
+/*══════════════════════════════════════════════════════════════════
+  BUSCA
+══════════════════════════════════════════════════════════════════*/
+function toggleSearch() {
+  const bar = document.getElementById('searchBar');
+  const show = !bar.classList.contains('show');
+  bar.classList.toggle('show', show);
+  if (show) {
+    document.getElementById('searchInput').focus();
+  } else {
+    clearSearch();
+  }
+}
+
+function clearSearch() {
+  document.querySelectorAll('mark.search-hit').forEach(m => {
+    const parent = m.parentNode;
+    parent.replaceChild(document.createTextNode(m.textContent), m);
+    parent.normalize();
+  });
+  searchHits = [];
+  searchIdx = 0;
+  document.getElementById('searchCount').textContent = '0/0';
+}
+
+function doSearch() {
+  clearSearch();
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q || q.length < 2) { document.getElementById('searchCount').textContent='0/0'; return; }
+
+  const md = document.getElementById('md');
+  if (!md) return;
+
+  const re = new RegExp(escapeRegex(q), 'gi');
+  walkAndHighlight(md, re);
+  searchHits = [...document.querySelectorAll('mark.search-hit')];
+  searchIdx = 0;
+  if (searchHits.length) {
+    searchHits[0].classList.add('current');
+    searchHits[0].scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  document.getElementById('searchCount').textContent = (searchHits.length ? 1 : 0) + '/' + searchHits.length;
+}
+
+function walkAndHighlight(node, re) {
+  if (node.nodeType === 3) { // text
+    const text = node.nodeValue;
+    if (!re.test(text)) return;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-hit';
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      last = m.index + m[0].length;
+    }
+    if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  } else if (node.nodeType === 1 &amp;&amp; !['SCRIPT','STYLE','MARK'].includes(node.tagName)) {
+    [...node.childNodes].forEach(c => walkAndHighlight(c, re));
+  }
+}
+
+function searchKey(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (!searchHits.length) return;
+    searchHits[searchIdx].classList.remove('current');
+    searchIdx = e.shiftKey
+      ? (searchIdx - 1 + searchHits.length) % searchHits.length
+      : (searchIdx + 1) % searchHits.length;
+    searchHits[searchIdx].classList.add('current');
+    searchHits[searchIdx].scrollIntoView({ behavior:'smooth', block:'center' });
+    document.getElementById('searchCount').textContent = (searchIdx+1)+'/'+searchHits.length;
+  } else if (e.key === 'Escape') {
+    toggleSearch();
+  }
+}
+
+/*══════════════════════════════════════════════════════════════════
+  TOC TOGGLE
+══════════════════════════════════════════════════════════════════*/
+function toggleTOC() {
+  const toc = document.getElementById('toc');
+  const bd  = document.getElementById('backdrop');
+  if (window.innerWidth <= 768) {
+    const show = !toc.classList.contains('show-mobile');
+    toc.classList.toggle('show-mobile', show);
+    bd.classList.toggle('show', show);
+  } else {
+    toc.classList.toggle('hidden');
+  }
+  document.getElementById('tocToggle').classList.toggle('active');
+}
+
+/*══════════════════════════════════════════════════════════════════
+  DRAG &amp; DROP / PASTE
+══════════════════════════════════════════════════════════════════*/
+const dz = document.getElementById('dropZone');
+['dragenter','dragover'].forEach(ev => {
+  document.addEventListener(ev, e => {
+    e.preventDefault();
+    dz?.classList.add('dragover');
+  });
+});
+['dragleave','drop'].forEach(ev => {
+  document.addEventListener(ev, e => {
+    e.preventDefault();
+    dz?.classList.remove('dragover');
+  });
+});
+document.addEventListener('drop', e => {
+  e.preventDefault();
+  const f = e.dataTransfer?.files?.[0];
+  if (f) readFile(f);
+});
+
+document.addEventListener('paste', e => {
+  if (document.activeElement?.tagName === 'INPUT') return;
+  const txt = e.clipboardData?.getData('text');
+  if (txt &amp;&amp; txt.length > 50) {
+    rawMarkdown = txt;
+    currentFileName = 'colado.md';
+    render();
+    toast('✓ Texto colado renderizado');
+  }
+});
+
+/*══════════════════════════════════════════════════════════════════
+  ATALHOS
+══════════════════════════════════════════════════════════════════*/
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) &amp;&amp; e.key === 'f') {
+    e.preventDefault();
+    toggleSearch();
+  }
+});
+
+/*══════════════════════════════════════════════════════════════════
+  UTILS
+══════════════════════════════════════════════════════════════════*/
+function escapeHTML(s) {
+  return String(s)
+    .replace(/&amp;/g,'&amp;amp;').replace(/</g,'&amp;lt;')
+    .replace(/>/g,'&amp;gt;').replace(/&quot;/g,'&amp;quot;').replace(/'/g,'&amp;#39;');
+}
+function escapeAttr(s) { return escapeHTML(s); }
+function decodeAttr(s) {
+  return String(s)
+    .replace(/&amp;#39;/g,&quot;'&quot;).replace(/&amp;quot;/g,'&quot;')
+    .replace(/&amp;gt;/g,'>').replace(/&amp;lt;/g,'<').replace(/&amp;amp;/g,'&amp;');
+}
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&amp;'); }
+function slugify(s) {
+  return String(s).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s-]/g,'')
+    .trim().replace(/\s+/g,'-').replace(/-+/g,'-');
+}
+
+let toastTimer;
+function toast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.toggle('err', type === 'err');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+
+<script>
+function trocar(i) {
+  document.querySelectorAll('.projeto').forEach(function(el){ el.classList.remove('ativo'); });
+  document.querySelectorAll('.nav-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('p'+i).classList.add('ativo');
+  document.querySelectorAll('.nav-btn')[i].classList.add('active');
+  localStorage.setItem('mc-ultimo', i);
+}
+window.onload = function() {
+  var u = localStorage.getItem('mc-ultimo');
+  if (u !== null) trocar(parseInt(u));
+};
+</script>
+</body>
+</html>

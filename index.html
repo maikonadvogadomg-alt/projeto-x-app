@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style></style>
+  <!-- PWA:inicio (gerado pelo Mini SK — pode refazer no painel 📱 PWA) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#807b5c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="App">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <script>
+    if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+      addEventListener('load', function () { navigator.serviceWorker.register('service-worker.js').catch(function (e) { console.warn('Service worker:', e); }); });
+    }
+  </script>
+  <!-- PWA:fim -->
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Suite de ferramentas jurídicas com IA">
+<rect fill='%231f2937' width='192' height='192'/><text x='50%' y='50%' font-size='100' fill='%2310b981' text-anchor='middle' dominant-baseline='middle' font-family='Arial'>⚖️</text></svg>">
+  <title>Suite Jurídica + IA</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0f172a;
+      --bg2: #1e293b;
+      --border: #334155;
+      --accent: #10b981;
+      --accent2: #34d399;
+      --text: #f1f5f9;
+      --text2: #cbd5e1;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      background: var(--bg2);
+      border-bottom: 2px solid var(--accent);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent2);
+    }
+    .header-title span {
+      font-size: 28px;
+    }
+    .install-btn {
+      padding: 8px 16px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      transition: all 0.3s;
+      display: none;
+    }
+    .install-btn:hover {
+      background: var(--accent2);
+      transform: scale(1.05);
+    }
+    .install-btn.show {
+      display: block;
+    }
+    .tabs-container {
+      display: flex;
+      gap: 4px;
+      padding: 12px 16px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scroll-behavior: smooth;
+    }
+    .tab-btn {
+      padding: 10px 16px;
+      background: transparent;
+      border: 2px solid transparent;
+      color: var(--text2);
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      background: var(--border);
+      color: var(--text);
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .page {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+    }
+    .page.active {
+      display: flex;
+      flex-direction: column;
+    }
+    .page iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+    .home-page {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 24px;
+      padding: 40px 20px;
+      text-align: center;
+      overflow-y: auto;
+    }
+    .home-icon {
+      font-size: 80px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .home-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent2);
+    }
+    .home-desc {
+      font-size: 14px;
+      color: var(--text2);
+      max-width: 400px;
+    }
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .app-card {
+      padding: 16px;
+      background: var(--bg2);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .app-card:hover {
+      border-color: var(--accent);
+      background: rgba(16, 185, 129, 0.05);
+      transform: translateY(-4px);
+    }
+    .app-icon {
+      font-size: 32px;
+    }
+    .app-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .footer {
+      padding: 12px 16px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text2);
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .header-title { font-size: 16px; }
+      .home-title { font-size: 24px; }
+      .tabs-container { padding: 8px 12px; }
+      .tab-btn { padding: 8px 12px; font-size: 12px; }
+    }
+  </style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-title">
+    <span>⚖️️</span>
+    <div>Suite Jurídica + IA</div>
+  </div>
+  <button class="install-btn" id="installBtn">📥 Instalar</button>
+</header>
+
+<!-- ABAS -->
+<div class="tabs-container">
+  <button class="tab-btn active" data-page="home" onclick="showPage('home')">🏠 Início</button>
+  <button class="tab-btn" data-page="chat" onclick="showPage('chat')">💬 Chat</button>
+  <button class="tab-btn" data-page="playground" onclick="showPage('playground')">🎮 Playground</button>
+  <button class="tab-btn" data-page="editor" onclick="showPage('editor')">📝 Editor</button>
+  <button class="tab-btn" data-page="comparador" onclick="showPage('comparador')">⚖️ Comparador</button>
+  <button class="tab-btn" data-page="outros" onclick="showPage('outros')">⚙️ Outros</button>
+  <button class="tab-btn" data-page="novo" onclick="showPage('novo')">🧩 Novo PWA</button>
+  
+  <!-- 6 NOVAS ABAS DE PWAs -->
+  <button class="tab-btn" data-page="app6" onclick="showPage('app6')">📱 App Extra 1</button>
+  <button class="tab-btn" data-page="app7" onclick="showPage('app7')">🛠️ App Extra 2</button>
+  <button class="tab-btn" data-page="app8" onclick="showPage('app8')">🚀 App Extra 3</button>
+  <button class="tab-btn" data-page="app9" onclick="showPage('app9')">⚡ App Extra 4</button>
+  <button class="tab-btn" data-page="app10" onclick="showPage('app10')">📂 App Extra 5</button>
+  <button class="tab-btn" data-page="app11" onclick="showPage('app11')">🔧 App Extra 6</button>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="content">
+  <!-- HOME -->
+  <div class="page active" id="home-page">
+    <div class="home-page">
+      <div class="home-icon">⚖️</div>
+      <div class="home-title">Suite Jurídica + IA</div>
+      <div class="home-desc">Ferramentas inteligentes para análise, comparação e edição de documentos jurídicos</div>
+      <div class="apps-grid">
+        <!-- ÍCONES ORIGINAIS -->
+        <div class="app-card" onclick="showPage('chat')">
+          <div class="app-icon">💬</div>
+          <div class="app-name">Chat IA</div>
+        </div>
+        <div class="app-card" onclick="showPage('playground')">
+          <div class="app-icon">🎮</div>
+          <div class="app-name">Playground</div>
+        </div>
+        <div class="app-card" onclick="showPage('editor')">
+          <div class="app-icon">📝</div>
+          <div class="app-name">Editor</div>
+        </div>
+        <div class="app-card" onclick="showPage('comparador')">
+          <div class="app-icon">⚖️</div>
+          <div class="app-name">Comparador</div>
+        </div>
+        <div class="app-card" onclick="showPage('outros')">
+          <div class="app-icon">⚙️</div>
+          <div class="app-name">Outros</div>
+        </div>
+        <div class="app-card" onclick="showPage('novo')">
+          <div class="app-icon">🧩</div>
+          <div class="app-name">Novo PWA</div>
+        </div>
+
+        <!-- 6 NOVOS ÍCONES DA HOME -->
+        <div class="app-card" onclick="showPage('app6')">
+          <div class="app-icon">📱</div>
+          <div class="app-name">App Extra 1</div>
+        </div>
+        <div class="app-card" onclick="showPage('app7')">
+          <div class="app-icon">🛠️</div>
+          <div class="app-name">App Extra 2</div>
+        </div>
+        <div class="app-card" onclick="showPage('app8')">
+          <div class="app-icon">🚀</div>
+          <div class="app-name">App Extra 3</div>
+        </div>
+        <div class="app-card" onclick="showPage('app9')">
+          <div class="app-icon">⚡</div>
+          <div class="app-name">App Extra 4</div>
+        </div>
+        <div class="app-card" onclick="showPage('app10')">
+          <div class="app-icon">📂</div>
+          <div class="app-name">App Extra 5</div>
+        </div>
+        <div class="app-card" onclick="showPage('app11')">
+          <div class="app-icon">🔧</div>
+          <div class="app-name">App Extra 6</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IFRAMES ORIGINAIS -->
+  <div class="page" id="chat-page"><iframe src="chat/index.html"></iframe></div>
+  <div class="page" id="playground-page"><iframe src="playground/index.html"></iframe></div>
+  <div class="page" id="editor-page"><iframe src="editor/index.html"></iframe></div>
+  <div class="page" id="comparador-page"><iframe src="comparador/index.html"></iframe></div>
+  <div class="page" id="outros-page"><iframe src="outros/index.html"></iframe></div>
+  <div class="page" id="novo-page"><iframe src="novo/index.html"></iframe></div>
+
+  <!-- IFRAMES DOS 6 NOVOS PWAS (Ajuste o caminho da pasta em 'src' se os nomes forem diferentes) -->
+  <div class="page" id="app6-page"><iframe src="pwa1/index.html"></iframe></div>
+  <div class="page" id="app7-page"><iframe src="pwa2/index.html"></iframe></div>
+  <div class="page" id="app8-page"><iframe src="pwa3/index.html"></iframe></div>
+  <div class="page" id="app9-page"><iframe src="pwa4/index.html"></iframe></div>
+  <div class="page" id="app10-page"><iframe src="pwa5/index.html"></iframe></div>
+  <div class="page" id="app11-page"><iframe src="pwa6/index.html"></iframe></div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  v1.0.0 • Suite Jurídica © 2024 • Offline Ready PWA
+</footer>
+
+</body>
+</html>
+
+    <script></script>
+</body>
+</html>

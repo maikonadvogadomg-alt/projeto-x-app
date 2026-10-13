@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cirurgião PWA - IDE & Central de Análise Modular</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; height: 100vh; overflow: hidden; }
+    
+    .app-container { display: flex; flex-direction: column; height: 100vh; width: 100vw; }
+    
+    /* BARRA DE ABAS */
+    .tabs-bar {
+      display: flex;
+      gap: 0;
+      background: #0f172a;
+      border-bottom: 2px solid #334155;
+      padding: 0;
+      height: 50px;
+      overflow-x: auto;
+    }
+
+    .tab-button {
+      flex: 0 0 auto;
+      min-width: 140px;
+      padding: 12px;
+      background: #1e293b;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.85rem;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      background: #334155;
+      color: #f1f5f9;
+    }
+
+    .tab-button.active {
+      background: #0284c7;
+      color: white;
+      border-bottom-color: #0284c7;
+    }
+
+    /* CONTEÚDO DAS ABAS */
+    .tabs-content {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .tab-panel {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .tab-panel.active {
+      display: flex;
+    }
+
+    .tool-column { 
+      padding: 20px; 
+      overflow-y: auto; 
+      flex: 1;
+    }
+
+    h1 { color: #38bdf8; font-size: 1.3rem; margin-bottom: 5px; }
+    p.sub { color: #94a3b8; font-size: 0.85rem; margin-bottom: 15px; }
+    
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px; }
+    .card h2 { font-size: 0.95rem; color: #f1f5f9; margin-bottom: 8px; }
+    
+    input[type="file"] { width: 100%; padding: 8px; background: #0f172a; border: 1px dashed #475569; border-radius: 6px; color: #94a3b8; font-size: 0.8rem; cursor: pointer; }
+    
+    .actions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin-bottom: 15px; }
+    .btn-action { background: #0284c7; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; text-align: center; }
+    .btn-action:hover { background: #0369a1; }
+    .btn-patch { background: #10b981; } .btn-patch:hover { background: #059669; }
+    .btn-tester { background: #d97706; } .btn-tester:hover { background: #b45309; }
+    .btn-git { background: #8b5cf6; } .btn-git:hover { background: #6d28d9; }
+    .btn-deps { background: #ec4899; } .btn-deps:hover { background: #be185d; }
+    .btn-bugs { background: #f59e0b; } .btn-bugs:hover { background: #d97706; }
+    
+    .report-box { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 12px; margin-top: 15px; }
+    pre { background: #020617; padding: 10px; border-radius: 6px; overflow-x: auto; max-height: 280px; font-family: monospace; font-size: 0.75rem; color: #e2e8f0; border: 1px solid #1e293b; white-space: pre-wrap; word-break: break-all; }
+
+    /* ESTILOS DO CHAT */
+    .chat-header { padding: 12px 15px; background: #0f172a; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
+    .chat-header h2 { font-size: 1rem; color: #38bdf8; }
+    .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    
+    .msg { padding: 10px 14px; border-radius: 8px; max-width: 85%; font-size: 0.88rem; line-height: 1.4; white-space: pre-wrap; }
+    .msg.user { background: #0284c7; color: white; align-self: flex-end; }
+    .msg.ia { background: #334155; color: #f8fafc; align-self: flex-start; border: 1px solid #475569; }
+    
+    .chat-input-area { padding: 12px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 8px; }
+    .chat-input-area input[type="text"] { flex: 1; padding: 10px; background: #1e293b; border: 1px solid #475569; border-radius: 6px; color: white; font-size: 0.9rem; }
+    .chat-input-area button { background: #10b981; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    
+    .api-key-box { padding: 8px 15px; background: #020617; font-size: 0.8rem; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid #1e293b; flex-wrap: wrap; }
+    .api-key-box input { flex: 1; min-width: 200px; padding: 4px 8px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 4px; }
+    .api-key-box button { padding: 4px 8px; background: #334155; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+    .status-indicator { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+    .status-online { background: #10b981; }
+    .status-offline { background: #ef4444; }
+    .status-loading { background: #f59e0b; animation: pulse 1s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .export-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .export-buttons button {
+      background: #334155;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .export-buttons button:hover {
+      background: #475569;
+    }
+
+    .iframe-container {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #f3f4f6;
+      border-top: 2px solid #0284c7;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0284c7">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cirurgião PWA">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(r => console.log('[PWA] Service Worker registrado!', r.scope))
+          .catch(e => console.error('[PWA] Erro:', e));
+      });
+    }
+  </script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- BARRA DE ABAS -->
+    <div class="tabs-bar">
+      <button class="tab-button active" onclick="mudarAba('ferramentas', this)">🔧 Ferramentas</button>
+      <button class="tab-button" onclick="mudarAba('analise-bugs', this)">🐛 Bugs</button>
+      <button class="tab-button" onclick="mudarAba('analise-deps', this)">📦 Dependências</button>
+      <button class="tab-button" onclick="mudarAba('detector-replit', this)">⚙️ Replit</button>
+      <button class="tab-button" onclick="mudarAba('chat-gemini', this)">💬 Chat Gemini</button>
+      <button class="tab-button" onclick="mudarAba('chat-oficial', this)">🤖 Chat Oficial</button>
+      <button class="tab-button" onclick="mudarAba('chat-html', this)">📄 Chat HTML</button>
+    </div>
+
+    <!-- CONTEÚDO DAS ABAS -->
+    <div class="tabs-content">
+
+      <!-- ABA 1: FERRAMENTAS PRINCIPAIS -->
+      <div id="ferramentas" class="tab-panel active">
+        <div class="tool-column">
+          <h1>🔧 Cirurgião PWA - Suite Modular</h1>
+          <p class="sub">Importe ZIP, TAR, TGZ, GZ. Compare versões e analise estrutura de projetos jurídicos.</p>
+
+          <div class="grid">
+            <div class="card">
+              <h2>Projeto A (Base / Bug)</h2>
+              <input type="file" id="fileA" accept=".zip,.tar,.tgz,.gz">
+              <div id="statusA" style="margin-top: 5px; font-size: 0.75rem; color: #94a3b8;">Aguardando...</div>
+            </div>
+
+            <div class="card">
+              <h2>Projeto B (Curado / OK)</h2>
+              <input type="file" id="fileB" accept=".zip,.tar,.tgz,.gz">
+              <div id="statusB" style="margin-top: 5px; font-size: 0.75rem; color: #94a3b8;">Aguardando...</div>
+            </div>
+          </div>
+
+          <div class="actions-grid">
+            <button class="btn-action" onclick="executarComparacao()">🔍 Comparar Versões</button>
+            <button class="btn-action btn-patch" onclick="executarBugPatcher()">🩹 Extrair Patch</button>
+            <button class="btn-action btn-tester" onclick="executarTestadorEndpoints()">⚡ Testar APIs</button>
+            <button class="btn-action btn-git" onclick="executarFusaoGit()">🧬 Fusão CSS</button>
+            <button class="btn-action btn-bugs" onclick="executarAnalisadorBugs()">🐛 Analisar Bugs</button>
+            <button class="btn-action btn-deps" onclick="executarAnalisadorDeps()">📦 Deps</button>
+          </div>
+
+          <div class="report-box" id="reportArea" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <h2 style="font-size: 0.9rem;" id="reportTitle">Relatório</h2>
+              <button onclick="enviarRelatorioParaChat()" style="background: #8b5cf6; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">
+                💬 Enviar IA
+              </button>
+            </div>
+            <div class="export-buttons">
+              <button onclick="exportarMD()">📥 Baixar MD</button>
+              <button onclick="copiarRelatorio()">📋 Copiar</button>
+              <button onclick="compartilharIA()">🤖 IA Analisar</button>
+            </div>
+            <pre id="reportOutput">Aguardando execução...</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 2: ANALISADOR DE BUGS -->
+      <div id="analise-bugs" class="tab-panel">
+        <div class="tool-column">
+          <h1>🐛 Detector de Bugs Avançado</h1>
+          <p class="sub">Detecta padrões de erro, console.log não removido, variáveis não usadas, etc.</p>
+
+          <div class="actions-grid">
+            <button class="btn-action btn-bugs" onclick="executarDetectorBugs()">🔍 Escanear Bugs</button>
+            <button class="btn-action" onclick="executarDetectorReplit()">⚙️ Detectar Replit</button>
+            <button class="btn-action btn-patch" onclick="executarDetectorPastas()">📁 Pastas Ocultas</button>
+          </div>
+
+          <div class="report-box" id="reportBugsArea" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <h2 style="font-size: 0.9rem;" id="reportBugsTitle">Relatório de Bugs</h2>
+            </div>
+            <div class="export-buttons">
+              <button onclick="exportarBugsMD()">📥 Baixar MD</button>
+              <button onclick="copiarBugs()">📋 Copiar</button>
+              <button onclick="enviarBugsIA()">🤖 IA Corrigir</button>
+            </div>
+            <pre id="reportBugsOutput">Aguardando execução...</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 3: ANALISADOR DE DEPENDÊNCIAS -->
+      <div id="analise-deps" class="tab-panel">
+        <div class="tool-column">
+          <h1>📦 Analisador de Dependências</h1>
+          <p class="sub">Analisa package.json, requirements.txt, pyproject.toml. Gera BAT/SH de instalação.</p>
+
+          <div class="actions-grid">
+            <button class="btn-action btn-deps" onclick="executarAnalisadorDepsAvancado()">📊 Analisar Deps</button>
+            <button class="btn-action" onclick="gerarBATInstalacao()">🔧 Gerar BAT/SH</button>
+            <button class="btn-action btn-patch" onclick="traduzirDependencias()">🔤 Traduzir Nomes</button>
+          </div>
+
+          <div class="report-box" id="reportDepsArea" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <h2 style="font-size: 0.9rem;" id="reportDepsTitle">Análise de Dependências</h2>
+            </div>
+            <div class="export-buttons">
+              <button onclick="exportarDepsMD()">📥 Baixar MD</button>
+              <button onclick="copiarDeps()">📋 Copiar</button>
+              <button onclick="enviarDepsIA()">🤖 IA Planejar</button>
+            </div>
+            <pre id="reportDepsOutput">Aguardando execução...</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 4: DETECTOR REPLIT -->
+      <div id="detector-replit" class="tab-panel">
+        <div class="tool-column">
+          <h1>⚙️ Detector de Replit (Sem Slice)</h1>
+          <p class="sub">Detecta arquivos .replit, pnpm-workspace.yaml, monorepo e outras configurações.</p>
+
+          <div class="actions-grid">
+            <button class="btn-action" onclick="executarDetectorReplitAvancado()">🔍 Escanear Replit</button>
+            <button class="btn-action btn-patch" onclick="gerarPlanoRemocao()">📋 Plano de Remoção</button>
+            <button class="btn-action btn-bugs" onclick="validarEstrutura()">✅ Validar Estrutura</button>
+          </div>
+
+          <div class="report-box" id="reportReplitArea" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <h2 style="font-size: 0.9rem;" id="reportReplitTitle">Detector Replit</h2>
+            </div>
+            <div class="export-buttons">
+              <button onclick="exportarReplitMD()">📥 Baixar MD</button>
+              <button onclick="copiarReplit()">📋 Copiar</button>
+              <button onclick="enviarReplitIA()">🤖 IA Remover</button>
+            </div>
+            <pre id="reportReplitOutput">Aguardando execução...</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 5: CHAT GEMINI -->
+      <div id="chat-gemini" class="tab-panel">
+        <div class="chat-header">
+          <h2>💬 Assistente Gemini</h2>
+          <span id="statusGemini" style="font-size: 0.75rem; color: #94a3b8;">
+            <span class="status-indicator status-offline"></span>Offline
+          </span>
+        </div>
+
+        <div class="api-key-box">
+          <label for="geminiKey" style="color: #94a3b8;">API Key Gemini:</label>
+          <input type="password" id="geminiKey" placeholder="Cole sua chave aqui">
+          <button onclick="salvarKeyGemini()">Salvar</button>
+        </div>
+
+        <div class="chat-messages" id="chatMessagesGemini">
+          <div class="msg ia">Olá! Carregue os projetos e use os analisadores. Depois envie os relatórios para eu ajudar!</div>
+        </div>
+
+        <div class="chat-input-area">
+          <input type="text" id="chatInputGemini" placeholder="Digite sua pergunta..." onkeypress="if(event.key==='Enter') enviarMensagemChatGemini()">
+          <button onclick="enviarMensagemChatGemini()">Enviar</button>
+        </div>
+      </div>
+
+      <!-- ABA 6: CHAT OFICIAL -->
+      <div id="chat-oficial" class="tab-panel">
+        <div class="chat-header">
+          <h2>🤖 Chat Oficial Google</h2>
+          <span id="statusOficial" style="font-size: 0.75rem; color: #94a3b8;">
+            <span class="status-indicator status-offline"></span>Offline
+          </span>
+        </div>
+
+        <div class="api-key-box">
+          <label for="apiKeyOficial" style="color: #94a3b8;">API Key (AIza...):</label>
+          <input type="password" id="apiKeyOficial" placeholder="Cole sua chave AIza... aqui">
+          <button onclick="salvarKeyOficial()">Salvar</button>
+        </div>
+
+        <div class="chat-messages" id="chatMessagesOficial">
+          <div class="msg ia">Bem-vindo ao Chat Oficial com auto-detecção de modelos!</div>
+        </div>
+
+        <div class="chat-input-area">
+          <input type="text" id="chatInputOficial" placeholder="Digite sua pergunta..." onkeypress="if(event.key==='Enter') enviarMensagemChatOficial()">
+          <button onclick="enviarMensagemChatOficial()">Enviar</button>
+        </div>
+      </div>
+
+      <!-- ABA 7: CHAT HTML ISOLADO -->
+      <div id="chat-html" class="tab-panel">
+        <iframe id="chatHtmlFrame" class="iframe-container" src="chat-isolado.html"></iframe>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="js/extractor.js"></script>
+  <script src="js/comparator.js"></script>
+  <script src="js/bug-patcher.js"></script>
+  <script src="js/endpoint-tester.js"></script>
+  <script src="js/git-diff-analyzer.js"></script>
+  <script src="js/bug-detector.js"></script>
+  <script src="js/deps-analyzer.js"></script>
+  <script src="js/replit-detector.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

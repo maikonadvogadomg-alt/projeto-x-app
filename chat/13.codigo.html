@@ -1,0 +1,4619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Maikon Caldeira — Advocacia Digital</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0a0a0f; font-family:system-ui,sans-serif; }
+
+.nav {
+  position:fixed;
+  top:0; left:0; right:0;
+  background:#12121a;
+  border-bottom:2px solid #a3a082;
+  padding:10px 16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  z-index:9999;
+  box-shadow:0 3px 15px rgba(0,0,0,0.6);
+}
+
+.nav-titulo {
+  font-size:12px;
+  font-weight:700;
+  color:#a3a082;
+  letter-spacing:2px;
+  margin-right:8px;
+  white-space:nowrap;
+}
+
+.nav-btn {
+  padding:8px 16px;
+  background:#1a1a2e;
+  border:1px solid #2d2d3a;
+  border-radius:8px;
+  color:#94a3b8;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+
+.nav-btn:hover { background:#a3a082; color:#000; border-color:#a3a082; }
+.nav-btn.active { background:#a3a082; color:#000; border-color:#d4d0a8; }
+
+.projeto { display:none; padding-top:110px; min-height:100vh; }
+.projeto.ativo { display:block; }
+
+.projeto iframe {
+  width:100%;
+  min-height:calc(100vh - 110px);
+  border:none;
+  display:block;
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-titulo">⚖️ MC</span>
+  <button class="nav-btn active" onclick="trocar(0)">🔷 1. Gerador Aut. </button>
+  <button class="nav-btn " onclick="trocar(1)">🔶 2.Analisador Hist. </button>
+  <button class="nav-btn " onclick="trocar(2)">🔸 3.Rastreador de hist. </button>
+  <button class="nav-btn " onclick="trocar(3)">🟢 4.Gerador Rel. </button>
+  <button class="nav-btn " onclick="trocar(4)">🟣 5.Validador </button>
+</div>
+
+<div class="projeto ativo" id="p0"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>Gerador de Documentação Automática</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 20px;
+  min-height: 100vh;
+}
+.container { max-width: 1800px; margin: 0 auto; }
+h1 { color: #a3a082; margin-bottom: 10px; text-align: center; font-size: 24px; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 13px; }
+h2 { color: #4ade80; margin: 25px 0 15px 0; font-size: 16px; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+h3 { color: #60a5fa; margin: 12px 0 8px 0; font-size: 13px; }
+
+.upload-area {
+  background: #1e293b;
+  border: 2px dashed #334155;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.upload-area:hover { border-color: #a3a082; background: #334155; }
+.upload-area.dragover { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+
+input[type=&quot;file&quot;] { display: none; }
+
+.btn {
+  background: #a3a082;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 5px;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+.btn:hover { background: #d4d0a8; transform: translateY(-2px); }
+.btn-secondary { background: #3b82f6; color: #fff; }
+.btn-secondary:hover { background: #2563eb; }
+.btn-danger { background: #f87171; color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-success { background: #4ade80; color: #000; }
+.btn-success:hover { background: #22c55e; }
+.btn-small { padding: 6px 12px; font-size: 11px; }
+
+.loading {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px;
+  font-size: 14px;
+}
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid #334155;
+  border-top-color: #a3a082;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #334155;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+
+.tab:hover { color: #e2e8f0; }
+.tab.active { color: #a3a082; border-bottom-color: #a3a082; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.results {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #0f172a;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.card-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.card-content {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat-box {
+  background: #334155;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-box strong {
+  display: block;
+  color: #a3a082;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.stat-box span {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.doc-section {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.doc-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.doc-content {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.8;
+}
+
+.code-block {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 10px 0;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  max-height: 250px;
+  overflow-y: auto;
+  color: #60a5fa;
+}
+
+.api-doc {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.api-method {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.api-method.get { background: #60a5fa; color: #fff; }
+.api-method.post { background: #4ade80; color: #000; }
+.api-method.put { background: #fbbf24; color: #000; }
+.api-method.delete { background: #f87171; color: #fff; }
+.api-method.patch { background: #a78bfa; color: #fff; }
+
+.api-path {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 12px;
+  margin: 8px 0;
+  font-family: 'Courier New', monospace;
+}
+
+.api-description {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 8px 0;
+}
+
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 11px;
+}
+
+.param-table th,
+.param-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #334155;
+}
+
+.param-table th {
+  background: #334155;
+  color: #a3a082;
+  font-weight: 600;
+}
+
+.param-table td {
+  color: #94a3b8;
+}
+
+.function-doc {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.function-name {
+  color: #60a5fa;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 8px;
+}
+
+.function-desc {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.function-params {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 8px 0;
+  font-size: 11px;
+}
+
+.function-params strong {
+  color: #a3a082;
+}
+
+.function-return {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 8px 0;
+  font-size: 11px;
+}
+
+.function-return strong {
+  color: #4ade80;
+}
+
+.example-code {
+  background: #0f172a;
+  border-left: 4px solid #60a5fa;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #60a5fa;
+  overflow-x: auto;
+}
+
+.toc {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.toc-item {
+  padding: 5px 0;
+  margin-left: 15px;
+  font-size: 12px;
+  color: #60a5fa;
+  cursor: pointer;
+}
+
+.toc-item:hover {
+  color: #a3a082;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.dependency-tree {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+}
+
+.tree-item {
+  padding: 5px 0;
+  margin-left: 20px;
+}
+
+.tree-item.root {
+  margin-left: 0;
+  color: #a3a082;
+  font-weight: 600;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+@media (max-width: 1200px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class=&quot;container&quot;>
+  <h1>📚 Gerador de Documentação Automática</h1>
+  <p class=&quot;subtitle&quot;>Gera documentação completa do projeto em múltiplos formatos</p>
+
+  <div class=&quot;upload-area&quot; id=&quot;dropZone&quot;>
+    <p style=&quot;font-size: 18px; margin-bottom: 10px;&quot;>📦 Arraste seu ZIP da Replit aqui</p>
+    <p style=&quot;color: #94a3b8; font-size: 13px; margin-bottom: 15px;&quot;>Será analisado e gerará documentação automática</p>
+    <button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileInput').click()&quot;>Selecionar ZIP</button>
+    <input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip&quot; />
+  </div>
+
+  <div id=&quot;loading&quot; class=&quot;loading&quot; style=&quot;display:none;&quot;>
+    <div class=&quot;spinner&quot;></div>
+    <p>Analisando projeto e gerando documentação...</p>
+  </div>
+
+  <div id=&quot;results&quot;></div>
+</div>
+
+<script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const resultsDiv = document.getElementById('results');
+const loadingDiv = document.getElementById('loading');
+
+let projectDocs = {
+  projectInfo: {},
+  apis: [],
+  functions: [],
+  components: [],
+  modules: [],
+  dependencies: [],
+  fileStructure: {},
+  examples: [],
+  gettingStarted: '',
+  architecture: ''
+};
+
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener('change', e => {
+  handleFile(e.target.files[0]);
+});
+
+async function handleFile(file) {
+  if (!file) return;
+  
+  loadingDiv.style.display = 'block';
+  resultsDiv.innerHTML = '';
+  projectDocs = {
+    projectInfo: {},
+    apis: [],
+    functions: [],
+    components: [],
+    modules: [],
+    dependencies: [],
+    fileStructure: {},
+    examples: [],
+    gettingStarted: '',
+    architecture: ''
+  };
+  
+  try {
+    const zip = new JSZip();
+    const content = await zip.loadAsync(file);
+    
+    const files = {};
+    
+    // Extrai arquivos
+    for (let [path, zipEntry] of Object.entries(content.files)) {
+      if (!zipEntry.dir) {
+        try {
+          const fileContent = await zipEntry.async('text');
+          files[path] = fileContent;
+        } catch (e) {}
+      }
+    }
+    
+    // Gera documentação
+    generateDocumentation(files);
+    
+    loadingDiv.style.display = 'none';
+    displayDocumentation();
+    
+  } catch (err) {
+    loadingDiv.style.display = 'none';
+    resultsDiv.innerHTML = `<div class=&quot;card&quot;>
+      <div class=&quot;card-title&quot;>❌ Erro ao processar</div>
+      <div class=&quot;card-content&quot;>${err.message}</div>
+    </div>`;
+  }
+}
+
+function generateDocumentation(files) {
+  // Análise de package.json
+  for (let [path, content] of Object.entries(files)) {
+    if (path.includes('package.json')) {
+      try {
+        const pkg = JSON.parse(content);
+        projectDocs.projectInfo = {
+          name: pkg.name || 'Projeto sem nome',
+          version: pkg.version || '1.0.0',
+          description: pkg.description || 'Sem descrição',
+          author: pkg.author || 'Desconhecido',
+          license: pkg.license || 'MIT',
+          homepage: pkg.homepage || '',
+          repository: pkg.repository || ''
+        };
+        
+        projectDocs.dependencies = Object.entries(pkg.dependencies || {}).map(([name, version]) => ({
+          name,
+          version,
+          type: 'production'
+        })).concat(
+          Object.entries(pkg.devDependencies || {}).map(([name, version]) => ({
+            name,
+            version,
+            type: 'development'
+          }))
+        );
+      } catch (e) {}
+    }
+  }
+  
+  // Análise de arquivos JS/TS
+  for (let [path, content] of Object.entries(files)) {
+    if (/\.(js|ts|jsx|tsx)$/.test(path)) {
+      analyzeJSFile(path, content);
+    }
+  }
+  
+  // Análise de estrutura de arquivos
+  analyzeFileStructure(files);
+  
+  // Gera guia de início
+  generateGettingStarted();
+  
+  // Gera arquitetura
+  generateArchitecture();
+}
+
+function analyzeJSFile(filePath, content) {
+  // Detecta funções
+  const functionPattern = /(?:export\s+)?(?:async\s+)?function\s+(\w+)\s*\(([^)]*)\)\s*(?::\s*(\w+))?\s*\{/g;
+  let match;
+  
+  while ((match = functionPattern.exec(content)) !== null) {
+    const name = match[1];
+    const params = match[2].split(',').map(p => p.trim()).filter(p => p);
+    const returnType = match[3] || 'void';
+    
+    // Tenta encontrar comentário JSDoc
+    const docPattern = new RegExp(`/\\*\\*[\\s\\S]*?\\*\\/\\s*(?:export\\s+)?(?:async\\s+)?function\\s+${name}`, 'g');
+    const docMatch = docPattern.exec(content);
+    
+    projectDocs.functions.push({
+      name,
+      file: filePath,
+      params,
+      returnType,
+      description: 'Função do projeto',
+      example: `${name}(${params.join(', ')})`
+    });
+  }
+  
+  // Detecta APIs (endpoints)
+  const apiPatterns = [
+    { regex: /app\.(get|post|put|delete|patch)\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g, type: 'express' },
+    { regex: /router\.(get|post|put|delete|patch)\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g, type: 'express' }
+  ];
+  
+  apiPatterns.forEach(pattern => {
+    let apiMatch;
+    const regex = new RegExp(pattern.regex.source, 'g');
+    
+    while ((apiMatch = regex.exec(content)) !== null) {
+      const method = apiMatch[1].toUpperCase();
+      const path = apiMatch[2];
+      
+      projectDocs.apis.push({
+        method,
+        path,
+        file: filePath,
+        description: `${method} ${path}`,
+        params: [],
+        response: 'JSON'
+      });
+    }
+  });
+  
+  // Detecta componentes React/Vue
+  if (content.includes('export default') || content.includes('export const')) {
+    const componentPattern = /(?:export\s+(?:default\s+)?)?(?:const|function)\s+(\w+)\s*(?:=|:)/g;
+    let compMatch;
+    
+    while ((compMatch = componentPattern.exec(content)) !== null) {
+      const componentName = compMatch[1];
+      if (componentName.charAt(0) === componentName.charAt(0).toUpperCase()) {
+        projectDocs.components.push({
+          name: componentName,
+          file: filePath,
+          description: `Componente ${componentName}`,
+          props: [],
+          usage: `<${componentName} />`
+        });
+      }
+    }
+  }
+}
+
+function analyzeFileStructure(files) {
+  const structure = {};
+  
+  Object.keys(files).forEach(path => {
+    const parts = path.split('/');
+    let current = structure;
+    
+    parts.forEach((part, idx) => {
+      if (!current[part]) {
+        current[part] = {};
+      }
+      if (idx === parts.length - 1) {
+        current[part]._file = true;
+      }
+      current = current[part];
+    });
+  });
+  
+  projectDocs.fileStructure = structure;
+}
+
+function generateGettingStarted() {
+  projectDocs.gettingStarted = `
+# 🚀 Guia de Início Rápido
+
+## Instalação
+
+\`\`\`bash
+npm install
+\`\`\`
+
+## Desenvolvimento
+
+\`\`\`bash
+npm run dev
+\`\`\`
+
+## Build
+
+\`\`\`bash
+npm run build
+\`\`\`
+
+## Testes
+
+\`\`\`bash
+npm test
+\`\`\`
+
+## Estrutura do Projeto
+
+\`\`\`
+${generateFileTree()}
+\`\`\`
+  `;
+}
+
+function generateFileTree() {
+  let tree = '';
+  
+  function buildTree(obj, prefix = '') {
+    Object.entries(obj).forEach(([key, value], idx, arr) => {
+      const isLast = idx === arr.length - 1;
+      const connector = isLast ? '└── ' : '├── ';
+      tree += prefix + connector + key + '\n';
+      
+      if (value._file !== true &amp;&amp; Object.keys(value).length > 0) {
+        const nextPrefix = prefix + (isLast ? '    ' : '│   ');
+        buildTree(value, nextPrefix);
+      }
+    });
+  }
+  
+  buildTree(projectDocs.fileStructure);
+  return tree;
+}
+
+function generateArchitecture() {
+  projectDocs.architecture = `
+# 🏗️ Arquitetura do Projeto
+
+## Componentes Principais
+
+${projectDocs.components.map(comp => `- **${comp.name}** - ${comp.description}`).join('\n')}
+
+## APIs/Endpoints
+
+${projectDocs.apis.map(api => `- **${api.method}** \`${api.path}\` - ${api.description}`).join('\n')}
+
+## Dependências Principais
+
+${projectDocs.dependencies.filter(d => d.type === 'production').slice(0, 10).map(dep => `- **${dep.name}** (${dep.version})`).join('\n')}
+
+## Fluxo de Dados
+
+1. Cliente faz requisição
+2. API processa dados
+3. Banco de dados é consultado
+4. Resposta é retornada
+5. Frontend renderiza resultado
+  `;
+}
+
+function displayDocumentation() {
+  const apiCount = projectDocs.apis.length;
+  const funcCount = projectDocs.functions.length;
+  const compCount = projectDocs.components.length;
+  const depCount = projectDocs.dependencies.length;
+  
+  let html = `
+    <div class=&quot;tabs&quot;>
+      <button class=&quot;tab active&quot; onclick=&quot;switchTab('overview')&quot;>📊 Visão Geral</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('apis')&quot;>🔌 APIs</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('functions')&quot;>⚙️ Funções</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('components')&quot;>🧩 Componentes</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('guide')&quot;>📖 Guia</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('export')&quot;>📥 Exportar</button>
+    </div>
+    
+    <!-- TAB: VISÃO GERAL -->
+    <div id=&quot;tab-overview&quot; class=&quot;tab-content active&quot;>
+      <div class=&quot;results&quot;>
+        <h2>📊 Informações do Projeto</h2>
+        <div class=&quot;stats-grid&quot;>
+          <div class=&quot;stat-box&quot;>
+            <strong>${projectDocs.projectInfo.name || 'N/A'}</strong>
+            <span>Nome</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${projectDocs.projectInfo.version || 'N/A'}</strong>
+            <span>Versão</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${apiCount}</strong>
+            <span>Endpoints</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${funcCount}</strong>
+            <span>Funções</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${compCount}</strong>
+            <span>Componentes</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${depCount}</strong>
+            <span>Dependências</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class=&quot;results&quot;>
+        <h2>📝 Descrição</h2>
+        <div class=&quot;doc-section&quot;>
+          <div class=&quot;doc-content&quot;>
+            <strong>Nome:</strong> ${projectDocs.projectInfo.name || 'Sem nome'}<br>
+            <strong>Versão:</strong> ${projectDocs.projectInfo.version || '1.0.0'}<br>
+            <strong>Descrição:</strong> ${projectDocs.projectInfo.description || 'Sem descrição'}<br>
+            <strong>Autor:</strong> ${projectDocs.projectInfo.author || 'Desconhecido'}<br>
+            <strong>Licença:</strong> ${projectDocs.projectInfo.license || 'MIT'}<br>
+          </div>
+        </div>
+      </div>
+      
+      <div class=&quot;results&quot;>
+        <h2>📦 Dependências Principais</h2>
+        <div class=&quot;doc-section&quot;>
+          <table class=&quot;param-table&quot;>
+            <thead>
+              <tr>
+                <th>Pacote</th>
+                <th>Versão</th>
+                <th>Tipo</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${projectDocs.dependencies.slice(0, 15).map(dep => `
+                <tr>
+                  <td>${dep.name}</td>
+                  <td>${dep.version}</td>
+                  <td>${dep.type}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <!-- TAB: APIs -->
+    <div id=&quot;tab-apis&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>🔌 Endpoints da API</h2>
+        ${apiCount > 0 ? projectDocs.apis.map(api => `
+          <div class=&quot;api-doc&quot;>
+            <div>
+              <span class=&quot;api-method ${api.method.toLowerCase()}&quot;>${api.method}</span>
+              <span class=&quot;api-path&quot;>${api.path}</span>
+            </div>
+            <div class=&quot;api-description&quot;>
+              <strong>Descrição:</strong> ${api.description}<br>
+              <strong>Arquivo:</strong> ${api.file}
+            </div>
+            ${api.params.length > 0 ? `
+              <div style=&quot;margin-top: 10px;&quot;>
+                <strong>Parâmetros:</strong>
+                <table class=&quot;param-table&quot;>
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Tipo</th>
+                      <th>Descrição</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${api.params.map(p => `
+                      <tr>
+                        <td>${p.name || 'N/A'}</td>
+                        <td>${p.type || 'string'}</td>
+                        <td>${p.description || 'N/A'}</td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            ` : ''}
+            <div style=&quot;margin-top: 10px;&quot;>
+              <strong>Response:</strong>
+              <div class=&quot;code-block&quot;>
+{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;data&quot;: {}
+}
+              </div>
+            </div>
+          </div>
+        `).join('') : '<p style=&quot;color: #94a3b8;&quot;>Nenhuma API detectada</p>'}
+      </div>
+    </div>
+    
+    <!-- TAB: FUNÇÕES -->
+    <div id=&quot;tab-functions&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>⚙️ Funções Documentadas</h2>
+        ${funcCount > 0 ? projectDocs.functions.map(func => `
+          <div class=&quot;function-doc&quot;>
+            <div class=&quot;function-name&quot;>
+              ${func.name}(${func.params.join(', ')})
+            </div>
+            <div class=&quot;function-desc&quot;>
+              ${func.description}
+            </div>
+            ${func.params.length > 0 ? `
+              <div class=&quot;function-params&quot;>
+                <strong>Parâmetros:</strong><br>
+                ${func.params.map(p => `- <strong>${p}</strong>: tipo desconhecido`).join('<br>')}
+              </div>
+            ` : ''}
+            <div class=&quot;function-return&quot;>
+              <strong>Retorna:</strong> ${func.returnType}
+            </div>
+            <div class=&quot;example-code&quot;>
+// Exemplo de uso:
+${func.example}
+            </div>
+            <div style=&quot;font-size: 11px; color: #94a3b8; margin-top: 8px;&quot;>
+              📄 ${func.file}
+            </div>
+          </div>
+        `).join('') : '<p style=&quot;color: #94a3b8;&quot;>Nenhuma função detectada</p>'}
+      </div>
+    </div>
+    
+    <!-- TAB: COMPONENTES -->
+    <div id=&quot;tab-components&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>🧩 Componentes</h2>
+        ${compCount > 0 ? projectDocs.components.map(comp => `
+          <div class=&quot;function-doc&quot;>
+            <div class=&quot;function-name&quot;>
+              &amp;lt;${comp.name} /&amp;gt;
+            </div>
+            <div class=&quot;function-desc&quot;>
+              ${comp.description}
+            </div>
+            ${comp.props.length > 0 ? `
+              <div class=&quot;function-params&quot;>
+                <strong>Props:</strong><br>
+                ${comp.props.map(p => `- <strong>${p.name}</strong>: ${p.type}`).join('<br>')}
+              </div>
+            ` : '<div class=&quot;function-params&quot;><strong>Props:</strong> Nenhuma</div>'}
+            <div class=&quot;example-code&quot;>
+// Exemplo de uso:
+import ${comp.name} from '${comp.file}';
+
+export default function App() {
+  return &amp;lt;${comp.name} /&amp;gt;;
+}
+            </div>
+            <div style=&quot;font-size: 11px; color: #94a3b8; margin-top: 8px;&quot;>
+              📄 ${comp.file}
+            </div>
+          </div>
+        `).join('') : '<p style=&quot;color: #94a3b8;&quot;>Nenhum componente detectado</p>'}
+      </div>
+    </div>
+    
+    <!-- TAB: GUIA -->
+    <div id=&quot;tab-guide&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>📖 Guia de Início Rápido</h2>
+        <div class=&quot;doc-section&quot;>
+          <div class=&quot;doc-content&quot;>
+            ${projectDocs.gettingStarted.replace(/\n/g, '<br>').replace(/\`\`\`bash([\s\S]*?)\`\`\`/g, '<div class=&quot;code-block&quot;>$1</div>')}
+          </div>
+        </div>
+      </div>
+      
+      <div class=&quot;results&quot;>
+        <h2>🏗️ Arquitetura</h2>
+        <div class=&quot;doc-section&quot;>
+          <div class=&quot;doc-content&quot;>
+            ${projectDocs.architecture.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\`(.*?)\`/g, '<code style=&quot;background: #0f172a; padding: 2px 4px; border-radius: 2px;&quot;>$1</code>')}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- TAB: EXPORTAR -->
+    <div id=&quot;tab-export&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>📥 Exportar Documentação</h2>
+        <p style=&quot;color: #94a3b8; margin-bottom: 20px;&quot;>Escolha o formato de exportação:</p>
+        
+        <div style=&quot;display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px;&quot;>
+          <button class=&quot;btn btn-success&quot; onclick=&quot;exportDocs('markdown')&quot;>
+            📝 Markdown
+          </button>
+          <button class=&quot;btn btn-success&quot; onclick=&quot;exportDocs('html')&quot;>
+            🌐 HTML
+          </button>
+          <button class=&quot;btn btn-success&quot; onclick=&quot;exportDocs('json')&quot;>
+            📊 JSON
+          </button>
+          <button class=&quot;btn btn-success&quot; onclick=&quot;exportDocs('pdf')&quot;>
+            📄 PDF (HTML)
+          </button>
+        </div>
+        
+        <div class=&quot;results&quot; style=&quot;background: #0f172a; border: 1px solid #334155;&quot;>
+          <h3>📋 Conteúdo da Documentação</h3>
+          <ul style=&quot;margin-left: 20px; margin-top: 10px; font-size: 12px; color: #94a3b8; line-height: 1.8;&quot;>
+            <li>✅ Informações do projeto</li>
+            <li>✅ ${apiCount} endpoints documentados</li>
+            <li>✅ ${funcCount} funções documentadas</li>
+            <li>✅ ${compCount} componentes documentados</li>
+            <li>✅ ${depCount} dependências listadas</li>
+            <li>✅ Guia de início rápido</li>
+            <li>✅ Arquitetura do projeto</li>
+            <li>✅ Estrutura de arquivos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  resultsDiv.innerHTML = html;
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  
+  event.target.classList.add('active');
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+}
+
+function exportDocs(format) {
+  if (format === 'markdown') {
+    exportMarkdown();
+  } else if (format === 'html') {
+    exportHTML();
+  } else if (format === 'json') {
+    exportJSON();
+  } else if (format === 'pdf') {
+    exportPDF();
+  }
+}
+
+function exportMarkdown() {
+  let md = `# ${projectDocs.projectInfo.name || 'Documentação do Projeto'}\n\n`;
+  md += `**Versão:** ${projectDocs.projectInfo.version || '1.0.0'}\n`;
+  md += `**Autor:** ${projectDocs.projectInfo.author || 'Desconhecido'}\n`;
+  md += `**Licença:** ${projectDocs.projectInfo.license || 'MIT'}\n\n`;
+  
+  md += `## 📝 Descrição\n\n`;
+  md += `${projectDocs.projectInfo.description || 'Sem descrição'}\n\n`;
+  
+  md += `## 🚀 Instalação\n\n`;
+  md += `\`\`\`bash\nnpm install\n\`\`\`\n\n`;
+  
+  md += `## 🔌 Endpoints da API\n\n`;
+  projectDocs.apis.forEach(api => {
+    md += `### ${api.method} \`${api.path}\`\n\n`;
+    md += `${api.description}\n\n`;
+    md += `**Arquivo:** \`${api.file}\`\n\n`;
+  });
+  
+  md += `## ⚙️ Funções\n\n`;
+  projectDocs.functions.forEach(func => {
+    md += `### ${func.name}()\n\n`;
+    md += `${func.description}\n\n`;
+    md += `**Parâmetros:** ${func.params.join(', ') || 'Nenhum'}\n`;
+    md += `**Retorna:** ${func.returnType}\n\n`;
+  });
+  
+  md += `## 🧩 Componentes\n\n`;
+  projectDocs.components.forEach(comp => {
+    md += `### ${comp.name}\n\n`;
+    md += `${comp.description}\n\n`;
+    md += `\`\`\`jsx\n<${comp.name} />\n\`\`\`\n\n`;
+  });
+  
+  md += `## 📦 Dependências\n\n`;
+  projectDocs.dependencies.forEach(dep => {
+    md += `- **${dep.name}** (${dep.version}) - ${dep.type}\n`;
+  });
+  
+  downloadFile(md, `documentacao-${projectDocs.projectInfo.name || 'projeto'}.md`, 'text/markdown');
+}
+
+function exportHTML() {
+  let html = `<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;UTF-8&quot;>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+  <title>Documentação - ${projectDocs.projectInfo.name || 'Projeto'}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+    .container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px; }
+    h1 { color: #a3a082; margin-bottom: 10px; }
+    h2 { color: #4ade80; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; }
+    h3 { color: #60a5fa; margin-top: 20px; margin-bottom: 10px; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; }
+    pre { background: #f0f0f0; padding: 15px; border-radius: 5px; overflow-x: auto; margin: 10px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background: #f0f0f0; font-weight: 600; }
+    .api { background: #f9f9f9; padding: 15px; border-left: 4px solid #60a5fa; margin: 15px 0; border-radius: 4px; }
+    .method { display: inline-block; padding: 4px 8px; border-radius: 3px; color: white; font-size: 12px; font-weight: 600; margin-right: 8px; }
+    .get { background: #60a5fa; }
+    .post { background: #4ade80; }
+    .put { background: #fbbf24; }
+    .delete { background: #f87171; }
+  </style>
+</head>
+<body>
+  <div class=&quot;container&quot;>
+    <h1>📚 ${projectDocs.projectInfo.name || 'Documentação do Projeto'}</h1>
+    <p><strong>Versão:</strong> ${projectDocs.projectInfo.version || '1.0.0'}</p>
+    <p><strong>Autor:</strong> ${projectDocs.projectInfo.author || 'Desconhecido'}</p>
+    
+    <h2>📝 Descrição</h2>
+    <p>${projectDocs.projectInfo.description || 'Sem descrição'}</p>
+    
+    <h2>🔌 Endpoints da API</h2>
+    ${projectDocs.apis.map(api => `
+      <div class=&quot;api&quot;>
+        <span class=&quot;method ${api.method.toLowerCase()}&quot;>${api.method}</span>
+        <code>${api.path}</code>
+        <p>${api.description}</p>
+      </div>
+    `).join('')}
+    
+    <h2>⚙️ Funções</h2>
+    ${projectDocs.functions.map(func => `
+      <div style=&quot;margin: 15px 0; padding: 15px; background: #f9f9f9; border-radius: 4px;&quot;>
+        <h3><code>${func.name}(${func.params.join(', ')})</code></h3>
+        <p>${func.description}</p>
+        <p><strong>Retorna:</strong> ${func.returnType}</p>
+      </div>
+    `).join('')}
+    
+    <h2>📦 Dependências</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Pacote</th>
+          <th>Versão</th>
+          <th>Tipo</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${projectDocs.dependencies.map(dep => `
+          <tr>
+            <td>${dep.name}</td>
+            <td>${dep.version}</td>
+            <td>${dep.type}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>`;
+  
+  downloadFile(html, `documentacao-${projectDocs.projectInfo.name || 'projeto'}.html`, 'text/html');
+}
+
+function exportJSON() {
+  const json = JSON.stringify(projectDocs, null, 2);
+  downloadFile(json, `documentacao-${projectDocs.projectInfo.name || 'projeto'}.json`, 'application/json');
+}
+
+function exportPDF() {
+  alert('💡 Para gerar PDF, use a função &quot;Imprimir como PDF&quot; do seu navegador (Ctrl+P ou Cmd+P) após exportar como HTML');
+  exportHTML();
+}
+
+function downloadFile(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&amp;': '&amp;amp;',
+    '<': '&amp;lt;',
+    '>': '&amp;gt;',
+    '&quot;': '&amp;quot;',
+    &quot;'&quot;: '&amp;#039;'
+  };
+  return text.replace(/[&amp;<>&quot;']/g, m => map[m]);
+}
+</script>
+
+</body>
+</html>" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p1"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>Analisador de Histórico — ZIP/TAR/TAZ</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 20px;
+  min-height: 100vh;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+h1 { color: #a3a082; margin-bottom: 20px; text-align: center; font-size: 24px; }
+h2 { color: #4ade80; margin: 25px 0 15px 0; font-size: 16px; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+h3 { color: #60a5fa; margin: 15px 0 10px 0; font-size: 13px; }
+
+.upload-area {
+  background: #1e293b;
+  border: 2px dashed #334155;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.upload-area:hover { border-color: #a3a082; background: #334155; }
+.upload-area.dragover { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+
+input[type=&quot;file&quot;] { display: none; }
+
+.btn {
+  background: #a3a082;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 5px;
+  transition: all 0.2s;
+}
+.btn:hover { background: #d4d0a8; transform: translateY(-2px); }
+.btn-secondary {
+  background: #3b82f6;
+  color: #fff;
+}
+.btn-secondary:hover { background: #2563eb; }
+.btn-danger {
+  background: #f87171;
+  color: #fff;
+}
+.btn-danger:hover { background: #dc2626; }
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.checkbox-group {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.checkbox-group input[type=&quot;checkbox&quot;] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.loading {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px;
+  font-size: 14px;
+}
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid #334155;
+  border-top-color: #a3a082;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.results {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #0f172a;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.card-git {
+  border-left-color: #f87171;
+}
+.card-code {
+  border-left-color: #60a5fa;
+}
+.card-config {
+  border-left-color: #fbbf24;
+}
+.card-data {
+  border-left-color: #4ade80;
+}
+
+.file-tree {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+  font-size: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+}
+
+.file-tree-item {
+  padding: 3px 0;
+  margin-left: 15px;
+  border-left: 1px solid #334155;
+  padding-left: 8px;
+}
+
+.file-tree-item.hidden {
+  color: #f87171;
+  font-style: italic;
+}
+
+.file-tree-item.code {
+  color: #60a5fa;
+}
+
+.file-tree-item.config {
+  color: #fbbf24;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat-box {
+  background: #334155;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-box strong {
+  display: block;
+  color: #a3a082;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.stat-box span {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.diff-add { color: #4ade80; }
+.diff-remove { color: #f87171; }
+.diff-modify { color: #fbbf24; }
+.diff-neutral { color: #94a3b8; }
+
+.git-log {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+  font-size: 11px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  line-height: 1.6;
+}
+
+.git-commit {
+  border-bottom: 1px solid #334155;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.git-commit:last-child {
+  border-bottom: none;
+}
+
+.git-hash {
+  color: #fbbf24;
+  font-weight: bold;
+}
+
+.git-author {
+  color: #60a5fa;
+}
+
+.git-date {
+  color: #94a3b8;
+  font-size: 10px;
+}
+
+.git-message {
+  color: #4ade80;
+  margin-top: 5px;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #334155;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+
+.tab:hover {
+  color: #e2e8f0;
+}
+
+.tab.active {
+  color: #a3a082;
+  border-bottom-color: #a3a082;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.code-block {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 10px 0;
+  overflow-x: auto;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+  line-height: 1.4;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.highlight-js { color: #60a5fa; }
+.highlight-html { color: #f87171; }
+.highlight-css { color: #fbbf24; }
+.highlight-json { color: #4ade80; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+@media (max-width: 768px) {
+  .comparison { grid-template-columns: 1fr; }
+  .controls { flex-direction: column; }
+  .checkbox-group { flex-direction: column; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class=&quot;container&quot;>
+  <h1>📦 Analisador de Histórico — ZIP/TAR/TAZ</h1>
+  <p style=&quot;text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 13px;&quot;>
+    Analisa arquivos compactados incluindo pastas ocultas (.git, .env, etc) e gera relatório completo
+  </p>
+
+  <div class=&quot;upload-area&quot; id=&quot;dropZone&quot;>
+    <p style=&quot;font-size: 18px; margin-bottom: 10px;&quot;>📂 Arraste seus arquivos aqui</p>
+    <p style=&quot;color: #94a3b8; font-size: 13px; margin-bottom: 15px;&quot;>Suporta: .zip, .tar, .tar.gz, .tgz, .tar.bz2</p>
+    <button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileInput').click()&quot;>Selecionar Arquivo</button>
+    <input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip,.tar,.gz,.tgz,.bz2&quot; />
+  </div>
+
+  <div class=&quot;checkbox-group&quot;>
+    <label>
+      <input type=&quot;checkbox&quot; id=&quot;showHidden&quot; checked /> Mostrar pastas ocultas (.git, .env, etc)
+    </label>
+    <label>
+      <input type=&quot;checkbox&quot; id=&quot;showGitLog&quot; checked /> Extrair histórico Git
+    </label>
+    <label>
+      <input type=&quot;checkbox&quot; id=&quot;analyzeCode&quot; checked /> Analisar código
+    </label>
+    <label>
+      <input type=&quot;checkbox&quot; id=&quot;showFileTree&quot; checked /> Mostrar árvore de arquivos
+    </label>
+  </div>
+
+  <div id=&quot;loading&quot; class=&quot;loading&quot; style=&quot;display:none;&quot;>
+    <div class=&quot;spinner&quot;></div>
+    <p>Analisando arquivo...</p>
+  </div>
+
+  <div id=&quot;results&quot;></div>
+</div>
+
+<script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+<script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/tar.js/0.3.0/tar.min.js&quot;></script>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const resultsDiv = document.getElementById('results');
+const loadingDiv = document.getElementById('loading');
+
+// Drag and drop
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener('change', e => {
+  handleFile(e.target.files[0]);
+});
+
+async function handleFile(file) {
+  if (!file) return;
+  
+  loadingDiv.style.display = 'block';
+  resultsDiv.innerHTML = '';
+  
+  try {
+    const fileType = file.name.split('.').pop().toLowerCase();
+    let fileStructure = {};
+    let fileContents = {};
+    
+    if (fileType === 'zip') {
+      ({ fileStructure, fileContents } = await processZip(file));
+    } else if (['tar', 'gz', 'tgz', 'bz2'].includes(fileType)) {
+      ({ fileStructure, fileContents } = await processTar(file));
+    } else {
+      throw new Error('Formato não suportado. Use .zip ou .tar');
+    }
+    
+    loadingDiv.style.display = 'none';
+    displayAnalysis(fileStructure, fileContents, file.name);
+    
+  } catch (err) {
+    loadingDiv.style.display = 'none';
+    resultsDiv.innerHTML = `<div class=&quot;card&quot; style=&quot;border-left-color: #f87171;&quot;>
+      <h3>❌ Erro ao processar</h3>
+      <p style=&quot;color: #f87171;&quot;>${err.message}</p>
+    </div>`;
+  }
+}
+
+async function processZip(file) {
+  const zip = new JSZip();
+  const content = await zip.loadAsync(file);
+  
+  const fileStructure = {};
+  const fileContents = {};
+  
+  for (let [path, zipEntry] of Object.entries(content.files)) {
+    if (!zipEntry.dir) {
+      fileStructure[path] = {
+        size: zipEntry._data.uncompressedSize,
+        date: zipEntry.date,
+        isHidden: path.includes('/.')
+      };
+      
+      if (shouldExtractContent(path)) {
+        try {
+          fileContents[path] = await zipEntry.async('text');
+        } catch (e) {}
+      }
+    }
+  }
+  
+  return { fileStructure, fileContents };
+}
+
+async function processTar(file) {
+  const arrayBuffer = await file.arrayBuffer();
+  const fileStructure = {};
+  const fileContents = {};
+  
+  // Simula leitura de TAR (para produção, use biblioteca tar.js completa)
+  // Por enquanto, retorna estrutura vazia
+  console.warn('TAR processing requer biblioteca adicional');
+  
+  return { fileStructure, fileContents };
+}
+
+function shouldExtractContent(path) {
+  const extensions = ['.js', '.html', '.css', '.json', '.md', '.txt', '.env', '.yml', '.yaml'];
+  const isLarge = path.split('/').pop().length > 100;
+  
+  return extensions.some(ext => path.endsWith(ext)) &amp;&amp; !isLarge;
+}
+
+function displayAnalysis(fileStructure, fileContents, fileName) {
+  const showHidden = document.getElementById('showHidden').checked;
+  const showGitLog = document.getElementById('showGitLog').checked;
+  const analyzeCode = document.getElementById('analyzeCode').checked;
+  const showFileTree = document.getElementById('showFileTree').checked;
+  
+  let html = '';
+  
+  // ═══════════════════════════════════════
+  // 1. RESUMO EXECUTIVO
+  // ═══════════════════════════════════════
+  const stats = analyzeFileStructure(fileStructure, fileContents);
+  
+  html += `
+    <div class=&quot;results&quot;>
+      <h2>📊 Resumo Executivo</h2>
+      <div class=&quot;stats-grid&quot;>
+        <div class=&quot;stat-box&quot;>
+          <strong>${stats.totalFiles}</strong>
+          <span>Total de Arquivos</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${stats.hiddenFiles}</strong>
+          <span>Pastas Ocultas</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${stats.codeFiles}</strong>
+          <span>Arquivos de Código</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${stats.configFiles}</strong>
+          <span>Configurações</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${(stats.totalSize / 1024 / 1024).toFixed(2)}MB</strong>
+          <span>Tamanho Total</span>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // ═══════════════════════════════════════
+  // 2. ANÁLISE GIT
+  // ═══════════════════════════════════════
+  if (showHidden &amp;&amp; stats.hasGit) {
+    html += `
+      <div class=&quot;results&quot;>
+        <h2>🔴 Histórico Git Detectado</h2>
+        <div class=&quot;card card-git&quot;>
+          <h3>📝 Informações do Repositório</h3>
+          <p style=&quot;font-size: 12px; color: #94a3b8;&quot;>
+            Este projeto foi versionado com Git. Contém histórico de commits, branches e alterações.
+          </p>
+          ${stats.gitInfo ? `
+            <div class=&quot;code-block&quot;>
+              <strong>Configuração Git:</strong><br/>
+              ${stats.gitInfo}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+  
+  // ═══════════════════════════════════════
+  // 3. ANÁLISE DE ESTRUTURA
+  // ═══════════════════════════════════════
+  html += `
+    <div class=&quot;results&quot;>
+      <h2>🏗️ Estrutura do Projeto</h2>
+      <div class=&quot;card&quot;>
+        <h3>Pastas Principais</h3>
+        <div class=&quot;file-tree&quot;>
+          ${generateFolderStructure(fileStructure, showHidden)}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // ═══════════════════════════════════════
+  // 4. ANÁLISE DE CÓDIGO
+  // ═══════════════════════════════════════
+  if (analyzeCode) {
+    const codeAnalysis = analyzeCodeContent(fileContents);
+    
+    html += `
+      <div class=&quot;results&quot;>
+        <h2>💻 Análise de Código</h2>
+        
+        <div class=&quot;tabs&quot;>
+          <button class=&quot;tab active&quot; onclick=&quot;switchTab(event, 'tech')&quot;>🛠️ Tecnologias</button>
+          <button class=&quot;tab&quot; onclick=&quot;switchTab(event, 'functions')&quot;>⚙️ Funções</button>
+          <button class=&quot;tab&quot; onclick=&quot;switchTab(event, 'issues')&quot;>⚠️ Possíveis Problemas</button>
+        </div>
+        
+        <div id=&quot;tech&quot; class=&quot;tab-content active&quot;>
+          <div class=&quot;stats-grid&quot;>
+            ${Object.entries(codeAnalysis.technologies).map(([tech, count]) => `
+              <div class=&quot;stat-box&quot;>
+                <strong>${count}</strong>
+                <span>${tech}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <div id=&quot;functions&quot; class=&quot;tab-content&quot;>
+          <div class=&quot;card&quot;>
+            <h3>Funções/Classes Detectadas</h3>
+            <div class=&quot;code-block&quot;>
+              ${codeAnalysis.functions.slice(0, 30).map(f => `<div>• ${f}</div>`).join('')}
+            </div>
+          </div>
+        </div>
+        
+        <div id=&quot;issues&quot; class=&quot;tab-content&quot;>
+          <div class=&quot;card&quot;>
+            <h3>Possíveis Problemas Identificados</h3>
+            ${codeAnalysis.issues.length > 0 ? `
+              <div class=&quot;code-block&quot;>
+                ${codeAnalysis.issues.map(issue => `
+                  <div style=&quot;margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #334155;&quot;>
+                    <span class=&quot;diff-remove&quot;>⚠️ ${issue.type}</span><br/>
+                    <span style=&quot;color: #94a3b8; font-size: 11px;&quot;>${issue.description}</span>
+                  </div>
+                `).join('')}
+              </div>
+            ` : '<p style=&quot;color: #4ade80;&quot;>✓ Nenhum problema óbvio detectado</p>'}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  // ═══════════════════════════════════════
+  // 5. ARQUIVOS IMPORTANTES
+  // ═══════════════════════════════════════
+  const importantFiles = getImportantFiles(fileContents);
+  if (Object.keys(importantFiles).length > 0) {
+    html += `
+      <div class=&quot;results&quot;>
+        <h2>📄 Arquivos Importantes</h2>
+        ${Object.entries(importantFiles).map(([name, content]) => `
+          <div class=&quot;card&quot;>
+            <h3>${name}</h3>
+            <div class=&quot;code-block&quot; style=&quot;max-height: 200px;&quot;>
+              ${escapeHtml(content.substring(0, 500))}${content.length > 500 ? '...' : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  
+  // ═══════════════════════════════════════
+  // 6. BOTÕES DE EXPORTAÇÃO
+  // ═══════════════════════════════════════
+  html += `
+    <div class=&quot;results&quot;>
+      <h2>📥 Exportar Relatório</h2>
+      <div class=&quot;export-buttons&quot;>
+        <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportAsJSON('${escapeHtml(JSON.stringify(stats))}')&quot;>
+          📋 JSON
+        </button>
+        <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportAsMarkdown('${fileName}', '${escapeHtml(JSON.stringify(stats))}')&quot;>
+          📝 Markdown
+        </button>
+        <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportAsHTML('${fileName}', '${escapeHtml(JSON.stringify(stats))}')&quot;>
+          🌐 HTML
+        </button>
+      </div>
+    </div>
+  `;
+  
+  resultsDiv.innerHTML = html;
+}
+
+function analyzeFileStructure(fileStructure, fileContents) {
+  const files = Object.keys(fileStructure);
+  const stats = {
+    totalFiles: files.length,
+    hiddenFiles: files.filter(f => f.includes('/.')).length,
+    codeFiles: files.filter(f => /\.(js|html|css|jsx|tsx|py|java|cpp)$/.test(f)).length,
+    configFiles: files.filter(f => /\.(json|yml|yaml|env|config)$/.test(f)).length,
+    totalSize: Object.values(fileStructure).reduce((sum, f) => sum + (f.size || 0), 0),
+    hasGit: files.some(f => f.includes('.git')),
+    gitInfo: fileContents[Object.keys(fileContents).find(f => f.includes('.git/config'))] || null
+  };
+  return stats;
+}
+
+function analyzeCodeContent(fileContents) {
+  const analysis = {
+    technologies: {},
+    functions: [],
+    issues: []
+  };
+  
+  Object.entries(fileContents).forEach(([path, content]) => {
+    // Detectar tecnologias
+    if (path.endsWith('.js')) {
+      if (content.includes('React')) analysis.technologies['React'] = (analysis.technologies['React'] || 0) + 1;
+      if (content.includes('Vue')) analysis.technologies['Vue'] = (analysis.technologies['Vue'] || 0) + 1;
+      if (content.includes('Angular')) analysis.technologies['Angular'] = (analysis.technologies['Angular'] || 0) + 1;
+      if (content.includes('Express')) analysis.technologies['Express'] = (analysis.technologies['Express'] || 0) + 1;
+      if (content.includes('async')) analysis.technologies['Async/Await'] = (analysis.technologies['Async/Await'] || 0) + 1;
+    }
+    
+    if (path.endsWith('.html')) analysis.technologies['HTML'] = (analysis.technologies['HTML'] || 0) + 1;
+    if (path.endsWith('.css')) analysis.technologies['CSS'] = (analysis.technologies['CSS'] || 0) + 1;
+    if (path.endsWith('.json')) analysis.technologies['JSON'] = (analysis.technologies['JSON'] || 0) + 1;
+    
+    // Extrair funções
+    const funcMatches = content.match(/(?:async\s+)?function\s+(\w+)|const\s+(\w+)\s*=\s*(?:async\s*)?\(/g);
+    if (funcMatches) {
+      funcMatches.forEach(match => {
+        const name = match.replace(/(?:async\s+)?function\s+|const\s+|\s*=\s*(?:async\s*)?\(/g, '');
+        if (!analysis.functions.includes(name)) {
+          analysis.functions.push(name);
+        }
+      });
+    }
+    
+    // Detectar problemas
+    if (content.includes('console.log') &amp;&amp; path.includes('production')) {
+      analysis.issues.push({
+        type: 'console.log em produção',
+        description: `Arquivo ${path} contém console.log`
+      });
+    }
+    
+    if (content.includes('TODO') || content.includes('FIXME')) {
+      analysis.issues.push({
+        type: 'TODO/FIXME encontrado',
+        description: `Arquivo ${path} contém tarefas pendentes`
+      });
+    }
+    
+    if (content.includes('eval(') || content.includes('innerHTML')) {
+      analysis.issues.push({
+        type: 'Possível vulnerabilidade',
+        description: `Arquivo ${path} usa eval() ou innerHTML`
+      });
+    }
+  });
+  
+  return analysis;
+}
+
+function generateFolderStructure(fileStructure, showHidden) {
+  const folders = new Set();
+  
+  Object.keys(fileStructure).forEach(path => {
+    if (showHidden || !path.includes('/.')) {
+      const parts = path.split('/');
+      parts.pop();
+      let current = '';
+      parts.forEach(part => {
+        current += part + '/';
+        folders.add(current);
+      });
+    }
+  });
+  
+  const sortedFolders = Array.from(folders).sort();
+  
+  return sortedFolders.map(folder => {
+    const depth = folder.split('/').length - 2;
+    const name = folder.split('/').filter(p => p).pop();
+    const isHidden = name.startsWith('.');
+    
+    return `
+      <div class=&quot;file-tree-item ${isHidden ? 'hidden' : ''}&quot;>
+        ${'&amp;nbsp;&amp;nbsp;'.repeat(depth)}📁 ${name}/
+      </div>
+    `;
+  }).join('');
+}
+
+function getImportantFiles(fileContents) {
+  const important = {};
+  const importantNames = ['README.md', 'package.json', '.env', '.env.example', 'config.json', '.gitignore'];
+  
+  Object.entries(fileContents).forEach(([path, content]) => {
+    const fileName = path.split('/').pop();
+    if (importantNames.includes(fileName)) {
+      important[fileName] = content;
+    }
+  });
+  
+  return important;
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&amp;': '&amp;amp;',
+    '<': '&amp;lt;',
+    '>': '&amp;gt;',
+    '&quot;': '&amp;quot;',
+    &quot;'&quot;: '&amp;#039;'
+  };
+  return text.replace(/[&amp;<>&quot;']/g, m => map[m]);
+}
+
+function switchTab(e, tabName) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  
+  e.target.classList.add('active');
+  document.getElementById(tabName).classList.add('active');
+}
+
+function exportAsJSON(statsJson) {
+  const stats = JSON.parse(statsJson);
+  const json = JSON.stringify(stats, null, 2);
+  downloadFile(json, 'relatorio.json', 'application/json');
+}
+
+function exportAsMarkdown(fileName, statsJson) {
+  const stats = JSON.parse(statsJson);
+  const md = `# Relatório de Análise — ${fileName}
+
+## 📊 Resumo Executivo
+
+- **Total de Arquivos:** ${stats.totalFiles}
+- **Pastas Ocultas:** ${stats.hiddenFiles}
+- **Arquivos de Código:** ${stats.codeFiles}
+- **Arquivos de Configuração:** ${stats.configFiles}
+- **Tamanho Total:** ${(stats.totalSize / 1024 / 1024).toFixed(2)}MB
+- **Repositório Git:** ${stats.hasGit ? 'Sim ✓' : 'Não ✗'}
+
+## 📅 Gerado em: ${new Date().toLocaleString('pt-BR')}
+`;
+  
+  downloadFile(md, 'relatorio.md', 'text/markdown');
+}
+
+function exportAsHTML(fileName, statsJson) {
+  const stats = JSON.parse(statsJson);
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=&quot;UTF-8&quot;>
+  <title>Relatório - ${fileName}</title>
+  <style>
+    body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+    .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
+    h1 { color: #333; }
+    .stat { display: inline-block; margin: 10px; padding: 15px; background: #f0f0f0; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class=&quot;container&quot;>
+    <h1>Relatório de Análise — ${fileName}</h1>
+    <p><strong>Gerado em:</strong> ${new Date().toLocaleString('pt-BR')}</p>
+    
+    <h2>Resumo Executivo</h2>
+    <div class=&quot;stat&quot;><strong>Total de Arquivos:</strong> ${stats.totalFiles}</div>
+    <div class=&quot;stat&quot;><strong>Pastas Ocultas:</strong> ${stats.hiddenFiles}</div>
+    <div class=&quot;stat&quot;><strong>Arquivos de Código:</strong> ${stats.codeFiles}</div>
+    <div class=&quot;stat&quot;><strong>Configurações:</strong> ${stats.configFiles}</div>
+    <div class=&quot;stat&quot;><strong>Tamanho:</strong> ${(stats.totalSize / 1024 / 1024).toFixed(2)}MB</div>
+    <div class=&quot;stat&quot;><strong>Git:</strong> ${stats.hasGit ? 'Sim ✓' : 'Não ✗'}</div>
+  </div>
+</body>
+</html>
+  `;
+  
+  downloadFile(html, 'relatorio.html', 'text/html');
+}
+
+function downloadFile(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p2"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>Rastreador de Histórico Replit — PWA Jurídico</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 20px;
+  min-height: 100vh;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+h1 { color: #a3a082; margin-bottom: 10px; text-align: center; font-size: 24px; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 13px; }
+h2 { color: #4ade80; margin: 25px 0 15px 0; font-size: 16px; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+h3 { color: #60a5fa; margin: 12px 0 8px 0; font-size: 13px; }
+
+.upload-area {
+  background: #1e293b;
+  border: 2px dashed #334155;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.upload-area:hover { border-color: #a3a082; background: #334155; }
+.upload-area.dragover { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+
+input[type=&quot;file&quot;] { display: none; }
+
+.btn {
+  background: #a3a082;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 5px;
+  transition: all 0.2s;
+}
+.btn:hover { background: #d4d0a8; transform: translateY(-2px); }
+.btn-secondary { background: #3b82f6; color: #fff; }
+.btn-secondary:hover { background: #2563eb; }
+.btn-danger { background: #f87171; color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+
+.loading {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px;
+  font-size: 14px;
+}
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid #334155;
+  border-top-color: #a3a082;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.results { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+
+.card {
+  background: #0f172a;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.card-timeline { border-left-color: #fbbf24; }
+.card-change { border-left-color: #60a5fa; }
+.card-bug { border-left-color: #f87171; }
+.card-fix { border-left-color: #4ade80; }
+.card-feature { border-left-color: #a78bfa; }
+
+.timeline {
+  position: relative;
+  padding: 20px 0 20px 40px;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 30px;
+  border-left: 2px solid #334155;
+}
+
+.timeline-item:last-child {
+  border-left: none;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -10px;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #a3a082;
+  border: 3px solid #0f172a;
+}
+
+.timeline-item.bug .timeline-dot { background: #f87171; }
+.timeline-item.fix .timeline-dot { background: #4ade80; }
+.timeline-item.feature .timeline-dot { background: #a78bfa; }
+.timeline-item.change .timeline-dot { background: #60a5fa; }
+
+.timeline-content {
+  padding-left: 20px;
+}
+
+.timeline-date {
+  color: #fbbf24;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.timeline-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  margin: 5px 0;
+  font-size: 13px;
+}
+
+.timeline-desc {
+  color: #94a3b8;
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+.timeline-files {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 8px;
+  margin-top: 8px;
+  font-size: 11px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.file-item {
+  padding: 4px 0;
+  color: #60a5fa;
+  border-bottom: 1px solid #334155;
+}
+
+.file-item:last-child { border-bottom: none; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat-box {
+  background: #334155;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-box strong {
+  display: block;
+  color: #a3a082;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.stat-box span {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #334155;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+
+.tab:hover { color: #e2e8f0; }
+.tab.active { color: #a3a082; border-bottom-color: #a3a082; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.code-block {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 10px 0;
+  overflow-x: auto;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+  line-height: 1.4;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.diff-add { color: #4ade80; }
+.diff-remove { color: #f87171; }
+.diff-modify { color: #fbbf24; }
+
+.summary-box {
+  background: #334155;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class=&quot;container&quot;>
+  <h1>📜 Rastreador de Histórico Replit</h1>
+  <p class=&quot;subtitle&quot;>Analisa arquivos de versão da Replit e cria relatório de mudanças, bugs e correções</p>
+
+  <div class=&quot;upload-area&quot; id=&quot;dropZone&quot;>
+    <p style=&quot;font-size: 18px; margin-bottom: 10px;&quot;>📦 Arraste seu ZIP da Replit aqui</p>
+    <p style=&quot;color: #94a3b8; font-size: 13px; margin-bottom: 15px;&quot;>Suporta .zip com histórico de versões</p>
+    <button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileInput').click()&quot;>Selecionar ZIP</button>
+    <input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip&quot; />
+  </div>
+
+  <div id=&quot;loading&quot; class=&quot;loading&quot; style=&quot;display:none;&quot;>
+    <div class=&quot;spinner&quot;></div>
+    <p>Analisando histórico de versões...</p>
+  </div>
+
+  <div id=&quot;results&quot;></div>
+</div>
+
+<script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const resultsDiv = document.getElementById('results');
+const loadingDiv = document.getElementById('loading');
+
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener('change', e => {
+  handleFile(e.target.files[0]);
+});
+
+async function handleFile(file) {
+  if (!file) return;
+  
+  loadingDiv.style.display = 'block';
+  resultsDiv.innerHTML = '';
+  
+  try {
+    const zip = new JSZip();
+    const content = await zip.loadAsync(file);
+    
+    const versions = [];
+    const allFiles = {};
+    
+    // Extrai todas as versões
+    for (let [path, zipEntry] of Object.entries(content.files)) {
+      if (!zipEntry.dir) {
+        allFiles[path] = zipEntry;
+      }
+    }
+    
+    // Procura por padrões de versão
+    const versionPatterns = [
+      /\.replit\/versions\/\d+/,
+      /\.versions\/\d+/,
+      /version_\d+/,
+      /v\d+\//,
+      /backup_\d+/,
+      /snapshot_\d+/
+    ];
+    
+    const versionedFiles = Object.keys(allFiles).filter(path => 
+      versionPatterns.some(pattern => pattern.test(path))
+    );
+    
+    loadingDiv.style.display = 'none';
+    
+    if (versionedFiles.length > 0) {
+      await analyzeVersions(content, allFiles, versionedFiles);
+    } else {
+      // Se não encontrar versões, analisa estrutura geral
+      await analyzeStructure(content, allFiles);
+    }
+    
+  } catch (err) {
+    loadingDiv.style.display = 'none';
+    resultsDiv.innerHTML = `<div class=&quot;card&quot; style=&quot;border-left-color: #f87171;&quot;>
+      <h3>❌ Erro ao processar</h3>
+      <p style=&quot;color: #f87171;&quot;>${err.message}</p>
+    </div>`;
+  }
+}
+
+async function analyzeVersions(zip, allFiles, versionedFiles) {
+  const timeline = [];
+  const fileChanges = {};
+  
+  // Agrupa arquivos por versão
+  const versions = new Map();
+  
+  for (let path of versionedFiles) {
+    const match = path.match(/(\d{4}-\d{2}-\d{2})|(\d+)/);
+    const versionKey = match ? match[0] : path;
+    
+    if (!versions.has(versionKey)) {
+      versions.set(versionKey, []);
+    }
+    versions.get(versionKey).push(path);
+  }
+  
+  // Analisa cada versão
+  const sortedVersions = Array.from(versions.entries()).sort();
+  
+  for (let [versionKey, files] of sortedVersions) {
+    const versionData = {
+      version: versionKey,
+      timestamp: parseVersionDate(versionKey),
+      files: files,
+      changes: [],
+      type: 'change'
+    };
+    
+    // Analisa conteúdo dos arquivos
+    for (let filePath of files) {
+      try {
+        const content = await zip.file(filePath).async('text');
+        const analysis = analyzeFileContent(content, filePath);
+        
+        if (analysis.type) {
+          versionData.type = analysis.type;
+          versionData.changes.push(analysis);
+        }
+      } catch (e) {}
+    }
+    
+    timeline.push(versionData);
+  }
+  
+  displayTimeline(timeline);
+}
+
+async function analyzeStructure(zip, allFiles) {
+  // Se não houver versões, analisa a estrutura geral
+  const files = Object.keys(allFiles);
+  const analysis = {
+    totalFiles: files.length,
+    jsFiles: files.filter(f => f.endsWith('.js')).length,
+    htmlFiles: files.filter(f => f.endsWith('.html')).length,
+    cssFiles: files.filter(f => f.endsWith('.css')).length,
+    jsonFiles: files.filter(f => f.endsWith('.json')).length,
+    hiddenFiles: files.filter(f => f.includes('/.')).length,
+    folders: new Set(files.map(f => f.split('/')[0])).size
+  };
+  
+  let html = `
+    <div class=&quot;results&quot;>
+      <h2>📊 Estrutura do Projeto</h2>
+      <div class=&quot;stats-grid&quot;>
+        <div class=&quot;stat-box&quot;>
+          <strong>${analysis.totalFiles}</strong>
+          <span>Total de Arquivos</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${analysis.jsFiles}</strong>
+          <span>Arquivos JS</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${analysis.htmlFiles}</strong>
+          <span>Arquivos HTML</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${analysis.cssFiles}</strong>
+          <span>Arquivos CSS</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${analysis.jsonFiles}</strong>
+          <span>Arquivos JSON</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${analysis.folders}</strong>
+          <span>Pastas</span>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Analisa arquivos principais
+  const mainFiles = ['package.json', 'index.html', 'app.js', 'server.js', 'README.md'];
+  let filesList = '';
+  
+  for (let [path, file] of Object.entries(allFiles)) {
+    const fileName = path.split('/').pop();
+    if (mainFiles.includes(fileName)) {
+      try {
+        const content = await file.async('text');
+        filesList += `
+          <div class=&quot;card&quot;>
+            <h3>📄 ${fileName}</h3>
+            <div class=&quot;code-block&quot;>
+              ${escapeHtml(content.substring(0, 300))}${content.length > 300 ? '...' : ''}
+            </div>
+          </div>
+        `;
+      } catch (e) {}
+    }
+  }
+  
+  if (filesList) {
+    html += `<div class=&quot;results&quot;><h2>📄 Arquivos Principais</h2>${filesList}</div>`;
+  }
+  
+  resultsDiv.innerHTML = html;
+}
+
+function analyzeFileContent(content, filePath) {
+  const analysis = {
+    file: filePath,
+    type: null,
+    description: '',
+    keywords: []
+  };
+  
+  const lowerContent = content.toLowerCase();
+  
+  // Detecta tipo de mudança
+  if (lowerContent.includes('bug') || lowerContent.includes('erro') || lowerContent.includes('fix')) {
+    analysis.type = 'bug';
+    analysis.description = '🐛 Correção de bug';
+  }
+  
+  if (lowerContent.includes('feature') || lowerContent.includes('novo') || lowerContent.includes('adicionado')) {
+    analysis.type = 'feature';
+    analysis.description = '✨ Nova funcionalidade';
+  }
+  
+  if (lowerContent.includes('refactor') || lowerContent.includes('refatoração')) {
+    analysis.type = 'refactor';
+    analysis.description = '🔄 Refatoração';
+  }
+  
+  if (lowerContent.includes('historico') || lowerContent.includes('history')) {
+    analysis.keywords.push('Histórico da IA');
+  }
+  
+  if (lowerContent.includes('minuta') || lowerContent.includes('minute')) {
+    analysis.keywords.push('Geração de Minuta');
+  }
+  
+  if (lowerContent.includes('resumo') || lowerContent.includes('summary')) {
+    analysis.keywords.push('Resumo');
+  }
+  
+  if (lowerContent.includes('backend') || lowerContent.includes('server') || lowerContent.includes('api')) {
+    analysis.keywords.push('Backend/API');
+  }
+  
+  if (lowerContent.includes('database') || lowerContent.includes('db') || lowerContent.includes('sql')) {
+    analysis.keywords.push('Banco de Dados');
+  }
+  
+  if (lowerContent.includes('auth') || lowerContent.includes('autenticação')) {
+    analysis.keywords.push('Autenticação');
+  }
+  
+  if (lowerContent.includes('ia') || lowerContent.includes('ai') || lowerContent.includes('inteligência')) {
+    analysis.keywords.push('Integração IA');
+  }
+  
+  return analysis;
+}
+
+function parseVersionDate(versionKey) {
+  // Tenta parsear diferentes formatos de data
+  const dateMatch = versionKey.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (dateMatch) {
+    return new Date(dateMatch[0]);
+  }
+  
+  // Se for número, assume como timestamp
+  if (/^\d+$/.test(versionKey)) {
+    return new Date(parseInt(versionKey));
+  }
+  
+  return new Date();
+}
+
+function displayTimeline(timeline) {
+  let html = `
+    <div class=&quot;results&quot;>
+      <h2>📈 Estatísticas Gerais</h2>
+      <div class=&quot;stats-grid&quot;>
+        <div class=&quot;stat-box&quot;>
+          <strong>${timeline.length}</strong>
+          <span>Versões Detectadas</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${timeline.filter(t => t.type === 'bug').length}</strong>
+          <span>Correções</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${timeline.filter(t => t.type === 'feature').length}</strong>
+          <span>Features</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${timeline.filter(t => t.type === 'refactor').length}</strong>
+          <span>Refatorações</span>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Timeline visual
+  html += `
+    <div class=&quot;results&quot;>
+      <h2>📜 Histórico de Mudanças</h2>
+      <div class=&quot;timeline&quot;>
+  `;
+  
+  timeline.reverse().forEach((item, idx) => {
+    const typeClass = item.type || 'change';
+    const typeEmoji = {
+      'bug': '🐛',
+      'feature': '✨',
+      'refactor': '🔄',
+      'change': '📝'
+    }[typeClass] || '📝';
+    
+    html += `
+      <div class=&quot;timeline-item ${typeClass}&quot;>
+        <div class=&quot;timeline-dot&quot;></div>
+        <div class=&quot;timeline-content&quot;>
+          <div class=&quot;timeline-date&quot;>${formatDate(item.timestamp)}</div>
+          <div class=&quot;timeline-title&quot;>${typeEmoji} ${item.version}</div>
+          <div class=&quot;timeline-desc&quot;>${item.changes.length} arquivo(s) alterado(s)</div>
+          
+          ${item.changes.length > 0 ? `
+            <div class=&quot;timeline-files&quot;>
+              ${item.changes.map(c => `
+                <div class=&quot;file-item&quot;>
+                  ${c.keywords.length > 0 ? `<strong>${c.keywords.join(', ')}</strong><br/>` : ''}
+                  ${c.file.split('/').pop()}
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  });
+  
+  html += `
+      </div>
+    </div>
+  `;
+  
+  // Resumo de funcionalidades
+  const allKeywords = new Map();
+  timeline.forEach(item => {
+    item.changes.forEach(change => {
+      change.keywords.forEach(kw => {
+        allKeywords.set(kw, (allKeywords.get(kw) || 0) + 1);
+      });
+    });
+  });
+  
+  if (allKeywords.size > 0) {
+    html += `
+      <div class=&quot;results&quot;>
+        <h2>🎯 Funcionalidades Rastreadas</h2>
+    `;
+    
+    for (let [keyword, count] of allKeywords) {
+      html += `
+        <div class=&quot;summary-box&quot;>
+          <strong>${keyword}</strong>
+          <span style=&quot;float: right; color: #a3a082;&quot;>${count} mudança(s)</span>
+        </div>
+      `;
+    }
+    
+    html += `</div>`;
+  }
+  
+  // Botões de exportação
+  html += `
+    <div class=&quot;results&quot;>
+      <h2>📥 Exportar Relatório</h2>
+      <div class=&quot;export-buttons&quot;>
+        <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportTimeline('${escapeHtml(JSON.stringify(timeline))}', 'json')&quot;>
+          📋 JSON
+        </button>
+        <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportTimeline('${escapeHtml(JSON.stringify(timeline))}', 'markdown')&quot;>
+          📝 Markdown
+        </button>
+        <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportTimeline('${escapeHtml(JSON.stringify(timeline))}', 'html')&quot;>
+          🌐 HTML
+        </button>
+      </div>
+    </div>
+  `;
+  
+  resultsDiv.innerHTML = html;
+}
+
+function formatDate(date) {
+  if (!date || isNaN(date)) return 'Data desconhecida';
+  return date.toLocaleDateString('pt-BR', { 
+    year: 'numeric', 
+    month: '2-digit', 
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&amp;': '&amp;amp;',
+    '<': '&amp;lt;',
+    '>': '&amp;gt;',
+    '&quot;': '&amp;quot;',
+    &quot;'&quot;: '&amp;#039;'
+  };
+  return text.replace(/[&amp;<>&quot;']/g, m => map[m]);
+}
+
+function exportTimeline(timelineJson, format) {
+  const timeline = JSON.parse(timelineJson);
+  
+  if (format === 'json') {
+    const json = JSON.stringify(timeline, null, 2);
+    downloadFile(json, 'historico.json', 'application/json');
+  } else if (format === 'markdown') {
+    let md = '# Histórico de Mudanças — PWA Jurídico\n\n';
+    md += `**Gerado em:** ${new Date().toLocaleString('pt-BR')}\n\n`;
+    md += `## 📊 Resumo\n`;
+    md += `- Total de versões: ${timeline.length}\n`;
+    md += `- Correções: ${timeline.filter(t => t.type === 'bug').length}\n`;
+    md += `- Features: ${timeline.filter(t => t.type === 'feature').length}\n\n`;
+    
+    md += `## 📜 Mudanças por Versão\n\n`;
+    timeline.forEach(item => {
+      md += `### ${item.version} (${formatDate(item.timestamp)})\n`;
+      item.changes.forEach(change => {
+        md += `- ${change.file}\n`;
+        if (change.keywords.length > 0) {
+          md += `  - Tags: ${change.keywords.join(', ')}\n`;
+        }
+      });
+      md += '\n';
+    });
+    
+    downloadFile(md, 'historico.md', 'text/markdown');
+  } else if (format === 'html') {
+    let html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=&quot;UTF-8&quot;>
+  <title>Histórico - PWA Jurídico</title>
+  <style>
+    body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+    .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
+    h1 { color: #333; }
+    .version { margin: 20px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #007bff; }
+    .file { margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 4px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <div class=&quot;container&quot;>
+    <h1>📜 Histórico de Mudanças</h1>
+    <p><strong>Gerado em:</strong> ${new Date().toLocaleString('pt-BR')}</p>
+`;
+    
+    timeline.forEach(item => {
+      html += `<div class=&quot;version&quot;>
+        <h2>${item.version}</h2>
+        <p><strong>Data:</strong> ${formatDate(item.timestamp)}</p>
+        <p><strong>Arquivos:</strong> ${item.changes.length}</p>
+`;
+      item.changes.forEach(change => {
+        html += `<div class=&quot;file&quot;>${change.file}</div>`;
+      });
+      html += `</div>`;
+    });
+    
+    html += `
+  </div>
+</body>
+</html>`;
+    
+    downloadFile(html, 'historico.html', 'text/html');
+  }
+}
+
+function downloadFile(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p3"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>Gerador de Relatório + Extrator de Arquivos</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 20px;
+  min-height: 100vh;
+}
+.container { max-width: 1600px; margin: 0 auto; }
+h1 { color: #a3a082; margin-bottom: 10px; text-align: center; font-size: 24px; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 13px; }
+h2 { color: #4ade80; margin: 25px 0 15px 0; font-size: 16px; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+h3 { color: #60a5fa; margin: 12px 0 8px 0; font-size: 13px; }
+
+.upload-area {
+  background: #1e293b;
+  border: 2px dashed #334155;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.upload-area:hover { border-color: #a3a082; background: #334155; }
+.upload-area.dragover { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+
+input[type=&quot;file&quot;] { display: none; }
+
+.btn {
+  background: #a3a082;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 5px;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+.btn:hover { background: #d4d0a8; transform: translateY(-2px); }
+.btn-secondary { background: #3b82f6; color: #fff; }
+.btn-secondary:hover { background: #2563eb; }
+.btn-danger { background: #f87171; color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-small { padding: 6px 12px; font-size: 11px; }
+
+.loading {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px;
+  font-size: 14px;
+}
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid #334155;
+  border-top-color: #a3a082;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.filters {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.filter-group input,
+.filter-group select {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: #a3a082;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.checkbox-group input[type=&quot;checkbox&quot;] {
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+}
+
+.results {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #0f172a;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-meta {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 5px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat-box {
+  background: #334155;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-box strong {
+  display: block;
+  color: #a3a082;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.stat-box span {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.file-list {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.file-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-item:hover {
+  background: #334155;
+  border-color: #a3a082;
+}
+
+.file-item.js { border-left: 4px solid #60a5fa; }
+.file-item.html { border-left: 4px solid #f87171; }
+.file-item.css { border-left: 4px solid #fbbf24; }
+.file-item.json { border-left: 4px solid #4ade80; }
+.file-item.other { border-left: 4px solid #94a3b8; }
+
+.file-name {
+  flex: 1;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.file-size {
+  color: #94a3b8;
+  font-size: 11px;
+  margin-right: 10px;
+}
+
+.file-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.code-preview {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 15px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  max-height: 300px;
+  overflow: auto;
+  color: #60a5fa;
+}
+
+.code-line {
+  padding: 2px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.code-num {
+  color: #94a3b8;
+  min-width: 30px;
+  text-align: right;
+  user-select: none;
+}
+
+.code-content {
+  flex: 1;
+  word-break: break-all;
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #334155;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+
+.tab:hover { color: #e2e8f0; }
+.tab.active { color: #a3a082; border-bottom-color: #a3a082; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
+  width: 800px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #334155;
+}
+
+.modal-close {
+  background: #f87171;
+  color: #fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+@media (max-width: 1200px) {
+  .filters { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class=&quot;container&quot;>
+  <h1>📋 Gerador de Relatório + Extrator de Arquivos</h1>
+  <p class=&quot;subtitle&quot;>Analisa, filtra e extrai arquivos individuais para edição segura</p>
+
+  <div class=&quot;upload-area&quot; id=&quot;dropZone&quot;>
+    <p style=&quot;font-size: 18px; margin-bottom: 10px;&quot;>📦 Arraste seu ZIP da Replit aqui</p>
+    <p style=&quot;color: #94a3b8; font-size: 13px; margin-bottom: 15px;&quot;>Será analisado para gerar relatório completo</p>
+    <button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileInput').click()&quot;>Selecionar ZIP</button>
+    <input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip&quot; />
+  </div>
+
+  <div id=&quot;loading&quot; class=&quot;loading&quot; style=&quot;display:none;&quot;>
+    <div class=&quot;spinner&quot;></div>
+    <p>Analisando e gerando relatório...</p>
+  </div>
+
+  <div id=&quot;results&quot;></div>
+</div>
+
+<!-- MODAL DE VISUALIZAÇÃO -->
+<div class=&quot;modal&quot; id=&quot;fileModal&quot;>
+  <div class=&quot;modal-content&quot;>
+    <div class=&quot;modal-header&quot;>
+      <h2 id=&quot;modalTitle&quot;>Arquivo</h2>
+      <button class=&quot;modal-close&quot; onclick=&quot;closeModal()&quot;>✕</button>
+    </div>
+    <div id=&quot;modalBody&quot;></div>
+    <div style=&quot;margin-top: 20px; display: flex; gap: 10px;&quot;>
+      <button class=&quot;btn btn-secondary&quot; onclick=&quot;downloadCurrentFile()&quot;>⬇️ Baixar Arquivo</button>
+      <button class=&quot;btn btn-secondary&quot; onclick=&quot;copyCurrentFile()&quot;>📋 Copiar Código</button>
+      <button class=&quot;btn&quot; onclick=&quot;closeModal()&quot;>Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const resultsDiv = document.getElementById('results');
+const loadingDiv = document.getElementById('loading');
+
+let allFiles = {};
+let fileMetadata = {};
+let currentFileContent = '';
+let currentFileName = '';
+
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener('change', e => {
+  handleFile(e.target.files[0]);
+});
+
+async function handleFile(file) {
+  if (!file) return;
+  
+  loadingDiv.style.display = 'block';
+  resultsDiv.innerHTML = '';
+  
+  try {
+    const zip = new JSZip();
+    const content = await zip.loadAsync(file);
+    
+    allFiles = {};
+    fileMetadata = {};
+    
+    // Extrai todos os arquivos
+    for (let [path, zipEntry] of Object.entries(content.files)) {
+      if (!zipEntry.dir) {
+        allFiles[path] = zipEntry;
+        
+        const ext = path.split('.').pop().toLowerCase();
+        const size = zipEntry._data.uncompressedSize;
+        
+        fileMetadata[path] = {
+          name: path.split('/').pop(),
+          path: path,
+          ext: ext,
+          size: size,
+          sizeKB: (size / 1024).toFixed(2),
+          type: getFileType(ext),
+          isHidden: path.includes('/.')
+        };
+      }
+    }
+    
+    loadingDiv.style.display = 'none';
+    displayReport();
+    
+  } catch (err) {
+    loadingDiv.style.display = 'none';
+    resultsDiv.innerHTML = `<div class=&quot;card&quot; style=&quot;border-left-color: #f87171;&quot;>
+      <h3>❌ Erro ao processar</h3>
+      <p style=&quot;color: #f87171;&quot;>${err.message}</p>
+    </div>`;
+  }
+}
+
+function getFileType(ext) {
+  if (['js', 'jsx', 'ts', 'tsx'].includes(ext)) return 'js';
+  if (['html', 'htm'].includes(ext)) return 'html';
+  if (['css', 'scss', 'sass'].includes(ext)) return 'css';
+  if (['json'].includes(ext)) return 'json';
+  return 'other';
+}
+
+function displayReport() {
+  const files = Object.values(fileMetadata);
+  
+  let html = `
+    <div class=&quot;filters&quot;>
+      <div class=&quot;filter-group&quot;>
+        <label>🔍 Buscar Arquivo</label>
+        <input type=&quot;text&quot; id=&quot;searchInput&quot; placeholder=&quot;Digite o nome...&quot; onkeyup=&quot;filterFiles()&quot;>
+      </div>
+      
+      <div class=&quot;filter-group&quot;>
+        <label>📝 Tipo de Arquivo</label>
+        <select id=&quot;typeFilter&quot; onchange=&quot;filterFiles()&quot;>
+          <option value=&quot;&quot;>-- Todos --</option>
+          <option value=&quot;js&quot;>JavaScript</option>
+          <option value=&quot;html&quot;>HTML</option>
+          <option value=&quot;css&quot;>CSS</option>
+          <option value=&quot;json&quot;>JSON</option>
+          <option value=&quot;other&quot;>Outros</option>
+        </select>
+      </div>
+      
+      <div class=&quot;filter-group&quot;>
+        <label>📊 Tamanho</label>
+        <select id=&quot;sizeFilter&quot; onchange=&quot;filterFiles()&quot;>
+          <option value=&quot;&quot;>-- Qualquer tamanho --</option>
+          <option value=&quot;small&quot;>Pequeno (&amp;lt;10KB)</option>
+          <option value=&quot;medium&quot;>Médio (10-100KB)</option>
+          <option value=&quot;large&quot;>Grande (&amp;gt;100KB)</option>
+        </select>
+      </div>
+      
+      <div class=&quot;filter-group&quot;>
+        <label>🏷️ Categoria</label>
+        <select id=&quot;categoryFilter&quot; onchange=&quot;filterFiles()&quot;>
+          <option value=&quot;&quot;>-- Todas --</option>
+          <option value=&quot;historico&quot;>Histórico da IA</option>
+          <option value=&quot;minuta&quot;>Minuta</option>
+          <option value=&quot;resumo&quot;>Resumo</option>
+          <option value=&quot;backend&quot;>Backend/API</option>
+          <option value=&quot;database&quot;>Banco de Dados</option>
+          <option value=&quot;ui&quot;>Interface</option>
+        </select>
+      </div>
+      
+      <div class=&quot;filter-group&quot;>
+        <label>Mostrar</label>
+        <div class=&quot;checkbox-group&quot;>
+          <label>
+            <input type=&quot;checkbox&quot; id=&quot;showHidden&quot; checked onchange=&quot;filterFiles()&quot;> Ocultos
+          </label>
+          <label>
+            <input type=&quot;checkbox&quot; id=&quot;showLarge&quot; checked onchange=&quot;filterFiles()&quot;> Grandes
+          </label>
+        </div>
+      </div>
+      
+      <div class=&quot;filter-group&quot;>
+        <label>&amp;nbsp;</label>
+        <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportReport()&quot;>📊 Exportar Relatório</button>
+      </div>
+    </div>
+  `;
+  
+  // Estatísticas gerais
+  html += `
+    <div class=&quot;results&quot;>
+      <h2>📊 Estatísticas Gerais</h2>
+      <div class=&quot;stats-grid&quot;>
+        <div class=&quot;stat-box&quot;>
+          <strong>${files.length}</strong>
+          <span>Total de Arquivos</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${files.filter(f => f.type === 'js').length}</strong>
+          <span>JavaScript</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${files.filter(f => f.type === 'html').length}</strong>
+          <span>HTML</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${files.filter(f => f.type === 'css').length}</strong>
+          <span>CSS</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${(files.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024).toFixed(2)}MB</strong>
+          <span>Tamanho Total</span>
+        </div>
+        <div class=&quot;stat-box&quot;>
+          <strong>${files.filter(f => f.isHidden).length}</strong>
+          <span>Arquivos Ocultos</span>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Lista de arquivos
+  html += `
+    <div class=&quot;results&quot;>
+      <h2>📁 Arquivos</h2>
+      <div class=&quot;file-list&quot; id=&quot;fileList&quot;>
+        ${files.map(f => `
+          <div class=&quot;file-item ${f.type}&quot; data-file=&quot;${f.path}&quot; data-type=&quot;${f.type}&quot; data-size=&quot;${f.size}&quot; data-hidden=&quot;${f.isHidden}&quot;>
+            <div>
+              <div class=&quot;file-name&quot;>${f.name}</div>
+              <div class=&quot;file-size&quot;>${f.sizeKB}KB ${f.isHidden ? '(oculto)' : ''}</div>
+            </div>
+            <div class=&quot;file-actions&quot;>
+              <button class=&quot;btn btn-small btn-secondary&quot; onclick=&quot;viewFile('${f.path}')&quot;>👁️</button>
+              <button class=&quot;btn btn-small btn-secondary&quot; onclick=&quot;downloadFile('${f.path}')&quot;>⬇️</button>
+              <button class=&quot;btn btn-small&quot; onclick=&quot;analyzeFile('${f.path}')&quot;>🔍</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  
+  resultsDiv.innerHTML = html;
+}
+
+function filterFiles() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const typeFilter = document.getElementById('typeFilter').value;
+  const sizeFilter = document.getElementById('sizeFilter').value;
+  const categoryFilter = document.getElementById('categoryFilter').value;
+  const showHidden = document.getElementById('showHidden').checked;
+  const showLarge = document.getElementById('showLarge').checked;
+  
+  const fileItems = document.querySelectorAll('.file-item');
+  
+  fileItems.forEach(item => {
+    const path = item.dataset.file;
+    const type = item.dataset.type;
+    const size = parseInt(item.dataset.size);
+    const isHidden = item.dataset.hidden === 'true';
+    
+    let show = true;
+    
+    // Filtro de busca
+    if (search &amp;&amp; !path.toLowerCase().includes(search)) show = false;
+    
+    // Filtro de tipo
+    if (typeFilter &amp;&amp; type !== typeFilter) show = false;
+    
+    // Filtro de tamanho
+    if (sizeFilter === 'small' &amp;&amp; size >= 10240) show = false;
+    if (sizeFilter === 'medium' &amp;&amp; (size < 10240 || size > 102400)) show = false;
+    if (sizeFilter === 'large' &amp;&amp; size <= 102400) show = false;
+    
+    // Filtro de ocultos
+    if (isHidden &amp;&amp; !showHidden) show = false;
+    
+    // Filtro de grandes
+    if (size > 1024 * 1024 &amp;&amp; !showLarge) show = false;
+    
+    // Filtro de categoria
+    if (categoryFilter) {
+      const pathLower = path.toLowerCase();
+      const categoryMatch = {
+        'historico': pathLower.includes('historico') || pathLower.includes('history'),
+        'minuta': pathLower.includes('minuta') || pathLower.includes('minute'),
+        'resumo': pathLower.includes('resumo') || pathLower.includes('summary'),
+        'backend': pathLower.includes('backend') || pathLower.includes('server') || pathLower.includes('api'),
+        'database': pathLower.includes('database') || pathLower.includes('db'),
+        'ui': pathLower.includes('ui') || pathLower.includes('component') || pathLower.includes('page')
+      };
+      
+      if (!categoryMatch[categoryFilter]) show = false;
+    }
+    
+    item.style.display = show ? 'flex' : 'none';
+  });
+}
+
+async function viewFile(filePath) {
+  try {
+    const content = await allFiles[filePath].async('text');
+    const meta = fileMetadata[filePath];
+    
+    currentFileContent = content;
+    currentFileName = meta.name;
+    
+    const lines = content.split('\n');
+    const preview = lines.slice(0, 50).map((line, i) => `
+      <div class=&quot;code-line&quot;>
+        <span class=&quot;code-num&quot;>${i + 1}</span>
+        <span class=&quot;code-content&quot;>${escapeHtml(line)}</span>
+      </div>
+    `).join('');
+    
+    document.getElementById('modalTitle').textContent = `📄 ${meta.name} (${meta.sizeKB}KB)`;
+    document.getElementById('modalBody').innerHTML = `
+      <div class=&quot;code-preview&quot;>
+        ${preview}
+        ${lines.length > 50 ? `<div style=&quot;color: #94a3b8; margin-top: 10px;&quot;>... ${lines.length - 50} linhas restantes</div>` : ''}
+      </div>
+    `;
+    
+    document.getElementById('fileModal').classList.add('open');
+  } catch (err) {
+    alert('Erro ao ler arquivo: ' + err.message);
+  }
+}
+
+async function analyzeFile(filePath) {
+  try {
+    const content = await allFiles[filePath].async('text');
+    const meta = fileMetadata[filePath];
+    
+    const analysis = {
+      linhas: content.split('\n').length,
+      caracteres: content.length,
+      funcoes: (content.match(/function\s+\w+|const\s+\w+\s*=/g) || []).length,
+      comentarios: (content.match(/\/\/|\/\*|\*\//g) || []).length,
+      imports: (content.match(/import\s+|require\s*\(/g) || []).length,
+      exports: (content.match(/export\s+|module\.exports/g) || []).length,
+      keywords: {
+        historico: content.toLowerCase().includes('historico') || content.toLowerCase().includes('history'),
+        minuta: content.toLowerCase().includes('minuta'),
+        resumo: content.toLowerCase().includes('resumo'),
+        api: content.toLowerCase().includes('fetch') || content.toLowerCase().includes('axios'),
+        database: content.toLowerCase().includes('database') || content.toLowerCase().includes('sql'),
+        auth: content.toLowerCase().includes('auth') || content.toLowerCase().includes('token')
+      }
+    };
+    
+    currentFileContent = content;
+    currentFileName = meta.name;
+    
+    let html = `
+      <div style=&quot;background: #0f172a; padding: 15px; border-radius: 6px;&quot;>
+        <h3>📊 Análise: ${meta.name}</h3>
+        <div class=&quot;stats-grid&quot; style=&quot;margin-top: 15px;&quot;>
+          <div class=&quot;stat-box&quot;>
+            <strong>${analysis.linhas}</strong>
+            <span>Linhas</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${analysis.funcoes}</strong>
+            <span>Funções</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${analysis.imports}</strong>
+            <span>Imports</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${analysis.comentarios}</strong>
+            <span>Comentários</span>
+          </div>
+        </div>
+        
+        <h3 style=&quot;margin-top: 20px;&quot;>🏷️ Palavras-chave Detectadas</h3>
+        <div style=&quot;margin-top: 10px;&quot;>
+          ${Object.entries(analysis.keywords).map(([key, found]) => `
+            <span style=&quot;display: inline-block; margin: 5px; padding: 5px 10px; background: ${found ? '#4ade80' : '#f87171'}; color: #000; border-radius: 4px; font-size: 11px;&quot;>
+              ${key}: ${found ? '✓' : '✗'}
+            </span>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    
+    document.getElementById('modalTitle').textContent = `🔍 Análise: ${meta.name}`;
+    document.getElementById('modalBody').innerHTML = html;
+    document.getElementById('fileModal').classList.add('open');
+  } catch (err) {
+    alert('Erro ao analisar arquivo: ' + err.message);
+  }
+}
+
+async function downloadFile(filePath) {
+  try {
+    const content = await allFiles[filePath].async('text');
+    const meta = fileMetadata[filePath];
+    
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = meta.name;
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    alert('Erro ao baixar: ' + err.message);
+  }
+}
+
+function downloadCurrentFile() {
+  const blob = new Blob([currentFileContent], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = currentFileName;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyCurrentFile() {
+  navigator.clipboard.writeText(currentFileContent).then(() => {
+    alert('✅ Código copiado para a área de transferência!');
+  });
+}
+
+function closeModal() {
+  document.getElementById('fileModal').classList.remove('open');
+}
+
+function exportReport() {
+  const files = Object.values(fileMetadata);
+  
+  let md = `# Relatório de Arquivos — PWA Jurídico\n\n`;
+  md += `**Gerado em:** ${new Date().toLocaleString('pt-BR')}\n\n`;
+  
+  md += `## 📊 Resumo\n`;
+  md += `- Total de arquivos: ${files.length}\n`;
+  md += `- JavaScript: ${files.filter(f => f.type === 'js').length}\n`;
+  md += `- HTML: ${files.filter(f => f.type === 'html').length}\n`;
+  md += `- CSS: ${files.filter(f => f.type === 'css').length}\n`;
+  md += `- Tamanho total: ${(files.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024).toFixed(2)}MB\n\n`;
+  
+  md += `## 📁 Arquivos\n\n`;
+  
+  const byType = {};
+  files.forEach(f => {
+    if (!byType[f.type]) byType[f.type] = [];
+    byType[f.type].push(f);
+  });
+  
+  Object.entries(byType).forEach(([type, typeFiles]) => {
+    md += `### ${type.toUpperCase()}\n`;
+    typeFiles.forEach(f => {
+      md += `- **${f.name}** (${f.sizeKB}KB)\n`;
+    });
+    md += '\n';
+  });
+  
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `relatorio-arquivos-${new Date().toISOString().split('T')[0]}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&amp;': '&amp;amp;',
+    '<': '&amp;lt;',
+    '>': '&amp;gt;',
+    '&quot;': '&amp;quot;',
+    &quot;'&quot;: '&amp;#039;'
+  };
+  return text.replace(/[&amp;<>&quot;']/g, m => map[m]);
+}
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p4"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>Validador de Código + Testador de API</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 20px;
+  min-height: 100vh;
+}
+.container { max-width: 1600px; margin: 0 auto; }
+h1 { color: #a3a082; margin-bottom: 10px; text-align: center; font-size: 24px; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 13px; }
+h2 { color: #4ade80; margin: 25px 0 15px 0; font-size: 16px; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+h3 { color: #60a5fa; margin: 12px 0 8px 0; font-size: 13px; }
+
+.upload-area {
+  background: #1e293b;
+  border: 2px dashed #334155;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.upload-area:hover { border-color: #a3a082; background: #334155; }
+.upload-area.dragover { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+
+input[type=&quot;file&quot;] { display: none; }
+
+.btn {
+  background: #a3a082;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 5px;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+.btn:hover { background: #d4d0a8; transform: translateY(-2px); }
+.btn-secondary { background: #3b82f6; color: #fff; }
+.btn-secondary:hover { background: #2563eb; }
+.btn-danger { background: #f87171; color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-success { background: #4ade80; color: #000; }
+.btn-success:hover { background: #22c55e; }
+.btn-small { padding: 6px 12px; font-size: 11px; }
+
+.loading {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px;
+  font-size: 14px;
+}
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid #334155;
+  border-top-color: #a3a082;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #334155;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+
+.tab:hover { color: #e2e8f0; }
+.tab.active { color: #a3a082; border-bottom-color: #a3a082; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.results {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #0f172a;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.card-error { border-left-color: #f87171; }
+.card-warning { border-left-color: #fbbf24; }
+.card-success { border-left-color: #4ade80; }
+.card-info { border-left-color: #60a5fa; }
+
+.card-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.card-content {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.code-block {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 10px 0;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  max-height: 200px;
+  overflow-y: auto;
+  color: #60a5fa;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat-box {
+  background: #334155;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-box strong {
+  display: block;
+  color: #a3a082;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.stat-box span {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.api-list {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.api-item {
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  background: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.api-item:hover {
+  background: #334155;
+  border-color: #a3a082;
+}
+
+.api-method {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.api-method.get { background: #60a5fa; color: #fff; }
+.api-method.post { background: #4ade80; color: #000; }
+.api-method.put { background: #fbbf24; color: #000; }
+.api-method.delete { background: #f87171; color: #fff; }
+.api-method.patch { background: #a78bfa; color: #fff; }
+
+.api-url {
+  color: #e2e8f0;
+  font-weight: 500;
+  font-size: 12px;
+  margin: 5px 0;
+  word-break: break-all;
+}
+
+.api-status {
+  font-size: 11px;
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 3px;
+  background: #0f172a;
+}
+
+.api-status.pending { color: #fbbf24; }
+.api-status.success { color: #4ade80; }
+.api-status.error { color: #f87171; }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: monospace;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #a3a082;
+}
+
+.response-box {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 15px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  max-height: 300px;
+  overflow: auto;
+  color: #4ade80;
+  line-height: 1.4;
+}
+
+.response-header {
+  color: #60a5fa;
+  font-weight: 600;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #334155;
+}
+
+.error-line { color: #f87171; }
+.warning-line { color: #fbbf24; }
+.success-line { color: #4ade80; }
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
+  width: 900px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #334155;
+}
+
+.modal-close {
+  background: #f87171;
+  color: #fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+@media (max-width: 1200px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class=&quot;container&quot;>
+  <h1>🧪 Validador de Código + Testador de API</h1>
+  <p class=&quot;subtitle&quot;>Valida código, detecta APIs e testa chamadas em tempo real</p>
+
+  <div class=&quot;upload-area&quot; id=&quot;dropZone&quot;>
+    <p style=&quot;font-size: 18px; margin-bottom: 10px;&quot;>📦 Arraste seu ZIP da Replit aqui</p>
+    <p style=&quot;color: #94a3b8; font-size: 13px; margin-bottom: 15px;&quot;>Será analisado para validação e detecção de APIs</p>
+    <button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileInput').click()&quot;>Selecionar ZIP</button>
+    <input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip&quot; />
+  </div>
+
+  <div id=&quot;loading&quot; class=&quot;loading&quot; style=&quot;display:none;&quot;>
+    <div class=&quot;spinner&quot;></div>
+    <p>Analisando código e detectando APIs...</p>
+  </div>
+
+  <div id=&quot;results&quot;></div>
+</div>
+
+<!-- MODAL DE TESTE DE API -->
+<div class=&quot;modal&quot; id=&quot;apiTestModal&quot;>
+  <div class=&quot;modal-content&quot;>
+    <div class=&quot;modal-header&quot;>
+      <h2 id=&quot;apiTestTitle&quot;>Testar API</h2>
+      <button class=&quot;modal-close&quot; onclick=&quot;closeApiModal()&quot;>✕</button>
+    </div>
+    
+    <div id=&quot;apiTestContent&quot;></div>
+  </div>
+</div>
+
+<script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const resultsDiv = document.getElementById('results');
+const loadingDiv = document.getElementById('loading');
+
+let allFiles = {};
+let detectedAPIs = [];
+let validationResults = {};
+
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener('change', e => {
+  handleFile(e.target.files[0]);
+});
+
+async function handleFile(file) {
+  if (!file) return;
+  
+  loadingDiv.style.display = 'block';
+  resultsDiv.innerHTML = '';
+  
+  try {
+    const zip = new JSZip();
+    const content = await zip.loadAsync(file);
+    
+    allFiles = {};
+    detectedAPIs = [];
+    validationResults = {};
+    
+    // Extrai arquivos JavaScript/TypeScript
+    for (let [path, zipEntry] of Object.entries(content.files)) {
+      if (!zipEntry.dir &amp;&amp; /\.(js|jsx|ts|tsx)$/.test(path)) {
+        try {
+          const fileContent = await zipEntry.async('text');
+          allFiles[path] = fileContent;
+          
+          // Valida código
+          validationResults[path] = validateCode(fileContent, path);
+          
+          // Detecta APIs
+          const apis = detectAPIs(fileContent, path);
+          detectedAPIs.push(...apis);
+        } catch (e) {}
+      }
+    }
+    
+    loadingDiv.style.display = 'none';
+    displayResults();
+    
+  } catch (err) {
+    loadingDiv.style.display = 'none';
+    resultsDiv.innerHTML = `<div class=&quot;card card-error&quot;>
+      <div class=&quot;card-title&quot;>❌ Erro ao processar</div>
+      <div class=&quot;card-content&quot;>${err.message}</div>
+    </div>`;
+  }
+}
+
+function validateCode(code, filePath) {
+  const issues = [];
+  const lines = code.split('\n');
+  
+  // Verifica sintaxe básica
+  const checks = [
+    {
+      name: 'Chaves não fechadas',
+      regex: /(\{|\[|\()/g,
+      test: (code) => {
+        const opens = (code.match(/[\{\[\(]/g) || []).length;
+        const closes = (code.match(/[\}\]\)]/g) || []).length;
+        return opens !== closes;
+      },
+      severity: 'error'
+    },
+    {
+      name: 'Variáveis não declaradas',
+      regex: /(?:^|\s)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/,
+      test: (code) => {
+        const vars = new Set();
+        const declared = new Set();
+        
+        (code.match(/(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g) || []).forEach(m => {
+          declared.add(m.replace(/(?:const|let|var)\s+/, ''));
+        });
+        
+        return false; // Simplificado
+      },
+      severity: 'warning'
+    },
+    {
+      name: 'Console.log em produção',
+      regex: /console\.(log|error|warn)/g,
+      test: (code) => /console\.(log|error|warn)/.test(code),
+      severity: 'warning'
+    },
+    {
+      name: 'Try-catch ausente em promises',
+      regex: /\.then\(/g,
+      test: (code) => {
+        const thens = (code.match(/\.then\(/g) || []).length;
+        const catches = (code.match(/\.catch\(/g) || []).length;
+        return thens > catches;
+      },
+      severity: 'warning'
+    },
+    {
+      name: 'Async sem await',
+      regex: /async\s+function/g,
+      test: (code) => {
+        const asyncFuncs = (code.match(/async\s+function/g) || []).length;
+        const awaits = (code.match(/await\s+/g) || []).length;
+        return asyncFuncs > 0 &amp;&amp; awaits === 0;
+      },
+      severity: 'warning'
+    },
+    {
+      name: 'URLs hardcoded',
+      regex: /https?:\/\/[^\s&quot;']+/g,
+      test: (code) => /https?:\/\/[^\s&quot;']+/.test(code),
+      severity: 'info'
+    },
+    {
+      name: 'Senhas/tokens expostos',
+      regex: /(password|token|secret|apikey)\s*[:=]/gi,
+      test: (code) => /(password|token|secret|apikey)\s*[:=]/i.test(code),
+      severity: 'error'
+    }
+  ];
+  
+  checks.forEach(check => {
+    if (check.test(code)) {
+      issues.push({
+        name: check.name,
+        severity: check.severity,
+        count: (code.match(check.regex) || []).length
+      });
+    }
+  });
+  
+  return {
+    filePath,
+    totalLines: lines.length,
+    issues,
+    hasErrors: issues.some(i => i.severity === 'error'),
+    hasWarnings: issues.some(i => i.severity === 'warning')
+  };
+}
+
+function detectAPIs(code, filePath) {
+  const apis = [];
+  
+  // Padrões de detecção de APIs
+  const patterns = [
+    {
+      name: 'fetch',
+      regex: /fetch\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g,
+      method: 'GET'
+    },
+    {
+      name: 'axios',
+      regex: /axios\.(get|post|put|delete|patch)\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g,
+      method: 'DYNAMIC'
+    },
+    {
+      name: 'XMLHttpRequest',
+      regex: /open\s*\(\s*['&quot;`](\w+)['&quot;`]\s*,\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g,
+      method: 'DYNAMIC'
+    },
+    {
+      name: 'jQuery.ajax',
+      regex: /\$\.ajax\s*\(\s*\{[^}]*url\s*:\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g,
+      method: 'GET'
+    },
+    {
+      name: 'WebSocket',
+      regex: /new\s+WebSocket\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g,
+      method: 'WS'
+    }
+  ];
+  
+  patterns.forEach(pattern => {
+    let match;
+    const regex = new RegExp(pattern.regex.source, 'g');
+    
+    while ((match = regex.exec(code)) !== null) {
+      const url = match[1] || match[2];
+      const method = pattern.method === 'DYNAMIC' ? (match[1] || 'GET').toUpperCase() : pattern.method;
+      
+      apis.push({
+        type: pattern.name,
+        url: url,
+        method: method,
+        filePath: filePath,
+        line: code.substring(0, match.index).split('\n').length,
+        fullMatch: match[0]
+      });
+    }
+  });
+  
+  return apis;
+}
+
+function displayResults() {
+  const validationIssues = Object.values(validationResults);
+  const totalErrors = validationIssues.reduce((sum, v) => sum + v.issues.filter(i => i.severity === 'error').length, 0);
+  const totalWarnings = validationIssues.reduce((sum, v) => sum + v.issues.filter(i => i.severity === 'warning').length, 0);
+  
+  let html = `
+    <div class=&quot;tabs&quot;>
+      <button class=&quot;tab active&quot; onclick=&quot;switchTab('validation')&quot;>✅ Validação</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('apis')&quot;>🔌 APIs Detectadas</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('test')&quot;>🧪 Testar APIs</button>
+    </div>
+    
+    <!-- TAB: VALIDAÇÃO -->
+    <div id=&quot;tab-validation&quot; class=&quot;tab-content active&quot;>
+      <div class=&quot;results&quot;>
+        <h2>✅ Validação de Código</h2>
+        <div class=&quot;stats-grid&quot;>
+          <div class=&quot;stat-box&quot;>
+            <strong>${validationIssues.length}</strong>
+            <span>Arquivos Analisados</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${totalErrors}</strong>
+            <span>Erros</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${totalWarnings}</strong>
+            <span>Avisos</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${validationIssues.filter(v => !v.hasErrors &amp;&amp; !v.hasWarnings).length}</strong>
+            <span>OK</span>
+          </div>
+        </div>
+      </div>
+  `;
+  
+  validationIssues.forEach(validation => {
+    const status = validation.hasErrors ? '❌' : validation.hasWarnings ? '⚠️' : '✅';
+    const cardClass = validation.hasErrors ? 'card-error' : validation.hasWarnings ? 'card-warning' : 'card-success';
+    
+    html += `
+      <div class=&quot;card ${cardClass}&quot;>
+        <div class=&quot;card-title&quot;>${status} ${validation.filePath}</div>
+        <div class=&quot;card-content&quot;>
+          <strong>Linhas:</strong> ${validation.totalLines}<br>
+          ${validation.issues.length > 0 ? `
+            <strong>Problemas encontrados:</strong>
+            <ul style=&quot;margin-left: 20px; margin-top: 8px;&quot;>
+              ${validation.issues.map(issue => `
+                <li>${issue.name} (${issue.severity}) - ${issue.count} ocorrência(s)</li>
+              `).join('')}
+            </ul>
+          ` : '<strong style=&quot;color: #4ade80;&quot;>Nenhum problema detectado!</strong>'}
+        </div>
+      </div>
+    `;
+  });
+  
+  html += `</div>`;
+  
+  // TAB: APIs DETECTADAS
+  html += `
+    <div id=&quot;tab-apis&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>🔌 APIs Detectadas</h2>
+        <div class=&quot;stats-grid&quot;>
+          <div class=&quot;stat-box&quot;>
+            <strong>${detectedAPIs.length}</strong>
+            <span>APIs Encontradas</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${new Set(detectedAPIs.map(a => a.url)).size}</strong>
+            <span>URLs Únicas</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${new Set(detectedAPIs.map(a => a.type)).size}</strong>
+            <span>Tipos de Chamada</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class=&quot;results&quot;>
+        <h2>📋 Lista de APIs</h2>
+        <div class=&quot;api-list&quot;>
+          ${detectedAPIs.length > 0 ? detectedAPIs.map((api, idx) => `
+            <div class=&quot;api-item&quot; onclick=&quot;openApiTest(${idx})&quot;>
+              <div>
+                <span class=&quot;api-method ${api.method.toLowerCase()}&quot;>${api.method}</span>
+                <span style=&quot;color: #a3a082; font-weight: 600;&quot;>${api.type}</span>
+              </div>
+              <div class=&quot;api-url&quot;>${api.url}</div>
+              <div style=&quot;font-size: 11px; color: #94a3b8; margin-top: 5px;&quot;>
+                📄 ${api.filePath} (linha ${api.line})
+              </div>
+              <button class=&quot;btn btn-small btn-secondary&quot; style=&quot;margin-top: 8px;&quot; onclick=&quot;event.stopPropagation(); openApiTest(${idx})&quot;>
+                🧪 Testar
+              </button>
+            </div>
+          `).join('') : '<div style=&quot;color: #94a3b8; padding: 20px; text-align: center;&quot;>Nenhuma API detectada</div>'}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // TAB: TESTAR APIs
+  html += `
+    <div id=&quot;tab-test&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>🧪 Testar APIs</h2>
+        <p style=&quot;color: #94a3b8; margin-bottom: 15px;&quot;>Selecione uma API acima para testar, ou configure manualmente:</p>
+        
+        <div class=&quot;form-group&quot;>
+          <label>URL da API</label>
+          <input type=&quot;text&quot; id=&quot;testUrl&quot; placeholder=&quot;https://api.exemplo.com/dados&quot; value=&quot;&quot;>
+        </div>
+        
+        <div class=&quot;form-group&quot;>
+          <label>Método HTTP</label>
+          <select id=&quot;testMethod&quot;>
+            <option value=&quot;GET&quot;>GET</option>
+            <option value=&quot;POST&quot;>POST</option>
+            <option value=&quot;PUT&quot;>PUT</option>
+            <option value=&quot;DELETE&quot;>DELETE</option>
+            <option value=&quot;PATCH&quot;>PATCH</option>
+          </select>
+        </div>
+        
+        <div class=&quot;form-group&quot;>
+          <label>Headers (JSON)</label>
+          <textarea id=&quot;testHeaders&quot; style=&quot;height: 80px;&quot; placeholder='{&quot;Authorization&quot;: &quot;Bearer token&quot;, &quot;Content-Type&quot;: &quot;application/json&quot;}'></textarea>
+        </div>
+        
+        <div class=&quot;form-group&quot;>
+          <label>Body (JSON)</label>
+          <textarea id=&quot;testBody&quot; style=&quot;height: 80px;&quot; placeholder='{&quot;chave&quot;: &quot;valor&quot;}'></textarea>
+        </div>
+        
+        <button class=&quot;btn btn-success&quot; onclick=&quot;testAPI()&quot;>🚀 Executar Teste</button>
+        
+        <div id=&quot;testResults&quot; style=&quot;margin-top: 20px;&quot;></div>
+      </div>
+    </div>
+  `;
+  
+  resultsDiv.innerHTML = html;
+}
+
+function switchTab(tabName) {
+  // Remove active de todos
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  
+  // Adiciona active ao selecionado
+  event.target.classList.add('active');
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+}
+
+function openApiTest(index) {
+  const api = detectedAPIs[index];
+  
+  document.getElementById('testUrl').value = api.url;
+  document.getElementById('testMethod').value = api.method;
+  
+  // Muda para tab de teste
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  
+  const tabs = document.querySelectorAll('.tab');
+  tabs[2].classList.add('active');
+  document.getElementById('tab-test').classList.add('active');
+  
+  // Scroll para o formulário
+  document.getElementById('tab-test').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function testAPI() {
+  const url = document.getElementById('testUrl').value;
+  const method = document.getElementById('testMethod').value;
+  const headersStr = document.getElementById('testHeaders').value;
+  const bodyStr = document.getElementById('testBody').value;
+  
+  if (!url) {
+    alert('❌ Digite uma URL válida!');
+    return;
+  }
+  
+  const resultsDiv = document.getElementById('testResults');
+  resultsDiv.innerHTML = '<div class=&quot;loading&quot;><div class=&quot;spinner&quot;></div><p>Testando API...</p></div>';
+  
+  try {
+    let headers = {
+      'Content-Type': 'application/json'
+    };
+    
+    if (headersStr) {
+      try {
+        headers = { ...headers, ...JSON.parse(headersStr) };
+      } catch (e) {
+        throw new Error('Headers inválido: ' + e.message);
+      }
+    }
+    
+    let body = undefined;
+    if (bodyStr &amp;&amp; ['POST', 'PUT', 'PATCH'].includes(method)) {
+      try {
+        body = JSON.parse(bodyStr);
+      } catch (e) {
+        throw new Error('Body inválido: ' + e.message);
+      }
+    }
+    
+    const startTime = performance.now();
+    const response = await fetch(url, {
+      method: method,
+      headers: headers,
+      body: body ? JSON.stringify(body) : undefined
+    });
+    const endTime = performance.now();
+    
+    const responseText = await response.text();
+    let responseData;
+    
+    try {
+      responseData = JSON.parse(responseText);
+    } catch (e) {
+      responseData = responseText;
+    }
+    
+    const isSuccess = response.ok;
+    const statusClass = isSuccess ? 'success-line' : 'error-line';
+    
+    let html = `
+      <div class=&quot;card ${isSuccess ? 'card-success' : 'card-error'}&quot;>
+        <div class=&quot;card-title&quot;>${isSuccess ? '✅ Sucesso!' : '❌ Erro na Chamada'}</div>
+        <div class=&quot;card-content&quot;>
+          <strong>Status:</strong> ${response.status} ${response.statusText}<br>
+          <strong>Tempo de Resposta:</strong> ${(endTime - startTime).toFixed(2)}ms<br>
+          <strong>Content-Type:</strong> ${response.headers.get('content-type') || 'não especificado'}<br>
+          <strong>Tamanho:</strong> ${responseText.length} bytes
+        </div>
+      </div>
+      
+      <div class=&quot;response-box&quot;>
+        <div class=&quot;response-header&quot;>📨 Resposta da API</div>
+        <pre>${typeof responseData === 'object' ? JSON.stringify(responseData, null, 2) : escapeHtml(responseData)}</pre>
+      </div>
+      
+      <div class=&quot;card card-info&quot;>
+        <div class=&quot;card-title&quot;>📊 Análise da Resposta</div>
+        <div class=&quot;card-content&quot;>
+          ${analyzeResponse(responseData, response.status)}
+        </div>
+      </div>
+    `;
+    
+    resultsDiv.innerHTML = html;
+    
+  } catch (err) {
+    resultsDiv.innerHTML = `
+      <div class=&quot;card card-error&quot;>
+        <div class=&quot;card-title&quot;>❌ Erro na Requisição</div>
+        <div class=&quot;card-content&quot;>
+          <strong>Tipo de Erro:</strong> ${err.name}<br>
+          <strong>Mensagem:</strong> ${err.message}<br>
+          <br>
+          <strong>Possíveis Causas:</strong>
+          <ul style=&quot;margin-left: 20px; margin-top: 8px;&quot;>
+            <li>URL inválida ou inacessível</li>
+            <li>CORS bloqueado (Cross-Origin)</li>
+            <li>Servidor fora do ar</li>
+            <li>Timeout na conexão</li>
+            <li>Certificado SSL inválido</li>
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function analyzeResponse(data, status) {
+  let analysis = '';
+  
+  if (status >= 200 &amp;&amp; status < 300) {
+    analysis += '<span class=&quot;success-line&quot;>✅ Status de sucesso (2xx)</span><br>';
+  } else if (status >= 300 &amp;&amp; status < 400) {
+    analysis += '<span class=&quot;warning-line&quot;>⚠️ Redirecionamento (3xx)</span><br>';
+  } else if (status >= 400 &amp;&amp; status < 500) {
+    analysis += '<span class=&quot;error-line&quot;>❌ Erro do cliente (4xx)</span><br>';
+  } else if (status >= 500) {
+    analysis += '<span class=&quot;error-line&quot;>❌ Erro do servidor (5xx)</span><br>';
+  }
+  
+  if (typeof data === 'object' &amp;&amp; data !== null) {
+    analysis += '<strong>Tipo:</strong> JSON<br>';
+    
+    if (data.error || data.erro) {
+      analysis += '<span class=&quot;error-line&quot;>⚠️ Campo de erro detectado</span><br>';
+    }
+    
+    if (data.data || data.resultado || data.result) {
+      analysis += '<span class=&quot;success-line&quot;>✅ Campo de dados detectado</span><br>';
+    }
+    
+    if (data.message || data.mensagem) {
+      analysis += `<strong>Mensagem:</strong> ${data.message || data.mensagem}<br>`;
+    }
+    
+    const keys = Object.keys(data);
+    analysis += `<strong>Campos na resposta:</strong> ${keys.join(', ')}<br>`;
+  } else {
+    analysis += '<strong>Tipo:</strong> Texto/HTML<br>';
+  }
+  
+  return analysis;
+}
+
+function closeApiModal() {
+  document.getElementById('apiTestModal').classList.remove('open');
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&amp;': '&amp;amp;',
+    '<': '&amp;lt;',
+    '>': '&amp;gt;',
+    '&quot;': '&amp;quot;',
+    &quot;'&quot;: '&amp;#039;'
+  };
+  return text.replace(/[&amp;<>&quot;']/g, m => map[m]);
+}
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+
+<script>
+function trocar(i) {
+  document.querySelectorAll('.projeto').forEach(function(el){ el.classList.remove('ativo'); });
+  document.querySelectorAll('.nav-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('p'+i).classList.add('ativo');
+  document.querySelectorAll('.nav-btn')[i].classList.add('active');
+  localStorage.setItem('mc-ultimo', i);
+}
+window.onload = function() {
+  var u = localStorage.getItem('mc-ultimo');
+  if (u !== null) trocar(parseInt(u));
+};
+</script>
+</body>
+</html>

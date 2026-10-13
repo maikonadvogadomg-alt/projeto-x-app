@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1220">
+<title>Colador de Links</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <!-- barra de abas: a primeira é sempre a lista de links; as outras são os seus apps fixados -->
+  <header id="abas">
+    <button class="aba-menu" id="btn-abas" title="Arrumar as abas" aria-label="Arrumar as abas">📂</button>
+    <div id="abas-lista" class="abas-lista"></div>
+  </header>
+
+  <main id="palco">
+    <!-- tela da lista de links -->
+    <section id="tela-links" class="tela"></section>
+    <!-- aqui entram os quadros das abas fixadas (ficam vivos ao trocar de aba) -->
+    <div id="quadros-abas"></div>
+    <!-- visor: abre os links marcados, um por vez -->
+    <section id="visor" class="visor" hidden>
+      <div class="visor-topo">
+        <b id="visor-titulo" class="visor-titulo"></b>
+        <button class="vbtn" id="visor-fora" title="Abrir no navegador">↗</button>
+        <button class="vbtn" id="visor-cheia" title="Tela cheia">⛶</button>
+        <button class="vbtn" id="visor-fechar" title="Fechar">✕</button>
+      </div>
+      <div id="visor-quadros" class="visor-quadros"></div>
+    </section>
+  </main>
+
+  <footer id="rodape" hidden>
+    <button class="nav" id="ant">← Anterior</button>
+    <button class="nav forte" id="prox">Próximo →</button>
+  </footer>
+
+  <!-- janela de arrumar as abas -->
+  <div id="janela" class="janela" hidden>
+    <div class="janela-caixa">
+      <div class="janela-topo"><b>📂 Abas fixadas</b><button class="vbtn" id="janela-fechar">✕</button></div>
+      <p class="mut">Cada aba fica aberta por trás quando você troca: o login, o token e as conversas continuam vivos.</p>
+      <div id="janela-lista"></div>
+      <div class="campo"><label for="nova-aba-nome">Nome curto</label><input id="nova-aba-nome" placeholder="Ex.: Playground"></div>
+      <div class="campo"><label for="nova-aba-url">Endereço</label><input id="nova-aba-url" inputmode="url" placeholder="https://…"></div>
+      <button class="btn forte" id="nova-aba-ok">📌 Fixar como aba</button>
+    </div>
+  </div>
+
+  <div id="aviso" class="aviso" hidden></div>
+
+  <script src="js/00-dados.js"></script>
+  <script src="js/10-abas.js"></script>
+  <script src="js/20-links.js"></script>
+  <script src="js/30-visor.js"></script>
+  <script src="js/99-app.js"></script>
+  <script>if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });</script>
+</body>
+</html>

@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Projetos PWA — Maikon Caldeira</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 10px 18px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+/* Isola estilos de cada projeto */
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Navegação -->
+<div class="project-nav">
+  <span style="font-size:14px;font-weight:700;color:#a3a082;margin-right:10px;">📂</span>
+  <button class="nav-btn active" onclick="trocarProjeto(0)">1.Organizador</button><button class="nav-btn " onclick="trocarProjeto(1)">2. organizador</button><button class="nav-btn " onclick="trocarProjeto(2)">3. Extrator</button>
+</div>
+
+<!-- Projetos (cada um em iframe isolado) -->
+
+<div class="project-container active" id="projeto0">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Organizador Universal — Maikon&lt;/title&gt;
+  &lt;style&gt;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      color: #222;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #1e3a5f;
+      margin-bottom: 5px;
+    }
+
+    .subtitulo {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .painel {
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .painel h2 {
+      color: #1e3a5f;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .zona-drop {
+      border: 2px dashed #2563eb;
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      color: #2563eb;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 15px;
+    }
+
+    .zona-drop:hover, .zona-drop.ativo {
+      background: #eff6ff;
+    }
+
+    .zona-drop input {
+      display: none;
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      justify-content: center;
+    }
+
+    .badge {
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .acoes {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    input[type=&quot;text&quot;] {
+      padding: 8px 12px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      font-size: 14px;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    button {
+      padding: 9px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .btn-azul    { background: #2563eb; color: white; }
+    .btn-verde   { background: #15803d; color: white; }
+    .btn-cinza   { background: #6b7280; color: white; }
+    .btn-roxo    { background: #7c3aed; color: white; }
+    .btn-laranja { background: #d97706; color: white; }
+    .btn-vermelho{ background: #dc2626; color: white; }
+
+    button:hover { opacity: 0.85; }
+
+    .info-arquivo {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .info-arquivo strong {
+      color: #1e3a5f;
+    }
+
+    .tabela-wrapper {
+      overflow-x: auto;
+      max-height: 500px;
+      overflow-y: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead th {
+      background: #1e3a5f;
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    thead th:hover {
+      background: #2563eb;
+    }
+
+    tbody tr:nth-child(even) { background: #f9fafb; }
+    tbody tr:hover { background: #eff6ff; }
+
+    tbody td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
+      max-width: 300px;
+      word-break: break-word;
+    }
+
+    .sem-dados {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+      font-size: 15px;
+    }
+
+    .contador {
+      font-size: 13px;
+      color: #555;
+      margin-top: 8px;
+    }
+
+    .json-viewer {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .abas {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+
+    .aba {
+      padding: 8px 16px;
+      border-radius: 5px 5px 0 0;
+      cursor: pointer;
+      background: #e5e7eb;
+      color: #555;
+      font-weight: bold;
+      font-size: 13px;
+      border: 1px solid #ddd;
+      border-bottom: none;
+    }
+
+    .aba.ativa {
+      background: white;
+      color: #1e3a5f;
+      border-color: #bbb;
+    }
+
+    @media print {
+      .no-print { display: none; }
+      body { background: white; }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;📂 Organizador Universal&lt;/h1&gt;
+&lt;p class=&quot;subtitulo&quot;&gt;Importe arquivos CSV, JSON ou XML — visualize, filtre, copie e baixe.&lt;/p&gt;
+
+&lt;!-- ZONA DE IMPORTAÇÃO --&gt;
+&lt;div class=&quot;painel no-print&quot;&gt;
+  &lt;h2&gt;📥 Importar arquivo&lt;/h2&gt;
+  &lt;div class=&quot;zona-drop&quot; id=&quot;zonaDrop&quot; onclick=&quot;document.getElementById('inputArquivo').click()&quot;&gt;
+    &lt;div&gt;Clique aqui ou arraste o arquivo&lt;/div&gt;
+    &lt;div style=&quot;font-size:12px; margin-top:6px; color:#888;&quot;&gt;Formatos aceitos:&lt;/div&gt;
+    &lt;div class=&quot;badges&quot;&gt;
+      &lt;span class=&quot;badge&quot;&gt;CSV&lt;/span&gt;
+      &lt;span class=&quot;badge&quot;&gt;JSON&lt;/span&gt;
+      &lt;span class=&quot;badge&quot;&gt;XML&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;file&quot; id=&quot;inputArquivo&quot; accept=&quot;.csv,.json,.xml&quot; onchange=&quot;importarArquivo(event)&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- PAINEL DE RESULTADOS --&gt;
+&lt;div class=&quot;painel&quot; id=&quot;painelResultados&quot; style=&quot;display:none;&quot;&gt;
+
+  &lt;h2&gt;📊 Dados importados&lt;/h2&gt;
+
+  &lt;div class=&quot;info-arquivo&quot; id=&quot;infoArquivo&quot;&gt;&lt;/div&gt;
+
+  &lt;div class=&quot;abas no-print&quot; id=&quot;abas&quot;&gt;
+    &lt;div class=&quot;aba ativa&quot; onclick=&quot;trocarAba('tabela', this)&quot;&gt;Tabela&lt;/div&gt;
+    &lt;div class=&quot;aba&quot; onclick=&quot;trocarAba('bruto', this)&quot;&gt;Dados brutos&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ABA TABELA --&gt;
+  &lt;div id=&quot;abaTabela&quot;&gt;
+    &lt;div class=&quot;acoes no-print&quot;&gt;
+      &lt;input type=&quot;text&quot; id=&quot;filtro&quot; placeholder=&quot;🔍 Filtrar por qualquer valor...&quot; oninput=&quot;filtrarTabela()&quot;&gt;
+      &lt;button class=&quot;btn-verde&quot; onclick=&quot;copiarTabela()&quot;&gt;📋 Copiar tabela&lt;/button&gt;
+      &lt;button class=&quot;btn-azul&quot; onclick=&quot;baixarCSV()&quot;&gt;⬇ Baixar CSV&lt;/button&gt;
+      &lt;button class=&quot;btn-roxo&quot; onclick=&quot;baixarJSON()&quot;&gt;⬇ Baixar JSON&lt;/button&gt;
+      &lt;button class=&quot;btn-laranja&quot; onclick=&quot;window.print()&quot;&gt;🖨 PDF / Imprimir&lt;/button&gt;
+      &lt;button class=&quot;btn-vermelho&quot; onclick=&quot;limparTudo()&quot;&gt;🗑 Limpar&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;tabela-wrapper&quot;&gt;
+      &lt;table id=&quot;tabelaDados&quot;&gt;
+        &lt;thead id=&quot;cabecalho&quot;&gt;&lt;/thead&gt;
+        &lt;tbody id=&quot;corpo&quot;&gt;&lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;contador&quot; id=&quot;contador&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ABA BRUTO --&gt;
+  &lt;div id=&quot;abaBruto&quot; style=&quot;display:none;&quot;&gt;
+    &lt;div class=&quot;acoes no-print&quot; style=&quot;margin-bottom:10px;&quot;&gt;
+      &lt;button class=&quot;btn-verde&quot; onclick=&quot;copiarBruto()&quot;&gt;📋 Copiar dados brutos&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;json-viewer&quot; id=&quot;dadosBrutos&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+  let dadosGlobais = [];
+  let colunasGlobais = [];
+  let dadosBrutosGlobais = &quot;&quot;;
+  let ordenacaoAtual = { coluna: -1, asc: true };
+
+  // ===================== DRAG &amp; DROP =====================
+  const zona = document.getElementById(&quot;zonaDrop&quot;);
+
+  zona.addEventListener(&quot;dragover&quot;, e =&gt; {
+    e.preventDefault();
+    zona.classList.add(&quot;ativo&quot;);
+  });
+
+  zona.addEventListener(&quot;dragleave&quot;, () =&gt; zona.classList.remove(&quot;ativo&quot;));
+
+  zona.addEventListener(&quot;drop&quot;, e =&gt; {
+    e.preventDefault();
+    zona.classList.remove(&quot;ativo&quot;);
+    const arquivo = e.dataTransfer.files[0];
+    if (arquivo) processarArquivo(arquivo);
+  });
+
+  // ===================== IMPORTAR =====================
+  function importarArquivo(event) {
+    const arquivo = event.target.files[0];
+    if (arquivo) processarArquivo(arquivo);
+  }
+
+  function processarArquivo(arquivo) {
+    const nome = arquivo.name.toLowerCase();
+    const leitor = new FileReader();
+
+    leitor.onload = function(e) {
+      const conteudo = e.target.result;
+      dadosBrutosGlobais = conteudo;
+      document.getElementById(&quot;dadosBrutos&quot;).textContent = conteudo;
+
+      try {
+        if (nome.endsWith(&quot;.csv&quot;)) {
+          processarCSV(conteudo);
+        } else if (nome.endsWith(&quot;.json&quot;)) {
+          processarJSON(conteudo);
+        } else if (nome.endsWith(&quot;.xml&quot;)) {
+          processarXML(conteudo);
+        } else {
+          alert(&quot;Formato não reconhecido. Use CSV, JSON ou XML.&quot;);
+          return;
+        }
+
+        document.getElementById(&quot;infoArquivo&quot;).innerHTML =
+          `&lt;strong&gt;Arquivo:&lt;/strong&gt; ${arquivo.name} &amp;nbsp;|&amp;nbsp; 
+           &lt;strong&gt;Tamanho:&lt;/strong&gt; ${(arquivo.size / 1024).toFixed(1)} KB &amp;nbsp;|&amp;nbsp;
+           &lt;strong&gt;Registros:&lt;/strong&gt; ${dadosGlobais.length}`;
+
+        document.getElementById(&quot;painelResultados&quot;).style.display = &quot;block&quot;;
+        document.getElementById(&quot;painelResultados&quot;).scrollIntoView({ behavior: &quot;smooth&quot; });
+
+      } catch (erro) {
+        alert(&quot;Erro ao processar o arquivo:\n&quot; + erro.message);
+      }
+    };
+
+    leitor.readAsText(arquivo, &quot;UTF-8&quot;);
+  }
+
+  // ===================== CSV =====================
+  function processarCSV(texto) {
+    const linhas = texto.trim().split(/\r?\n/);
+    if (linhas.length &lt; 2) throw new Error(&quot;CSV vazio ou sem dados.&quot;);
+
+    const separador = detectarSeparador(linhas[0]);
+    colunasGlobais = parseLinha(linhas[0], separador);
+    dadosGlobais = [];
+
+    for (let i = 1; i &lt; linhas.length; i++) {
+      if (!linhas[i].trim()) continue;
+      const valores = parseLinha(linhas[i], separador);
+      const obj = {};
+      colunasGlobais.forEach((col, idx) =&gt; {
+        obj[col] = valores[idx] !== undefined ? valores[idx] : &quot;&quot;;
+      });
+      dadosGlobais.push(obj);
+    }
+
+    renderizarTabela(dadosGlobais);
+  }
+
+  function detectarSeparador(linha) {
+    const contadores = {
+      &quot;,&quot;: (linha.match(/,/g) || []).length,
+      &quot;;&quot;: (linha.match(/;/g) || []).length,
+      &quot;\t&quot;: (linha.match(/\t/g) || []).length,
+      &quot;|&quot;: (linha.match(/\|/g) || []).length
+    };
+    return Object.keys(contadores).reduce((a, b) =&gt; contadores[a] &gt; contadores[b] ? a : b);
+  }
+
+  function parseLinha(linha, sep) {
+    const resultado = [];
+    let atual = &quot;&quot;;
+    let dentroAspas = false;
+
+    for (let i = 0; i &lt; linha.length; i++) {
+      const c = linha[i];
+      if (c === '&quot;') {
+        dentroAspas = !dentroAspas;
+      } else if (c === sep &amp;&amp; !dentroAspas) {
+        resultado.push(atual.trim());
+        atual = &quot;&quot;;
+      } else {
+        atual += c;
+      }
+    }
+
+    resultado.push(atual.trim());
+    return resultado;
+  }
+
+  // ===================== JSON =====================
+  function processarJSON(texto) {
+    let dados = JSON.parse(texto);
+
+    if (!Array.isArray(dados)) {
+      const chaves = Object.keys(dados);
+      for (const chave of chaves) {
+        if (Array.isArray(dados[chave])) {
+          dados = dados[chave];
+          break;
+        }
+      }
+    }
+
+    if (!Array.isArray(dados) || dados.length === 0) {
+      throw new Error(&quot;JSON não contém um array de dados reconhecível.&quot;);
+    }
+
+    colunasGlobais = [...new Set(dados.flatMap(obj =&gt; Object.keys(obj)))];
+    dadosGlobais = dados.map(obj =&gt; {
+      const linha = {};
+      colunasGlobais.forEach(col =&gt; {
+        const val = obj[col];
+        linha[col] = val !== undefined &amp;&amp; val !== null
+          ? (typeof val === &quot;object&quot; ? JSON.stringify(val) : String(val))
+          : &quot;&quot;;
+      });
+      return linha;
+    });
+
+    renderizarTabela(dadosGlobais);
+  }
+
+  // ===================== XML =====================
+  function processarXML(texto) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(texto, &quot;application/xml&quot;);
+
+    const erroParser = doc.querySelector(&quot;parsererror&quot;);
+    if (erroParser) throw new Error(&quot;XML inválido.&quot;);
+
+    const raiz = doc.documentElement;
+    const filhos = Array.from(raiz.children);
+
+    if (filhos.length === 0) throw new Error(&quot;XML sem registros filhos.&quot;);
+
+    colunasGlobais = [];
+    dadosGlobais = [];
+
+    filhos.forEach(filho =&gt; {
+      const obj = {};
+
+      // Atributos
+      Array.from(filho.attributes).forEach(attr =&gt; {
+        obj[attr.name] = attr.value;
+        if (!colunasGlobais.includes(attr.name)) colunasGlobais.push(attr.name);
+      });
+
+      // Elementos filhos
+      Array.from(filho.children).forEach(el =&gt; {
+        obj[el.tagName] = el.textContent.trim();
+        if (!colunasGlobais.includes(el.tagName)) colunasGlobais.push(el.tagName);
+      });
+
+      // Se não tem filhos, usa o texto do próprio elemento
+      if (filho.children.length === 0) {
+        obj[&quot;valor&quot;] = filho.textContent.trim();
+        if (!colunasGlobais.includes(&quot;valor&quot;)) colunasGlobais.push(&quot;valor&quot;);
+      }
+
+      dadosGlobais.push(obj);
+    });
+
+    renderizarTabela(dadosGlobais);
+  }
+
+  // ===================== TABELA =====================
+  function renderizarTabela(dados) {
+    const cabecalho = document.getElementById(&quot;cabecalho&quot;);
+    const corpo = document.getElementById(&quot;corpo&quot;);
+
+    cabecalho.innerHTML = &quot;&quot;;
+    corpo.innerHTML = &quot;&quot;;
+
+    if (!dados || dados.length === 0) {
+      corpo.innerHTML = `&lt;tr&gt;&lt;td colspan=&quot;99&quot; class=&quot;sem-dados&quot;&gt;Nenhum dado encontrado.&lt;/td&gt;&lt;/tr&gt;`;
+      return;
+    }
+
+    const tr = document.createElement(&quot;tr&quot;);
+    colunasGlobais.forEach((col, idx) =&gt; {
+      const th = document.createElement(&quot;th&quot;);
+      th.textContent = col;
+      th.title = &quot;Clique para ordenar&quot;;
+      th.onclick = () =&gt; ordenarPor(idx);
+      tr.appendChild(th);
+    });
+    cabecalho.appendChild(tr);
+
+    dados.forEach(linha =&gt; {
+      const tr = document.createElement(&quot;tr&quot;);
+      colunasGlobais.forEach(col =&gt; {
+        const td = document.createElement(&quot;td&quot;);
+        td.textContent = linha[col] || &quot;&quot;;
+        tr.appendChild(td);
+      });
+      corpo.appendChild(tr);
+    });
+
+    atualizarContador(dados.length);
+  }
+
+  function atualizarContador(total) {
+    document.getElementById(&quot;contador&quot;).textContent =
+      `Exibindo ${total} de ${dadosGlobais.length} registro(s).`;
+  }
+
+  // ===================== FILTRO =====================
+  function filtrarTabela() {
+    const termo = document.getElementById(&quot;filtro&quot;).value.toLowerCase();
+
+    if (!termo) {
+      renderizarTabela(dadosGlobais);
+      return;
+    }
+
+    const filtrados = dadosGlobais.filter(linha =&gt;
+      Object.values(linha).some(val =&gt; String(val).toLowerCase().includes(termo))
+    );
+
+    renderizarTabela(filtrados);
+  }
+
+  // ===================== ORDENAÇÃO =====================
+  function ordenarPor(idx) {
+    const col = colunasGlobais[idx];
+
+    if (ordenacaoAtual.coluna === idx) {
+      ordenacaoAtual.asc = !ordenacaoAtual.asc;
+    } else {
+      ordenacaoAtual.coluna = idx;
+      ordenacaoAtual.asc = true;
+    }
+
+    const ordenados = [...dadosGlobais].sort((a, b) =&gt; {
+      const va = a[col] || &quot;&quot;;
+      const vb = b[col] || &quot;&quot;;
+      const numA = parseFloat(va.replace(/[^\d.,-]/g, &quot;&quot;).replace(&quot;,&quot;, &quot;.&quot;));
+      const numB = parseFloat(vb.replace(/[^\d.,-]/g, &quot;&quot;).replace(&quot;,&quot;, &quot;.&quot;));
+
+      if (!isNaN(numA) &amp;&amp; !isNaN(numB)) {
+        return ordenacaoAtual.asc ? numA - numB : numB - numA;
+      }
+
+      return ordenacaoAtual.asc
+        ? va.localeCompare(vb, &quot;pt-BR&quot;)
+        : vb.localeCompare(va, &quot;pt-BR&quot;);
+    });
+
+    renderizarTabela(ordenados);
+  }
+
+  // ===================== COPIAR =====================
+  function copiarTabela() {
+    const linhas = [colunasGlobais.join(&quot;\t&quot;)];
+
+    dadosGlobais.forEach(linha =&gt; {
+      linhas.push(colunasGlobais.map(col =&gt; linha[col] || &quot;&quot;).join(&quot;\t&quot;));
+    });
+
+    navigator.clipboard.writeText(linhas.join(&quot;\n&quot;))
+      .then(() =&gt; alert(&quot;Tabela copiada! Você pode colar direto no Excel ou Word.&quot;))
+      .catch(() =&gt; alert(&quot;Não foi possível copiar automaticamente.&quot;));
+  }
+
+  function copiarBruto() {
+    navigator.clipboard.writeText(dadosBrutosGlobais)
+      .then(() =&gt; alert(&quot;Dados brutos copiados!&quot;))
+      .catch(() =&gt; alert(&quot;Não foi possível copiar automaticamente.&quot;));
+  }
+
+  // ===================== BAIXAR =====================
+  function baixarCSV() {
+    const linhas = [colunasGlobais.join(&quot;;&quot;)];
+
+    dadosGlobais.forEach(linha =&gt; {
+      linhas.push(colunasGlobais.map(col =&gt; `&quot;${(linha[col] || &quot;&quot;).replace(/&quot;/g, '&quot;&quot;')}&quot;`).join(&quot;;&quot;));
+    });
+
+    baixarArquivo(linhas.join(&quot;\n&quot;), &quot;dados_exportados.csv&quot;, &quot;text/csv;charset=utf-8;&quot;);
+  }
+
+  function baixarJSON() {
+    const json = JSON.stringify(dadosGlobais, null, 2);
+    baixarArquivo(json, &quot;dados_exportados.json&quot;, &quot;application/json&quot;);
+  }
+
+  function baixarArquivo(conteudo, nome, tipo) {
+    const blob = new Blob([&quot;\ufeff&quot;, conteudo], { type: tipo });
+    const link = document.createElement(&quot;a&quot;);
+    link.href = URL.createObjectURL(blob);
+    link.download = nome;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  // ===================== ABAS =====================
+  function trocarAba(qual, el) {
+    document.getElementById(&quot;abaTabela&quot;).style.display = qual === &quot;tabela&quot; ? &quot;block&quot; : &quot;none&quot;;
+    document.getElementById(&quot;abaBruto&quot;).style.display = qual === &quot;bruto&quot; ? &quot;block&quot; : &quot;none&quot;;
+
+    document.querySelectorAll(&quot;.aba&quot;).forEach(a =&gt; a.classList.remove(&quot;ativa&quot;));
+    el.classList.add(&quot;ativa&quot;);
+  }
+
+  // ===================== LIMPAR =====================
+  function limparTudo() {
+    dadosGlobais = [];
+    colunasGlobais = [];
+    dadosBrutosGlobais = &quot;&quot;;
+    document.getElementById(&quot;painelResultados&quot;).style.display = &quot;none&quot;;
+    document.getElementById(&quot;inputArquivo&quot;).value = &quot;&quot;;
+    document.getElementById(&quot;filtro&quot;).value = &quot;&quot;;
+  }
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto1">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Organizador — Maikon&lt;/title&gt;
+  &lt;!-- SheetJS para ler Excel/XLSM --&gt;
+  &lt;script src=&quot;https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js&quot;&gt;&lt;/script&gt;
+  &lt;style&gt;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      color: #222;
+      padding: 20px;
+    }
+
+    h1 { color: #1e3a5f; margin-bottom: 4px; }
+    .subtitulo { color: #666; font-size: 13px; margin-bottom: 20px; }
+
+    .painel {
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .painel h2 { color: #1e3a5f; margin-bottom: 15px; font-size: 16px; }
+
+    /* ZONA DROP */
+    .zona-drop {
+      border: 2px dashed #2563eb;
+      border-radius: 10px;
+      padding: 35px;
+      text-align: center;
+      color: #2563eb;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 15px;
+    }
+    .zona-drop:hover, .zona-drop.ativo { background: #eff6ff; }
+    .zona-drop input { display: none; }
+
+    .badges {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-top: 10px; justify-content: center;
+    }
+    .badge {
+      padding: 4px 10px; border-radius: 20px;
+      font-size: 12px; font-weight: bold;
+    }
+    .badge-azul  { background: #dbeafe; color: #1d4ed8; }
+    .badge-verde { background: #dcfce7; color: #15803d; }
+    .badge-roxo  { background: #ede9fe; color: #7c3aed; }
+    .badge-laranja { background: #fef3c7; color: #d97706; }
+
+    /* LISTA DE ARQUIVOS */
+    .lista-arquivos {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+
+    .card-arquivo {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: #fafafa;
+      transition: background 0.2s;
+    }
+    .card-arquivo:hover { background: #eff6ff; }
+    .card-arquivo.ativo { border-color: #2563eb; background: #eff6ff; }
+
+    .icone-tipo {
+      font-size: 28px;
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .info-card { flex: 1; min-width: 150px; }
+    .info-card .nome-arquivo {
+      font-weight: bold;
+      color: #1e3a5f;
+      font-size: 14px;
+    }
+    .info-card .meta {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .nome-edit {
+      padding: 5px 8px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      font-size: 13px;
+      width: 220px;
+    }
+
+    .acoes-card {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+
+    /* BOTÕES */
+    button {
+      padding: 7px 13px;
+      border: none; border-radius: 5px;
+      cursor: pointer; font-weight: bold;
+      font-size: 12px; white-space: nowrap;
+    }
+    .btn-azul    { background: #2563eb; color: white; }
+    .btn-verde   { background: #15803d; color: white; }
+    .btn-cinza   { background: #6b7280; color: white; }
+    .btn-roxo    { background: #7c3aed; color: white; }
+    .btn-laranja { background: #d97706; color: white; }
+    .btn-vermelho{ background: #dc2626; color: white; }
+    .btn-escuro  { background: #1e3a5f; color: white; }
+    button:hover { opacity: 0.85; }
+
+    /* VISUALIZADOR */
+    .visualizador {
+      margin-top: 20px;
+    }
+
+    .abas {
+      display: flex; gap: 5px; margin-bottom: 0;
+      border-bottom: 2px solid #e5e7eb;
+      flex-wrap: wrap;
+    }
+    .aba {
+      padding: 8px 16px;
+      border-radius: 5px 5px 0 0;
+      cursor: pointer;
+      background: #e5e7eb;
+      color: #555;
+      font-weight: bold;
+      font-size: 13px;
+      border: 1px solid #ddd;
+      border-bottom: none;
+    }
+    .aba.ativa { background: white; color: #1e3a5f; }
+
+    .conteudo-aba {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      padding: 16px;
+    }
+
+    /* TABELA */
+    .tabela-wrapper {
+      overflow-x: auto;
+      max-height: 420px;
+      overflow-y: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      background: #1e3a5f; color: white;
+      padding: 9px 12px; text-align: left;
+      position: sticky; top: 0; z-index: 1;
+      cursor: pointer; user-select: none;
+    }
+    thead th:hover { background: #2563eb; }
+    tbody tr:nth-child(even) { background: #f9fafb; }
+    tbody tr:hover { background: #eff6ff; }
+    tbody td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #e5e7eb;
+      max-width: 280px;
+      word-break: break-word;
+    }
+
+    /* BRUTO */
+    .json-viewer {
+      background: #1e1e1e; color: #d4d4d4;
+      padding: 16px; border-radius: 8px;
+      font-family: monospace; font-size: 12px;
+      white-space: pre-wrap;
+      max-height: 420px; overflow-y: auto;
+    }
+
+    /* HTML PREVIEW */
+    .html-preview {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      background: white;
+      max-height: 420px;
+      overflow-y: auto;
+    }
+
+    /* FILTRO */
+    .barra-filtro {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      align-items: center; margin-bottom: 12px;
+    }
+    input[type=&quot;text&quot;] {
+      padding: 7px 12px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      font-size: 13px;
+      flex: 1; min-width: 180px;
+    }
+
+    .contador { font-size: 12px; color: #888; margin-top: 8px; }
+
+    .sem-dados {
+      text-align: center; padding: 30px;
+      color: #aaa; font-size: 14px;
+    }
+
+    /* SELETOR DE PLANILHA */
+    select {
+      padding: 7px 10px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      font-size: 13px;
+    }
+
+    @media print {
+      .no-print { display: none; }
+      body { background: white; }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;📂 Organizador de Arquivos — Maikon&lt;/h1&gt;
+&lt;p class=&quot;subtitulo&quot;&gt;Suporta CSV · JSON · XML · XLS · XLSX · XLSM — Visualize, renomeie, copie, baixe em HTML ou CSV.&lt;/p&gt;
+
+&lt;!-- IMPORTAR --&gt;
+&lt;div class=&quot;painel no-print&quot;&gt;
+  &lt;h2&gt;📥 Importar arquivos&lt;/h2&gt;
+  &lt;div class=&quot;zona-drop&quot; id=&quot;zonaDrop&quot;
+       onclick=&quot;document.getElementById('inputArquivo').click()&quot;&gt;
+    &lt;div&gt;Clique aqui ou arraste os arquivos&lt;/div&gt;
+    &lt;div style=&quot;font-size:12px;margin-top:6px;color:#888;&quot;&gt;Formatos aceitos:&lt;/div&gt;
+    &lt;div class=&quot;badges&quot;&gt;
+      &lt;span class=&quot;badge badge-azul&quot;&gt;CSV&lt;/span&gt;
+      &lt;span class=&quot;badge badge-verde&quot;&gt;JSON&lt;/span&gt;
+      &lt;span class=&quot;badge badge-roxo&quot;&gt;XML&lt;/span&gt;
+      &lt;span class=&quot;badge badge-laranja&quot;&gt;XLS / XLSX / XLSM&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;file&quot; id=&quot;inputArquivo&quot; multiple
+           accept=&quot;.csv,.json,.xml,.xls,.xlsx,.xlsm&quot;
+           onchange=&quot;importarArquivos(event)&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- LISTA DE ARQUIVOS --&gt;
+&lt;div class=&quot;painel&quot; id=&quot;painelLista&quot; style=&quot;display:none;&quot;&gt;
+  &lt;h2&gt;📋 Arquivos importados&lt;/h2&gt;
+  &lt;div class=&quot;lista-arquivos&quot; id=&quot;listaArquivos&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- VISUALIZADOR --&gt;
+&lt;div class=&quot;painel&quot; id=&quot;painelVisualizador&quot; style=&quot;display:none;&quot;&gt;
+  &lt;h2 id=&quot;tituloVisualizador&quot;&gt;Visualizando: —&lt;/h2&gt;
+
+  &lt;div class=&quot;visualizador&quot;&gt;
+    &lt;div class=&quot;abas&quot; id=&quot;abasVisualizador&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;conteudo-aba&quot; id=&quot;conteudoAba&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  // ===================== ESTADO GLOBAL =====================
+  const arquivos = []; // { id, nome, tipo, tamanho, dados, colunas, bruto, planilhas }
+  let arquivoAtivo = null;
+  let abaAtiva = &quot;tabela&quot;;
+  let planilhaAtiva = 0;
+  let ordenacao = { col: -1, asc: true };
+
+  // ===================== DRAG &amp; DROP =====================
+  const zona = document.getElementById(&quot;zonaDrop&quot;);
+  zona.addEventListener(&quot;dragover&quot;, e =&gt; { e.preventDefault(); zona.classList.add(&quot;ativo&quot;); });
+  zona.addEventListener(&quot;dragleave&quot;, () =&gt; zona.classList.remove(&quot;ativo&quot;));
+  zona.addEventListener(&quot;drop&quot;, e =&gt; {
+    e.preventDefault();
+    zona.classList.remove(&quot;ativo&quot;);
+    processarLista(e.dataTransfer.files);
+  });
+
+  // ===================== IMPORTAR =====================
+  function importarArquivos(event) {
+    processarLista(event.target.files);
+  }
+
+  function processarLista(lista) {
+    Array.from(lista).forEach(arquivo =&gt; {
+      const leitor = new FileReader();
+      const nome = arquivo.name;
+      const ext = nome.split(&quot;.&quot;).pop().toLowerCase();
+
+      if ([&quot;xls&quot;, &quot;xlsx&quot;, &quot;xlsm&quot;].includes(ext)) {
+        const leitorBin = new FileReader();
+        leitorBin.onload = e =&gt; processarExcel(arquivo, e.target.result);
+        leitorBin.readAsArrayBuffer(arquivo);
+      } else {
+        leitor.onload = e =&gt; processarTexto(arquivo, e.target.result, ext);
+        leitor.readAsText(arquivo, &quot;UTF-8&quot;);
+      }
+    });
+  }
+
+  // ===================== PROCESSAR TEXTO =====================
+  function processarTexto(arquivo, conteudo, ext) {
+    const id = Date.now() + Math.random();
+    let dados = [], colunas = [], planilhas = null;
+
+    try {
+      if (ext === &quot;csv&quot;) {
+        const r = parseCSV(conteudo);
+        dados = r.dados; colunas = r.colunas;
+      } else if (ext === &quot;json&quot;) {
+        const r = parseJSON(conteudo);
+        dados = r.dados; colunas = r.colunas;
+      } else if (ext === &quot;xml&quot;) {
+        const r = parseXML(conteudo);
+        dados = r.dados; colunas = r.colunas;
+      }
+    } catch(e) {
+      alert(&quot;Erro ao processar &quot; + arquivo.name + &quot;:\n&quot; + e.message);
+      return;
+    }
+
+    arquivos.push({
+      id, nome: arquivo.name, tipo: ext.toUpperCase(),
+      tamanho: arquivo.size, dados, colunas,
+      bruto: conteudo, planilhas
+    });
+
+    renderizarLista();
+    abrirArquivo(id);
+  }
+
+  // ===================== PROCESSAR EXCEL =====================
+  function processarExcel(arquivo, buffer) {
+    const id = Date.now() + Math.random();
+    const workbook = XLSX.read(buffer, { type: &quot;array&quot; });
+    const planilhas = workbook.SheetNames.map(nome =&gt; {
+      const ws = workbook.Sheets[nome];
+      const json = XLSX.utils.sheet_to_json(ws, { defval: &quot;&quot; });
+      const colunas = json.length &gt; 0 ? Object.keys(json[0]) : [];
+      return { nome, dados: json, colunas };
+    });
+
+    const ext = arquivo.name.split(&quot;.&quot;).pop().toUpperCase();
+    arquivos.push({
+      id, nome: arquivo.name, tipo: ext,
+      tamanho: arquivo.size,
+      dados: planilhas[0]?.dados || [],
+      colunas: planilhas[0]?.colunas || [],
+      bruto: `Arquivo Excel com ${planilhas.length} planilha(s): ${planilhas.map(p=&gt;p.nome).join(&quot;, &quot;)}`,
+      planilhas
+    });
+
+    renderizarLista();
+    abrirArquivo(id);
+  }
+
+  // ===================== PARSERS =====================
+  function parseCSV(texto) {
+    const linhas = texto.trim().split(/\r?\n/);
+    if (linhas.length &lt; 1) throw new Error(&quot;CSV vazio.&quot;);
+    const sep = detectarSep(linhas[0]);
+    const colunas = parseLinha(linhas[0], sep);
+    const dados = [];
+    for (let i = 1; i &lt; linhas.length; i++) {
+      if (!linhas[i].trim()) continue;
+      const vals = parseLinha(linhas[i], sep);
+      const obj = {};
+      colunas.forEach((c, idx) =&gt; obj[c] = vals[idx] ?? &quot;&quot;);
+      dados.push(obj);
+    }
+    return { dados, colunas };
+  }
+
+  function detectarSep(linha) {
+    const seps = [&quot;,&quot;, &quot;;&quot;, &quot;\t&quot;, &quot;|&quot;];
+    return seps.reduce((a, b) =&gt;
+      (linha.match(new RegExp(&quot;\\&quot; + a, &quot;g&quot;)) || []).length &gt;=
+      (linha.match(new RegExp(&quot;\\&quot; + b, &quot;g&quot;)) || []).length ? a : b
+    );
+  }
+
+  function parseLinha(linha, sep) {
+    const res = []; let atual = &quot;&quot;; let aspas = false;
+    for (const c of linha) {
+      if (c === '&quot;') { aspas = !aspas; }
+      else if (c === sep &amp;&amp; !aspas) { res.push(atual.trim()); atual = &quot;&quot;; }
+      else atual += c;
+    }
+    res.push(atual.trim());
+    return res;
+  }
+
+  function parseJSON(texto) {
+    let dados = JSON.parse(texto);
+    if (!Array.isArray(dados)) {
+      const chave = Object.keys(dados).find(k =&gt; Array.isArray(dados[k]));
+      if (chave) dados = dados[chave];
+      else dados = [dados];
+    }
+    const colunas = [...new Set(dados.flatMap(o =&gt; Object.keys(o)))];
+    const norm = dados.map(o =&gt; {
+      const l = {};
+      colunas.forEach(c =&gt; {
+        const v = o[c];
+        l[c] = v != null ? (typeof v === &quot;object&quot; ? JSON.stringify(v) : String(v)) : &quot;&quot;;
+      });
+      return l;
+    });
+    return { dados: norm, colunas };
+  }
+
+  function parseXML(texto) {
+    const doc = new DOMParser().parseFromString(texto, &quot;application/xml&quot;);
+    if (doc.querySelector(&quot;parsererror&quot;)) throw new Error(&quot;XML inválido.&quot;);
+    const raiz = doc.documentElement;
+    const filhos = Array.from(raiz.children);
+    const colunas = [];
+    const dados = filhos.map(filho =&gt; {
+      const obj = {};
+      Array.from(filho.attributes).forEach(a =&gt; {
+        obj[a.name] = a.value;
+        if (!colunas.includes(a.name)) colunas.push(a.name);
+      });
+      Array.from(filho.children).forEach(el =&gt; {
+        obj[el.tagName] = el.textContent.trim();
+        if (!colunas.includes(el.tagName)) colunas.push(el.tagName);
+      });
+      if (filho.children.length === 0) {
+        obj[&quot;valor&quot;] = filho.textContent.trim();
+        if (!colunas.includes(&quot;valor&quot;)) colunas.push(&quot;valor&quot;);
+      }
+      return obj;
+    });
+    return { dados, colunas };
+  }
+
+  // ===================== LISTA DE ARQUIVOS =====================
+  function renderizarLista() {
+    document.getElementById(&quot;painelLista&quot;).style.display = &quot;block&quot;;
+    const lista = document.getElementById(&quot;listaArquivos&quot;);
+    lista.innerHTML = &quot;&quot;;
+
+    arquivos.forEach(arq =&gt; {
+      const card = document.createElement(&quot;div&quot;);
+      card.className = &quot;card-arquivo&quot; + (arquivoAtivo?.id === arq.id ? &quot; ativo&quot; : &quot;&quot;);
+      card.id = &quot;card-&quot; + arq.id;
+
+      const icone = iconesTipo(arq.tipo);
+      const kb = (arq.tamanho / 1024).toFixed(1);
+      const registros = arq.planilhas
+        ? arq.planilhas.reduce((s, p) =&gt; s + p.dados.length, 0)
+        : arq.dados.length;
+
+      card.innerHTML = `
+        &lt;div class=&quot;icone-tipo&quot;&gt;${icone}&lt;/div&gt;
+        &lt;div class=&quot;info-card&quot;&gt;
+          &lt;div class=&quot;nome-arquivo&quot;&gt;${arq.nome}&lt;/div&gt;
+          &lt;div class=&quot;meta&quot;&gt;${arq.tipo} · ${kb} KB · ${registros} registro(s)&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;input class=&quot;nome-edit&quot; id=&quot;nomeEdit-${arq.id}&quot; value=&quot;${arq.nome}&quot; 
+               title=&quot;Renomear arquivo&quot; placeholder=&quot;Novo nome...&quot;&gt;
+        &lt;div class=&quot;acoes-card&quot;&gt;
+          &lt;button class=&quot;btn-azul&quot; onclick=&quot;abrirArquivo('${arq.id}')&quot;&gt;👁 Ver&lt;/button&gt;
+          &lt;button class=&quot;btn-verde&quot; onclick=&quot;renomear('${arq.id}')&quot;&gt;✏️ Renomear&lt;/button&gt;
+          &lt;button class=&quot;btn-escuro&quot; onclick=&quot;baixarHTML('${arq.id}')&quot;&gt;⬇ HTML&lt;/button&gt;
+          &lt;button class=&quot;btn-roxo&quot; onclick=&quot;baixarCSVArquivo('${arq.id}')&quot;&gt;⬇ CSV&lt;/button&gt;
+          &lt;button class=&quot;btn-laranja&quot; onclick=&quot;baixarJSONArquivo('${arq.id}')&quot;&gt;⬇ JSON&lt;/button&gt;
+          &lt;button class=&quot;btn-vermelho&quot; onclick=&quot;removerArquivo('${arq.id}')&quot;&gt;🗑&lt;/button&gt;
+        &lt;/div&gt;
+      `;
+
+      lista.appendChild(card);
+    });
+  }
+
+  function iconesTipo(tipo) {
+    const mapa = {
+      CSV: &quot;📊&quot;, JSON: &quot;📋&quot;, XML: &quot;📄&quot;,
+      XLS: &quot;📗&quot;, XLSX: &quot;📗&quot;, XLSM: &quot;📗&quot;
+    };
+    return mapa[tipo] || &quot;📁&quot;;
+  }
+
+  // ===================== ABRIR ARQUIVO =====================
+  function abrirArquivo(id) {
+    arquivoAtivo = arquivos.find(a =&gt; String(a.id) === String(id));
+    if (!arquivoAtivo) return;
+
+    planilhaAtiva = 0;
+    ordenacao = { col: -1, asc: true };
+
+    renderizarLista();
+    renderizarVisualizador();
+
+    document.getElementById(&quot;painelVisualizador&quot;).style.display = &quot;block&quot;;
+    document.getElementById(&quot;painelVisualizador&quot;).scrollIntoView({ behavior: &quot;smooth&quot; });
+  }
+
+  // ===================== VISUALIZADOR =====================
+  function renderizarVisualizador() {
+    if (!arquivoAtivo) return;
+
+    document.getElementById(&quot;tituloVisualizador&quot;).textContent =
+      &quot;Visualizando: &quot; + arquivoAtivo.nome;
+
+    const abasEl = document.getElementById(&quot;abasVisualizador&quot;);
+    abasEl.innerHTML = &quot;&quot;;
+
+    const abas = [&quot;tabela&quot;, &quot;bruto&quot;];
+    const labels = { tabela: &quot;📊 Tabela&quot;, bruto: &quot;🔤 Dados brutos&quot; };
+
+    abas.forEach(a =&gt; {
+      const el = document.createElement(&quot;div&quot;);
+      el.className = &quot;aba&quot; + (abaAtiva === a ? &quot; ativa&quot; : &quot;&quot;);
+      el.textContent = labels[a];
+      el.onclick = () =&gt; { abaAtiva = a; renderizarVisualizador(); };
+      abasEl.appendChild(el);
+    });
+
+    const conteudo = document.getElementById(&quot;conteudoAba&quot;);
+    conteudo.innerHTML = &quot;&quot;;
+
+    if (abaAtiva === &quot;tabela&quot;) renderizarAbaTabela(conteudo);
+    else renderizarAbaBruto(conteudo);
+  }
+
+  function renderizarAbaTabela(conteudo) {
+    const arq = arquivoAtivo;
+    let dados = arq.dados;
+    let colunas = arq.colunas;
+
+    // Seletor de planilha para Excel
+    if (arq.planilhas &amp;&amp; arq.planilhas.length &gt; 1) {
+      const sel = document.createElement(&quot;div&quot;);
+      sel.style.marginBottom = &quot;12px&quot;;
+      sel.innerHTML = `&lt;label style=&quot;font-weight:bold;font-size:13px;margin-right:8px;&quot;&gt;Planilha:&lt;/label&gt;`;
+      const select = document.createElement(&quot;select&quot;);
+      arq.planilhas.forEach((p, i) =&gt; {
+        const opt = document.createElement(&quot;option&quot;);
+        opt.value = i;
+        opt.textContent = p.nome;
+        if (i === planilhaAtiva) opt.selected = true;
+        select.appendChild(opt);
+      });
+      select.onchange = e =&gt; {
+        planilhaAtiva = parseInt(e.target.value);
+        dados = arq.planilhas[planilhaAtiva].dados;
+        colunas = arq.planilhas[planilhaAtiva].colunas;
+        renderizarVisualizador();
+      };
+      sel.appendChild(select);
+      conteudo.appendChild(sel);
+
+      dados = arq.planilhas[planilhaAtiva].dados;
+      colunas = arq.planilhas[planilhaAtiva].colunas;
+    }
+
+    // Barra de ações
+    const barra = document.createElement(&quot;div&quot;);
+    barra.className = &quot;barra-filtro no-print&quot;;
+    barra.innerHTML = `
+      &lt;input type=&quot;text&quot; id=&quot;filtroTabela&quot; placeholder=&quot;🔍 Filtrar...&quot; oninput=&quot;filtrar()&quot;&gt;
+      &lt;button class=&quot;btn-verde&quot; onclick=&quot;copiarTabela()&quot;&gt;📋 Copiar&lt;/button&gt;
+      &lt;button class=&quot;btn-laranja&quot; onclick=&quot;window.print()&quot;&gt;🖨 PDF&lt;/button&gt;
+    `;
+    conteudo.appendChild(barra);
+
+    // Tabela
+    const wrapper = document.createElement(&quot;div&quot;);
+    wrapper.className = &quot;tabela-wrapper&quot;;
+    wrapper.id = &quot;tabelaWrapper&quot;;
+    conteudo.appendChild(wrapper);
+
+    const contador = document.createElement(&quot;div&quot;);
+    contador.className = &quot;contador&quot;;
+    contador.id = &quot;contadorTabela&quot;;
+    conteudo.appendChild(contador);
+
+    renderizarTabela(dados, colunas, wrapper, contador);
+  }
+
+  function renderizarTabela(dados, colunas, wrapper, contador) {
+    wrapper.innerHTML = &quot;&quot;;
+
+    if (!dados || dados.length === 0) {
+      wrapper.innerHTML = `&lt;div class=&quot;sem-dados&quot;&gt;Nenhum dado encontrado.&lt;/div&gt;`;
+      return;
+    }
+
+    const table = document.createElement(&quot;table&quot;);
+    const thead = document.createElement(&quot;thead&quot;);
+    const tbody = document.createElement(&quot;tbody&quot;);
+
+    const trHead = document.createElement(&quot;tr&quot;);
+    colunas.forEach((col, idx) =&gt; {
+      const th = document.createElement(&quot;th&quot;);
+      th.textContent = col;
+      th.title = &quot;Clique para ordenar&quot;;
+      th.onclick = () =&gt; {
+        if (ordenacao.col === idx) ordenacao.asc = !ordenacao.asc;
+        else { ordenacao.col = idx; ordenacao.asc = true; }
+
+        const ordenados = [...dados].sort((a, b) =&gt; {
+          const va = String(a[col] || &quot;&quot;);
+          const vb = String(b[col] || &quot;&quot;);
+          const na = parseFloat(va.replace(/[^\d.,-]/g, &quot;&quot;).replace(&quot;,&quot;, &quot;.&quot;));
+          const nb = parseFloat(vb.replace(/[^\d.,-]/g, &quot;&quot;).replace(&quot;,&quot;, &quot;.&quot;));
+          if (!isNaN(na) &amp;&amp; !isNaN(nb))
+            return ordenacao.asc ? na - nb : nb - na;
+          return ordenacao.asc
+            ? va.localeCompare(vb, &quot;pt-BR&quot;)
+            : vb.localeCompare(va, &quot;pt-BR&quot;);
+        });
+
+        renderizarTabela(ordenados, colunas, wrapper, contador);
+      };
+      trHead.appendChild(th);
+    });
+    thead.appendChild(trHead);
+
+    dados.forEach(linha =&gt; {
+      const tr = document.createElement(&quot;tr&quot;);
+      colunas.forEach(col =&gt; {
+        const td = document.createElement(&quot;td&quot;);
+        td.textContent = linha[col] ?? &quot;&quot;;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    wrapper.appendChild(table);
+
+    if (contador)
+      contador.textContent = `${dados.length} registro(s) exibido(s).`;
+  }
+
+  function renderizarAbaBruto(conteudo) {
+    const barra = document.createElement(&quot;div&quot;);
+    barra.className = &quot;barra-filtro no-print&quot;;
+    barra.innerHTML = `
+      &lt;button class=&quot;btn-verde&quot; onclick=&quot;copiarBruto()&quot;&gt;📋 Copiar dados brutos&lt;/button&gt;
+    `;
+    conteudo.appendChild(barra);
+
+    const viewer = document.createElement(&quot;div&quot;);
+    viewer.className = &quot;json-viewer&quot;;
+    viewer.textContent = arquivoAtivo.bruto;
+    conteudo.appendChild(viewer);
+  }
+
+  // ===================== FILTRO =====================
+  function filtrar() {
+    const termo = document.getElementById(&quot;filtroTabela&quot;)?.value?.toLowerCase() || &quot;&quot;;
+    const arq = arquivoAtivo;
+    let dados = arq.planilhas ? arq.planilhas[planilhaAtiva].dados : arq.dados;
+    const colunas = arq.planilhas ? arq.planilhas[planilhaAtiva].colunas : arq.colunas;
+
+    const filtrados = termo
+      ? dados.filter(l =&gt; Object.values(l).some(v =&gt; String(v).toLowerCase().includes(termo)))
+      : dados;
+
+    const wrapper = document.getElementById(&quot;tabelaWrapper&quot;);
+    const contador = document.getElementById(&quot;contadorTabela&quot;);
+    if (wrapper) renderizarTabela(filtrados, colunas, wrapper, contador);
+  }
+
+  // ===================== COPIAR =====================
+  function copiarTabela() {
+    const arq = arquivoAtivo;
+    const dados = arq.planilhas ? arq.planilhas[planilhaAtiva].dados : arq.dados;
+    const colunas = arq.planilhas ? arq.planilhas[planilhaAtiva].colunas : arq.colunas;
+    const linhas = [colunas.join(&quot;\t&quot;)];
+    dados.forEach(l =&gt; linhas.push(colunas.map(c =&gt; l[c] ?? &quot;&quot;).join(&quot;\t&quot;)));
+    navigator.clipboard.writeText(linhas.join(&quot;\n&quot;))
+      .then(() =&gt; alert(&quot;Copiado! Cole direto no Excel ou Word.&quot;))
+      .catch(() =&gt; alert(&quot;Não foi possível copiar automaticamente.&quot;));
+  }
+
+  function copiarBruto() {
+    navigator.clipboard.writeText(arquivoAtivo.bruto)
+      .then(() =&gt; alert(&quot;Dados brutos copiados!&quot;))
+      .catch(() =&gt; alert(&quot;Erro ao copiar.&quot;));
+  }
+
+  // ===================== BAIXAR HTML =====================
+  function baixarHTML(id) {
+    const arq = arquivos.find(a =&gt; String(a.id) === String(id));
+    if (!arq) return;
+
+    const dados = arq.planilhas ? arq.planilhas[0].dados : arq.dados;
+    const colunas = arq.planilhas ? arq.planilhas[0].colunas : arq.colunas;
+
+    let linhasHTML = dados.map(l =&gt;
+      `&lt;tr&gt;${colunas.map(c =&gt; `&lt;td&gt;${l[c] ?? &quot;&quot;}&lt;/td&gt;`).join(&quot;&quot;)}&lt;/tr&gt;`
+    ).join(&quot;\n&quot;);
+
+    const html = `&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;${arq.nome}&lt;/title&gt;
+  &lt;style&gt;
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { color: #1e3a5f; margin-bottom: 15px; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th { background: #1e3a5f; color: white; padding: 9px 12px; text-align: left; }
+    td { padding: 7px 12px; border-bottom: 1px solid #e5e7eb; }
+    tr:nth-child(even) { background: #f9fafb; }
+    tr:hover { background: #eff6ff; }
+    .meta { color: #888; font-size: 12px; margin-bottom: 15px; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;${arq.nome}&lt;/h1&gt;
+  &lt;div class=&quot;meta&quot;&gt;${arq.tipo} · ${dados.length} registro(s) · Exportado em ${new Date().toLocaleDateString(&quot;pt-BR&quot;)}&lt;/div&gt;
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;${colunas.map(c =&gt; `&lt;th&gt;${c}&lt;/th&gt;`).join(&quot;&quot;)}&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      ${linhasHTML}
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;`;
+
+    baixarBlob(html, arq.nome.replace(/\.[^.]+$/, &quot;&quot;) + &quot;.html&quot;, &quot;text/html&quot;);
+  }
+
+  // ===================== BAIXAR CSV =====================
+  function baixarCSVArquivo(id) {
+    const arq = arquivos.find(a =&gt; String(a.id) === String(id));
+    if (!arq) return;
+    const dados = arq.planilhas ? arq.planilhas[0].dados : arq.dados;
+    const colunas = arq.planilhas ? arq.planilhas[0].colunas : arq.colunas;
+    const linhas = [colunas.join(&quot;;&quot;)];
+    dados.forEach(l =&gt; linhas.push(colunas.map(c =&gt; `&quot;${String(l[c] ?? &quot;&quot;).replace(/&quot;/g, '&quot;&quot;')}&quot;`).join(&quot;;&quot;)));
+    baixarBlob(linhas.join(&quot;\n&quot;), arq.nome.replace(/\.[^.]+$/, &quot;&quot;) + &quot;.csv&quot;, &quot;text/csv&quot;);
+  }
+
+  // ===================== BAIXAR JSON =====================
+  function baixarJSONArquivo(id) {
+    const arq = arquivos.find(a =&gt; String(a.id) === String(id));
+    if (!arq) return;
+    const dados = arq.planilhas ? arq.planilhas[0].dados : arq.dados;
+    baixarBlob(JSON.stringify(dados, null, 2), arq.nome.replace(/\.[^.]+$/, &quot;&quot;) + &quot;.json&quot;, &quot;application/json&quot;);
+  }
+
+  // ===================== RENOMEAR =====================
+  function renomear(id) {
+    const arq = arquivos.find(a =&gt; String(a.id) === String(id));
+    const input = document.getElementById(&quot;nomeEdit-&quot; + id);
+    if (!arq || !input) return;
+    const novoNome = input.value.trim();
+    if (!novoNome) { alert(&quot;Digite um nome válido.&quot;); return; }
+    arq.nome = novoNome;
+    renderizarLista();
+    if (arquivoAtivo?.id === arq.id) {
+      arquivoAtivo = arq;
+      renderizarVisualizador();
+    }
+    alert(&quot;Renomeado para: &quot; + novoNome);
+  }
+
+  // ===================== REMOVER =====================
+  function removerArquivo(id) {
+    const idx = arquivos.findIndex(a =&gt; String(a.id) === String(id));
+    if (idx === -1) return;
+    if (!confirm(&quot;Remover &quot; + arquivos[idx].nome + &quot; da lista?&quot;)) return;
+    arquivos.splice(idx, 1);
+    if (arquivoAtivo?.id == id) {
+      arquivoAtivo = null;
+      document.getElementById(&quot;painelVisualizador&quot;).style.display = &quot;none&quot;;
+    }
+    if (arquivos.length === 0)
+      document.getElementById(&quot;painelLista&quot;).style.display = &quot;none&quot;;
+    else renderizarLista();
+  }
+
+  // ===================== UTILITÁRIO =====================
+  function baixarBlob(conteudo, nome, tipo) {
+    const blob = new Blob([&quot;\ufeff&quot;, conteudo], { type: tipo });
+    const link = document.createElement(&quot;a&quot;);
+    link.href = URL.createObjectURL(blob);
+    link.download = nome;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto2">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Extrator Replit — Maikon&lt;/title&gt;
+&lt;style&gt;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f3f4f6; color: #1f2937; padding: 20px; }
+h1 { color: #111827; margin-bottom: 4px; }
+.sub { color: #6b7280; font-size: 13px; margin-bottom: 20px; }
+
+.painel { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.painel h2 { color: #111827; margin-bottom: 14px; font-size: 16px; }
+
+.drop { border: 2px dashed #2563eb; background: #eff6ff; color: #1d4ed8; padding: 30px; border-radius: 10px; text-align: center; cursor: pointer; font-size: 15px; }
+.drop:hover { background: #dbeafe; }
+.drop input { display: none; }
+
+.barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+input[type=&quot;text&quot;] { padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 7px; font-size: 13px; flex: 1; min-width: 200px; }
+
+button { border: none; border-radius: 7px; padding: 9px 13px; cursor: pointer; font-size: 13px; font-weight: bold; color: white; }
+button:hover { opacity: 0.85; }
+.b-azul { background: #2563eb; }
+.b-verde { background: #15803d; }
+.b-roxo { background: #7c3aed; }
+.b-laranja { background: #d97706; }
+.b-escuro { background: #111827; }
+.b-vermelho { background: #dc2626; }
+.b-cinza { background: #6b7280; }
+
+.contador-geral { font-size: 13px; color: #6b7280; margin-bottom: 10px; }
+
+.grid { display: grid; grid-template-columns: 360px 1fr; gap: 18px; }
+@media(max-width:900px){ .grid { grid-template-columns: 1fr; } }
+
+.lista { display: flex; flex-direction: column; gap: 8px; max-height: 680px; overflow-y: auto; padding-right: 4px; }
+
+.card { border: 1px solid #e5e7eb; background: #f9fafb; border-radius: 10px; padding: 12px; cursor: pointer; transition: 0.15s; }
+.card:hover { border-color: #2563eb; background: #eff6ff; }
+.card.ativo { border-color: #2563eb; background: #eff6ff; }
+
+.card-topo { display: flex; gap: 8px; align-items: flex-start; }
+.icone { font-size: 22px; min-width: 28px; text-align: center; }
+.card-info { flex: 1; min-width: 0; }
+.card-titulo { font-weight: bold; color: #1f2937; font-size: 14px; word-break: break-word; }
+.card-meta { color: #6b7280; font-size: 11px; margin-top: 3px; }
+
+.tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+.tag { font-size: 10px; font-weight: bold; padding: 2px 7px; border-radius: 999px; }
+.tag-html { background: #fef3c7; color: #92400e; }
+.tag-css  { background: #ede9fe; color: #5b21b6; }
+.tag-js   { background: #dcfce7; color: #14532d; }
+.tag-vazio{ background: #f3f4f6; color: #9ca3af; }
+
+.mini-acoes { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.mini-acoes button { font-size: 11px; padding: 5px 8px; }
+
+/* PREVIEW */
+.preview-topo { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.preview-topo h2 { font-size: 15px; color: #111827; word-break: break-word; }
+
+.abas { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.aba { background: #e5e7eb; color: #374151; padding: 7px 12px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 12px; }
+.aba.ativa { background: #2563eb; color: white; }
+
+.preview-box { border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+iframe { width: 100%; height: 560px; border: none; background: white; display: block; }
+
+pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; font-family: Consolas, monospace; font-size: 12px; white-space: pre-wrap; word-break: break-word; max-height: 560px; overflow-y: auto; margin: 0; }
+
+.vazio { color: #9ca3af; text-align: center; padding: 60px 20px; font-size: 14px; }
+.aviso { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 10px; }
+.ok { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 10px; }
+
+.progress { background: #e5e7eb; border-radius: 999px; height: 8px; margin: 10px 0; }
+.progress-bar { background: #2563eb; height: 8px; border-radius: 999px; transition: width 0.3s; }
+.progress-txt { font-size: 12px; color: #6b7280; margin-bottom: 6px; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;🗂 Extrator de Projetos Replit&lt;/h1&gt;
+&lt;p class=&quot;sub&quot;&gt;Importa seu CSV exportado do Replit · Visualiza · Renderiza · Baixa cada projeto separado&lt;/p&gt;
+
+&lt;div class=&quot;painel&quot;&gt;
+  &lt;h2&gt;📥 Importar arquivo CSV&lt;/h2&gt;
+  &lt;div class=&quot;drop&quot; id=&quot;drop&quot; onclick=&quot;document.getElementById('inp').click()&quot;&gt;
+    &lt;div&gt;Clique aqui ou arraste o arquivo &lt;strong&gt;snippets.csv&lt;/strong&gt;&lt;/div&gt;
+    &lt;div style=&quot;font-size:12px;margin-top:6px;color:#4b5563;&quot;&gt;Suporta arquivos grandes · Processamento local · Nada é enviado para internet&lt;/div&gt;
+    &lt;input type=&quot;file&quot; id=&quot;inp&quot; accept=&quot;.csv&quot; onchange=&quot;carregarCSV(event)&quot;&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;progressArea&quot; style=&quot;display:none;margin-top:12px;&quot;&gt;
+    &lt;div class=&quot;progress-txt&quot; id=&quot;progressTxt&quot;&gt;Carregando...&lt;/div&gt;
+    &lt;div class=&quot;progress&quot;&gt;&lt;div class=&quot;progress-bar&quot; id=&quot;progressBar&quot; style=&quot;width:0%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;painel&quot; id=&quot;painelPrincipal&quot; style=&quot;display:none;&quot;&gt;
+
+  &lt;div class=&quot;barra&quot;&gt;
+    &lt;input type=&quot;text&quot; id=&quot;busca&quot; placeholder=&quot;🔎 Buscar por título...&quot; oninput=&quot;filtrar()&quot;&gt;
+    &lt;button class=&quot;b-escuro&quot; onclick=&quot;baixarTodos()&quot;&gt;⬇ Baixar todos como HTML&lt;/button&gt;
+    &lt;button class=&quot;b-vermelho&quot; onclick=&quot;limpar()&quot;&gt;🗑 Limpar&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;contador-geral&quot; id=&quot;contadorGeral&quot;&gt;&lt;/div&gt;
+
+  &lt;div class=&quot;grid&quot;&gt;
+
+    &lt;div&gt;
+      &lt;div class=&quot;lista&quot; id=&quot;lista&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div&gt;
+      &lt;div class=&quot;preview-topo&quot;&gt;
+        &lt;h2 id=&quot;previewTitulo&quot;&gt;👁 Selecione um projeto&lt;/h2&gt;
+        &lt;div style=&quot;display:flex;gap:6px;flex-wrap:wrap;&quot; id=&quot;previewAcoes&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;abas&quot; id=&quot;abas&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;preview-box&quot; id=&quot;previewBox&quot;&gt;
+        &lt;div class=&quot;vazio&quot;&gt;Selecione um projeto na lista para visualizar.&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+let projetos = [];
+let projetoAtivo = null;
+let abaAtiva = &quot;render&quot;;
+let filtrados = [];
+
+// DRAG DROP
+const drop = document.getElementById(&quot;drop&quot;);
+drop.addEventListener(&quot;dragover&quot;, e =&gt; { e.preventDefault(); drop.style.background = &quot;#dbeafe&quot;; });
+drop.addEventListener(&quot;dragleave&quot;, () =&gt; { drop.style.background = &quot;#eff6ff&quot;; });
+drop.addEventListener(&quot;drop&quot;, e =&gt; {
+  e.preventDefault();
+  drop.style.background = &quot;#eff6ff&quot;;
+  const f = e.dataTransfer.files[0];
+  if (f) processarArquivo(f);
+});
+
+function carregarCSV(e) {
+  const f = e.target.files[0];
+  if (f) processarArquivo(f);
+}
+
+function processarArquivo(file) {
+  document.getElementById(&quot;progressArea&quot;).style.display = &quot;block&quot;;
+  document.getElementById(&quot;progressTxt&quot;).textContent = &quot;Lendo arquivo...&quot;;
+  document.getElementById(&quot;progressBar&quot;).style.width = &quot;10%&quot;;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById(&quot;progressBar&quot;).style.width = &quot;40%&quot;;
+    document.getElementById(&quot;progressTxt&quot;).textContent = &quot;Processando linhas...&quot;;
+
+    setTimeout(() =&gt; {
+      try {
+        projetos = parseCSVCompleto(e.target.result);
+        document.getElementById(&quot;progressBar&quot;).style.width = &quot;90%&quot;;
+        document.getElementById(&quot;progressTxt&quot;).textContent = projetos.length + &quot; projetos encontrados!&quot;;
+
+        setTimeout(() =&gt; {
+          document.getElementById(&quot;progressArea&quot;).style.display = &quot;none&quot;;
+          document.getElementById(&quot;painelPrincipal&quot;).style.display = &quot;block&quot;;
+          filtrados = [...projetos];
+          renderizarLista();
+        }, 400);
+      } catch(err) {
+        alert(&quot;Erro ao processar CSV:\n&quot; + err.message);
+        document.getElementById(&quot;progressArea&quot;).style.display = &quot;none&quot;;
+      }
+    }, 50);
+  };
+  reader.readAsText(file, &quot;UTF-8&quot;);
+}
+
+// PARSER CSV ROBUSTO — lida com campos gigantes com quebras de linha
+function parseCSVCompleto(texto) {
+  const resultado = [];
+  let i = 0;
+  const len = texto.length;
+
+  // Detectar separador
+  const primeiraLinha = texto.slice(0, 500);
+  const sep = primeiraLinha.includes(&quot;\t&quot;) ? &quot;\t&quot; : &quot;,&quot;;
+
+  // Ler cabeçalho
+  const cabecalho = lerLinha(texto, 0, sep);
+  const colunas = cabecalho.valores.map(c =&gt; c.trim().toLowerCase());
+  i = cabecalho.proximo;
+
+  // Mapear índices
+  const iId    = colunas.findIndex(c =&gt; c === &quot;id&quot;);
+  const iTitle = colunas.findIndex(c =&gt; c.includes(&quot;title&quot;) || c.includes(&quot;titulo&quot;) || c.includes(&quot;nome&quot;));
+  const iHtml  = colunas.findIndex(c =&gt; c === &quot;html&quot;);
+  const iCss   = colunas.findIndex(c =&gt; c === &quot;css&quot;);
+  const iJs    = colunas.findIndex(c =&gt; c === &quot;js&quot; || c === &quot;javascript&quot;);
+  const iMode  = colunas.findIndex(c =&gt; c === &quot;mode&quot; || c === &quot;tipo&quot; || c === &quot;type&quot;);
+
+  let count = 0;
+  while (i &lt; len) {
+    const linha = lerLinha(texto, i, sep);
+    if (!linha) break;
+    i = linha.proximo;
+
+    const v = linha.valores;
+    if (!v || v.length &lt; 2) continue;
+
+    const proj = {
+      id:    iId    &gt;= 0 ? v[iId]    || &quot;&quot; : String(count + 1),
+      title: iTitle &gt;= 0 ? v[iTitle] || &quot;&quot; : &quot;Projeto &quot; + (count + 1),
+      html:  iHtml  &gt;= 0 ? v[iHtml]  || &quot;&quot; : &quot;&quot;,
+      css:   iCss   &gt;= 0 ? v[iCss]   || &quot;&quot; : &quot;&quot;,
+      js:    iJs    &gt;= 0 ? v[iJs]    || &quot;&quot; : &quot;&quot;,
+      mode:  iMode  &gt;= 0 ? v[iMode]  || &quot;&quot; : &quot;&quot;,
+    };
+
+    if (!proj.title.trim()) proj.title = &quot;Projeto &quot; + (count + 1);
+
+    resultado.push(proj);
+    count++;
+  }
+
+  return resultado;
+}
+
+function lerLinha(texto, inicio, sep) {
+  const valores = [];
+  let i = inicio;
+  const len = texto.length;
+  let campo = &quot;&quot;;
+  let dentroAspas = false;
+
+  while (i &lt; len) {
+    const c = texto[i];
+
+    if (c === '&quot;') {
+      if (dentroAspas &amp;&amp; texto[i+1] === '&quot;') {
+        campo += '&quot;';
+        i += 2;
+        continue;
+      }
+      dentroAspas = !dentroAspas;
+      i++;
+      continue;
+    }
+
+    if (c === sep &amp;&amp; !dentroAspas) {
+      valores.push(campo);
+      campo = &quot;&quot;;
+      i++;
+      continue;
+    }
+
+    if ((c === &quot;\n&quot; || (c === &quot;\r&quot; &amp;&amp; texto[i+1] === &quot;\n&quot;)) &amp;&amp; !dentroAspas) {
+      valores.push(campo);
+      if (c === &quot;\r&quot;) i++;
+      i++;
+      return { valores, proximo: i };
+    }
+
+    campo += c;
+    i++;
+  }
+
+  if (campo || valores.length) {
+    valores.push(campo);
+    return { valores, proximo: i };
+  }
+
+  return null;
+}
+
+// FILTRAR
+function filtrar() {
+  const termo = document.getElementById(&quot;busca&quot;).value.toLowerCase().trim();
+  filtrados = termo
+    ? projetos.filter(p =&gt; p.title.toLowerCase().includes(termo) || p.mode.toLowerCase().includes(termo))
+    : [...projetos];
+  renderizarLista();
+}
+
+// RENDERIZAR LISTA
+function renderizarLista() {
+  const lista = document.getElementById(&quot;lista&quot;);
+  const contador = document.getElementById(&quot;contadorGeral&quot;);
+  lista.innerHTML = &quot;&quot;;
+
+  contador.textContent = filtrados.length + &quot; de &quot; + projetos.length + &quot; projeto(s)&quot;;
+
+  if (!filtrados.length) {
+    lista.innerHTML = '&lt;div class=&quot;vazio&quot;&gt;Nenhum projeto encontrado.&lt;/div&gt;';
+    return;
+  }
+
+  filtrados.forEach(p =&gt; {
+    const temHtml = p.html.trim().length &gt; 0;
+    const temCss  = p.css.trim().length &gt; 0;
+    const temJs   = p.js.trim().length &gt; 0;
+
+    const tamanho = ((p.html.length + p.css.length + p.js.length) / 1024).toFixed(1);
+
+    const card = document.createElement(&quot;div&quot;);
+    card.className = &quot;card&quot; + (projetoAtivo?.id === p.id ? &quot; ativo&quot; : &quot;&quot;);
+    card.innerHTML = `
+      &lt;div class=&quot;card-topo&quot;&gt;
+        &lt;div class=&quot;icone&quot;&gt;🌐&lt;/div&gt;
+        &lt;div class=&quot;card-info&quot;&gt;
+          &lt;div class=&quot;card-titulo&quot;&gt;${esc(p.title)}&lt;/div&gt;
+          &lt;div class=&quot;card-meta&quot;&gt;ID: ${esc(p.id)} · ${tamanho} KB ${p.mode ? &quot;· &quot; + esc(p.mode) : &quot;&quot;}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;tags&quot;&gt;
+        ${temHtml ? '&lt;span class=&quot;tag tag-html&quot;&gt;HTML&lt;/span&gt;' : '&lt;span class=&quot;tag tag-vazio&quot;&gt;sem HTML&lt;/span&gt;'}
+        ${temCss  ? '&lt;span class=&quot;tag tag-css&quot;&gt;CSS&lt;/span&gt;'   : &quot;&quot;}
+        ${temJs   ? '&lt;span class=&quot;tag tag-js&quot;&gt;JS&lt;/span&gt;'     : &quot;&quot;}
+      &lt;/div&gt;
+      &lt;div class=&quot;mini-acoes&quot;&gt;
+        &lt;button class=&quot;b-azul&quot;   onclick=&quot;abrirProjeto('${esc(p.id)}')&quot;&gt;👁 Ver&lt;/button&gt;
+        &lt;button class=&quot;b-verde&quot;  onclick=&quot;baixarProjeto('${esc(p.id)}')&quot;&gt;⬇ HTML&lt;/button&gt;
+        &lt;button class=&quot;b-roxo&quot;   onclick=&quot;copiarProjeto('${esc(p.id)}')&quot;&gt;📋 Copiar&lt;/button&gt;
+      &lt;/div&gt;
+    `;
+
+    card.addEventListener(&quot;click&quot;, function(ev) {
+      if (ev.target.tagName === &quot;BUTTON&quot;) return;
+      abrirProjeto(p.id);
+    });
+
+    lista.appendChild(card);
+  });
+}
+
+// ABRIR PROJETO
+function abrirProjeto(id) {
+  projetoAtivo = projetos.find(p =&gt; p.id === id) || filtrados.find(p =&gt; p.id === id);
+  if (!projetoAtivo) return;
+  abaAtiva = &quot;render&quot;;
+  renderizarLista();
+  renderizarPreview();
+  document.getElementById(&quot;painelPrincipal&quot;).scrollIntoView({ behavior: &quot;smooth&quot; });
+}
+
+// RENDERIZAR PREVIEW
+function renderizarPreview() {
+  const p = projetoAtivo;
+  if (!p) return;
+
+  document.getElementById(&quot;previewTitulo&quot;).textContent = &quot;👁 &quot; + p.title;
+
+  // Ações
+  document.getElementById(&quot;previewAcoes&quot;).innerHTML = `
+    &lt;button class=&quot;b-verde&quot;  onclick=&quot;baixarProjeto('${esc(p.id)}')&quot;&gt;⬇ Baixar HTML&lt;/button&gt;
+    &lt;button class=&quot;b-roxo&quot;   onclick=&quot;copiarProjeto('${esc(p.id)}')&quot;&gt;📋 Copiar&lt;/button&gt;
+    &lt;button class=&quot;b-laranja&quot; onclick=&quot;abrirNovaAba('${esc(p.id)}')&quot;&gt;🔗 Abrir em nova aba&lt;/button&gt;
+  `;
+
+  // Abas
+  const abas = [
+    { id: &quot;render&quot;, label: &quot;🌐 Render&quot; },
+    { id: &quot;html&quot;,   label: &quot;HTML&quot; },
+    { id: &quot;css&quot;,    label: &quot;CSS&quot; },
+    { id: &quot;js&quot;,     label: &quot;JS&quot; },
+    { id: &quot;tudo&quot;,   label: &quot;📄 Código completo&quot; },
+  ];
+
+  document.getElementById(&quot;abas&quot;).innerHTML = abas.map(a =&gt;
+    `&lt;div class=&quot;aba ${abaAtiva === a.id ? &quot;ativa&quot; : &quot;&quot;}&quot; onclick=&quot;mudarAba('${a.id}')&quot;&gt;${a.label}&lt;/div&gt;`
+  ).join(&quot;&quot;);
+
+  // Conteúdo
+  const box = document.getElementById(&quot;previewBox&quot;);
+
+  if (abaAtiva === &quot;render&quot;) {
+    const html = montarHTML(p);
+    box.innerHTML = `&lt;iframe id=&quot;iframePreview&quot; srcdoc=&quot;${escAttr(html)}&quot;&gt;&lt;/iframe&gt;`;
+  } else if (abaAtiva === &quot;html&quot;) {
+    box.innerHTML = `&lt;pre&gt;${esc(p.html || &quot;(vazio)&quot;)}&lt;/pre&gt;`;
+  } else if (abaAtiva === &quot;css&quot;) {
+    box.innerHTML = `&lt;pre&gt;${esc(p.css || &quot;(vazio)&quot;)}&lt;/pre&gt;`;
+  } else if (abaAtiva === &quot;js&quot;) {
+    box.innerHTML = `&lt;pre&gt;${esc(p.js || &quot;(vazio)&quot;)}&lt;/pre&gt;`;
+  } else if (abaAtiva === &quot;tudo&quot;) {
+    box.innerHTML = `&lt;pre&gt;${esc(montarHTML(p))}&lt;/pre&gt;`;
+  }
+}
+
+function mudarAba(aba) {
+  abaAtiva = aba;
+  renderizarPreview();
+}
+
+// MONTAR HTML COMPLETO
+function montarHTML(p) {
+  // Se o HTML já é um documento completo
+  const htmlTrim = (p.html || &quot;&quot;).trim();
+
+  if (htmlTrim.toLowerCase().includes(&quot;&lt;!doctype&quot;) || htmlTrim.toLowerCase().startsWith(&quot;&lt;html&quot;)) {
+    // Já é documento completo — injeta CSS e JS se existirem separados
+    let resultado = htmlTrim;
+
+    if (p.css &amp;&amp; p.css.trim()) {
+      resultado = resultado.replace(&quot;&lt;/head&gt;&quot;, `&lt;style&gt;\n${p.css}\n&lt;/style&gt;\n&lt;/head&gt;`);
+      if (!resultado.includes(&quot;&lt;/head&gt;&quot;)) {
+        resultado = `&lt;style&gt;\n${p.css}\n&lt;/style&gt;\n` + resultado;
+      }
+    }
+
+    if (p.js &amp;&amp; p.js.trim()) {
+      resultado = resultado.replace(&quot;&lt;/body&gt;&quot;, `&lt;script&gt;\n${p.js}\n&lt;\/script&gt;\n&lt;/body&gt;`);
+      if (!resultado.includes(&quot;&lt;/body&gt;&quot;)) {
+        resultado += `\n&lt;script&gt;\n${p.js}\n&lt;\/script&gt;`;
+      }
+    }
+
+    return resultado;
+  }
+
+  // Monta documento do zero
+  return `&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;${esc(p.title)}&lt;/title&gt;
+  &lt;style&gt;
+${p.css || &quot;&quot;}
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+${p.html || &quot;&quot;}
+&lt;script&gt;
+${p.js || &quot;&quot;}
+&lt;\/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;`;
+}
+
+// BAIXAR PROJETO
+function baixarProjeto(id) {
+  const p = projetos.find(x =&gt; x.id === id) || filtrados.find(x =&gt; x.id === id);
+  if (!p) return;
+
+  const html = montarHTML(p);
+  const nome = limparNome(p.title) + &quot;.html&quot;;
+  baixarBlob(html, nome, &quot;text/html;charset=utf-8&quot;);
+}
+
+// ABRIR EM NOVA ABA
+function abrirNovaAba(id) {
+  const p = projetos.find(x =&gt; x.id === id) || filtrados.find(x =&gt; x.id === id);
+  if (!p) return;
+
+  const html = montarHTML(p);
+  const blob = new Blob([html], { type: &quot;text/html;charset=utf-8&quot; });
+  const url = URL.createObjectURL(blob);
+  window.open(url, &quot;_blank&quot;);
+}
+
+// COPIAR
+function copiarProjeto(id) {
+  const p = projetos.find(x =&gt; x.id === id) || filtrados.find(x =&gt; x.id === id);
+  if (!p) return;
+
+  navigator.clipboard.writeText(montarHTML(p))
+    .then(() =&gt; alert(&quot;Código copiado! Cole no Bloco de Notas e salve como .html&quot;))
+    .catch(() =&gt; alert(&quot;Não foi possível copiar automaticamente.&quot;));
+}
+
+// BAIXAR TODOS
+function baixarTodos() {
+  if (!filtrados.length) return;
+
+  if (!confirm(&quot;Baixar &quot; + filtrados.length + &quot; projetos? Serão baixados um por um.&quot;)) return;
+
+  let i = 0;
+  function proximo() {
+    if (i &gt;= filtrados.length) {
+      alert(&quot;Todos os projetos foram baixados!&quot;);
+      return;
+    }
+    baixarProjeto(filtrados[i].id);
+    i++;
+    setTimeout(proximo, 600);
+  }
+  proximo();
+}
+
+// LIMPAR
+function limpar() {
+  if (!confirm(&quot;Limpar tudo?&quot;)) return;
+  projetos = [];
+  filtrados = [];
+  projetoAtivo = null;
+  document.getElementById(&quot;painelPrincipal&quot;).style.display = &quot;none&quot;;
+  document.getElementById(&quot;inp&quot;).value = &quot;&quot;;
+}
+
+// UTILITÁRIOS
+function limparNome(nome) {
+  return String(nome)
+    .normalize(&quot;NFD&quot;).replace(/[\u0300-\u036f]/g, &quot;&quot;)
+    .replace(/[^\w\s\-]/g, &quot;&quot;)
+    .replace(/\s+/g, &quot;-&quot;)
+    .replace(/-+/g, &quot;-&quot;)
+    .replace(/^-|-$/g, &quot;&quot;)
+    .toLowerCase()
+    .slice(0, 80) || &quot;projeto&quot;;
+}
+
+function baixarBlob(conteudo, nome, tipo) {
+  const blob = new Blob([conteudo], { type: tipo });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement(&quot;a&quot;);
+  a.href = url;
+  a.download = nome;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function esc(str) {
+  return String(str || &quot;&quot;)
+    .replace(/&amp;/g, &quot;&amp;amp;&quot;)
+    .replace(/&lt;/g, &quot;&amp;lt;&quot;)
+    .replace(/&gt;/g, &quot;&amp;gt;&quot;)
+    .replace(/&quot;/g, &quot;&amp;quot;&quot;);
+}
+
+function escAttr(str) {
+  return esc(str).replace(/\n/g, &quot;&amp;#10;&quot;).replace(/'/g, &quot;&amp;#039;&quot;);
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+
+<script>
+function trocarProjeto(index) {
+  // Esconde todos
+  document.querySelectorAll('.project-container').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  // Mostra o selecionado
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  // Salva preferência
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+// Restaura último projeto aberto
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+</script>
+</body>
+</html>

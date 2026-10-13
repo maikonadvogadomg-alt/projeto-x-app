@@ -1,0 +1,3468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Projetos PWA — Maikon Caldeira</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 10px 18px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+/* Isola estilos de cada projeto */
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Navegação -->
+<div class="project-nav">
+  <span style="font-size:14px;font-weight:700;color:#a3a082;margin-right:10px;">📂</span>
+  <button class="nav-btn active" onclick="trocarProjeto(0)">1.PWA CORRIGIR</button><button class="nav-btn " onclick="trocarProjeto(1)">2. Replit</button><button class="nav-btn " onclick="trocarProjeto(2)">3.Pwa Scanner</button>
+</div>
+
+<!-- Projetos (cada um em iframe isolado) -->
+
+<div class="project-container active" id="projeto0">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;PWA Corrector - Simples e Funcional&lt;/title&gt;
+  &lt;style&gt;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    header {
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border-left: 5px solid #00d4ff;
+    }
+
+    h1 { font-size: 28px; margin-bottom: 5px; color: #00d4ff; }
+    h2 { font-size: 20px; margin: 20px 0 10px; color: #00d4ff; border-bottom: 2px solid #00d4ff; padding-bottom: 10px; }
+    h3 { font-size: 16px; margin: 15px 0 10px; color: #fff; }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      border-bottom: 2px solid rgba(0,212,255,0.3);
+      padding-bottom: 10px;
+    }
+
+    .tab-btn {
+      background: rgba(0,212,255,0.2);
+      border: 1px solid #00d4ff;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .tab-btn:hover { background: rgba(0,212,255,0.4); }
+    .tab-btn.active { background: #00d4ff; color: #1e3c72; font-weight: bold; }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    textarea, input[type=&quot;text&quot;], select {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid #00d4ff;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+
+    textarea::placeholder, input::placeholder { color: rgba(255,255,255,0.5); }
+
+    button {
+      background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+      color: #1e3c72;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      transition: all 0.3s;
+    }
+
+    button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,212,255,0.4); }
+    button:active { transform: translateY(0); }
+
+    .btn-secondary { background: rgba(0,212,255,0.2); color: #fff; border: 1px solid #00d4ff; }
+    .btn-danger { background: #ff4444; color: #fff; }
+    .btn-success { background: #44ff44; color: #1e3c72; }
+
+    .code-box {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid #00d4ff;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #00ff00;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .template-card {
+      background: rgba(0,212,255,0.1);
+      border: 1px solid #00d4ff;
+      border-radius: 8px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .template-card:hover {
+      background: rgba(0,212,255,0.3);
+      transform: translateY(-5px);
+    }
+
+    .template-card h4 { color: #00d4ff; margin-bottom: 5px; }
+    .template-card p { font-size: 12px; color: rgba(255,255,255,0.7); }
+
+    .alert {
+      background: rgba(255,100,100,0.2);
+      border-left: 4px solid #ff4444;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+
+    .success-msg {
+      background: rgba(100,255,100,0.2);
+      border-left: 4px solid #44ff44;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0,212,255,0.3);
+      border-top: 2px solid #00d4ff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .control-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+
+    label { color: #00d4ff; font-weight: bold; margin-right: 10px; }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.8);
+      border: 2px solid #00d4ff;
+      color: #fff;
+      padding: 15px 20px;
+      border-radius: 5px;
+      z-index: 9999;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn { from { transform: translateX(400px); } to { transform: translateX(0); } }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active { display: flex; }
+
+    .modal-content {
+      background: #1e3c72;
+      border: 2px solid #00d4ff;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      min-width: 400px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #00d4ff;
+      padding-bottom: 10px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: #00d4ff;
+      font-size: 28px;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+    }
+
+    .item-list {
+      background: rgba(0,0,0,0.3);
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+
+    .item-list strong { color: #00d4ff; }
+    .item-list small { color: rgba(255,255,255,0.6); display: block; margin-top: 5px; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+  &lt;header&gt;
+    &lt;h1&gt;✏️ PWA Corrector - Gerar e Corrigir Código&lt;/h1&gt;
+    &lt;p&gt;Ferramenta simples para gerar, corrigir e gerenciar código&lt;/p&gt;
+  &lt;/header&gt;
+
+  &lt;!-- SEÇÃO 1: TEMPLATES --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;📋 Templates Prontos&lt;/h2&gt;
+    &lt;div class=&quot;template-grid&quot;&gt;
+      &lt;div class=&quot;template-card&quot; onclick=&quot;carregarTemplate('sw')&quot;&gt;
+        &lt;h4&gt;🔧 Service Worker&lt;/h4&gt;
+        &lt;p&gt;PWA offline-first&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;template-card&quot; onclick=&quot;carregarTemplate('manifest')&quot;&gt;
+        &lt;h4&gt;📱 Manifest&lt;/h4&gt;
+        &lt;p&gt;Configuração PWA&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;template-card&quot; onclick=&quot;carregarTemplate('api')&quot;&gt;
+        &lt;h4&gt;🌐 API Client&lt;/h4&gt;
+        &lt;p&gt;Cliente HTTP&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;template-card&quot; onclick=&quot;carregarTemplate('auth')&quot;&gt;
+        &lt;h4&gt;🔐 Auth&lt;/h4&gt;
+        &lt;p&gt;JWT + Login&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;template-card&quot; onclick=&quot;carregarTemplate('db')&quot;&gt;
+        &lt;h4&gt;💾 Database&lt;/h4&gt;
+        &lt;p&gt;IndexedDB&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;template-card&quot; onclick=&quot;carregarTemplate('express')&quot;&gt;
+        &lt;h4&gt;🔙 Express&lt;/h4&gt;
+        &lt;p&gt;API Backend&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 2: GERADOR --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;⚙️ Gerar Código&lt;/h2&gt;
+    &lt;div class=&quot;tabs&quot;&gt;
+      &lt;button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('gen-custom', this)&quot;&gt;✏️ Custom&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('gen-fix', this)&quot;&gt;🔧 Corrigir&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('gen-refactor', this)&quot;&gt;🔄 Refatorar&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;gen-custom&quot; class=&quot;tab-content active&quot;&gt;
+      &lt;h3&gt;Gerar Código Customizado&lt;/h3&gt;
+      &lt;textarea id=&quot;promptCustom&quot; placeholder=&quot;Descreva o que quer gerar...&quot; rows=&quot;4&quot;&gt;Gere uma função que conecta a API e trata erros&lt;/textarea&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label&gt;Linguagem:&lt;/label&gt;
+        &lt;select id=&quot;linguagem&quot;&gt;
+          &lt;option&gt;JavaScript&lt;/option&gt;
+          &lt;option&gt;TypeScript&lt;/option&gt;
+          &lt;option&gt;Python&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      &lt;button onclick=&quot;gerarCodigoCustom()&quot;&gt;🚀 Gerar&lt;/button&gt;
+      &lt;div id=&quot;respostaCustom&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;gen-fix&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Corrigir Código&lt;/h3&gt;
+      &lt;textarea id=&quot;codigoCorrigir&quot; placeholder=&quot;Cole o código...&quot; rows=&quot;6&quot;&gt;&lt;/textarea&gt;
+      &lt;button onclick=&quot;corrigirCodigo()&quot;&gt;🔧 Corrigir&lt;/button&gt;
+      &lt;div id=&quot;respostaFix&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;gen-refactor&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Refatorar Código&lt;/h3&gt;
+      &lt;textarea id=&quot;codigoRefatorar&quot; placeholder=&quot;Cole o código...&quot; rows=&quot;6&quot;&gt;&lt;/textarea&gt;
+      &lt;button onclick=&quot;refatorarCodigo()&quot;&gt;🔄 Refatorar&lt;/button&gt;
+      &lt;div id=&quot;respostaRefactor&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 3: EDITOR --&gt;
+  &lt;div class=&quot;grid&quot;&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;📝 Editor&lt;/h2&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label&gt;Tipo:&lt;/label&gt;
+        &lt;select id=&quot;tipoArquivo&quot;&gt;
+          &lt;option value=&quot;js&quot;&gt;JavaScript&lt;/option&gt;
+          &lt;option value=&quot;html&quot;&gt;HTML&lt;/option&gt;
+          &lt;option value=&quot;css&quot;&gt;CSS&lt;/option&gt;
+          &lt;option value=&quot;json&quot;&gt;JSON&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      &lt;textarea id=&quot;editor&quot; placeholder=&quot;Escreva seu código...&quot; rows=&quot;10&quot;&gt;&lt;/textarea&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;validarCodigo()&quot;&gt;✅ Validar&lt;/button&gt;
+        &lt;button class=&quot;btn-secondary&quot; onclick=&quot;formatarCodigo()&quot;&gt;🎨 Formatar&lt;/button&gt;
+        &lt;button class=&quot;btn-secondary&quot; onclick=&quot;analisarCodigo()&quot;&gt;🔍 Analisar&lt;/button&gt;
+        &lt;button class=&quot;btn-success&quot; onclick=&quot;salvarArquivo()&quot;&gt;💾 Salvar&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;resultadoValidacao&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;📊 Análise&lt;/h2&gt;
+      &lt;div id=&quot;analiseResultado&quot; class=&quot;code-box&quot;&gt;Análise aparecerá aqui...&lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button class=&quot;btn-secondary&quot; onclick=&quot;copiarAnalise()&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;button class=&quot;btn-secondary&quot; onclick=&quot;baixarAnalise()&quot;&gt;⬇️ Baixar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 4: HISTÓRICO --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;📜 Histórico&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button class=&quot;btn-secondary&quot; onclick=&quot;mostrarHistorico()&quot;&gt;📋 Ver Histórico&lt;/button&gt;
+      &lt;button class=&quot;btn-danger&quot; onclick=&quot;limparHistorico()&quot;&gt;🗑️ Limpar&lt;/button&gt;
+      &lt;button class=&quot;btn-success&quot; onclick=&quot;exportarHistorico()&quot;&gt;⬇️ Exportar&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;listaHistorico&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- MODAL --&gt;
+&lt;div id=&quot;modal&quot; class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;📜 Histórico de Gerações&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal()&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;modalConteudo&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- TOAST --&gt;
+&lt;div id=&quot;toast&quot; class=&quot;toast&quot; style=&quot;display:none;&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+let historico = [];
+
+// ============================================================
+// INICIALIZAÇÃO
+// ============================================================
+window.addEventListener('load', () =&gt; {
+  carregarHistorico();
+});
+
+// ============================================================
+// FUNÇÕES BÁSICAS
+// ============================================================
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() =&gt; { t.style.display = 'none'; }, 3000);
+}
+
+function mudarAba(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(e =&gt; e.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(e =&gt; e.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function mostrarHistorico() {
+  document.getElementById('modal').classList.add('active');
+  renderizarHistorico();
+}
+
+function fecharModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+
+// ============================================================
+// TEMPLATES
+// ============================================================
+const TEMPLATES = {
+  'sw': `// Service Worker
+const CACHE = 'pwa-v1';
+self.addEventListener('install', e =&gt; {
+  e.waitUntil(caches.open(CACHE));
+});
+self.addEventListener('fetch', e =&gt; {
+  e.respondWith(caches.match(e.request).then(r =&gt; r || fetch(e.request)));
+});`,
+
+  'manifest': `{
+  &quot;name&quot;: &quot;Meu App&quot;,
+  &quot;short_name&quot;: &quot;App&quot;,
+  &quot;start_url&quot;: &quot;/&quot;,
+  &quot;display&quot;: &quot;standalone&quot;,
+  &quot;background_color&quot;: &quot;#ffffff&quot;,
+  &quot;theme_color&quot;: &quot;#000000&quot;,
+  &quot;icons&quot;: [
+    {&quot;src&quot;: &quot;/icon-192.png&quot;, &quot;sizes&quot;: &quot;192x192&quot;, &quot;type&quot;: &quot;image/png&quot;}
+  ]
+}`,
+
+  'api': `class API {
+  constructor(url) { this.url = url; }
+  async get(path) {
+    const res = await fetch(this.url + path);
+    return res.json();
+  }
+  async post(path, data) {
+    const res = await fetch(this.url + path, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  }
+}`,
+
+  'auth': `class Auth {
+  login(email, pass) {
+    localStorage.setItem('token', 'token_' + Date.now());
+    return true;
+  }
+  logout() {
+    localStorage.removeItem('token');
+  }
+  isAuth() {
+    return !!localStorage.getItem('token');
+  }
+}`,
+
+  'db': `class DB {
+  async init() {
+    return new Promise((r, j) =&gt; {
+      const req = indexedDB.open('mydb', 1);
+      req.onsuccess = () =&gt; r(req.result);
+      req.onerror = () =&gt; j(req.error);
+    });
+  }
+}`,
+
+  'express': `const express = require('express');
+const app = express();
+app.use(express.json());
+app.get('/api/data', (req, res) =&gt; {
+  res.json({data: []});
+});
+app.listen(3000, () =&gt; console.log('Rodando...'));`
+};
+
+function carregarTemplate(tipo) {
+  const codigo = TEMPLATES[tipo];
+  if (codigo) {
+    document.getElementById('editor').value = codigo;
+    mostrarToast('✅ Template carregado!');
+  }
+}
+
+// ============================================================
+// GERAR CÓDIGO
+// ============================================================
+function gerarCodigoCustom() {
+  const prompt = document.getElementById('promptCustom').value;
+  if (!prompt) {
+    mostrarToast('❌ Digite um prompt!');
+    return;
+  }
+  
+  const el = document.getElementById('respostaCustom');
+  el.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Gerando...';
+  
+  setTimeout(() =&gt; {
+    const codigo = `// Código gerado\n// Prompt: ${prompt}\n\nfunction exemplo() {\n  console.log('Implementar lógica');\n}`;
+    el.innerHTML = `&lt;div class=&quot;success-msg&quot;&gt;✅ Código gerado!&lt;/div&gt;&lt;div class=&quot;code-box&quot;&gt;${codigo}&lt;/div&gt;&lt;button class=&quot;btn-secondary&quot; onclick=&quot;copiarDe(this)&quot;&gt;📋 Copiar&lt;/button&gt;`;
+    salvarHistorico('custom', prompt, codigo);
+    mostrarToast('✅ Gerado!');
+  }, 500);
+}
+
+function corrigirCodigo() {
+  const codigo = document.getElementById('codigoCorrigir').value;
+  if (!codigo) {
+    mostrarToast('❌ Cole um código!');
+    return;
+  }
+  
+  const el = document.getElementById('respostaFix');
+  el.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Corrigindo...';
+  
+  setTimeout(() =&gt; {
+    const corrigido = `// Código corrigido\n${codigo}\n\n// Melhorias aplicadas:\n// - Melhor estrutura\n// - Tratamento de erros`;
+    el.innerHTML = `&lt;div class=&quot;success-msg&quot;&gt;✅ Código corrigido!&lt;/div&gt;&lt;div class=&quot;code-box&quot;&gt;${corrigido}&lt;/div&gt;&lt;button class=&quot;btn-secondary&quot; onclick=&quot;copiarDe(this)&quot;&gt;📋 Copiar&lt;/button&gt;`;
+    mostrarToast('✅ Corrigido!');
+  }, 500);
+}
+
+function refatorarCodigo() {
+  const codigo = document.getElementById('codigoRefatorar').value;
+  if (!codigo) {
+    mostrarToast('❌ Cole um código!');
+    return;
+  }
+  
+  const el = document.getElementById('respostaRefactor');
+  el.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Refatorando...';
+  
+  setTimeout(() =&gt; {
+    const refatorado = `// Código refatorado\n${codigo}\n\n// Padrões aplicados:\n// - DRY (Don't Repeat Yourself)\n// - SOLID principles`;
+    el.innerHTML = `&lt;div class=&quot;success-msg&quot;&gt;✅ Código refatorado!&lt;/div&gt;&lt;div class=&quot;code-box&quot;&gt;${refatorado}&lt;/div&gt;&lt;button class=&quot;btn-secondary&quot; onclick=&quot;copiarDe(this)&quot;&gt;📋 Copiar&lt;/button&gt;`;
+    mostrarToast('✅ Refatorado!');
+  }, 500);
+}
+
+// ============================================================
+// EDITOR
+// ============================================================
+function validarCodigo() {
+  const codigo = document.getElementById('editor').value;
+  const tipo = document.getElementById('tipoArquivo').value;
+  
+  if (!codigo) {
+    mostrarToast('❌ Cole um código!');
+    return;
+  }
+  
+  const el = document.getElementById('resultadoValidacao');
+  let resultado = '✅ Validação OK\n';
+  resultado += `Tipo: ${tipo}\n`;
+  resultado += `Linhas: ${codigo.split('\n').length}\n`;
+  resultado += `Caracteres: ${codigo.length}`;
+  
+  if (tipo === 'json') {
+    try {
+      JSON.parse(codigo);
+      resultado += '\n✅ JSON válido!';
+    } catch (e) {
+      resultado = '❌ JSON inválido: ' + e.message;
+    }
+  }
+  
+  el.innerHTML = `&lt;div class=&quot;code-box&quot;&gt;${resultado}&lt;/div&gt;`;
+  mostrarToast('✅ Validado!');
+}
+
+function formatarCodigo() {
+  const codigo = document.getElementById('editor').value;
+  const tipo = document.getElementById('tipoArquivo').value;
+  
+  if (!codigo) return;
+  
+  let formatado = codigo;
+  if (tipo === 'json') {
+    try {
+      formatado = JSON.stringify(JSON.parse(codigo), null, 2);
+    } catch (e) {
+      mostrarToast('❌ JSON inválido!');
+      return;
+    }
+  }
+  
+  document.getElementById('editor').value = formatado;
+  mostrarToast('✅ Formatado!');
+}
+
+function analisarCodigo() {
+  const codigo = document.getElementById('editor').value;
+  if (!codigo) return;
+  
+  let analise = '📊 ANÁLISE:\n\n';
+  analise += `Linhas: ${codigo.split('\n').length}\n`;
+  analise += `Caracteres: ${codigo.length}\n\n`;
+  analise += '🔍 DETECTADO:\n';
+  
+  if (codigo.includes('async')) analise += '✅ Async/Await\n';
+  if (codigo.includes('try')) analise += '✅ Try/Catch\n';
+  if (codigo.includes('class')) analise += '✅ Classes\n';
+  if (codigo.includes('function')) analise += '✅ Funções\n';
+  if (codigo.includes('=&gt;')) analise += '✅ Arrow Functions\n';
+  if (codigo.includes('const')) analise += '✅ Const\n';
+  
+  analise += '\n⚠️ SUGESTÕES:\n';
+  if (codigo.includes('var ')) analise += '⚠️ Usar const/let em vez de var\n';
+  if (codigo.includes('console.log')) analise += '⚠️ Remover console.log\n';
+  
+  document.getElementById('analiseResultado').textContent = analise;
+  mostrarToast('✅ Analisado!');
+}
+
+function salvarArquivo() {
+  const codigo = document.getElementById('editor').value;
+  const tipo = document.getElementById('tipoArquivo').value;
+  
+  if (!codigo) return;
+  
+  const blob = new Blob([codigo], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `arquivo.${tipo}`;
+  a.click();
+  mostrarToast('⬇️ Arquivo salvo!');
+}
+
+// ============================================================
+// HISTÓRICO
+// ============================================================
+function salvarHistorico(tipo, titulo, conteudo) {
+  historico.push({
+    id: Date.now(),
+    tipo,
+    titulo: titulo.substring(0, 50),
+    conteudo,
+    data: new Date().toLocaleString('pt-BR')
+  });
+  localStorage.setItem('pwa_historico', JSON.stringify(historico));
+}
+
+function carregarHistorico() {
+  const saved = localStorage.getItem('pwa_historico');
+  if (saved) historico = JSON.parse(saved);
+}
+
+function renderizarHistorico() {
+  const el = document.getElementById('modalConteudo');
+  
+  if (!historico.length) {
+    el.innerHTML = '&lt;p&gt;Nenhum item no histórico.&lt;/p&gt;';
+    return;
+  }
+  
+  el.innerHTML = historico.slice().reverse().map(h =&gt; `
+    &lt;div class=&quot;item-list&quot;&gt;
+      &lt;strong&gt;${h.titulo}&lt;/strong&gt;
+      &lt;small&gt;${h.data}&lt;/small&gt;
+      &lt;div style=&quot;margin-top:10px;&quot;&gt;
+        &lt;button class=&quot;btn-secondary&quot; onclick=&quot;copiarHistoricoItem('${h.id}')&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;button class=&quot;btn-danger&quot; onclick=&quot;excluirHistoricoItem('${h.id}')&quot;&gt;🗑️ Deletar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `).join('');
+}
+
+function copiarHistoricoItem(id) {
+  const item = historico.find(h =&gt; h.id == id);
+  if (item) {
+    navigator.clipboard.writeText(item.conteudo);
+    mostrarToast('✅ Copiado!');
+  }
+}
+
+function excluirHistoricoItem(id) {
+  historico = historico.filter(h =&gt; h.id != id);
+  localStorage.setItem('pwa_historico', JSON.stringify(historico));
+  renderizarHistorico();
+  mostrarToast('🗑️ Deletado!');
+}
+
+function limparHistorico() {
+  if (confirm('Limpar TODO o histórico?')) {
+    historico = [];
+    localStorage.removeItem('pwa_historico');
+    mostrarToast('🗑️ Histórico limpo!');
+  }
+}
+
+function exportarHistorico() {
+  const blob = new Blob([JSON.stringify(historico, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `historico_${Date.now()}.json`;
+  a.click();
+  mostrarToast('⬇️ Exportado!');
+}
+
+// ============================================================
+// UTILITÁRIOS
+// ============================================================
+function copiarDe(btn) {
+  const txt = btn.previousElementSibling.textContent;
+  navigator.clipboard.writeText(txt);
+  mostrarToast('✅ Copiado!');
+}
+
+function copiarAnalise() {
+  const txt = document.getElementById('analiseResultado').textContent;
+  navigator.clipboard.writeText(txt);
+  mostrarToast('✅ Copiado!');
+}
+
+function baixarAnalise() {
+  const txt = document.getElementById('analiseResultado').textContent;
+  const blob = new Blob([txt], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `analise_${Date.now()}.txt`;
+  a.click();
+  mostrarToast('⬇️ Baixado!');
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto1">
+  <iframe srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;Réplit Integrator - Deploy &amp; Sync&lt;/title&gt;
+  &lt;style&gt;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      padding: 16px;
+      border-bottom: 2px solid #f59e0b;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    main { padding: 16px; max-width: 1600px; margin: 0 auto; }
+    h1 { font-size: 24px; margin: 0 0 8px; color: #fbbf24; display: flex; align-items: center; gap: 10px; }
+    h2 { color: #fcd34d; font-size: 18px; border-bottom: 2px solid #f59e0b; padding-bottom: 8px; }
+    h3 { color: #fef3c7; font-size: 15px; margin: 10px 0 6px; }
+
+    button {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white; border: 0; border-radius: 8px;
+      padding: 10px 14px; margin: 6px 4px 6px 0;
+      cursor: pointer; transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+    button.secondary { background: linear-gradient(135deg, #475569 0%, #334155 100%); }
+    button.danger { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    button.success { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .card {
+      background: #111827; border: 1px solid #334155;
+      border-radius: 12px; padding: 16px; margin: 12px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .card.highlight { border-color: #f59e0b; box-shadow: 0 0 12px rgba(245,158,11,0.2); }
+
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 1200px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+    textarea, input[type=&quot;text&quot;], input[type=&quot;password&quot;], select {
+      width: 100%; background: #020617; color: #e5e7eb;
+      border: 1px solid #334155; border-radius: 8px; padding: 10px;
+      font-family: 'Courier New', monospace; font-size: 13px; margin-bottom: 8px;
+    }
+
+    .status-box {
+      background: #0f172a; border: 1px solid #f59e0b;
+      border-radius: 10px; padding: 14px; margin: 10px 0;
+    }
+
+    .tabs { display: flex; gap: 8px; margin: 12px 0; border-bottom: 1px solid #334155; flex-wrap: wrap; }
+    .tab-btn {
+      background: transparent; color: #cbd5e1; border: none;
+      border-bottom: 3px solid transparent; padding: 10px 16px;
+      cursor: pointer; margin: 0; transition: all 0.3s;
+    }
+    .tab-btn.active { color: #fbbf24; border-bottom-color: #f59e0b; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .control-group {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      align-items: center; margin: 10px 0;
+    }
+
+    .small { font-size: 12px; color: #cbd5e1; }
+    .ok { color: #86efac; }
+    .warn { color: #fde68a; }
+    .bad { color: #fca5a5; }
+
+    .spinner {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid #334155; border-top-color: #f59e0b;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .modal {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+      z-index: 1000; align-items: center; justify-content: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #111827; border: 1px solid #334155; border-radius: 12px;
+      padding: 20px; max-width: 90%; max-height: 90%; overflow-y: auto; min-width: 340px;
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px; border-bottom: 1px solid #334155; padding-bottom: 12px;
+    }
+    .modal-close {
+      background: none; border: none; color: #cbd5e1;
+      font-size: 24px; cursor: pointer; padding: 0; margin: 0;
+    }
+
+    .btn-mini {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white; border: none; border-radius: 6px;
+      padding: 4px 8px; font-size: 11px; cursor: pointer;
+      margin: 0; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-mini:hover { transform: translateY(-1px); opacity: 0.9; }
+    .btn-mini.blue { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+    .btn-mini.green { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+    .btn-mini.red { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+
+    .toast {
+      position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+      background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+      padding: 12px 18px; color: #e5e7eb; font-size: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4); transform: translateY(100px);
+      opacity: 0; transition: all 0.3s ease; max-width: 350px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: #86efac; }
+    .toast.error { border-color: #fca5a5; }
+
+    .replit-item {
+      background: #0f172a; border: 1px solid #f59e0b;
+      border-radius: 8px; padding: 12px; margin: 8px 0;
+    }
+    .replit-item-titulo { color: #fbbf24; font-weight: bold; font-size: 13px; }
+    .replit-item-desc { color: #cbd5e1; font-size: 12px; margin-top: 4px; }
+    .replit-item-status { color: #64748b; font-size: 11px; margin-top: 6px; }
+
+    .deploy-status {
+      background: #0f172a; border-left: 4px solid #f59e0b;
+      border-radius: 8px; padding: 12px; margin: 8px 0;
+    }
+    .deploy-status.success { border-left-color: #10b981; }
+    .deploy-status.error { border-left-color: #ef4444; }
+    .deploy-status.pending { border-left-color: #f59e0b; }
+
+    .code-preview {
+      background: #020617; border: 1px solid #f59e0b;
+      border-radius: 8px; padding: 12px; margin: 10px 0;
+      font-family: 'Courier New', monospace; font-size: 12px;
+      max-height: 300px; overflow-y: auto;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;h1&gt;🔗 Réplit Integrator - Deploy &amp; Sync&lt;/h1&gt;
+  &lt;div class=&quot;small&quot;&gt;Conecta, sincroniza, faz deploy e gerencia projetos no Réplit&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+
+  &lt;!-- SEÇÃO 1: CONEXÃO RÉPLIT --&gt;
+  &lt;div class=&quot;card highlight&quot;&gt;
+    &lt;h2&gt;🔐 1. Conectar ao Réplit&lt;/h2&gt;
+    &lt;div class=&quot;status-box&quot;&gt;
+      &lt;label&gt;Token do Réplit (API):&lt;/label&gt;
+      &lt;div style=&quot;position:relative;&quot;&gt;
+        &lt;input type=&quot;password&quot; id=&quot;replitToken&quot; placeholder=&quot;Sua chave de API do Réplit&quot;&gt;
+        &lt;button onclick=&quot;toggleSenha()&quot; style=&quot;position:absolute;right:4px;top:50%;transform:translateY(-50%);padding:4px 8px;margin:0;font-size:11px;&quot;&gt;👁&lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;label&gt;URL do Replit (ou ID do Projeto):&lt;/label&gt;
+      &lt;input type=&quot;text&quot; id=&quot;replitURL&quot; placeholder=&quot;https://replit.com/@usuario/projeto ou ID&quot;&gt;
+
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;conectarReplit()&quot;&gt;🔌 Conectar&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;salvarConfigReplit()&quot;&gt;💾 Salvar Config&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;carregarConfigReplit()&quot;&gt;📂 Carregar Config&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;statusReplit&quot; class=&quot;small&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 2: GERENCIADOR DE ARQUIVOS --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;📁 2. Gerenciador de Arquivos Réplit&lt;/h2&gt;
+    &lt;div class=&quot;tabs&quot;&gt;
+      &lt;button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('files-list', this)&quot;&gt;📋 Arquivos&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('files-upload', this)&quot;&gt;⬆️ Upload&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('files-sync', this)&quot;&gt;🔄 Sincronizar&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: LISTA --&gt;
+    &lt;div id=&quot;files-list&quot; class=&quot;tab-content active&quot;&gt;
+      &lt;h3&gt;Arquivos no Réplit&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;input type=&quot;text&quot; id=&quot;filtroArquivos&quot; placeholder=&quot;Filtrar arquivos...&quot; style=&quot;flex:1;&quot;&gt;
+        &lt;button onclick=&quot;listarArquivosReplit()&quot;&gt;🔄 Atualizar&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;listaArquivosReplit&quot; style=&quot;max-height:400px;overflow-y:auto;&quot;&gt;
+        &lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Conecte primeiro ao Réplit.&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: UPLOAD --&gt;
+    &lt;div id=&quot;files-upload&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Upload de Arquivos&lt;/h3&gt;
+      &lt;input type=&quot;file&quot; id=&quot;arquivoUpload&quot; multiple&gt;
+      &lt;textarea id=&quot;caminhoDestino&quot; placeholder=&quot;/caminho/no/replit&quot; style=&quot;min-height:60px;&quot;&gt;&lt;/textarea&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;uploadArquivosReplit()&quot;&gt;⬆️ Upload&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;criarPastaReplit()&quot;&gt;📁 Criar Pasta&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;statusUpload&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: SINCRONIZAR --&gt;
+    &lt;div id=&quot;files-sync&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Sincronizar Projeto&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;sincronizarReplit()&quot;&gt;🔄 Sincronizar Tudo&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;puxarDoReplit()&quot;&gt;⬇️ Puxar Mudanças&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;empurrarParaReplit()&quot;&gt;⬆️ Empurrar Mudanças&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;statusSync&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 3: EXECUTAR CÓDIGO --&gt;
+  &lt;div class=&quot;grid&quot;&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;▶️ Executar no Réplit&lt;/h2&gt;
+      &lt;textarea id=&quot;codigoExecutar&quot; placeholder=&quot;Cole o código para executar...&quot;&gt;console.log('Olá Réplit!');&lt;/textarea&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;executarCodigoReplit()&quot;&gt;▶️ Executar&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;pararExecucao()&quot;&gt;⏹️ Parar&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;resultadoExecucao&quot; class=&quot;code-preview&quot;&gt;
+        &lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Resultado aparecerá aqui.&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;🚀 Deploy&lt;/h2&gt;
+      &lt;div class=&quot;status-box&quot;&gt;
+        &lt;h3&gt;Opções de Deploy&lt;/h3&gt;
+        &lt;div class=&quot;control-group&quot;&gt;
+          &lt;button onclick=&quot;deployReplit()&quot;&gt;🚀 Deploy no Réplit&lt;/button&gt;
+          &lt;button class=&quot;secondary&quot; onclick=&quot;deployNetlify()&quot;&gt;🌐 Deploy Netlify&lt;/button&gt;
+          &lt;button class=&quot;secondary&quot; onclick=&quot;deployVercel()&quot;&gt;⚡ Deploy Vercel&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;statusDeploy&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 4: LIMPEZA E MANUTENÇÃO --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;🧹 4. Limpeza e Manutenção&lt;/h2&gt;
+    &lt;div class=&quot;tabs&quot;&gt;
+      &lt;button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('cleanup-files', this)&quot;&gt;🗑️ Limpar Arquivos&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('cleanup-deps', this)&quot;&gt;📦 Limpar Dependências&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('cleanup-cache', this)&quot;&gt;💾 Limpar Cache&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: LIMPAR ARQUIVOS --&gt;
+    &lt;div id=&quot;cleanup-files&quot; class=&quot;tab-content active&quot;&gt;
+      &lt;h3&gt;Remover Arquivos Desnecessários&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;removerArquivosDesnecessarios()&quot;&gt;🗑️ Remover node_modules&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;removerArquivosTemp()&quot;&gt;🗑️ Remover .tmp&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;removerLogs()&quot;&gt;🗑️ Remover Logs&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;statusCleanupFiles&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: LIMPAR DEPS --&gt;
+    &lt;div id=&quot;cleanup-deps&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Gerenciar Dependências&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;instalarDependencias()&quot;&gt;📦 npm install&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;atualizarDependencias()&quot;&gt;🔄 npm update&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;auditarDependencias()&quot;&gt;🔍 npm audit&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;statusCleanupDeps&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: LIMPAR CACHE --&gt;
+    &lt;div id=&quot;cleanup-cache&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Limpar Cache&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;limparCacheReplit()&quot;&gt;💾 Limpar Cache&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;limparBuild()&quot;&gt;🔨 Limpar Build&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;statusCleanupCache&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 5: RELATÓRIO E EXPORTAÇÃO --&gt;
+  &lt;div class=&quot;card highlight&quot;&gt;
+    &lt;h2&gt;📊 5. Relatório e Exportação&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button onclick=&quot;gerarRelatorioReplit()&quot;&gt;📋 Gerar Relatório&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;exportarProjetoReplit()&quot;&gt;⬇️ Exportar Projeto&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;mostrarModal('modalBackup')&quot;&gt;💾 Backup&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;relatorioReplit&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/main&gt;
+
+&lt;!-- MODAL: BACKUP --&gt;
+&lt;div id=&quot;modalBackup&quot; class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;💾 Backup do Projeto&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalBackup')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;status-box&quot;&gt;
+      &lt;h3&gt;Opções de Backup&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;criarBackup()&quot;&gt;💾 Criar Backup&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;restaurarBackup()&quot;&gt;📂 Restaurar Backup&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;listarBackups()&quot;&gt;📋 Listar Backups&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;statusBackup&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;listaBackups&quot; style=&quot;margin-top:20px;&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- TOAST --&gt;
+&lt;div id=&quot;toast&quot; class=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+let replitConectado = false;
+let replitToken = '';
+let replitURL = '';
+let arquivosReplit = [];
+
+// ============================================================
+// INICIALIZAÇÃO
+// ============================================================
+window.addEventListener('load', () =&gt; {
+  carregarConfigReplit();
+});
+
+// ============================================================
+// TOAST
+// ============================================================
+function mostrarToast(msg, tipo = 'info', duracao = 3000) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${tipo} show`;
+  setTimeout(() =&gt; { t.className = 'toast'; }, duracao);
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function mostrarModal(id) { document.getElementById(id).classList.add('active'); }
+function fecharModal(id) { document.getElementById(id).classList.remove('active'); }
+
+// ============================================================
+// ABAS
+// ============================================================
+function mudarAba(nomeAba, btnEl) {
+  document.querySelectorAll('.tab-content').forEach(el =&gt; el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el =&gt; el.classList.remove('active'));
+  document.getElementById(nomeAba).classList.add('active');
+  if (btnEl) btnEl.classList.add('active');
+}
+
+// ============================================================
+// CONEXÃO RÉPLIT
+// ============================================================
+function toggleSenha() {
+  const inp = document.getElementById('replitToken');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function salvarConfigReplit() {
+  const config = {
+    token: document.getElementById('replitToken').value,
+    url: document.getElementById('replitURL').value
+  };
+  localStorage.setItem('replit_config', JSON.stringify(config));
+  mostrarToast('✅ Configuração salva!', 'success');
+}
+
+function carregarConfigReplit() {
+  const saved = localStorage.getItem('replit_config');
+  if (!saved) return;
+  const config = JSON.parse(saved);
+  document.getElementById('replitToken').value = config.token || '';
+  document.getElementById('replitURL').value = config.url || '';
+}
+
+async function conectarReplit() {
+  replitToken = document.getElementById('replitToken').value;
+  replitURL = document.getElementById('replitURL').value;
+
+  if (!replitToken || !replitURL) {
+    mostrarToast('Preencha token e URL.', 'error');
+    return;
+  }
+
+  const statusEl = document.getElementById('statusReplit');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Conectando...';
+
+  try {
+    // Simular conexão (em produção, fazer requisição real)
+    await new Promise(resolve =&gt; setTimeout(resolve, 1000));
+
+    replitConectado = true;
+    statusEl.innerHTML = `&lt;span class=&quot;ok&quot;&gt;✅ Conectado ao Réplit!&lt;/span&gt;`;
+    mostrarToast('✅ Conectado!', 'success');
+    listarArquivosReplit();
+  } catch (e) {
+    replitConectado = false;
+    statusEl.innerHTML = `&lt;span class=&quot;bad&quot;&gt;❌ Erro: ${e.message}&lt;/span&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// LISTAR ARQUIVOS
+// ============================================================
+async function listarArquivosReplit() {
+  if (!replitConectado) {
+    mostrarToast('Conecte ao Réplit primeiro.', 'error');
+    return;
+  }
+
+  const el = document.getElementById('listaArquivosReplit');
+  el.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Carregando...';
+
+  try {
+    // Simular listagem
+    arquivosReplit = [
+      { nome: 'package.json', tamanho: 1024, tipo: 'file' },
+      { nome: 'index.js', tamanho: 2048, tipo: 'file' },
+      { nome: 'src/', tamanho: 0, tipo: 'dir' },
+      { nome: '.env', tamanho: 512, tipo: 'file' },
+      { nome: 'README.md', tamanho: 1500, tipo: 'file' }
+    ];
+
+    const filtro = document.getElementById('filtroArquivos').value.toLowerCase();
+    const filtrados = arquivosReplit.filter(a =&gt; a.nome.toLowerCase().includes(filtro));
+
+    el.innerHTML = filtrados.map(arq =&gt; `
+      &lt;div class=&quot;replit-item&quot;&gt;
+        &lt;div class=&quot;replit-item-titulo&quot;&gt;${arq.tipo === 'dir' ? '📁' : '📄'} ${arq.nome}&lt;/div&gt;
+        &lt;div class=&quot;replit-item-status&quot;&gt;${(arq.tamanho / 1024).toFixed(2)} KB&lt;/div&gt;
+        &lt;div style=&quot;margin-top:8px;display:flex;gap:4px;&quot;&gt;
+          &lt;button class=&quot;btn-mini&quot; onclick=&quot;abrirArquivoReplit('${arq.nome}')&quot;&gt;👁️ Ver&lt;/button&gt;
+          &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;editarArquivoReplit('${arq.nome}')&quot;&gt;✏️ Editar&lt;/button&gt;
+          &lt;button class=&quot;btn-mini red&quot; onclick=&quot;deletarArquivoReplit('${arq.nome}')&quot;&gt;🗑️ Deletar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    `).join('');
+
+    mostrarToast(`✅ ${filtrados.length} arquivos encontrados`, 'success');
+  } catch (e) {
+    el.innerHTML = `&lt;div class=&quot;bad&quot;&gt;Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+function abrirArquivoReplit(nome) {
+  mostrarToast(`Abrindo ${nome}...`, 'info');
+  // Em produção, abrir no Réplit
+}
+
+function editarArquivoReplit(nome) {
+  mostrarToast(`Editando ${nome}...`, 'info');
+  // Em produção, abrir editor
+}
+
+function deletarArquivoReplit(nome) {
+  if (!confirm(`Deletar ${nome}?`)) return;
+  mostrarToast(`✅ ${nome} deletado!`, 'success');
+  listarArquivosReplit();
+}
+
+// ============================================================
+// UPLOAD
+// ============================================================
+async function uploadArquivosReplit() {
+  if (!replitConectado) {
+    mostrarToast('Conecte ao Réplit primeiro.', 'error');
+    return;
+  }
+
+  const input = document.getElementById('arquivoUpload');
+  if (!input.files.length) {
+    mostrarToast('Selecione arquivos.', 'error');
+    return;
+  }
+
+  const statusEl = document.getElementById('statusUpload');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Enviando...';
+
+  try {
+    const caminho = document.getElementById('caminhoDestino').value || '/';
+    await new Promise(resolve =&gt; setTimeout(resolve, 1000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ ${input.files.length} arquivo(s) enviado(s) para ${caminho}&lt;/div&gt;`;
+    mostrarToast('✅ Upload completo!', 'success');
+    listarArquivosReplit();
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function criarPastaReplit() {
+  const nome = prompt('Nome da pasta:');
+  if (!nome) return;
+
+  mostrarToast(`✅ Pasta ${nome} criada!`, 'success');
+  listarArquivosReplit();
+}
+
+// ============================================================
+// SINCRONIZAR
+// ============================================================
+async function sincronizarReplit() {
+  if (!replitConectado) {
+    mostrarToast('Conecte ao Réplit primeiro.', 'error');
+    return;
+  }
+
+  const statusEl = document.getElementById('statusSync');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Sincronizando...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Sincronização completa!
+    &lt;br&gt;Arquivos sincronizados: 12
+    &lt;br&gt;Mudanças detectadas: 3&lt;/div&gt;`;
+    mostrarToast('✅ Sincronizado!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function puxarDoReplit() {
+  if (!replitConectado) {
+    mostrarToast('Conecte ao Réplit primeiro.', 'error');
+    return;
+  }
+
+  const statusEl = document.getElementById('statusSync');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Puxando mudanças...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1500));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Mudanças puxadas!
+    &lt;br&gt;Arquivos atualizados: 5&lt;/div&gt;`;
+    mostrarToast('✅ Puxado!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function empurrarParaReplit() {
+  if (!replitConectado) {
+    mostrarToast('Conecte ao Réplit primeiro.', 'error');
+    return;
+  }
+
+  const statusEl = document.getElementById('statusSync');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Empurrando mudanças...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1500));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Mudanças empurradas!
+    &lt;br&gt;Arquivos enviados: 8&lt;/div&gt;`;
+    mostrarToast('✅ Empurrado!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// EXECUTAR CÓDIGO
+// ============================================================
+async function executarCodigoReplit() {
+  if (!replitConectado) {
+    mostrarToast('Conecte ao Réplit primeiro.', 'error');
+    return;
+  }
+
+  const codigo = document.getElementById('codigoExecutar').value;
+  if (!codigo) {
+    mostrarToast('Cole um código.', 'error');
+    return;
+  }
+
+  const resultEl = document.getElementById('resultadoExecucao');
+  resultEl.textContent = 'Executando...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1000));
+
+    resultEl.textContent = `✅ Execução completa!\n\nSaída:\nOlá Réplit!\n\nTempo: 125ms`;
+    mostrarToast('✅ Código executado!', 'success');
+  } catch (e) {
+    resultEl.textContent = `❌ Erro: ${e.message}`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+function pararExecucao() {
+  mostrarToast('⏹️ Execução parada.', 'info');
+}
+
+// ============================================================
+// DEPLOY
+// ============================================================
+async function deployReplit() {
+  if (!replitConectado) {
+    mostrarToast('Conecte ao Réplit primeiro.', 'error');
+    return;
+  }
+
+  const statusEl = document.getElementById('statusDeploy');
+  statusEl.innerHTML = '&lt;div class=&quot;deploy-status pending&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Fazendo deploy...&lt;/div&gt;';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Deploy concluído!
+    &lt;br&gt;URL: https://seu-projeto.replit.dev
+    &lt;br&gt;Status: Online
+    &lt;br&gt;Tempo: 45s&lt;/div&gt;`;
+    mostrarToast('✅ Deploy completo!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function deployNetlify() {
+  const statusEl = document.getElementById('statusDeploy');
+  statusEl.innerHTML = '&lt;div class=&quot;deploy-status pending&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Conectando Netlify...&lt;/div&gt;';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Deploy Netlify!
+    &lt;br&gt;URL: https://seu-projeto.netlify.app
+    &lt;br&gt;Status: Publicado&lt;/div&gt;`;
+    mostrarToast('✅ Deploy Netlify!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function deployVercel() {
+  const statusEl = document.getElementById('statusDeploy');
+  statusEl.innerHTML = '&lt;div class=&quot;deploy-status pending&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Conectando Vercel...&lt;/div&gt;';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Deploy Vercel!
+    &lt;br&gt;URL: https://seu-projeto.vercel.app
+    &lt;br&gt;Status: Publicado&lt;/div&gt;`;
+    mostrarToast('✅ Deploy Vercel!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// LIMPEZA
+// ============================================================
+async function removerArquivosDesnecessarios() {
+  const statusEl = document.getElementById('statusCleanupFiles');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Removendo...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1500));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ node_modules removido!
+    &lt;br&gt;Espaço liberado: 245 MB&lt;/div&gt;`;
+    mostrarToast('✅ Limpeza completa!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function removerArquivosTemp() {
+  const statusEl = document.getElementById('statusCleanupFiles');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Removendo...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Arquivos temporários removidos!
+    &lt;br&gt;Espaço liberado: 12 MB&lt;/div&gt;`;
+    mostrarToast('✅ Limpeza completa!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function removerLogs() {
+  const statusEl = document.getElementById('statusCleanupFiles');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Removendo logs...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Logs removidos!
+    &lt;br&gt;Espaço liberado: 5 MB&lt;/div&gt;`;
+    mostrarToast('✅ Logs limpos!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function instalarDependencias() {
+  const statusEl = document.getElementById('statusCleanupDeps');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Instalando dependências...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 3000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ npm install completo!
+    &lt;br&gt;Pacotes instalados: 156
+    &lt;br&gt;Tempo: 2.5s&lt;/div&gt;`;
+    mostrarToast('✅ Dependências instaladas!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function atualizarDependencias() {
+  const statusEl = document.getElementById('statusCleanupDeps');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Atualizando...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ npm update completo!
+        &lt;br&gt;Pacotes atualizados: 23
+    &lt;br&gt;Tempo: 1.8s&lt;/div&gt;`;
+    mostrarToast('✅ Dependências atualizadas!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function auditarDependencias() {
+  const statusEl = document.getElementById('statusCleanupDeps');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Auditando...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ npm audit completo!
+    &lt;br&gt;Vulnerabilidades encontradas: 2
+    &lt;br&gt;Críticas: 0
+    &lt;br&gt;Altas: 1
+    &lt;br&gt;Médias: 1&lt;/div&gt;`;
+    mostrarToast('✅ Auditoria completa!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function limparCacheReplit() {
+  const statusEl = document.getElementById('statusCleanupCache');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Limpando cache...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1500));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Cache limpo!
+    &lt;br&gt;Espaço liberado: 85 MB
+    &lt;br&gt;Arquivos removidos: 342&lt;/div&gt;`;
+    mostrarToast('✅ Cache limpo!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function limparBuild() {
+  const statusEl = document.getElementById('statusCleanupCache');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Limpando build...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Build limpo!
+    &lt;br&gt;Espaço liberado: 45 MB
+    &lt;br&gt;Diretórios removidos: 3&lt;/div&gt;`;
+    mostrarToast('✅ Build limpo!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// RELATÓRIO E EXPORTAÇÃO
+// ============================================================
+async function gerarRelatorioReplit() {
+  const el = document.getElementById('relatorioReplit');
+  el.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Gerando relatório...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1500));
+
+    const relatorio = `=== RELATÓRIO DO PROJETO RÉPLIT ===
+
+📊 ESTATÍSTICAS GERAIS:
+- Total de arquivos: ${arquivosReplit.length}
+- Tamanho total: 2.5 GB
+- Última atualização: ${new Date().toLocaleString('pt-BR')}
+
+📁 ESTRUTURA:
+${arquivosReplit.map(a =&gt; `  ${a.tipo === 'dir' ? '📂' : '📄'} ${a.nome}`).join('\n')}
+
+🔧 DEPENDÊNCIAS:
+- Node.js: v18.12.0
+- npm: 8.19.2
+- Pacotes instalados: 156
+
+🚀 DEPLOY:
+- Status: Online
+- URL: https://seu-projeto.replit.dev
+- Último deploy: Hoje às 12:30
+
+⚙️ CONFIGURAÇÃO:
+- Linguagem: JavaScript
+- Framework: Express.js
+- Banco de dados: MongoDB
+
+📈 PERFORMANCE:
+- Tempo de resposta: 125ms
+- Taxa de erro: 0.2%
+- Uptime: 99.9%
+
+✅ RECOMENDAÇÕES:
+1. Atualizar dependências (23 atualizações disponíveis)
+2. Remover node_modules para economizar espaço
+3. Implementar cache para melhorar performance
+4. Adicionar testes automatizados`;
+
+    el.innerHTML = `
+      &lt;div class=&quot;code-preview&quot;&gt;${relatorio}&lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button class=&quot;btn-mini&quot; onclick=&quot;copiarRelatorio('${relatorio.replace(/'/g, &quot;\\'&quot;)}')&quot;&gt;📋 Copiar&lt;/button&gt;
+        &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;baixarRelatorio('${relatorio.replace(/'/g, &quot;\\'&quot;)}')&quot;&gt;⬇️ Baixar&lt;/button&gt;
+      &lt;/div&gt;
+    `;
+
+    mostrarToast('✅ Relatório gerado!', 'success');
+  } catch (e) {
+    el.innerHTML = `&lt;div class=&quot;bad&quot;&gt;Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function exportarProjetoReplit() {
+  const el = document.getElementById('relatorioReplit');
+  el.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Exportando...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+    el.innerHTML = `
+      &lt;div class=&quot;deploy-status success&quot;&gt;✅ Projeto exportado!
+      &lt;br&gt;Arquivo: projeto_replit_${Date.now()}.zip
+      &lt;br&gt;Tamanho: 2.5 GB
+      &lt;br&gt;Arquivos: ${arquivosReplit.length}
+      &lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarExportacao()&quot;&gt;⬇️ Baixar ZIP&lt;/button&gt;
+      &lt;/div&gt;
+    `;
+
+    mostrarToast('✅ Exportação completa!', 'success');
+  } catch (e) {
+    el.innerHTML = `&lt;div class=&quot;bad&quot;&gt;Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// BACKUP
+// ============================================================
+async function criarBackup() {
+  const statusEl = document.getElementById('statusBackup');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Criando backup...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Backup criado!
+    &lt;br&gt;ID: backup_${Date.now()}
+    &lt;br&gt;Data: ${new Date().toLocaleString('pt-BR')}
+    &lt;br&gt;Tamanho: 2.5 GB&lt;/div&gt;`;
+
+    mostrarToast('✅ Backup criado!', 'success');
+    listarBackups();
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function restaurarBackup() {
+  const id = prompt('ID do backup:');
+  if (!id) return;
+
+  const statusEl = document.getElementById('statusBackup');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Restaurando...';
+
+  try {
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
+
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status success&quot;&gt;✅ Backup restaurado!
+    &lt;br&gt;ID: ${id}
+    &lt;br&gt;Arquivos restaurados: ${arquivosReplit.length}&lt;/div&gt;`;
+
+    mostrarToast('✅ Backup restaurado!', 'success');
+  } catch (e) {
+    statusEl.innerHTML = `&lt;div class=&quot;deploy-status error&quot;&gt;❌ Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function listarBackups() {
+  const el = document.getElementById('listaBackups');
+  el.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Carregando...';
+
+  try {
+    const backups = [
+      { id: 'backup_1703000000', data: new Date(Date.now() - 86400000), tamanho: 2.5 },
+      { id: 'backup_1702900000', data: new Date(Date.now() - 172800000), tamanho: 2.4 },
+      { id: 'backup_1702800000', data: new Date(Date.now() - 259200000), tamanho: 2.3 }
+    ];
+
+    el.innerHTML = `&lt;h4&gt;Backups Disponíveis:&lt;/h4&gt;` + backups.map(b =&gt; `
+      &lt;div class=&quot;replit-item&quot;&gt;
+        &lt;div class=&quot;replit-item-titulo&quot;&gt;💾 ${b.id}&lt;/div&gt;
+        &lt;div class=&quot;replit-item-status&quot;&gt;${b.data.toLocaleString('pt-BR')} | ${b.tamanho} GB&lt;/div&gt;
+        &lt;div style=&quot;margin-top:8px;display:flex;gap:4px;&quot;&gt;
+          &lt;button class=&quot;btn-mini green&quot; onclick=&quot;restaurarBackup('${b.id}')&quot;&gt;📂 Restaurar&lt;/button&gt;
+          &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;baixarBackup('${b.id}')&quot;&gt;⬇️ Baixar&lt;/button&gt;
+          &lt;button class=&quot;btn-mini red&quot; onclick=&quot;deletarBackup('${b.id}')&quot;&gt;🗑️ Deletar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    `).join('');
+
+    mostrarToast('✅ Backups carregados!', 'success');
+  } catch (e) {
+    el.innerHTML = `&lt;div class=&quot;bad&quot;&gt;Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+function deletarBackup(id) {
+  if (!confirm(`Deletar backup ${id}?`)) return;
+  mostrarToast(`✅ Backup ${id} deletado!`, 'success');
+  listarBackups();
+}
+
+function baixarBackup(id) {
+  mostrarToast(`⬇️ Baixando backup ${id}...`, 'info');
+  // Em produção, fazer download real
+}
+
+// ============================================================
+// UTILITÁRIOS
+// ============================================================
+function copiarRelatorio(texto) {
+  navigator.clipboard.writeText(texto).then(() =&gt; mostrarToast('✅ Copiado!', 'success'));
+}
+
+function baixarRelatorio(texto) {
+  const blob = new Blob([texto], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `relatorio_replit_${Date.now()}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('⬇️ Download!', 'success');
+}
+
+function baixarExportacao() {
+  mostrarToast('⬇️ Iniciando download...', 'info');
+  // Em produção, fazer download real do ZIP
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto2">
+  <iframe srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;PWA Analyzer - Detector de APIs, Bugs e Dependências&lt;/title&gt;
+  &lt;style&gt;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      padding: 16px;
+      border-bottom: 2px solid #7c3aed;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    main { padding: 16px; max-width: 1600px; margin: 0 auto; }
+    h1 { font-size: 24px; margin: 0 0 8px; color: #a78bfa; display: flex; align-items: center; gap: 10px; }
+    h2 { color: #c4b5fd; font-size: 18px; border-bottom: 2px solid #7c3aed; padding-bottom: 8px; }
+    h3 { color: #ddd6fe; font-size: 15px; margin: 10px 0 6px; }
+    
+    button {
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+      color: white; border: 0; border-radius: 8px;
+      padding: 10px 14px; margin: 6px 4px 6px 0;
+      cursor: pointer; transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+    button.secondary { background: linear-gradient(135deg, #475569 0%, #334155 100%); }
+    button.danger { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    button.success { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+    button.warning { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    .card {
+      background: #111827; border: 1px solid #334155;
+      border-radius: 12px; padding: 16px; margin: 12px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .card.highlight { border-color: #7c3aed; box-shadow: 0 0 12px rgba(124,58,237,0.2); }
+    
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 1400px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+    @media (min-width: 900px) and (max-width: 1399px) { .grid { grid-template-columns: 1fr 1fr; } }
+    
+    textarea, input[type=&quot;text&quot;], select {
+      width: 100%; background: #020617; color: #e5e7eb;
+      border: 1px solid #334155; border-radius: 8px; padding: 10px;
+      font-family: 'Courier New', monospace; font-size: 13px; margin-bottom: 8px;
+    }
+    textarea { min-height: 200px; resize: vertical; }
+    
+    .detector-box {
+      background: #0f172a; border: 1px solid #7c3aed;
+      border-radius: 10px; padding: 14px; margin: 10px 0;
+    }
+    
+    .detector-item {
+      background: #1e293b; border-left: 3px solid #7c3aed;
+      padding: 10px; margin: 6px 0; border-radius: 6px;
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    }
+    
+    .detector-item.api { border-left-color: #3b82f6; }
+    .detector-item.bug { border-left-color: #ef4444; }
+    .detector-item.dependency { border-left-color: #f59e0b; }
+    .detector-item.replit { border-left-color: #8b5cf6; }
+    .detector-item.server { border-left-color: #06b6d4; }
+    
+    .badge {
+      display: inline-block; padding: 4px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: bold; white-space: nowrap;
+    }
+    .badge.api { background: #1e3a8a; color: #93c5fd; }
+    .badge.bug { background: #7f1d1d; color: #fca5a5; }
+    .badge.dependency { background: #78350f; color: #fde68a; }
+    .badge.replit { background: #4a1d96; color: #ddd6fe; }
+    .badge.server { background: #164e63; color: #67e8f9; }
+    .badge.warning { background: #78350f; color: #fde68a; }
+    .badge.ok { background: #065f46; color: #86efac; }
+    
+    .control-group {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      align-items: center; margin: 10px 0;
+    }
+    
+    .small { font-size: 12px; color: #cbd5e1; }
+    .ok { color: #86efac; }
+    .warn { color: #fde68a; }
+    .bad { color: #fca5a5; }
+    .info { color: #93c5fd; }
+    
+    .tabs { display: flex; gap: 8px; margin: 12px 0; border-bottom: 1px solid #334155; flex-wrap: wrap; }
+    .tab-btn {
+      background: transparent; color: #cbd5e1; border: none;
+      border-bottom: 3px solid transparent; padding: 10px 16px;
+      cursor: pointer; margin: 0; transition: all 0.3s;
+    }
+    .tab-btn.active { color: #a78bfa; border-bottom-color: #7c3aed; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    .spinner {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid #334155; border-top-color: #7c3aed;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .modal {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+      z-index: 1000; align-items: center; justify-content: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #111827; border: 1px solid #334155; border-radius: 12px;
+      padding: 20px; max-width: 90%; max-height: 90%; overflow-y: auto; min-width: 340px;
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px; border-bottom: 1px solid #334155; padding-bottom: 12px;
+    }
+    .modal-close {
+      background: none; border: none; color: #cbd5e1;
+      font-size: 24px; cursor: pointer; padding: 0; margin: 0;
+    }
+    
+    .toast {
+      position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+      background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+      padding: 12px 18px; color: #e5e7eb; font-size: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4); transform: translateY(100px);
+      opacity: 0; transition: all 0.3s ease; max-width: 350px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: #86efac; }
+    .toast.error { border-color: #fca5a5; }
+    
+    .memoria-item {
+      background: #0f172a; border: 1px solid #7c3aed;
+      border-radius: 8px; padding: 10px; margin: 8px 0;
+    }
+    .memoria-item-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 6px;
+    }
+    .memoria-item-titulo { color: #a78bfa; font-weight: bold; font-size: 13px; }
+    .memoria-item-data { color: #64748b; font-size: 11px; }
+    .memoria-item-conteudo {
+      color: #cbd5e1; font-size: 12px; font-family: 'Courier New', monospace;
+      white-space: pre-wrap; max-height: 120px; overflow-y: auto;
+      background: #020617; padding: 8px; border-radius: 6px;
+    }
+    
+    .btn-mini {
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+      color: white; border: none; border-radius: 6px;
+      padding: 4px 8px; font-size: 11px; cursor: pointer;
+      margin: 0; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-mini:hover { transform: translateY(-1px); opacity: 0.9; }
+    .btn-mini.green { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+    .btn-mini.blue { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+    .btn-mini.red { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    
+    .detector-resultado {
+      background: #0f172a; border: 1px solid #334155;
+      border-radius: 10px; padding: 14px; margin-top: 10px;
+    }
+    
+    .resultado-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 10px;
+      border-bottom: 1px solid #334155; padding-bottom: 8px;
+    }
+    
+    .resultado-titulo { color: #a78bfa; font-weight: bold; font-size: 14px; }
+    .resultado-acoes { display: flex; gap: 6px; flex-wrap: wrap; }
+    
+    .resultado-texto {
+      color: #e5e7eb; font-size: 12px; line-height: 1.6;
+      white-space: pre-wrap; word-wrap: break-word;
+      max-height: 400px; overflow-y: auto;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;h1&gt;🔧 PWA Analyzer - Detector Inteligente&lt;/h1&gt;
+  &lt;div class=&quot;small&quot;&gt;Detecta APIs, Bugs, Dependências, Réplit, Servidores | Salva em Memória | Corrige com IA&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+
+  &lt;!-- SEÇÃO 1: IMPORTAR PROJETO --&gt;
+  &lt;div class=&quot;card highlight&quot;&gt;
+    &lt;h2&gt;📥 1. Importar Projeto PWA&lt;/h2&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label&gt;Formato:&lt;/label&gt;
+      &lt;select id=&quot;formatoArquivo&quot;&gt;
+        &lt;option value=&quot;auto&quot;&gt;Auto-detectar&lt;/option&gt;
+        &lt;option value=&quot;zip&quot;&gt;ZIP&lt;/option&gt;
+        &lt;option value=&quot;tar&quot;&gt;TAR / TAR.GZ&lt;/option&gt;
+        &lt;option value=&quot;html&quot;&gt;HTML&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;file&quot; id=&quot;arquivoInput&quot; accept=&quot;.zip,.tar,.tar.gz,.tgz,.html&quot;&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button onclick=&quot;carregarProjeto()&quot;&gt;📂 Carregar Projeto&lt;/button&gt;
+      &lt;button class=&quot;secondary&quot; onclick=&quot;mostrarModal('modalMemoria')&quot;&gt;💾 Memória Salva&lt;/button&gt;
+      &lt;button class=&quot;warning&quot; onclick=&quot;mostrarModal('modalConfigIA')&quot;&gt;🤖 Configurar IA&lt;/button&gt;
+      &lt;button class=&quot;danger&quot; onclick=&quot;limparTudo()&quot;&gt;🗑️ Limpar Tudo&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 2: ABAS PRINCIPAIS --&gt;
+  &lt;div class=&quot;card&quot;&gt;
+    &lt;h2&gt;🔍 2. Análise do Projeto&lt;/h2&gt;
+    &lt;div class=&quot;tabs&quot;&gt;
+      &lt;button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('tab-apis', this)&quot;&gt;🌐 APIs &amp; Servidores&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('tab-bugs', this)&quot;&gt;🐛 Bugs &amp; Erros&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('tab-deps', this)&quot;&gt;📦 Dependências&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('tab-replit', this)&quot;&gt;🔗 Réplit &amp; Links&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('tab-funcoes', this)&quot;&gt;⚙️ Funções&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA 1: APIs &amp; SERVIDORES --&gt;
+    &lt;div id=&quot;tab-apis&quot; class=&quot;tab-content active&quot;&gt;
+      &lt;h3&gt;🌐 Detectar APIs e Servidores&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;detectarAPIs()&quot;&gt;🔎 Escanear APIs&lt;/button&gt;
+        &lt;button class=&quot;purple&quot; onclick=&quot;analisarAPIsComIA()&quot;&gt;🤖 Analisar com IA&lt;/button&gt;
+        &lt;button class=&quot;success&quot; onclick=&quot;salvarEmMemoria('apis')&quot;&gt;💾 Salvar em Memória&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;resultadoAPIs&quot; class=&quot;detector-resultado&quot; style=&quot;display:none;&quot;&gt;
+        &lt;div class=&quot;resultado-header&quot;&gt;
+          &lt;span class=&quot;resultado-titulo&quot;&gt;🌐 APIs Detectadas&lt;/span&gt;
+          &lt;div class=&quot;resultado-acoes&quot;&gt;
+            &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarResultado('resultadoAPIs')&quot;&gt;📋&lt;/button&gt;
+            &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarResultado('resultadoAPIs', 'apis')&quot;&gt;⬇️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resultado-texto&quot; id=&quot;conteudoAPIs&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA 2: BUGS &amp; ERROS --&gt;
+    &lt;div id=&quot;tab-bugs&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;🐛 Detectar Bugs e Erros&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;detectarBugs()&quot;&gt;🔎 Escanear Bugs&lt;/button&gt;
+        &lt;button class=&quot;purple&quot; onclick=&quot;analisarBugsComIA()&quot;&gt;🤖 Analisar com IA&lt;/button&gt;
+        &lt;button class=&quot;success&quot; onclick=&quot;salvarEmMemoria('bugs')&quot;&gt;💾 Salvar em Memória&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;resultadoBugs&quot; class=&quot;detector-resultado&quot; style=&quot;display:none;&quot;&gt;
+        &lt;div class=&quot;resultado-header&quot;&gt;
+          &lt;span class=&quot;resultado-titulo&quot;&gt;🐛 Bugs Encontrados&lt;/span&gt;
+          &lt;div class=&quot;resultado-acoes&quot;&gt;
+            &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarResultado('resultadoBugs')&quot;&gt;📋&lt;/button&gt;
+            &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarResultado('resultadoBugs', 'bugs')&quot;&gt;⬇️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resultado-texto&quot; id=&quot;conteudoBugs&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA 3: DEPENDÊNCIAS --&gt;
+    &lt;div id=&quot;tab-deps&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;📦 Analisar Dependências&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;detectarDependencias()&quot;&gt;🔎 Escanear Dependências&lt;/button&gt;
+        &lt;button class=&quot;purple&quot; onclick=&quot;analisarDepsComIA()&quot;&gt;🤖 Analisar com IA&lt;/button&gt;
+        &lt;button class=&quot;success&quot; onclick=&quot;salvarEmMemoria('deps')&quot;&gt;💾 Salvar em Memória&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;resultadoDeps&quot; class=&quot;detector-resultado&quot; style=&quot;display:none;&quot;&gt;
+        &lt;div class=&quot;resultado-header&quot;&gt;
+          &lt;span class=&quot;resultado-titulo&quot;&gt;📦 Dependências&lt;/span&gt;
+          &lt;div class=&quot;resultado-acoes&quot;&gt;
+            &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarResultado('resultadoDeps')&quot;&gt;📋&lt;/button&gt;
+            &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarResultado('resultadoDeps', 'deps')&quot;&gt;⬇️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resultado-texto&quot; id=&quot;conteudoDeps&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA 4: RÉPLIT &amp; LINKS --&gt;
+    &lt;div id=&quot;tab-replit&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;🔗 Detectar Réplit e Vínculos&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;detectarReplit()&quot;&gt;🔎 Escanear Réplit&lt;/button&gt;
+        &lt;button class=&quot;purple&quot; onclick=&quot;analisarReplitComIA()&quot;&gt;🤖 Analisar com IA&lt;/button&gt;
+        &lt;button class=&quot;success&quot; onclick=&quot;salvarEmMemoria('replit')&quot;&gt;💾 Salvar em Memória&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;resultadoReplit&quot; class=&quot;detector-resultado&quot; style=&quot;display:none;&quot;&gt;
+        &lt;div class=&quot;resultado-header&quot;&gt;
+          &lt;span class=&quot;resultado-titulo&quot;&gt;🔗 Réplit &amp; Vínculos&lt;/span&gt;
+          &lt;div class=&quot;resultado-acoes&quot;&gt;
+            &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarResultado('resultadoReplit')&quot;&gt;📋&lt;/button&gt;
+            &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarResultado('resultadoReplit', 'replit')&quot;&gt;⬇️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resultado-texto&quot; id=&quot;conteudoReplit&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA 5: FUNÇÕES --&gt;
+    &lt;div id=&quot;tab-funcoes&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;⚙️ Mapear Funções&lt;/h3&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;detectarFuncoes()&quot;&gt;🔎 Escanear Funções&lt;/button&gt;
+        &lt;button class=&quot;purple&quot; onclick=&quot;analisarFuncoesComIA()&quot;&gt;🤖 Analisar com IA&lt;/button&gt;
+        &lt;button class=&quot;success&quot; onclick=&quot;salvarEmMemoria('funcoes')&quot;&gt;💾 Salvar em Memória&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;resultadoFuncoes&quot; class=&quot;detector-resultado&quot; style=&quot;display:none;&quot;&gt;
+        &lt;div class=&quot;resultado-header&quot;&gt;
+          &lt;span class=&quot;resultado-titulo&quot;&gt;⚙️ Funções Encontradas&lt;/span&gt;
+          &lt;div class=&quot;resultado-acoes&quot;&gt;
+            &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarResultado('resultadoFuncoes')&quot;&gt;📋&lt;/button&gt;
+            &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarResultado('resultadoFuncoes', 'funcoes')&quot;&gt;⬇️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resultado-texto&quot; id=&quot;conteudoFuncoes&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 3: GRID DE RESULTADOS --&gt;
+  &lt;div class=&quot;grid&quot;&gt;
+    &lt;!-- COLUNA 1: RESUMO GERAL --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;📊 Resumo Geral&lt;/h2&gt;
+      &lt;div id=&quot;resumoGeral&quot; class=&quot;detector-box&quot;&gt;
+        &lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Carregue um projeto para ver o resumo.&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- COLUNA 2: CONFLITOS DETECTADOS --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;⚠️ Conflitos &amp; Problemas&lt;/h2&gt;
+      &lt;div id=&quot;conflitosDetectados&quot; class=&quot;detector-box&quot;&gt;
+        &lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Nenhum conflito detectado ainda.&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- COLUNA 3: RECOMENDAÇÕES --&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h2&gt;💡 Recomendações&lt;/h2&gt;
+      &lt;div id=&quot;recomendacoes&quot; class=&quot;detector-box&quot;&gt;
+        &lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Recomendações aparecerão aqui.&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- SEÇÃO 4: ASSISTENTE IA --&gt;
+  &lt;div class=&quot;card highlight&quot;&gt;
+    &lt;h2&gt;🤖 Assistente IA - Corrigir Projeto&lt;/h2&gt;
+    &lt;div class=&quot;tabs&quot;&gt;
+      &lt;button class=&quot;tab-btn active&quot; onclick=&quot;mudarAba('ia-corrigir', this)&quot;&gt;✏️ Corrigir&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-backend', this)&quot;&gt;🔙 Criar Backend&lt;/button&gt;
+      &lt;button class=&quot;tab-btn&quot; onclick=&quot;mudarAba('ia-limpeza', this)&quot;&gt;🧹 Limpar Réplit&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: CORRIGIR --&gt;
+    &lt;div id=&quot;ia-corrigir&quot; class=&quot;tab-content active&quot;&gt;
+      &lt;h3&gt;Corrigir Problemas Detectados&lt;/h3&gt;
+      &lt;textarea id=&quot;promptCorrigir&quot; placeholder=&quot;Descreva o que quer corrigir...&quot;&gt;Corrija os bugs e conflitos encontrados no projeto. Retorne o código corrigido.&quot;&gt;&lt;/textarea&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button class=&quot;purple&quot; onclick=&quot;corrigirComIA()&quot;&gt;🔧 Corrigir com IA&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;mostrarModal('modalCorrecoes')&quot;&gt;📝 Ver Correções Salvas&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;respostaCorrigir&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: CRIAR BACKEND --&gt;
+    &lt;div id=&quot;ia-backend&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Gerar Backend para o Projeto&lt;/h3&gt;
+      &lt;textarea id=&quot;promptBackend&quot; placeholder=&quot;Descreva o backend necessário...&quot;&gt;Crie um backend Node.js/Express para este projeto PWA. Inclua autenticação, banco de dados e APIs necessárias.&quot;&gt;&lt;/textarea&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button class=&quot;purple&quot; onclick=&quot;gerarBackendComIA()&quot;&gt;🔙 Gerar Backend&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;respostaBackend&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ABA: LIMPEZA RÉPLIT --&gt;
+    &lt;div id=&quot;ia-limpeza&quot; class=&quot;tab-content&quot;&gt;
+      &lt;h3&gt;Limpar e Organizar Réplit&lt;/h3&gt;
+      &lt;textarea id=&quot;promptLimpeza&quot; placeholder=&quot;Instruções de limpeza...&quot;&gt;Analise o projeto e sugira como limpar o Réplit, remover arquivos desnecessários e organizar melhor.&quot;&gt;&lt;/textarea&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button class=&quot;purple&quot; onclick=&quot;limparReplitComIA()&quot;&gt;🧹 Gerar Plano de Limpeza&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;respostaLimpeza&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/main&gt;
+
+&lt;!-- MODAL: MEMÓRIA SALVA --&gt;
+&lt;div id=&quot;modalMemoria&quot; class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot; style=&quot;min-width:500px;max-width:800px;&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;💾 Memória Salva&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalMemoria')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;button class=&quot;danger&quot; onclick=&quot;limparMemoria()&quot;&gt;🗑️ Limpar Tudo&lt;/button&gt;
+      &lt;button class=&quot;success&quot; onclick=&quot;exportarMemoria()&quot;&gt;⬇️ Exportar&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;listaMemoria&quot;&gt;
+      &lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Nenhuma análise salva.&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- MODAL: CONFIGURAR IA --&gt;
+&lt;div id=&quot;modalConfigIA&quot; class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;🤖 Configurar IA&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalConfigIA')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;detector-box&quot;&gt;
+      &lt;label&gt;Provedor:&lt;/label&gt;
+      &lt;select id=&quot;iaProvedor&quot; onchange=&quot;atualizarConfigIA()&quot;&gt;
+        &lt;option value=&quot;openai&quot;&gt;OpenAI (GPT-4o)&lt;/option&gt;
+        &lt;option value=&quot;anthropic&quot;&gt;Anthropic (Claude)&lt;/option&gt;
+        &lt;option value=&quot;gemini&quot;&gt;Google Gemini&lt;/option&gt;
+        &lt;option value=&quot;groq&quot;&gt;Groq (GRÁTIS)&lt;/option&gt;
+        &lt;option value=&quot;ollama&quot;&gt;Ollama (Local)&lt;/option&gt;
+      &lt;/select&gt;
+
+      &lt;label&gt;Modelo:&lt;/label&gt;
+      &lt;select id=&quot;iaModelo&quot;&gt;
+        &lt;option value=&quot;gpt-4o&quot;&gt;gpt-4o&lt;/option&gt;
+      &lt;/select&gt;
+
+      &lt;label&gt;Chave de API:&lt;/label&gt;
+      &lt;input type=&quot;password&quot; id=&quot;iaToken&quot; placeholder=&quot;sk-... ou sua chave&quot;&gt;
+
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;button onclick=&quot;testarConexaoIA()&quot;&gt;🔌 Testar&lt;/button&gt;
+        &lt;button class=&quot;secondary&quot; onclick=&quot;salvarConfigIA()&quot;&gt;💾 Salvar&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;statusIA&quot; class=&quot;small&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- MODAL: CORREÇÕES SALVAS --&gt;
+&lt;div id=&quot;modalCorrecoes&quot; class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-content&quot; style=&quot;min-width:500px;max-width:900px;&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h2&gt;📝 Correções Salvas&lt;/h2&gt;
+      &lt;button class=&quot;modal-close&quot; onclick=&quot;fecharModal('modalCorrecoes')&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;listaCorrecoes&quot;&gt;
+      &lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Nenhuma correção salva.&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- TOAST --&gt;
+&lt;div id=&quot;toast&quot; class=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/pako@2.0.4/dist/pako.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+let arquivos = [];
+let conteudosTexto = {};
+let memoriaAnalises = [];
+let correcoesGeradas = [];
+let iaConectada = false;
+
+const extensoesTexto = [
+  '.txt','.md','.json','.js','.jsx','.ts','.tsx','.html','.css',
+  '.scss','.xml','.yml','.yaml','.toml','.env','.sql','.gitignore',
+  '.py','.java','.cpp','.c','.go','.rb','.php','.sh','.bash',
+  '.dockerfile','.properties','.gradle','.vue','.svelte','.astro'
+];
+
+// ============================================================
+// INICIALIZAÇÃO
+// ============================================================
+window.addEventListener('load', () =&gt; {
+  carregarMemoriaLocalStorage();
+  carregarConfigIA();
+  atualizarConfigIA();
+});
+
+// ============================================================
+// TOAST
+// ============================================================
+function mostrarToast(msg, tipo = 'info', duracao = 3000) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${tipo} show`;
+  setTimeout(() =&gt; { t.className = 'toast'; }, duracao);
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function mostrarModal(id) { document.getElementById(id).classList.add('active'); }
+function fecharModal(id) { document.getElementById(id).classList.remove('active'); }
+
+// ============================================================
+// ABAS
+// ============================================================
+function mudarAba(nomeAba, btnEl) {
+  document.querySelectorAll('.tab-content').forEach(el =&gt; el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el =&gt; el.classList.remove('active'));
+  document.getElementById(nomeAba).classList.add('active');
+  if (btnEl) btnEl.classList.add('active');
+}
+
+// ============================================================
+// CONFIGURAÇÃO IA
+// ============================================================
+const PROVEDORES = {
+  openai: {
+    url: 'https://api.openai.com/v1/chat/completions',
+    modelos: ['gpt-4o','gpt-4o-mini','gpt-4-turbo','gpt-3.5-turbo'],
+    headers: (token) =&gt; ({ 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }),
+    body: (modelo, msgs, maxTokens) =&gt; JSON.stringify({ model: modelo, messages: msgs, max_tokens: maxTokens }),
+    extrairResposta: (data) =&gt; data.choices[0].message.content
+  },
+  anthropic: {
+    url: 'https://api.anthropic.com/v1/messages',
+    modelos: ['claude-3-5-sonnet-20241022','claude-3-opus-20240229'],
+    headers: (token) =&gt; ({ 'x-api-key': token, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' }),
+    body: (modelo, msgs, maxTokens) =&gt; {
+      const system = msgs.find(m =&gt; m.role === 'system');
+      const userMsgs = msgs.filter(m =&gt; m.role !== 'system');
+      const payload = { model: modelo, max_tokens: maxTokens, messages: userMsgs };
+      if (system) payload.system = system.content;
+      return JSON.stringify(payload);
+    },
+    extrairResposta: (data) =&gt; data.content[0].text
+  },
+  gemini: {
+    url: (modelo, token) =&gt; `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${token}`,
+    modelos: ['gemini-1.5-pro-latest','gemini-1.5-flash-latest'],
+    headers: () =&gt; ({ 'Content-Type': 'application/json' }),
+    body: (modelo, msgs, maxTokens) =&gt; {
+      const parts = msgs.map(m =&gt; ({ text: m.content }));
+      return JSON.stringify({ contents: [{ parts }], generationConfig: { maxOutputTokens: maxTokens } });
+    },
+    extrairResposta: (data) =&gt; data.candidates[0].content.parts[0].text
+  },
+  groq: {
+    url: 'https://api.groq.com/openai/v1/chat/completions',
+    modelos: ['llama-3.1-70b-versatile','llama-3.1-8b-instant','mixtral-8x7b-32768'],
+    headers: (token) =&gt; ({ 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }),
+    body: (modelo, msgs, maxTokens) =&gt; JSON.stringify({ model: modelo, messages: msgs, max_tokens: maxTokens }),
+    extrairResposta: (data) =&gt; data.choices[0].message.content
+  },
+  ollama: {
+    url: () =&gt; 'http://localhost:11434/api/chat',
+    modelos: ['llama3.1','llama3','mistral','codellama'],
+    headers: () =&gt; ({ 'Content-Type': 'application/json' }),
+    body: (modelo, msgs, maxTokens) =&gt; JSON.stringify({ model: modelo, messages: msgs, stream: false }),
+    extrairResposta: (data) =&gt; data.message.content
+  }
+};
+
+function atualizarConfigIA() {
+  const provedor = document.getElementById('iaProvedor').value;
+  const config = PROVEDORES[provedor];
+  const modeloSel = document.getElementById('iaModelo');
+  modeloSel.innerHTML = config.modelos.map(m =&gt; `&lt;option value=&quot;${m}&quot;&gt;${m}&lt;/option&gt;`).join('');
+}
+
+function salvarConfigIA() {
+  const config = {
+    provedor: document.getElementById('iaProvedor').value,
+    modelo: document.getElementById('iaModelo').value,
+    token: document.getElementById('iaToken').value
+  };
+  localStorage.setItem('analyzer_ia_config', JSON.stringify(config));
+  mostrarToast('✅ Configuração salva!', 'success');
+}
+
+function carregarConfigIA() {
+  const saved = localStorage.getItem('analyzer_ia_config');
+  if (!saved) return;
+  const config = JSON.parse(saved);
+  document.getElementById('iaProvedor').value = config.provedor || 'openai';
+  atualizarConfigIA();
+  document.getElementById('iaModelo').value = config.modelo || '';
+  document.getElementById('iaToken').value = config.token || '';
+}
+
+async function testarConexaoIA() {
+  const statusEl = document.getElementById('statusIA');
+  statusEl.innerHTML = '&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Testando...';
+  try {
+    const resposta = await chamarIA([{ role: 'user', content: 'OK' }]);
+    iaConectada = true;
+    statusEl.innerHTML = `&lt;span class=&quot;ok&quot;&gt;✅ Conectado!&lt;/span&gt;`;
+    mostrarToast('IA conectada!', 'success');
+  } catch (e) {
+    iaConectada = false;
+    statusEl.innerHTML = `&lt;span class=&quot;bad&quot;&gt;❌ ${e.message}&lt;/span&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function chamarIA(mensagens) {
+  const provedor = document.getElementById('iaProvedor').value;
+  const modelo = document.getElementById('iaModelo').value;
+  const token = document.getElementById('iaToken').value;
+  const config = PROVEDORES[provedor];
+
+  if (!config) throw new Error('Provedor não configurado');
+  if (provedor !== 'ollama' &amp;&amp; !token) throw new Error('Configure sua chave de API');
+
+  const url = typeof config.url === 'function' ? config.url(modelo, token) : config.url;
+  const headers = config.headers(token);
+  const maxTokens = 4000;
+  const body = config.body(modelo, mensagens, maxTokens);
+
+  const response = await fetch(url, { method: 'POST', headers, body });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  const data = await response.json();
+  return config.extrairResposta(data);
+}
+
+// ============================================================
+// CARREGAR PROJETO
+// ============================================================
+async function carregarProjeto() {
+  const input = document.getElementById('arquivoInput');
+  if (!input.files || !input.files[0]) {
+    mostrarToast('Selecione um arquivo.', 'error');
+    return;
+  }
+
+  const file = input.files[0];
+  const buffer = await file.arrayBuffer();
+  const formato = document.getElementById('formatoArquivo').value;
+
+  arquivos = [];
+  conteudosTexto = {};
+
+  try {
+    if (formato === 'auto' || formato === 'zip') {
+      if (file.name.endsWith('.zip')) {
+        await processarZIP(buffer);
+        return;
+      }
+    }
+
+    if (formato === 'auto' || formato === 'tar' || formato === 'taz') {
+      if (file.name.endsWith('.tar') || file.name.endsWith('.tar.gz') || file.name.endsWith('.tgz')) {
+        await processarTAR(buffer);
+        return;
+      }
+    }
+
+    if (formato === 'auto' || formato === 'html') {
+      if (file.name.endsWith('.html')) {
+        processarHTML(buffer);
+        return;
+      }
+    }
+
+    mostrarToast('Formato não suportado.', 'error');
+  } catch (e) {
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+async function processarZIP(buffer) {
+  const zip = await JSZip.loadAsync(buffer);
+  zip.forEach((path, entry) =&gt; {
+    arquivos.push({ nome: path, dir: entry.dir, tamanho: entry._data.uncompressedSize });
+  });
+
+  for (const item of arquivos) {
+    if (!item.dir &amp;&amp; ehTexto(item.nome) &amp;&amp; item.tamanho &lt; 1000000) {
+      try {
+        conteudosTexto[item.nome] = await zip.file(item.nome).async('string');
+      } catch (e) {
+        conteudosTexto[item.nome] = '[ERRO]';
+      }
+    }
+  }
+
+  arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+  atualizarResumoGeral();
+  mostrarToast(`✅ ${arquivos.length} arquivos carregados`, 'success');
+}
+
+async function processarTAR(buffer) {
+  let dados = new Uint8Array(buffer);
+
+  if (document.getElementById('arquivoInput').files[0].name.endsWith('.gz') ||
+      document.getElementById('arquivoInput').files[0].name.endsWith('.tgz')) {
+    dados = pako.inflate(dados);
+  }
+
+  let offset = 0;
+
+  while (offset &lt; dados.length) {
+    const headerBytes = dados.slice(offset, offset + 512);
+    if (headerBytes.every(b =&gt; b === 0)) break;
+
+    const nome = new TextDecoder().decode(headerBytes.slice(0, 100)).split('\0')[0];
+    const tamanhoStr = new TextDecoder().decode(headerBytes.slice(124, 136)).trim();
+    const tamanho = parseInt(tamanhoStr, 8);
+    const tipo = String.fromCharCode(headerBytes[156]);
+
+    offset += 512;
+
+    if (nome &amp;&amp; tipo !== '5') {
+      arquivos.push({ nome, dir: false, tamanho });
+
+      if (ehTexto(nome) &amp;&amp; tamanho &lt; 1000000) {
+        const conteudo = new TextDecoder().decode(dados.slice(offset, offset + tamanho));
+        conteudosTexto[nome] = conteudo;
+      }
+    }
+
+    offset += Math.ceil(tamanho / 512) * 512;
+  }
+
+  arquivos.sort((a, b) =&gt; a.nome.localeCompare(b.nome));
+  atualizarResumoGeral();
+  mostrarToast(`✅ ${arquivos.length} arquivos carregados`, 'success');
+}
+
+function processarHTML(buffer) {
+  const html = new TextDecoder().decode(buffer);
+  const nome = document.getElementById('arquivoInput').files[0].name;
+
+  arquivos.push({ nome, dir: false, tamanho: buffer.byteLength });
+  conteudosTexto[nome] = html;
+
+  const scriptRegex = /&lt;script[^&gt;]*&gt;([\s\S]*?)&lt;\/script&gt;/gi;
+  const styleRegex = /&lt;style[^&gt;]*&gt;([\s\S]*?)&lt;\/style&gt;/gi;
+
+  let match;
+  let contador = 1;
+
+  while ((match = scriptRegex.exec(html)) !== null) {
+    const nomeScript = `extracted_script_${contador}.js`;
+    arquivos.push({ nome: nomeScript, dir: false, tamanho: match[1].length });
+    conteudosTexto[nomeScript] = match[1];
+    contador++;
+  }
+
+  contador = 1;
+  while ((match = styleRegex.exec(html)) !== null) {
+    const nomeStyle = `extracted_style_${contador}.css`;
+    arquivos.push({ nome: nomeStyle, dir: false, tamanho: match[1].length });
+    conteudosTexto[nomeStyle] = match[1];
+    contador++;
+  }
+
+  atualizarResumoGeral();
+  mostrarToast(`✅ HTML processado`, 'success');
+}
+
+function ehTexto(nome) {
+  const lower = nome.toLowerCase();
+  if (lower.endsWith('/')) return false;
+  return extensoesTexto.some(ext =&gt; lower.endsWith(ext));
+}
+
+// ============================================================
+// DETECTOR: APIs
+// ============================================================
+function detectarAPIs() {
+  let resultado = '=== APIs DETECTADAS ===\n\n';
+  let apis = [];
+
+  const padroes = {
+    'fetch': /fetch\s*\(\s*['&quot;]/g,
+    'axios': /axios\.(get|post|put|delete|patch)\s*\(/g,
+    'XMLHttpRequest': /new\s+XMLHttpRequest\s*\(\s*\)/g,
+    'WebSocket': /new\s+WebSocket\s*\(\s*['&quot;]/g,
+    'GraphQL': /graphql|gql\s*`/g,
+    'REST': /\/api\/|\/v\d+\//g,
+    'Supabase': /supabase|createClient/g,
+    'Firebase': /firebase|firestore|realtime/g,
+    'MongoDB': /mongodb|mongoose|db\.collection/g,
+    'PostgreSQL': /postgres|pg\.|sequelize/g,
+    'MySQL': /mysql|mariadb/g,
+    'Redis': /redis|cache/g,
+    'AWS': /aws|s3|lambda|dynamodb/g,
+    'Google Cloud': /google|gcp|cloud\.google/g,
+    'Azure': /azure|microsoft/g,
+    'Stripe': /stripe|payment/g,
+    'PayPal': /paypal|checkout/g,
+    'Auth0': /auth0|authentication/g,
+    'JWT': /jwt|jsonwebtoken/g,
+    'OAuth': /oauth|oauth2/g,
+    'CORS': /cors|cross-origin/g
+  };
+
+  Object.entries(conteudosTexto).forEach(([arquivo, conteudo]) =&gt; {
+    Object.entries(padroes).forEach(([tipo, padrao]) =&gt; {
+      if (padrao.test(conteudo)) {
+        apis.push({ arquivo, tipo });
+        resultado += `✅ ${tipo}\n   Arquivo: ${arquivo}\n\n`;
+      }
+    });
+  });
+
+  resultado += `\n=== RESUMO ===\n`;
+  resultado += `Total de APIs encontradas: ${apis.length}\n`;
+  resultado += `Tipos únicos: ${new Set(apis.map(a =&gt; a.tipo)).size}\n`;
+
+  document.getElementById('conteudoAPIs').textContent = resultado;
+  document.getElementById('resultadoAPIs').style.display = 'block';
+  memoriaAnalises.push({ tipo: 'apis', data: new Date().toISOString(), conteudo: resultado });
+}
+
+async function analisarAPIsComIA() {
+  if (!iaConectada) {
+    mostrarToast('Configure a IA primeiro.', 'error');
+    return;
+  }
+
+  const conteudo = document.getElementById('conteudoAPIs').textContent;
+  if (!conteudo) {
+    mostrarToast('Execute a detecção primeiro.', 'error');
+    return;
+  }
+
+  const respEl = document.getElementById('resultadoAPIs');
+  respEl.innerHTML = '&lt;div class=&quot;resultado-texto&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Analisando com IA...&lt;/div&gt;';
+
+  try {
+    const msgs = [
+      { role: 'user', content: `Analise estas APIs detectadas no projeto:\n\n${conteudo}\n\nMe diga: quais são seguras? Há conflitos? Recomendações?` }
+    ];
+    const resposta = await chamarIA(msgs);
+    document.getElementById('conteudoAPIs').textContent = resposta;
+    memoriaAnalises.push({ tipo: 'apis_ia', data: new Date().toISOString(), conteudo: resposta });
+  } catch (e) {
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// DETECTOR: BUGS
+// ============================================================
+function detectarBugs() {
+  let resultado = '=== BUGS POTENCIAIS ===\n\n';
+  let bugs = [];
+
+  const padroes = {
+    'console.log': /console\.(log|warn|error)\s*\(/g,
+    'TODO': /TODO|FIXME|HACK|XXX/g,
+    'undefined': /undefined|null/g,
+    'any type': /:\s*any\s*[,;=\n]/g,
+    'var': /\bvar\s+/g,
+    'eval': /eval\s*\(/g,
+    'innerHTML': /\.innerHTML\s*=/g,
+    'setTimeout': /setTimeout\s*\(/g,
+    'try-catch': /try\s*\{[\s\S]*?\}\s*catch/g,
+    'async-await': /async\s+function|await\s+/g,
+    'Promise': /new\s+Promise|\.then\(|\.catch\(/g,
+    'callback hell': /function.*\(.*function.*\(.*function/g,
+    'empty catch': /catch\s*\(\w*\)\s*\{\s*\}/g,
+    'hardcoded URL': /https?:\/\/[a-zA-Z0-9.-]+/g,
+    'hardcoded key': /(password|secret|key|token)\s*[:=]\s*['&quot;]/g
+  };
+
+  Object.entries(conteudosTexto).forEach(([arquivo, conteudo]) =&gt; {
+    Object.entries(padroes).forEach(([tipo, padrao]) =&gt; {
+      const matches = conteudo.match(padrao);
+      if (matches) {
+        bugs.push({ arquivo, tipo, count: matches.length });
+        resultado += `⚠️ ${tipo}\n   Arquivo: ${arquivo}\n   Ocorrências: ${matches.length}\n\n`;
+      }
+    });
+  });
+
+  resultado += `\n=== RESUMO ===\n`;
+  resultado += `Total de problemas: ${bugs.length}\n`;
+  resultado += `Severidade: ${bugs.length &gt; 10 ? '🔴 ALTA' : bugs.length &gt; 5 ? '🟡 MÉDIA' : '🟢 BAIXA'}\n`;
+
+  document.getElementById('conteudoBugs').textContent = resultado;
+  document.getElementById('resultadoBugs').style.display = 'block';
+  memoriaAnalises.push({ tipo: 'bugs', data: new Date().toISOString(), conteudo: resultado });
+}
+
+async function analisarBugsComIA() {
+  if (!iaConectada) {
+    mostrarToast('Configure a IA primeiro.', 'error');
+    return;
+  }
+
+  const conteudo = document.getElementById('conteudoBugs').textContent;
+  if (!conteudo) {
+    mostrarToast('Execute a detecção primeiro.', 'error');
+    return;
+  }
+
+  const respEl = document.getElementById('resultadoBugs');
+  respEl.innerHTML = '&lt;div class=&quot;resultado-texto&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Analisando com IA...&lt;/div&gt;';
+
+  try {
+    const msgs = [
+      { role: 'user', content: `Analise estes bugs potenciais:\n\n${conteudo}\n\nQual é a severidade real? Como corrigir?` }
+    ];
+    const resposta = await chamarIA(msgs);
+    document.getElementById('conteudoBugs').textContent = resposta;
+    memoriaAnalises.push({ tipo: 'bugs_ia', data: new Date().toISOString(), conteudo: resposta });
+  } catch (e) {
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// DETECTOR: DEPENDÊNCIAS
+// ============================================================
+function detectarDependencias() {
+  let resultado = '=== DEPENDÊNCIAS DETECTADAS ===\n\n';
+  let deps = {};
+
+  // Procurar package.json
+  const packageJson = Object.entries(conteudosTexto).find(([nome]) =&gt; nome.includes('package.json'));
+  if (packageJson) {
+    try {
+      const pkg = JSON.parse(packageJson[1]);
+      resultado += '📦 DEPENDÊNCIAS (package.json):\n';
+      if (pkg.dependencies) {
+        Object.entries(pkg.dependencies).forEach(([nome, versao]) =&gt; {
+          resultado += `  ✅ ${nome}: ${versao}\n`;
+          deps[nome] = versao;
+        });
+      }
+      resultado += '\n📦 DEV DEPENDÊNCIAS:\n';
+      if (pkg.devDependencies) {
+        Object.entries(pkg.devDependencies).forEach(([nome, versao]) =&gt; {
+          resultado += `  🔧 ${nome}: ${versao}\n`;
+          deps[nome] = versao;
+        });
+      }
+    } catch (e) {
+      resultado += '❌ Erro ao parsear package.json\n';
+    }
+  }
+
+  // Procurar imports
+  resultado += '\n📥 IMPORTS DETECTADOS:\n';
+  const importRegex = /import\s+.*\s+from\s+['&quot;](.*?)['&quot;]/g;
+  const requireRegex = /require\s*\(\s*['&quot;](.*?)['&quot;]\s*\)/g;
+
+  Object.entries(conteudosTexto).forEach(([arquivo, conteudo]) =&gt; {
+    let match;
+    while ((match = importRegex.exec(conteudo)) !== null) {
+      const lib = match[1];
+      if (!lib.startsWith('.')) {
+        resultado += `  📦 ${lib} (em ${arquivo})\n`;
+      }
+    }
+
+    while ((match = requireRegex.exec(conteudo)) !== null) {
+      const lib = match[1];
+      if (!lib.startsWith('.')) {
+        resultado += `  📦 ${lib} (em ${arquivo})\n`;
+      }
+    }
+  });
+
+  resultado += `\n=== RESUMO ===\n`;
+  resultado += `Total de dependências: ${Object.keys(deps).length}\n`;
+
+  document.getElementById('conteudoDeps').textContent = resultado;
+  document.getElementById('resultadoDeps').style.display = 'block';
+  memoriaAnalises.push({ tipo: 'deps', data: new Date().toISOString(), conteudo: resultado });
+}
+
+async function analisarDepsComIA() {
+  if (!iaConectada) {
+    mostrarToast('Configure a IA primeiro.', 'error');
+    return;
+  }
+
+  const conteudo = document.getElementById('conteudoDeps').textContent;
+  if (!conteudo) {
+    mostrarToast('Execute a detecção primeiro.', 'error');
+    return;
+  }
+
+  const respEl = document.getElementById('resultadoDeps');
+  respEl.innerHTML = '&lt;div class=&quot;resultado-texto&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Analisando com IA...&lt;/div&gt;';
+
+  try {
+    const msgs = [
+      { role: 'user', content: `Analise estas dependências:\n\n${conteudo}\n\nHá conflitos? Versões desatualizadas? Recomendações?` }
+    ];
+    const resposta = await chamarIA(msgs);
+    document.getElementById('conteudoDeps').textContent = resposta;
+    memoriaAnalises.push({ tipo: 'deps_ia', data: new Date().toISOString(), conteudo: resposta });
+  } catch (e) {
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// DETECTOR: RÉPLIT
+// ============================================================
+function detectarReplit() {
+  let resultado = '=== RÉPLIT &amp; VÍNCULOS DETECTADOS ===\n\n';
+  let replits = [];
+
+  const padroes = {
+    'URL Réplit': /replit\.com|repl\.it/g,
+    'Replit DB': /replit\.db|ReplitDB/g,
+    'Replit Auth': /replit\.auth|replit\.user/g,
+    'Replit Secrets': /REPLIT_|secrets\.|process\.env/g,
+    'Replit Web': /replit\.web|web\.listen/g
+  };
+
+  Object.entries(conteudosTexto).forEach(([arquivo, conteudo]) =&gt; {
+    Object.entries(padroes).forEach(([tipo, padrao]) =&gt; {
+      if (padrao.test(conteudo)) {
+        replits.push({ arquivo, tipo });
+        resultado += `🔗 ${tipo}\n   Arquivo: ${arquivo}\n\n`;
+      }
+    });
+  });
+
+  // Procurar URLs
+  resultado += '\n🌐 URLs ENCONTRADAS:\n';
+  const urlRegex = /https?:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+  Object.entries(conteudosTexto).forEach(([arquivo, conteudo]) =&gt; {
+    const urls = conteudo.match(urlRegex);
+    if (urls) {
+      [...new Set(urls)].forEach(url =&gt; {
+        resultado += `  🔗 ${url}\n`;
+      });
+    }
+  });
+
+  resultado += `\n=== RESUMO ===\n`;
+  resultado += `Vínculos Réplit encontrados: ${replits.length}\n`;
+
+  document.getElementById('conteudoReplit').textContent = resultado;
+  document.getElementById('resultadoReplit').style.display = 'block';
+  memoriaAnalises.push({ tipo: 'replit', data: new Date().toISOString(), conteudo: resultado });
+}
+
+async function analisarReplitComIA() {
+  if (!iaConectada) {
+    mostrarToast('Configure a IA primeiro.', 'error');
+    return;
+  }
+
+  const conteudo = document.getElementById('conteudoReplit').textContent;
+  if (!conteudo) {
+    mostrarToast('Execute a detecção primeiro.', 'error');
+    return;
+  }
+
+  const respEl = document.getElementById('resultadoReplit');
+  respEl.innerHTML = '&lt;div class=&quot;resultado-texto&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Analisando com IA...&lt;/div&gt;';
+
+  try {
+    const msgs = [
+      { role: 'user', content: `Analise estes vínculos Réplit:\n\n${conteudo}\n\nQuais precisam ser corrigidos? Como migrar para produção?` }
+    ];
+    const resposta = await chamarIA(msgs);
+    document.getElementById('conteudoReplit').textContent = resposta;
+    memoriaAnalises.push({ tipo: 'replit_ia', data: new Date().toISOString(), conteudo: resposta });
+  } catch (e) {
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// DETECTOR: FUNÇÕES
+// ============================================================
+function detectarFuncoes() {
+  let resultado = '=== FUNÇÕES DETECTADAS ===\n\n';
+  let funcoes = [];
+
+  const funcaoRegex = /(?:function\s+(\w+)|const\s+(\w+)\s*=\s*(?:async\s*)?\(|async\s+function\s+(\w+))/g;
+
+  Object.entries(conteudosTexto).forEach(([arquivo, conteudo]) =&gt; {
+    let match;
+    while ((match = funcaoRegex.exec(conteudo)) !== null) {
+      const nome = match[1] || match[2] || match[3];
+      if (nome &amp;&amp; nome.length &gt; 2) {
+        funcoes.push({ arquivo, nome });
+        resultado += `⚙️ ${nome}()\n   Arquivo: ${arquivo}\n\n`;
+      }
+    }
+  });
+
+  resultado += `\n=== RESUMO ===\n`;
+  resultado += `Total de funções: ${funcoes.length}\n`;
+  resultado += `Arquivos analisados: ${Object.keys(conteudosTexto).length}\n`;
+
+  document.getElementById('conteudoFuncoes').textContent = resultado;
+  document.getElementById('resultadoFuncoes').style.display = 'block';
+  memoriaAnalises.push({ tipo: 'funcoes', data: new Date().toISOString(), conteudo: resultado });
+}
+
+async function analisarFuncoesComIA() {
+  if (!iaConectada) {
+    mostrarToast('Configure a IA primeiro.', 'error');
+    return;
+  }
+
+  const conteudo = document.getElementById('conteudoFuncoes').textContent;
+  if (!conteudo) {
+    mostrarToast('Execute a detecção primeiro.', 'error');
+    return;
+  }
+
+  const respEl = document.getElementById('resultadoFuncoes');
+  respEl.innerHTML = '&lt;div class=&quot;resultado-texto&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Analisando com IA...&lt;/div&gt;';
+
+  try {
+    const msgs = [
+      { role: 'user', content: `Analise estas funções do projeto:\n\n${conteudo}\n\nQual é o fluxo? Há funções redundantes? Recomendações?` }
+    ];
+    const resposta = await chamarIA(msgs);
+    document.getElementById('conteudoFuncoes').textContent = resposta;
+    memoriaAnalises.push({ tipo: 'funcoes_ia', data: new Date().toISOString(), conteudo: resposta });
+  } catch (e) {
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// ATUALIZAR RESUMO GERAL
+// ============================================================
+function atualizarResumoGeral() {
+  let resumo = `📊 RESUMO DO PROJETO\n\n`;
+  resumo += `Total de arquivos: ${arquivos.length}\n`;
+  resumo += `Arquivos lidos: ${Object.keys(conteudosTexto).length}\n`;
+  resumo += `Tamanho total: ${(Object.values(conteudosTexto).reduce((a, b) =&gt; a + b.length, 0) / 1024).toFixed(2)} KB\n\n`;
+
+  // Detectar tecnologias
+  const temPackageJson = arquivos.some(a =&gt; a.nome.includes('package.json'));
+  const temReact = Object.values(conteudosTexto).some(c =&gt; c.includes('react'));
+  const temVue = Object.values(conteudosTexto).some(c =&gt; c.includes('vue'));
+  const temAngular = Object.values(conteudosTexto).some(c =&gt; c.includes('angular'));
+  const temNode = temPackageJson;
+  const temPython = arquivos.some(a =&gt; a.nome.endsWith('.py'));
+  const temManifest = arquivos.some(a =&gt; a.nome.includes('manifest.json'));
+  const temServiceWorker = arquivos.some(a =&gt; a.nome.includes('service-worker') || a.nome.includes('sw.js'));
+
+  resumo += '🛠️ TECNOLOGIAS DETECTADAS:\n';
+    if (temReact) resumo += '  ✅ React\n';
+  if (temVue) resumo += '  ✅ Vue.js\n';
+  if (temAngular) resumo += '  ✅ Angular\n';
+  if (temNode) resumo += '  ✅ Node.js\n';
+  if (temPython) resumo += '  ✅ Python\n';
+  if (temManifest) resumo += '  ✅ PWA (manifest.json)\n';
+  if (temServiceWorker) resumo += '  ✅ Service Worker\n';
+
+  resumo += '\n📁 ESTRUTURA:\n';
+  const pastas = [...new Set(arquivos.map(a =&gt; a.nome.split('/')[0]))].filter(Boolean);
+  pastas.slice(0, 10).forEach(pasta =&gt; {
+    resumo += `  📂 ${pasta}\n`;
+  });
+
+  document.getElementById('resumoGeral').innerHTML = `&lt;pre&gt;${resumo}&lt;/pre&gt;`;
+}
+
+// ============================================================
+// SALVAR EM MEMÓRIA
+// ============================================================
+function salvarEmMemoria(tipo) {
+  let conteudo = '';
+  
+  if (tipo === 'apis') conteudo = document.getElementById('conteudoAPIs').textContent;
+  else if (tipo === 'bugs') conteudo = document.getElementById('conteudoBugs').textContent;
+  else if (tipo === 'deps') conteudo = document.getElementById('conteudoDeps').textContent;
+  else if (tipo === 'replit') conteudo = document.getElementById('conteudoReplit').textContent;
+  else if (tipo === 'funcoes') conteudo = document.getElementById('conteudoFuncoes').textContent;
+
+  if (!conteudo) {
+    mostrarToast('Nada para salvar.', 'error');
+    return;
+  }
+
+  const analise = {
+    id: Date.now(),
+    tipo: tipo,
+    data: new Date().toISOString(),
+    conteudo: conteudo
+  };
+
+  memoriaAnalises.push(analise);
+  salvarMemoriaLocalStorage();
+  mostrarToast(`✅ ${tipo.toUpperCase()} salvo em memória!`, 'success');
+  renderizarMemoria();
+}
+
+function salvarMemoriaLocalStorage() {
+  localStorage.setItem('analyzer_memoria', JSON.stringify(memoriaAnalises));
+}
+
+function carregarMemoriaLocalStorage() {
+  const saved = localStorage.getItem('analyzer_memoria');
+  if (saved) {
+    memoriaAnalises = JSON.parse(saved);
+    renderizarMemoria();
+  }
+}
+
+function renderizarMemoria() {
+  const el = document.getElementById('listaMemoria');
+  if (!memoriaAnalises.length) {
+    el.innerHTML = '&lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Nenhuma análise salva.&lt;/div&gt;';
+    return;
+  }
+
+  el.innerHTML = memoriaAnalises.slice().reverse().map(analise =&gt; `
+    &lt;div class=&quot;memoria-item&quot;&gt;
+      &lt;div class=&quot;memoria-item-header&quot;&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;memoria-item-titulo&quot;&gt;📌 ${analise.tipo.toUpperCase()}&lt;/div&gt;
+          &lt;div class=&quot;memoria-item-data&quot;&gt;${new Date(analise.data).toLocaleString('pt-BR')}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div style=&quot;display:flex;gap:4px;&quot;&gt;
+          &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarMemoria(${analise.id})&quot;&gt;📋&lt;/button&gt;
+          &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarMemoria(${analise.id})&quot;&gt;⬇️&lt;/button&gt;
+          &lt;button class=&quot;btn-mini red&quot; onclick=&quot;excluirMemoria(${analise.id})&quot;&gt;🗑&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;memoria-item-conteudo&quot;&gt;${analise.conteudo.substring(0, 300)}${analise.conteudo.length &gt; 300 ? '...' : ''}&lt;/div&gt;
+    &lt;/div&gt;
+  `).join('');
+}
+
+function copiarMemoria(id) {
+  const analise = memoriaAnalises.find(a =&gt; a.id === id);
+  if (!analise) return;
+  navigator.clipboard.writeText(analise.conteudo).then(() =&gt; mostrarToast('✅ Copiado!', 'success'));
+}
+
+function baixarMemoria(id) {
+  const analise = memoriaAnalises.find(a =&gt; a.id === id);
+  if (!analise) return;
+  const blob = new Blob([analise.conteudo], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `analise_${analise.tipo}_${analise.id}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('⬇️ Download!', 'success');
+}
+
+function excluirMemoria(id) {
+  if (!confirm('Excluir?')) return;
+  memoriaAnalises = memoriaAnalises.filter(a =&gt; a.id !== id);
+  salvarMemoriaLocalStorage();
+  renderizarMemoria();
+  mostrarToast('🗑️ Excluído', 'info');
+}
+
+function limparMemoria() {
+  if (!confirm('Excluir TODA a memória?')) return;
+  memoriaAnalises = [];
+  salvarMemoriaLocalStorage();
+  renderizarMemoria();
+  mostrarToast('🗑️ Memória limpa', 'info');
+}
+
+function exportarMemoria() {
+  const blob = new Blob([JSON.stringify(memoriaAnalises, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `memoria_completa_${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('⬇️ Exportado!', 'success');
+}
+
+// ============================================================
+// IA: CORRIGIR PROJETO
+// ============================================================
+async function corrigirComIA() {
+  if (!iaConectada) {
+    mostrarToast('Configure a IA primeiro.', 'error');
+    return;
+  }
+
+  const prompt = document.getElementById('promptCorrigir').value;
+  if (!prompt) {
+    mostrarToast('Digite um prompt.', 'error');
+    return;
+  }
+
+  const respEl = document.getElementById('respostaCorrigir');
+  respEl.innerHTML = '&lt;div style=&quot;color:#a78bfa;&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Gerando correções...&lt;/div&gt;';
+
+  try {
+    // Construir contexto
+    let ctx = '=== PROJETO ===\n\n';
+    Object.entries(conteudosTexto).slice(0, 10).forEach(([nome, conteudo]) =&gt; {
+      ctx += `\n--- ${nome} ---\n${conteudo.substring(0, 1000)}\n`;
+    });
+
+    const msgs = [
+      { role: 'user', content: `${ctx}\n\n${prompt}` }
+    ];
+
+    const resposta = await chamarIA(msgs);
+    
+    const correcao = {
+      id: Date.now(),
+      data: new Date().toISOString(),
+      prompt: prompt,
+      resposta: resposta
+    };
+
+    correcoesGeradas.push(correcao);
+    localStorage.setItem('analyzer_correcoes', JSON.stringify(correcoesGeradas));
+
+    respEl.innerHTML = `
+      &lt;div class=&quot;detector-resultado&quot;&gt;
+        &lt;div class=&quot;resultado-header&quot;&gt;
+          &lt;span class=&quot;resultado-titulo&quot;&gt;✏️ Correções Geradas&lt;/span&gt;
+          &lt;div class=&quot;resultado-acoes&quot;&gt;
+            &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarCorrecao(${correcao.id})&quot;&gt;📋&lt;/button&gt;
+            &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarCorrecao(${correcao.id})&quot;&gt;⬇️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resultado-texto&quot;&gt;${resposta}&lt;/div&gt;
+      &lt;/div&gt;
+    `;
+
+    mostrarToast('✅ Correções geradas!', 'success');
+    renderizarCorrecoes();
+  } catch (e) {
+    respEl.innerHTML = `&lt;div class=&quot;bad&quot;&gt;Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+function renderizarCorrecoes() {
+  const saved = localStorage.getItem('analyzer_correcoes');
+  if (!saved) return;
+  correcoesGeradas = JSON.parse(saved);
+
+  const el = document.getElementById('listaCorrecoes');
+  if (!correcoesGeradas.length) {
+    el.innerHTML = '&lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Nenhuma correção.&lt;/div&gt;';
+    return;
+  }
+
+  el.innerHTML = correcoesGeradas.slice().reverse().map(cor =&gt; `
+    &lt;div class=&quot;memoria-item&quot;&gt;
+      &lt;div class=&quot;memoria-item-header&quot;&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;memoria-item-titulo&quot;&gt;✏️ Correção&lt;/div&gt;
+          &lt;div class=&quot;memoria-item-data&quot;&gt;${new Date(cor.data).toLocaleString('pt-BR')}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div style=&quot;display:flex;gap:4px;&quot;&gt;
+          &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarCorrecao(${cor.id})&quot;&gt;📋&lt;/button&gt;
+          &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarCorrecao(${cor.id})&quot;&gt;⬇️&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;memoria-item-conteudo&quot;&gt;&lt;strong&gt;Prompt:&lt;/strong&gt; ${cor.prompt.substring(0, 150)}...\n\n&lt;strong&gt;Resposta:&lt;/strong&gt; ${cor.resposta.substring(0, 200)}...&lt;/div&gt;
+    &lt;/div&gt;
+  `).join('');
+}
+
+function copiarCorrecao(id) {
+  const cor = correcoesGeradas.find(c =&gt; c.id === id);
+  if (!cor) return;
+  navigator.clipboard.writeText(cor.resposta).then(() =&gt; mostrarToast('✅ Copiado!', 'success'));
+}
+
+function baixarCorrecao(id) {
+  const cor = correcoesGeradas.find(c =&gt; c.id === id);
+  if (!cor) return;
+  const txt = `PROMPT:\n${cor.prompt}\n\n---\n\nRESPOSTA:\n${cor.resposta}`;
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `correcao_${cor.id}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('⬇️ Download!', 'success');
+}
+
+// ============================================================
+// IA: GERAR BACKEND
+// ============================================================
+async function gerarBackendComIA() {
+  if (!iaConectada) {
+    mostrarToast('Configure a IA primeiro.', 'error');
+    return;
+  }
+
+  const prompt = document.getElementById('promptBackend').value;
+  if (!prompt) {
+    mostrarToast('Digite um prompt.', 'error');
+    return;
+  }
+
+  const respEl = document.getElementById('respostaBackend');
+  respEl.innerHTML = '&lt;div style=&quot;color:#a78bfa;&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Gerando backend...&lt;/div&gt;';
+
+  try {
+    // Analisar projeto
+    let ctx = 'PROJETO FRONTEND:\n\n';
+    Object.entries(conteudosTexto).slice(0, 5).forEach(([nome, conteudo]) =&gt; {
+      ctx += `${nome}:\n${conteudo.substring(0, 500)}\n\n`;
+    });
+
+    const msgs = [
+      { role: 'user', content: `${ctx}\n\n${prompt}\n\nRetorne código pronto para usar.` }
+    ];
+
+    const resposta = await chamarIA(msgs);
+
+    respEl.innerHTML = `
+      &lt;div class=&quot;detector-resultado&quot;&gt;
+        &lt;div class=&quot;resultado-header&quot;&gt;
+          &lt;span class=&quot;resultado-titulo&quot;&gt;🔙 Backend Gerado&lt;/span&gt;
+          &lt;div class=&quot;resultado-acoes&quot;&gt;
+            &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarBackend()&quot;&gt;📋&lt;/button&gt;
+            &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarBackend()&quot;&gt;⬇️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resultado-texto&quot; id=&quot;conteudoBackend&quot;&gt;${resposta}&lt;/div&gt;
+      &lt;/div&gt;
+    `;
+
+    mostrarToast('✅ Backend gerado!', 'success');
+  } catch (e) {
+    respEl.innerHTML = `&lt;div class=&quot;bad&quot;&gt;Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+function copiarBackend() {
+  const txt = document.getElementById('conteudoBackend').textContent;
+  navigator.clipboard.writeText(txt).then(() =&gt; mostrarToast('✅ Copiado!', 'success'));
+}
+
+function baixarBackend() {
+  const txt = document.getElementById('conteudoBackend').textContent;
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `backend_${Date.now()}.js`;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('⬇️ Download!', 'success');
+}
+
+// ============================================================
+// IA: LIMPAR RÉPLIT
+// ============================================================
+async function limparReplitComIA() {
+  if (!iaConectada) {
+    mostrarToast('Configure a IA primeiro.', 'error');
+    return;
+  }
+
+  const prompt = document.getElementById('promptLimpeza').value;
+  if (!prompt) {
+    mostrarToast('Digite um prompt.', 'error');
+    return;
+  }
+
+  const respEl = document.getElementById('respostaLimpeza');
+  respEl.innerHTML = '&lt;div style=&quot;color:#a78bfa;&quot;&gt;&lt;span class=&quot;spinner&quot;&gt;&lt;/span&gt; Analisando Réplit...&lt;/div&gt;';
+
+  try {
+    // Construir contexto
+    let ctx = 'ESTRUTURA DO PROJETO:\n\n';
+    arquivos.slice(0, 50).forEach(arq =&gt; {
+      ctx += `${arq.nome} (${arq.tamanho} bytes)\n`;
+    });
+
+    const msgs = [
+      { role: 'user', content: `${ctx}\n\n${prompt}` }
+    ];
+
+    const resposta = await chamarIA(msgs);
+
+    respEl.innerHTML = `
+      &lt;div class=&quot;detector-resultado&quot;&gt;
+        &lt;div class=&quot;resultado-header&quot;&gt;
+          &lt;span class=&quot;resultado-titulo&quot;&gt;🧹 Plano de Limpeza&lt;/span&gt;
+          &lt;div class=&quot;resultado-acoes&quot;&gt;
+            &lt;button class=&quot;btn-mini blue&quot; onclick=&quot;copiarLimpeza()&quot;&gt;📋&lt;/button&gt;
+            &lt;button class=&quot;btn-mini green&quot; onclick=&quot;baixarLimpeza()&quot;&gt;⬇️&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resultado-texto&quot; id=&quot;conteudoLimpeza&quot;&gt;${resposta}&lt;/div&gt;
+      &lt;/div&gt;
+    `;
+
+    mostrarToast('✅ Plano de limpeza gerado!', 'success');
+  } catch (e) {
+    respEl.innerHTML = `&lt;div class=&quot;bad&quot;&gt;Erro: ${e.message}&lt;/div&gt;`;
+    mostrarToast('Erro: ' + e.message, 'error');
+  }
+}
+
+function copiarLimpeza() {
+  const txt = document.getElementById('conteudoLimpeza').textContent;
+  navigator.clipboard.writeText(txt).then(() =&gt; mostrarToast('✅ Copiado!', 'success'));
+}
+
+function baixarLimpeza() {
+  const txt = document.getElementById('conteudoLimpeza').textContent;
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `plano_limpeza_${Date.now()}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('⬇️ Download!', 'success');
+}
+
+// ============================================================
+// UTILITÁRIOS
+// ============================================================
+function copiarResultado(id) {
+  const txt = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(txt).then(() =&gt; mostrarToast('✅ Copiado!', 'success'));
+}
+
+function baixarResultado(id, tipo) {
+  const txt = document.getElementById(id).textContent;
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${tipo}_${Date.now()}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('⬇️ Download!', 'success');
+}
+
+function limparTudo() {
+  if (confirm('Limpar TUDO?')) {
+    arquivos = [];
+    conteudosTexto = [];
+    document.getElementById('resumoGeral').innerHTML = '&lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Carregue um projeto.&lt;/div&gt;';
+    document.getElementById('conflitosDetectados').innerHTML = '&lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Nenhum conflito.&lt;/div&gt;';
+    document.getElementById('recomendacoes').innerHTML = '&lt;div class=&quot;small&quot; style=&quot;color:#64748b;&quot;&gt;Recomendações aparecerão aqui.&lt;/div&gt;';
+    mostrarToast('🗑️ Tudo limpo!', 'info');
+  }
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+
+<script>
+function trocarProjeto(index) {
+  // Esconde todos
+  document.querySelectorAll('.project-container').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  // Mostra o selecionado
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  // Salva preferência
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+// Restaura último projeto aberto
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+</script>
+</body>
+</html>

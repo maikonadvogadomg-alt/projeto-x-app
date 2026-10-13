@@ -1,0 +1,3105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Projetos PWA — Maikon Caldeira</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #e2e8f0; }
+
+.project-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #12121a;
+  border-bottom: 2px solid #a3a082;
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 10px 18px;
+  background: #1a1a2e;
+  border: 1px solid #2d2d3a;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: #a3a082;
+  color: #000;
+  border-color: #a3a082;
+}
+
+.nav-btn.active {
+  background: #a3a082;
+  color: #000;
+  border-color: #d4d0a8;
+}
+
+.project-container {
+  display: none;
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+.project-container.active {
+  display: block;
+}
+
+/* Isola estilos de cada projeto */
+.project-container iframe {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  border: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Navegação -->
+<div class="project-nav">
+  <span style="font-size:14px;font-weight:700;color:#a3a082;margin-right:10px;">📂</span>
+  <button class="nav-btn active" onclick="trocarProjeto(0)">1.Gerador</button><button class="nav-btn " onclick="trocarProjeto(1)">2. Plano</button><button class="nav-btn " onclick="trocarProjeto(2)">3. Chat</button>
+</div>
+
+<!-- Projetos (cada um em iframe isolado) -->
+
+<div class="project-container active" id="projeto0">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;📋 Gerador de Plano de Projeto&lt;/title&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;&gt;&lt;/script&gt;
+    &lt;style&gt;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0f1e 0%, #1a1f3a 100%);
+            color: #e2e8f0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #1e3a5f;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            color: #7dd3fc;
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upload-area {
+            background: #0f172a;
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 16px;
+        }
+
+        .upload-area:hover {
+            border-color: #38bdf8;
+            background: #1e293b;
+        }
+
+        .upload-area.dragover {
+            border-color: #4ade80;
+            background: #064e3b;
+        }
+
+        input[type=&quot;file&quot;] {
+            display: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+            width: 100%;
+            margin: 6px 0;
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 78, 216, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-verde {
+            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+        }
+
+        .btn-roxo {
+            background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%);
+        }
+
+        .btn-laranja {
+            background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+        }
+
+        .checkbox-group {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            cursor: pointer;
+        }
+
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .ia-panel {
+            background: #0f172a;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .ia-panel input {
+            width: 100%;
+            background: #020617;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .plano-container {
+            background: #020617;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            max-height: 80vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .secao {
+            background: #0f172a;
+            border-left: 4px solid #38bdf8;
+            border-radius: 0 8px 8px 0;
+            padding: 12px;
+            margin: 12px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .secao:hover {
+            background: #1e293b;
+            border-left-color: #4ade80;
+        }
+
+        .secao-titulo {
+            color: #38bdf8;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .secao-desc {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .stat-box {
+            background: #0f172a;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-numero {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #1e3a5f;
+            border-top-color: #38bdf8;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .copiado {
+            background: #065f46 !important;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .arvore {
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .arvore-item {
+            color: #94a3b8;
+        }
+
+        .arvore-pasta {
+            color: #38bdf8;
+            font-weight: bold;
+        }
+
+        .arvore-arquivo {
+            color: #4ade80;
+        }
+
+        .codigo-bloco {
+            background: #0a0f1e;
+            border: 1px solid #1e3a5f;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 8px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+            margin: 2px;
+        }
+
+        .tag-api {
+            background: #1e3a5f;
+            color: #7dd3fc;
+        }
+
+        .tag-funcao {
+            background: #3b0764;
+            color: #c4b5fd;
+        }
+
+        .tag-tipo {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        .tag-rota {
+            background: #451a03;
+            color: #fcd34d;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;h1&gt;📋 Gerador de Plano de Projeto&lt;/h1&gt;
+        &lt;p class=&quot;subtitulo&quot;&gt;Analisa qualquer projeto · Gera documentação completa em Markdown · Detecta APIs, funções, rotas · Integração com IA&lt;/p&gt;
+
+        &lt;div class=&quot;grid&quot;&gt;
+            &lt;!-- COLUNA ESQUERDA --&gt;
+            &lt;div&gt;
+                &lt;!-- UPLOAD --&gt;
+                &lt;div class=&quot;card&quot;&gt;
+                    &lt;h2&gt;📁 Carregar Projeto&lt;/h2&gt;
+                    &lt;div class=&quot;upload-area&quot; id=&quot;uploadArea&quot; onclick=&quot;document.getElementById('fileInput').click()&quot;&gt;
+                        &lt;div style=&quot;font-size: 48px; margin-bottom: 12px;&quot;&gt;📦&lt;/div&gt;
+                        &lt;div style=&quot;color: #38bdf8; font-weight: bold; margin-bottom: 8px;&quot;&gt;Arraste ou clique&lt;/div&gt;
+                        &lt;div style=&quot;color: #64748b; font-size: 12px;&quot;&gt;ZIP, HTML, JS, TS, TSX, JSON&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip,.html,.js,.ts,.tsx,.jsx,.json,.txt,.md&quot; onchange=&quot;carregarProjeto(event)&quot;&gt;
+                    
+                    &lt;div id=&quot;projetoInfo&quot; style=&quot;display: none;&quot;&gt;
+                        &lt;div class=&quot;stats&quot; id=&quot;stats&quot;&gt;&lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;!-- OPÇÕES --&gt;
+                &lt;div class=&quot;card&quot;&gt;
+                    &lt;h2&gt;⚙️ O que incluir no plano?&lt;/h2&gt;
+                    &lt;div class=&quot;checkbox-group&quot;&gt;
+                        &lt;div class=&quot;checkbox-item&quot;&gt;
+                            &lt;input type=&quot;checkbox&quot; id=&quot;opt_arvore&quot; checked&gt;
+                            &lt;label for=&quot;opt_arvore&quot;&gt;🌳 Árvore de arquivos&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;checkbox-item&quot;&gt;
+                            &lt;input type=&quot;checkbox&quot; id=&quot;opt_funcoes&quot; checked&gt;
+                            &lt;label for=&quot;opt_funcoes&quot;&gt;⚡ Funções e métodos&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;checkbox-item&quot;&gt;
+                            &lt;input type=&quot;checkbox&quot; id=&quot;opt_apis&quot; checked&gt;
+                            &lt;label for=&quot;opt_apis&quot;&gt;🌐 Rotas de API&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;checkbox-item&quot;&gt;
+                            &lt;input type=&quot;checkbox&quot; id=&quot;opt_tipos&quot; checked&gt;
+                            &lt;label for=&quot;opt_tipos&quot;&gt;📦 Tipos/Interfaces (TS)&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;checkbox-item&quot;&gt;
+                            &lt;input type=&quot;checkbox&quot; id=&quot;opt_dependencias&quot; checked&gt;
+                            &lt;label for=&quot;opt_dependencias&quot;&gt;📚 Dependências&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;checkbox-item&quot;&gt;
+                            &lt;input type=&quot;checkbox&quot; id=&quot;opt_rotas&quot; checked&gt;
+                            &lt;label for=&quot;opt_rotas&quot;&gt;🛣️ Rotas/Páginas&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;checkbox-item&quot;&gt;
+                            &lt;input type=&quot;checkbox&quot; id=&quot;opt_componentes&quot; checked&gt;
+                            &lt;label for=&quot;opt_componentes&quot;&gt;🧩 Componentes React&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;checkbox-item&quot;&gt;
+                            &lt;input type=&quot;checkbox&quot; id=&quot;opt_hooks&quot; checked&gt;
+                            &lt;label for=&quot;opt_hooks&quot;&gt;🪝 Hooks customizados&lt;/label&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;!-- IA --&gt;
+                &lt;div class=&quot;card&quot;&gt;
+                    &lt;h2&gt;🤖 Análise com IA (Opcional)&lt;/h2&gt;
+                    &lt;div class=&quot;ia-panel&quot;&gt;
+                        &lt;label style=&quot;font-size: 12px; color: #64748b; display: block; margin-bottom: 6px;&quot;&gt;Chave de API (Groq, Gemini, OpenAI...):&lt;/label&gt;
+                        &lt;input type=&quot;password&quot; id=&quot;iaApiKey&quot; placeholder=&quot;gsk_... / AIza... / sk-...&quot;&gt;
+                        &lt;div id=&quot;iaProviderDetectado&quot; style=&quot;font-size: 11px; color: #4ade80; margin-top: 6px; min-height: 16px;&quot;&gt;&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;button class=&quot;btn btn-roxo&quot; onclick=&quot;analisarComIA()&quot; id=&quot;btnIA&quot; disabled&gt;
+                        🤖 Analisar com IA
+                    &lt;/button&gt;
+                &lt;/div&gt;
+
+                &lt;!-- AÇÕES --&gt;
+                &lt;div class=&quot;card&quot;&gt;
+                    &lt;h2&gt;🚀 Ações&lt;/h2&gt;
+                    &lt;button class=&quot;btn btn-verde&quot; onclick=&quot;gerarPlano()&quot; id=&quot;btnGerar&quot; disabled&gt;
+                        📋 Gerar Plano Completo
+                    &lt;/button&gt;
+                    &lt;button class=&quot;btn&quot; onclick=&quot;copiarPlanoCompleto()&quot; id=&quot;btnCopiar&quot; disabled&gt;
+                        📋 Copiar Tudo
+                    &lt;/button&gt;
+                    &lt;button class=&quot;btn btn-laranja&quot; onclick=&quot;baixarMarkdown()&quot; id=&quot;btnBaixar&quot; disabled&gt;
+                        💾 Baixar Markdown
+                    &lt;/button&gt;
+                &lt;/div&gt;
+
+                &lt;!-- SEÇÕES PARA COPIAR --&gt;
+                &lt;div class=&quot;card&quot; id=&quot;cardSecoes&quot; style=&quot;display: none;&quot;&gt;
+                    &lt;h2&gt;📑 Copiar por Seções&lt;/h2&gt;
+                    &lt;div id=&quot;listaSecoes&quot;&gt;&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- COLUNA DIREITA --&gt;
+            &lt;div&gt;
+                &lt;div class=&quot;card&quot;&gt;
+                    &lt;h2 id=&quot;tituloPlano&quot;&gt;📄 Plano do Projeto&lt;/h2&gt;
+                    &lt;div class=&quot;plano-container&quot; id=&quot;planoContainer&quot;&gt;
+                        &lt;div style=&quot;text-align: center; padding: 60px 20px; color: #64748b;&quot;&gt;
+                            &lt;div style=&quot;font-size: 64px; margin-bottom: 20px;&quot;&gt;📋&lt;/div&gt;
+                            &lt;div style=&quot;font-size: 18px; font-weight: bold; color: #38bdf8; margin-bottom: 12px;&quot;&gt;
+                                Gerador de Plano de Projeto
+                            &lt;/div&gt;
+                            &lt;div style=&quot;font-size: 14px; line-height: 1.8;&quot;&gt;
+                                Carregue seu projeto para gerar:&lt;br&gt;&lt;br&gt;
+                                ✅ Árvore completa de arquivos&lt;br&gt;
+                                ✅ Lista de todas as funções&lt;br&gt;
+                                ✅ Rotas de API e endpoints&lt;br&gt;
+                                ✅ Tipos e interfaces TypeScript&lt;br&gt;
+                                ✅ Dependências e scripts&lt;br&gt;
+                                ✅ Componentes React&lt;br&gt;
+                                ✅ Documentação em Markdown&lt;br&gt;&lt;br&gt;
+                                &lt;span style=&quot;color: #4ade80;&quot;&gt;Arraste um ZIP ou arquivo individual acima!&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        // =====================
+        // ESTADO GLOBAL
+        // =====================
+        let projeto = null;
+        let planoGerado = '';
+        let secoes = {};
+
+        // =====================
+        // DRAG &amp; DROP
+        // =====================
+        const uploadArea = document.getElementById('uploadArea');
+
+        uploadArea.addEventListener('dragover', (e) =&gt; {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () =&gt; {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) =&gt; {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                document.getElementById('fileInput').files = e.dataTransfer.files;
+                carregarProjeto({ target: { files: [file] } });
+            }
+        });
+
+        // =====================
+        // DETECTAR PROVEDOR IA
+        // =====================
+        const PROVEDORES = [
+            { prefix: &quot;gsk_&quot;, nome: &quot;Groq&quot;, url: &quot;https://api.groq.com/openai/v1&quot;, model: &quot;llama-3.3-70b-versatile&quot; },
+            { prefix: &quot;AIza&quot;, nome: &quot;Google Gemini&quot;, url: &quot;https://generativelanguage.googleapis.com/v1beta/openai&quot;, model: &quot;gemini-2.0-flash&quot; },
+            { prefix: &quot;sk-&quot;, nome: &quot;OpenAI&quot;, url: &quot;https://api.openai.com/v1&quot;, model: &quot;gpt-4o-mini&quot; },
+            { prefix: &quot;sk-or-&quot;, nome: &quot;OpenRouter&quot;, url: &quot;https://openrouter.ai/api/v1&quot;, model: &quot;openai/gpt-4o-mini&quot; },
+        ];
+
+        document.getElementById('iaApiKey').addEventListener('input', function() {
+            const chave = this.value.trim();
+            const provedor = PROVEDORES.find(p =&gt; chave.startsWith(p.prefix));
+            const el = document.getElementById('iaProviderDetectado');
+            
+            if (provedor) {
+                el.textContent = `✅ Detectado: ${provedor.nome}`;
+                if (projeto) document.getElementById('btnIA').disabled = false;
+            } else if (chave) {
+                el.textContent = '❓ Chave não reconhecida';
+            } else {
+                el.textContent = '';
+            }
+        });
+
+        // =====================
+        // CARREGAR PROJETO
+        // =====================
+        async function carregarProjeto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            mostrarLoading();
+
+            const ext = file.name.split('.').pop().toLowerCase();
+            projeto = {
+                nome: file.name,
+                tamanho: file.size,
+                arquivos: {},
+                tipo: ext
+            };
+
+            if (ext === 'zip') {
+                projeto = await carregarZIP(file, projeto);
+            } else {
+                const conteudo = await file.text();
+                projeto.arquivos[file.name] = {
+                    nome: file.name,
+                    caminho: file.name,
+                    conteudo: conteudo,
+                    tamanho: file.size,
+                    tipo: ext
+                };
+            }
+
+            analisarProjeto();
+            mostrarStats();
+            document.getElementById('btnGerar').disabled = false;
+            
+            const chave = document.getElementById('iaApiKey').value.trim();
+            if (chave &amp;&amp; PROVEDORES.some(p =&gt; chave.startsWith(p.prefix))) {
+                document.getElementById('btnIA').disabled = false;
+            }
+        }
+
+        async function carregarZIP(file, projeto) {
+            const zip = await JSZip.loadAsync(file);
+            const arquivos = {};
+
+            for (const [caminho, entrada] of Object.entries(zip.files)) {
+                if (!entrada.dir) {
+                    const ext = caminho.split('.').pop().toLowerCase();
+                    const legivel = ['js','ts','tsx','jsx','html','htm','css','json','txt','md','xml','yaml','yml'].includes(ext);
+                    
+                    if (legivel) {
+                        try {
+                            const conteudo = await entrada.async('text');
+                            arquivos[caminho] = {
+                                nome: caminho.split('/').pop(),
+                                caminho: caminho,
+                                conteudo: conteudo,
+                                tamanho: conteudo.length,
+                                tipo: ext
+                            };
+                        } catch(e) {}
+                    }
+                }
+            }
+
+            projeto.arquivos = arquivos;
+            return projeto;
+        }
+
+        // =====================
+        // ANALISAR PROJETO
+        // =====================
+        function analisarProjeto() {
+            const analise = {
+                totalArquivos: Object.keys(projeto.arquivos).length,
+                totalLinhas: 0,
+                funcoes: [],
+                apis: [],
+                tipos: [],
+                rotas: [],
+                componentes: [],
+                hooks: [],
+                dependencias: {}
+            };
+
+            for (const [caminho, arquivo] of Object.entries(projeto.arquivos)) {
+                const linhas = arquivo.conteudo.split('\n');
+                analise.totalLinhas += linhas.length;
+
+                // Funções
+                const funcoes = [...arquivo.conteudo.matchAll(/(?:function|const|let|var)\s+(\w+)\s*=?\s*(?:async\s*)?\(/g)];
+                funcoes.forEach(m =&gt; {
+                    analise.funcoes.push({
+                        nome: m[1],
+                        arquivo: caminho,
+                        linha: arquivo.conteudo.substring(0, m.index).split('\n').length
+                    });
+                });
+
+                // APIs
+                const apis = [...arquivo.conteudo.matchAll(/(?:fetch|axios\.(?:get|post|put|delete))\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g)];
+                apis.forEach(m =&gt; {
+                    analise.apis.push({
+                        url: m[1],
+                        arquivo: caminho,
+                        linha: arquivo.conteudo.substring(0, m.index).split('\n').length
+                    });
+                });
+
+                // Tipos/Interfaces (TypeScript)
+                if (['ts', 'tsx'].includes(arquivo.tipo)) {
+                    const tipos = [...arquivo.conteudo.matchAll(/(?:interface|type)\s+(\w+)/g)];
+                    tipos.forEach(m =&gt; {
+                        analise.tipos.push({
+                            nome: m[1],
+                            arquivo: caminho,
+                            linha: arquivo.conteudo.substring(0, m.index).split('\n').length
+                        });
+                    });
+                }
+
+                // Componentes React
+                if (['jsx', 'tsx'].includes(arquivo.tipo)) {
+                    const componentes = [...arquivo.conteudo.matchAll(/(?:function|const)\s+([A-Z]\w+)\s*[=:]?\s*(?:\([^)]*\))?\s*(?:=&gt;)?\s*\{/g)];
+                    componentes.forEach(m =&gt; {
+                        analise.componentes.push({
+                            nome: m[1],
+                            arquivo: caminho
+                        });
+                    });
+
+                    // Hooks customizados
+                    const hooks = [...arquivo.conteudo.matchAll(/(?:function|const)\s+(use[A-Z]\w+)/g)];
+                    hooks.forEach(m =&gt; {
+                        analise.hooks.push({
+                            nome: m[1],
+                            arquivo: caminho
+                        });
+                    });
+                }
+
+                // Rotas
+                const rotas = [...arquivo.conteudo.matchAll(/(?:path|route):\s*['&quot;`]([^'&quot;`]+)['&quot;`]/gi)];
+                rotas.forEach(m =&gt; {
+                    analise.rotas.push({
+                        caminho: m[1],
+                        arquivo: caminho
+                    });
+                });
+
+                // package.json
+                if (arquivo.nome === 'package.json') {
+                    try {
+                        const pkg = JSON.parse(arquivo.conteudo);
+                        analise.dependencias = {
+                            ...pkg.dependencies,
+                            ...pkg.devDependencies
+                        };
+                    } catch(e) {}
+                }
+            }
+
+            projeto.analise = analise;
+        }
+
+        function mostrarStats() {
+            const a = projeto.analise;
+            document.getElementById('projetoInfo').style.display = 'block';
+            document.getElementById('stats').innerHTML = `
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-numero&quot;&gt;${a.totalArquivos}&lt;/div&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;Arquivos&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-numero&quot;&gt;${a.totalLinhas.toLocaleString()}&lt;/div&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;Linhas&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-numero&quot;&gt;${a.funcoes.length}&lt;/div&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;Funções&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-numero&quot;&gt;${a.apis.length}&lt;/div&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;APIs&lt;/div&gt;
+                &lt;/div&gt;
+            `;
+        }
+
+        // =====================
+        // GERAR PLANO
+        // =====================
+        function gerarPlano() {
+            if (!projeto) return;
+
+            mostrarLoading();
+
+            setTimeout(() =&gt; {
+                const opcoes = {
+                    arvore: document.getElementById('opt_arvore').checked,
+                    funcoes: document.getElementById('opt_funcoes').checked,
+                    apis: document.getElementById('opt_apis').checked,
+                    tipos: document.getElementById('opt_tipos').checked,
+                    dependencias: document.getElementById('opt_dependencias').checked,
+                    rotas: document.getElementById('opt_rotas').checked,
+                    componentes: document.getElementById('opt_componentes').checked,
+                    hooks: document.getElementById('opt_hooks').checked
+                };
+
+                planoGerado = gerarMarkdown(opcoes);
+                mostrarPlano(planoGerado);
+                gerarSecoes();
+                
+                document.getElementById('btnCopiar').disabled = false;
+                document.getElementById('btnBaixar').disabled = false;
+                document.getElementById('cardSecoes').style.display = 'block';
+            }, 500);
+        }
+
+        function gerarMarkdown(opcoes) {
+            const a = projeto.analise;
+            let md = '';
+
+            // CABEÇALHO
+            md += `# 📋 Plano do Projeto: ${projeto.nome}\n\n`;
+            md += `&gt; Gerado automaticamente em ${new Date().toLocaleString('pt-BR')}\n\n`;
+            md += `---\n\n`;
+
+            // ÍNDICE
+            md += `## 📑 Índice\n\n`;
+            if (opcoes.arvore) md += `- [🌳 Estrutura de Arquivos](#estrutura)\n`;
+            if (opcoes.dependencias) md += `- [📦 Dependências](#dependencias)\n`;
+            if (opcoes.funcoes) md += `- [⚡ Funções](#funcoes)\n`;
+            if (opcoes.apis) md += `- [🌐 Rotas de API](#apis)\n`;
+            if (opcoes.tipos) md += `- [📘 Tipos/Interfaces](#tipos)\n`;
+            if (opcoes.rotas) md += `- [🛣️ Rotas/Páginas](#rotas)\n`;
+            if (opcoes.componentes) md += `- [🧩 Componentes React](#componentes)\n`;
+            if (opcoes.hooks) md += `- [🪝 Hooks Customizados](#hooks)\n`;
+            md += `\n---\n\n`;
+
+            // ESTATÍSTICAS
+            md += `## 📊 Estatísticas\n\n`;
+            md += `| Métrica | Valor |\n`;
+            md += `|---------|-------|\n`;
+            md += `| **Arquivos** | ${a.totalArquivos} |\n`;
+            md += `| **Linhas de código** | ${a.totalLinhas.toLocaleString()} |\n`;
+            md += `| **Funções** | ${a.funcoes.length} |\n`;
+            md += `| **Rotas de API** | ${a.apis.length} |\n`;
+            md += `| **Componentes** | ${a.componentes.length} |\n`;
+            md += `| **Tipos/Interfaces** | ${a.tipos.length} |\n`;
+            md += `\n---\n\n`;
+
+            // ESTRUTURA
+            if (opcoes.arvore) {
+                md += `## 🌳 Estrutura de Arquivos {#estrutura}\n\n`;
+                md += '```\n';
+                md += gerarArvore();
+                md += '```\n\n';
+                md += `---\n\n`;
+                
+                secoes['estrutura'] = md.split('---\n\n')[md.split('---\n\n').length - 2];
+            }
+
+            // DEPENDÊNCIAS
+            if (opcoes.dependencias &amp;&amp; Object.keys(a.dependencias).length &gt; 0) {
+                md += `## 📦 Dependências {#dependencias}\n\n`;
+                md += `Total: **${Object.keys(a.dependencias).length}** pacotes\n\n`;
+                md += `| Pacote | Versão |\n`;
+                md += `|--------|--------|\n`;
+                Object.entries(a.dependencias).slice(0, 50).forEach(([nome, versao]) =&gt; {
+                    md += `| \`${nome}\` | ${versao} |\n`;
+                });
+                if (Object.keys(a.dependencias).length &gt; 50) {
+                    md += `\n... e mais ${Object.keys(a.dependencias).length - 50} pacotes\n`;
+                }
+                md += `\n---\n\n`;
+                
+                secoes['dependencias'] = md.split('---\n\n')[md.split('---\n\n').length - 2];
+            }
+
+            // FUNÇÕES
+            if (opcoes.funcoes &amp;&amp; a.funcoes.length &gt; 0) {
+                md += `## ⚡ Funções {#funcoes}\n\n`;
+                md += `Total: **${a.funcoes.length}** funções encontradas\n\n`;
+                
+                const porArquivo = {};
+                a.funcoes.forEach(f =&gt; {
+                    if (!porArquivo[f.arquivo]) porArquivo[f.arquivo] = [];
+                    porArquivo[f.arquivo].push(f);
+                });
+
+                Object.entries(porArquivo).forEach(([arquivo, funcoes]) =&gt; {
+                    md += `### 📄 \`${arquivo}\`\n\n`;
+                    funcoes.forEach(f =&gt; {
+                        md += `- **${f.nome}()** (linha ${f.linha})\n`;
+                    });
+                    md += `\n`;
+                });
+                
+                md += `---\n\n`;
+                secoes['funcoes'] = md.split('---\n\n')[md.split('---\n\n').length - 2];
+            }
+
+            // APIs
+            if (opcoes.apis &amp;&amp; a.apis.length &gt; 0) {
+                md += `## 🌐 Rotas de API {#apis}\n\n`;
+                md += `Total: **${a.apis.length}** chamadas de API encontradas\n\n`;
+                md += `| Endpoint | Arquivo | Linha |\n`;
+                md += `|----------|---------|-------|\n`;
+                a.apis.forEach(api =&gt; {
+                    md += `| \`${api.url}\` | ${api.arquivo} | ${api.linha} |\n`;
+                });
+                md += `\n---\n\n`;
+                
+                secoes['apis'] = md.split('---\n\n')[md.split('---\n\n').length - 2];
+            }
+
+            // TIPOS
+            if (opcoes.tipos &amp;&amp; a.tipos.length &gt; 0) {
+                md += `## 📘 Tipos/Interfaces TypeScript {#tipos}\n\n`;
+                md += `Total: **${a.tipos.length}** tipos/interfaces\n\n`;
+                
+                const porArquivo = {};
+                a.tipos.forEach(t =&gt; {
+                    if (!porArquivo[t.arquivo]) porArquivo[t.arquivo] = [];
+                    porArquivo[t.arquivo].push(t);
+                });
+
+                Object.entries(porArquivo).forEach(([arquivo, tipos]) =&gt; {
+                    md += `### 📄 \`${arquivo}\`\n\n`;
+                    tipos.forEach(t =&gt; {
+                        md += `- **${t.nome}** (linha ${t.linha})\n`;
+                    });
+                    md += `\n`;
+                });
+                
+                md += `---\n\n`;
+                secoes['tipos'] = md.split('---\n\n')[md.split('---\n\n').length - 2];
+            }
+
+            // ROTAS
+            if (opcoes.rotas &amp;&amp; a.rotas.length &gt; 0) {
+                md += `## 🛣️ Rotas/Páginas {#rotas}\n\n`;
+                md += `Total: **${a.rotas.length}** rotas\n\n`;
+                md += `| Rota | Arquivo |\n`;
+                md += `|------|----------|\n`;
+                a.rotas.forEach(r =&gt; {
+                    md += `| \`${r.caminho}\` | ${r.arquivo} |\n`;
+                });
+                md += `\n---\n\n`;
+                
+                secoes['rotas'] = md.split('---\n\n')[md.split('---\n\n').length - 2];
+            }
+
+            // COMPONENTES
+            if (opcoes.componentes &amp;&amp; a.componentes.length &gt; 0) {
+                md += `## 🧩 Componentes React {#componentes}\n\n`;
+                md += `Total: **${a.componentes.length}** componentes\n\n`;
+                
+                const porArquivo = {};
+                a.componentes.forEach(c =&gt; {
+                    if (!porArquivo[c.arquivo]) porArquivo[c.arquivo] = [];
+                    porArquivo[c.arquivo].push(c);
+                });
+
+                Object.entries(porArquivo).forEach(([arquivo, componentes]) =&gt; {
+                    md += `### 📄 \`${arquivo}\`\n\n`;
+                    componentes.forEach(c =&gt; {
+                        md += `- **&lt;${c.nome} /&gt;**\n`;
+                    });
+                    md += `\n`;
+                });
+                
+                md += `---\n\n`;
+                secoes['componentes'] = md.split('---\n\n')[md.split('---\n\n').length - 2];
+            }
+
+            // HOOKS
+            if (opcoes.hooks &amp;&amp; a.hooks.length &gt; 0) {
+                md += `## 🪝 Hooks Customizados {#hooks}\n\n`;
+                md += `Total: **${a.hooks.length}** hooks\n\n`;
+                a.hooks.forEach(h =&gt; {
+                    md += `- **${h.nome}()** em \`${h.arquivo}\`\n`;
+                });
+                md += `\n---\n\n`;
+                
+                secoes['hooks'] = md.split('---\n\n')[md.split('---\n\n').length - 2];
+            }
+
+            // RODAPÉ
+            md += `---\n\n`;
+            md += `*Plano gerado automaticamente pelo Gerador de Plano de Projeto*\n`;
+            md += `*Data: ${new Date().toLocaleString('pt-BR')}*\n`;
+
+            return md;
+        }
+
+        function gerarArvore() {
+            const caminhos = Object.keys(projeto.arquivos).sort();
+            let arvore = `${projeto.nome}/\n`;
+
+            const estrutura = {};
+            caminhos.forEach(caminho =&gt; {
+                const partes = caminho.split('/');
+                let atual = estrutura;
+                partes.forEach((parte, idx) =&gt; {
+                    if (!atual[parte]) {
+                        atual[parte] = idx === partes.length - 1 ? null : {};
+                    }
+                    if (atual[parte]) atual = atual[parte];
+                });
+            });
+
+            function renderizar(obj, prefixo = '') {
+                let resultado = '';
+                const chaves = Object.keys(obj).sort();
+                chaves.forEach((chave, idx) =&gt; {
+                    const ultimo = idx === chaves.length - 1;
+                    const simbolo = ultimo ? '└── ' : '├── ';
+                    const proximoPrefixo = prefixo + (ultimo ? '    ' : '│   ');
+                    
+                    resultado += prefixo + simbolo + chave + '\n';
+                    
+                    if (obj[chave] !== null) {
+                        resultado += renderizar(obj[chave], proximoPrefixo);
+                    }
+                });
+                return resultado;
+            }
+
+            arvore += renderizar(estrutura);
+            return arvore;
+        }
+
+        function gerarSecoes() {
+            const lista = document.getElementById('listaSecoes');
+            lista.innerHTML = '';
+
+            const secoesList = [
+                { id: 'estrutura', titulo: '🌳 Estrutura de Arquivos', desc: 'Árvore completa' },
+                { id: 'dependencias', titulo: '📦 Dependências', desc: 'Pacotes npm' },
+                { id: 'funcoes', titulo: '⚡ Funções', desc: 'Todas as funções' },
+                { id: 'apis', titulo: '🌐 APIs', desc: 'Rotas e endpoints' },
+                { id: 'tipos', titulo: '📘 Tipos', desc: 'TypeScript' },
+                { id: 'rotas', titulo: '🛣️ Rotas', desc: 'Páginas do app' },
+                { id: 'componentes', titulo: '🧩 Componentes', desc: 'React' },
+                { id: 'hooks', titulo: '🪝 Hooks', desc: 'Customizados' }
+            ];
+
+            secoesList.forEach(s =&gt; {
+                if (secoes[s.id]) {
+                    const div = document.createElement('div');
+                    div.className = 'secao';
+                    div.onclick = () =&gt; copiarSecao(s.id);
+                    div.innerHTML = `
+                        &lt;div class=&quot;secao-titulo&quot;&gt;${s.titulo}&lt;/div&gt;
+                        &lt;div class=&quot;secao-desc&quot;&gt;${s.desc} · Clique para copiar&lt;/div&gt;
+                    `;
+                    lista.appendChild(div);
+                }
+            });
+        }
+
+        // =====================
+        // ANALISAR COM IA
+        // =====================
+        async function analisarComIA() {
+            const chave = document.getElementById('iaApiKey').value.trim();
+            if (!chave || !projeto) return;
+
+            const provedor = PROVEDORES.find(p =&gt; chave.startsWith(p.prefix));
+            if (!provedor) {
+                alert('Chave de API não reconhecida!');
+                return;
+            }
+
+            mostrarLoading('Analisando com IA...');
+
+            const resumo = `
+Projeto: ${projeto.nome}
+Arquivos: ${projeto.analise.totalArquivos}
+Linhas: ${projeto.analise.totalLinhas}
+Funções: ${projeto.analise.funcoes.length}
+APIs: ${projeto.analise.apis.length}
+
+Arquivos principais:
+${Object.keys(projeto.arquivos).slice(0, 10).join('\n')}
+
+Funções principais:
+${projeto.analise.funcoes.slice(0, 20).map(f =&gt; f.nome).join(', ')}
+
+APIs detectadas:
+${projeto.analise.apis.slice(0, 10).map(a =&gt; a.url).join('\n')}
+            `.trim();
+
+            try {
+                const resp = await fetch(`${provedor.url}/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${chave}`
+                    },
+                    body: JSON.stringify({
+                        model: provedor.model,
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'Você é um especialista em análise de código. Responda em português brasileiro de forma clara e objetiva.'
+                            },
+                            {
+                                role: 'user',
+                                content: `Analise este projeto e me diga:
+1. Qual é o propósito do projeto?
+2. Quais são as principais funcionalidades?
+3. Que tecnologias/frameworks são usados?
+4. Há algum problema ou código suspeito?
+5. Sugestões de melhoria
+
+Dados do projeto:
+${resumo}`
+                            }
+                        ],
+                        max_tokens: 2000,
+                        temperature: 0.3
+                    })
+                });
+
+                if (!resp.ok) throw new Error('Erro na API');
+
+                const data = await resp.json();
+                const analise = data.choices[0].message.content;
+
+                planoGerado += `\n\n---\n\n## 🤖 Análise da IA (${provedor.nome})\n\n${analise}\n`;
+                mostrarPlano(planoGerado);
+
+            } catch(e) {
+                alert('Erro ao consultar IA: ' + e.message);
+                mostrarPlano(planoGerado);
+            }
+        }
+
+        // =====================
+        // EXIBIR E COPIAR
+        // =====================
+        function mostrarPlano(conteudo) {
+            document.getElementById('planoContainer').textContent = conteudo;
+        }
+
+        function mostrarLoading(texto = 'Gerando plano...') {
+            document.getElementById('planoContainer').innerHTML = `
+                &lt;div class=&quot;loading&quot;&gt;
+                    &lt;div class=&quot;spinner&quot;&gt;&lt;/div&gt;
+                    &lt;div style=&quot;margin-top: 16px;&quot;&gt;${texto}&lt;/div&gt;
+                &lt;/div&gt;
+            `;
+        }
+
+        function copiarPlanoCompleto() {
+            navigator.clipboard.writeText(planoGerado).then(() =&gt; {
+                const btn = document.getElementById('btnCopiar');
+                const original = btn.textContent;
+                btn.textContent = '✅ Copiado!';
+                btn.classList.add('copiado');
+                setTimeout(() =&gt; {
+                    btn.textContent = original;
+                    btn.classList.remove('copiado');
+                }, 2000);
+            });
+        }
+
+        function copiarSecao(id) {
+            if (!secoes[id]) return;
+            navigator.clipboard.writeText(secoes[id]).then(() =&gt; {
+                event.target.closest('.secao').style.background = '#065f46';
+                setTimeout(() =&gt; {
+                    event.target.closest('.secao').style.background = '';
+                }, 1000);
+            });
+        }
+
+        function baixarMarkdown() {
+            const blob = new Blob([planoGerado], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `plano-${projeto.nome.replace(/\.[^.]+$/, '')}-${Date.now()}.md`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto1">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;meta name=&quot;theme-color&quot; content=&quot;#141c0d&quot;&gt;
+&lt;title&gt;Visualizador de Markdown&lt;/title&gt;
+&lt;!-- Marked: parser de Markdown --&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js&quot;&gt;&lt;/script&gt;
+&lt;!-- Highlight.js: cor nos códigos --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css&quot;&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js&quot;&gt;&lt;/script&gt;
+&lt;style&gt;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#141c0d; --panel:#1c2714; --border:#2d4a1e;
+  --accent:#5aab56; --accent2:#7ec87a; --text:#e2e8f0;
+  --muted:#6b8f68; --code-bg:#0d1309; --user-bg:#1a3a14;
+  --err:#f87171; --warn:#fbbf24;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg); color:var(--text);
+  height:100dvh; display:flex; flex-direction:column; overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* HEADER */
+header{
+  flex-shrink:0; display:flex; align-items:center; gap:6px;
+  padding:10px 12px; background:var(--panel);
+  border-bottom:1px solid var(--border); min-height:50px;
+}
+header h1{font-size:14px; font-weight:700; flex:1; color:var(--accent2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.btn{
+  height:36px; padding:0 12px; border-radius:9px;
+  border:1px solid var(--border); background:rgba(90,171,86,0.12);
+  color:var(--accent2); font-size:12px; cursor:pointer;
+  white-space:nowrap; display:flex; align-items:center; gap:5px;
+}
+.btn:hover{background:rgba(90,171,86,0.22)}
+.btn.danger{color:var(--err); background:rgba(248,113,113,0.08)}
+.btn.danger:hover{background:rgba(248,113,113,0.18)}
+.icon-btn{
+  width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+  border-radius:9px; border:1px solid var(--border); background:var(--code-bg);
+  color:var(--muted); cursor:pointer; font-size:16px; flex-shrink:0;
+}
+.icon-btn:hover{color:var(--accent2); border-color:var(--accent)}
+.icon-btn.active{background:rgba(90,171,86,0.18); color:var(--accent2); border-color:var(--accent)}
+
+/* SEARCH BAR */
+#searchBar{
+  flex-shrink:0; padding:8px 12px; background:var(--panel);
+  border-bottom:1px solid var(--border); display:none; gap:6px;
+}
+#searchBar.show{display:flex}
+#searchInput{
+  flex:1; height:36px; padding:0 12px;
+  background:var(--code-bg); border:1px solid var(--border);
+  border-radius:9px; color:var(--text); font-size:13px; outline:none;
+}
+#searchInput:focus{border-color:var(--accent)}
+#searchCount{font-size:11px; color:var(--muted); display:flex; align-items:center; padding:0 6px}
+
+/* LAYOUT */
+.layout{flex:1; display:flex; overflow:hidden; position:relative}
+
+/* SIDEBAR / TOC */
+#toc{
+  width:280px; flex-shrink:0; background:var(--panel);
+  border-right:1px solid var(--border); overflow-y:auto;
+  padding:12px 8px; transition:transform 0.25s, width 0.25s;
+}
+#toc.hidden{width:0; padding:0; overflow:hidden}
+.toc-title{
+  font-size:10px; text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--muted); font-weight:700; padding:6px 10px; margin-bottom:4px;
+}
+.toc-item{
+  display:flex; align-items:center; gap:4px;
+  padding:6px 10px; border-radius:6px; cursor:pointer;
+  font-size:12px; color:var(--text); line-height:1.4;
+  border-left:2px solid transparent;
+}
+.toc-item:hover{background:rgba(90,171,86,0.1); color:var(--accent2)}
+.toc-item.active{background:rgba(90,171,86,0.15); color:var(--accent2); border-left-color:var(--accent)}
+.toc-item.h1{font-weight:700; padding-left:10px}
+.toc-item.h2{padding-left:22px}
+.toc-item.h3{padding-left:34px; font-size:11px}
+.toc-item.h4{padding-left:46px; font-size:11px; color:var(--muted)}
+.toc-item.h5,.toc-item.h6{padding-left:58px; font-size:10px; color:var(--muted)}
+.toc-text{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.toc-copy{
+  width:22px; height:22px; border-radius:5px; border:none;
+  background:transparent; color:var(--muted); cursor:pointer; font-size:11px;
+  display:none; align-items:center; justify-content:center; flex-shrink:0;
+}
+.toc-item:hover .toc-copy{display:flex}
+.toc-copy:hover{background:rgba(90,171,86,0.2); color:var(--accent2)}
+
+/* CONTEÚDO */
+#content{
+  flex:1; overflow-y:auto; padding:24px 32px 60px 32px;
+  scroll-behavior:smooth; max-width:100%;
+}
+#emptyState{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:100%; text-align:center; padding:24px; color:var(--muted);
+}
+#emptyState .big{font-size:64px; margin-bottom:14px}
+#emptyState h2{color:var(--accent2); font-size:18px; margin-bottom:10px}
+#emptyState p{font-size:13px; line-height:1.6; max-width:380px; margin-bottom:14px}
+#dropZone{
+  border:2px dashed var(--border); border-radius:12px;
+  padding:30px 20px; cursor:pointer; transition:all 0.2s;
+  background:var(--panel); width:100%; max-width:380px;
+}
+#dropZone:hover, #dropZone.dragover{
+  border-color:var(--accent); background:rgba(90,171,86,0.08);
+}
+#dropZone .icon{font-size:32px; margin-bottom:8px}
+
+/* MARKDOWN RENDERIZADO */
+.md h1,.md h2,.md h3,.md h4,.md h5,.md h6{
+  color:var(--accent2); margin:24px 0 12px 0; line-height:1.3;
+  scroll-margin-top:20px; position:relative;
+}
+.md h1{font-size:24px; border-bottom:2px solid var(--border); padding-bottom:8px}
+.md h2{font-size:20px; border-bottom:1px solid var(--border); padding-bottom:6px}
+.md h3{font-size:17px}
+.md h4{font-size:15px}
+.md h5,.md h6{font-size:13px}
+.md h1:first-child,.md h2:first-child{margin-top:0}
+
+/* Botão de copiar seção em cada heading */
+.section-copy{
+  position:absolute; right:0; top:50%; transform:translateY(-50%);
+  display:none; gap:4px; align-items:center;
+}
+.md h1:hover .section-copy,.md h2:hover .section-copy,
+.md h3:hover .section-copy,.md h4:hover .section-copy{display:flex}
+.section-copy button{
+  font-size:10px; padding:4px 8px; border-radius:5px;
+  border:1px solid var(--border); background:var(--panel);
+  color:var(--muted); cursor:pointer;
+}
+.section-copy button:hover{color:var(--accent2); border-color:var(--accent)}
+
+.md p{margin:10px 0; line-height:1.7; font-size:14px}
+.md strong{color:var(--accent2)}
+.md em{color:#a5c8a2; font-style:italic}
+.md a{color:#60a5fa; text-decoration:underline; word-break:break-all}
+.md ul,.md ol{margin:10px 0 10px 24px; line-height:1.7}
+.md li{margin:4px 0}
+.md blockquote{
+  border-left:3px solid var(--accent); padding:8px 14px;
+  margin:12px 0; background:rgba(90,171,86,0.06);
+  color:#a5c8a2; border-radius:0 6px 6px 0;
+}
+.md hr{border:none; border-top:1px solid var(--border); margin:20px 0}
+.md table{
+  border-collapse:collapse; margin:14px 0; font-size:13px;
+  display:block; overflow-x:auto; max-width:100%;
+}
+.md th,.md td{
+  border:1px solid var(--border); padding:8px 12px; text-align:left;
+}
+.md th{background:var(--panel); color:var(--accent2); font-weight:700}
+.md tr:nth-child(even){background:rgba(255,255,255,0.02)}
+.md img{max-width:100%; border-radius:6px; margin:10px 0}
+
+/* Inline code */
+.md :not(pre) &gt; code{
+  background:var(--code-bg); padding:2px 6px; border-radius:4px;
+  font-family:'Consolas','Courier New',monospace; font-size:12px;
+  color:#a8d5a2; border:1px solid var(--border);
+}
+
+/* Code block wrapper */
+.code-wrap{
+  margin:14px 0; border-radius:8px; overflow:hidden;
+  border:1px solid var(--border); background:var(--code-bg);
+}
+.code-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:6px 12px; background:#0a1008; font-size:10px;
+  font-family:monospace; color:var(--muted);
+  border-bottom:1px solid var(--border);
+}
+.code-lang{text-transform:uppercase; letter-spacing:0.05em}
+.code-copy{
+  background:none; border:none; color:var(--muted); cursor:pointer;
+  font-size:10px; font-family:inherit; display:flex; align-items:center; gap:4px;
+  padding:2px 6px; border-radius:4px;
+}
+.code-copy:hover{color:var(--accent2); background:rgba(90,171,86,0.1)}
+.md pre{
+  margin:0; padding:12px 14px; overflow-x:auto;
+  font-size:12px; line-height:1.55;
+  font-family:'Consolas','Courier New',monospace;
+}
+.md pre code{background:transparent !important; padding:0; color:#d4f1d4}
+
+/* Highlight de busca */
+mark.search-hit{background:#fbbf24; color:#000; padding:0 2px; border-radius:2px}
+mark.search-hit.current{background:#f87171; color:#fff}
+
+/* Toast */
+.toast{
+  position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
+  background:var(--panel); border:1px solid var(--accent);
+  color:var(--accent2); padding:10px 18px; border-radius:10px;
+  font-size:12px; z-index:9999; box-shadow:0 4px 14px rgba(0,0,0,0.5);
+  opacity:0; transition:opacity 0.2s; pointer-events:none;
+}
+.toast.show{opacity:1}
+.toast.err{border-color:var(--err); color:var(--err)}
+
+/* MOBILE */
+@media (max-width:768px){
+  #toc{
+    position:absolute; left:0; top:0; bottom:0; z-index:50;
+    transform:translateX(-100%); width:80%; max-width:300px;
+    box-shadow:4px 0 20px rgba(0,0,0,0.5);
+  }
+  #toc.show-mobile{transform:translateX(0)}
+  #content{padding:16px 18px 50px 18px}
+  .md h1{font-size:20px} .md h2{font-size:17px} .md h3{font-size:15px}
+  .section-copy{display:flex !important; opacity:0.6}
+  header h1{font-size:13px}
+  .btn span.lbl{display:none}
+}
+
+::-webkit-scrollbar{width:6px; height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border); border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* Backdrop mobile */
+.backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,0.5);
+  z-index:40; display:none;
+}
+.backdrop.show{display:block}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;button class=&quot;icon-btn&quot; id=&quot;tocToggle&quot; title=&quot;Mostrar/ocultar árvore&quot; onclick=&quot;toggleTOC()&quot;&gt;📑&lt;/button&gt;
+  &lt;h1 id=&quot;docTitle&quot;&gt;Visualizador de Markdown&lt;/h1&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Buscar (Ctrl+F)&quot; onclick=&quot;toggleSearch()&quot;&gt;🔍&lt;/button&gt;
+  &lt;button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileIn').click()&quot;&gt;
+    📂 &lt;span class=&quot;lbl&quot;&gt;Abrir&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class=&quot;btn&quot; id=&quot;exportBtn&quot; onclick=&quot;exportHTML()&quot; style=&quot;display:none&quot;&gt;
+    💾 &lt;span class=&quot;lbl&quot;&gt;Exportar&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;input type=&quot;file&quot; id=&quot;fileIn&quot; accept=&quot;.md,.markdown,.txt,.mdx&quot; style=&quot;display:none&quot; onchange=&quot;loadFile(event)&quot;&gt;
+&lt;/header&gt;
+
+&lt;div id=&quot;searchBar&quot;&gt;
+  &lt;input id=&quot;searchInput&quot; placeholder=&quot;Buscar no documento... (Enter = próximo, Shift+Enter = anterior)&quot;
+         oninput=&quot;doSearch()&quot; onkeydown=&quot;searchKey(event)&quot;&gt;
+  &lt;span id=&quot;searchCount&quot;&gt;0/0&lt;/span&gt;
+  &lt;button class=&quot;icon-btn&quot; onclick=&quot;toggleSearch()&quot; title=&quot;Fechar&quot;&gt;✕&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;layout&quot;&gt;
+  &lt;aside id=&quot;toc&quot;&gt;
+    &lt;div class=&quot;toc-title&quot;&gt;📑 Sumário&lt;/div&gt;
+    &lt;div id=&quot;tocList&quot;&gt;
+      &lt;div style=&quot;font-size:12px;color:var(--muted);text-align:center;padding:20px 10px&quot;&gt;
+        Abra um arquivo .md pra ver o sumário aqui
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/aside&gt;
+
+  &lt;div class=&quot;backdrop&quot; id=&quot;backdrop&quot; onclick=&quot;toggleTOC()&quot;&gt;&lt;/div&gt;
+
+  &lt;main id=&quot;content&quot;&gt;
+    &lt;div id=&quot;emptyState&quot;&gt;
+      &lt;div class=&quot;big&quot;&gt;📄&lt;/div&gt;
+      &lt;h2&gt;Visualizador de Markdown&lt;/h2&gt;
+      &lt;p&gt;
+        Abra qualquer arquivo &lt;strong&gt;.md&lt;/strong&gt; (Markdown) pra visualizar bonito,
+        com sumário lateral, busca e botões pra copiar cada pedaço.&lt;br&gt;&lt;br&gt;
+        Perfeito pra trazer documentação de projetos pra conversar com a IA.
+      &lt;/p&gt;
+      &lt;div id=&quot;dropZone&quot; onclick=&quot;document.getElementById('fileIn').click()&quot;&gt;
+        &lt;div class=&quot;icon&quot;&gt;📂&lt;/div&gt;
+        &lt;strong style=&quot;color:var(--accent2)&quot;&gt;Clique aqui ou arraste um arquivo&lt;/strong&gt;
+        &lt;div style=&quot;font-size:11px; color:var(--muted); margin-top:6px&quot;&gt;
+          Suporta: .md, .markdown, .mdx, .txt
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;p style=&quot;margin-top:18px; font-size:11px&quot;&gt;
+        💡 Você também pode &lt;strong&gt;colar texto Markdown&lt;/strong&gt; direto: Ctrl+V em qualquer lugar
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+'use strict';
+
+let rawMarkdown = '';
+let currentFileName = '';
+let searchHits = [];
+let searchIdx = 0;
+
+/*══════════════════════════════════════════════════════════════════
+  CONFIG MARKED
+══════════════════════════════════════════════════════════════════*/
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+  headerIds: true,
+  mangle: false,
+});
+
+// Renderer customizado pra blocos de código
+const renderer = new marked.Renderer();
+renderer.code = function(code, lang) {
+  const language = (lang || '').toLowerCase().trim() || 'texto';
+  let highlighted = escapeHTML(code);
+  try {
+    if (lang &amp;&amp; hljs.getLanguage(lang)) {
+      highlighted = hljs.highlight(code, { language: lang }).value;
+    } else {
+      highlighted = hljs.highlightAuto(code).value;
+    }
+  } catch(e) { /* fallback pra escape */ }
+
+  const safeCode = escapeAttr(code);
+  return (
+    '&lt;div class=&quot;code-wrap&quot;&gt;'+
+      '&lt;div class=&quot;code-head&quot;&gt;'+
+        '&lt;span class=&quot;code-lang&quot;&gt;'+language+'&lt;/span&gt;'+
+        '&lt;button class=&quot;code-copy&quot; data-code=&quot;'+safeCode+'&quot;&gt;📋 Copiar código&lt;/button&gt;'+
+      '&lt;/div&gt;'+
+      '&lt;pre&gt;&lt;code class=&quot;hljs language-'+language+'&quot;&gt;'+highlighted+'&lt;/code&gt;&lt;/pre&gt;'+
+    '&lt;/div&gt;'
+  );
+};
+
+// Headings com botões de copiar seção
+renderer.heading = function(text, level, raw) {
+  const slug = slugify(raw);
+  return (
+    '&lt;h'+level+' id=&quot;'+slug+'&quot; data-heading=&quot;'+level+'&quot; data-raw=&quot;'+escapeAttr(raw)+'&quot;&gt;'+
+      text+
+      '&lt;span class=&quot;section-copy&quot;&gt;'+
+        '&lt;button onclick=&quot;copySection(\''+slug+'\')&quot; title=&quot;Copiar essa seção inteira&quot;&gt;📋 Seção&lt;/button&gt;'+
+        '&lt;button onclick=&quot;copySectionMD(\''+slug+'\')&quot; title=&quot;Copiar a seção em Markdown&quot;&gt;📝 MD&lt;/button&gt;'+
+      '&lt;/span&gt;'+
+    '&lt;/h'+level+'&gt;'
+  );
+};
+
+marked.use({ renderer });
+
+/*══════════════════════════════════════════════════════════════════
+  CARREGAR ARQUIVO
+══════════════════════════════════════════════════════════════════*/
+function loadFile(e) {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  e.target.value = '';
+  readFile(file);
+}
+
+function readFile(file) {
+  currentFileName = file.name;
+  const reader = new FileReader();
+  reader.onload = ev =&gt; {
+    rawMarkdown = ev.target.result || '';
+    render();
+    toast('✓ '+file.name+' carregado');
+  };
+  reader.onerror = () =&gt; toast('Erro ao ler arquivo','err');
+  reader.readAsText(file, 'UTF-8');
+}
+
+/*══════════════════════════════════════════════════════════════════
+  RENDERIZAR
+══════════════════════════════════════════════════════════════════*/
+function render() {
+  if (!rawMarkdown) return;
+  const html = marked.parse(rawMarkdown);
+  const content = document.getElementById('content');
+  content.innerHTML = '&lt;div class=&quot;md&quot; id=&quot;md&quot;&gt;'+html+'&lt;/div&gt;';
+  document.getElementById('exportBtn').style.display = '';
+  document.getElementById('docTitle').textContent = currentFileName || 'Documento';
+  buildTOC();
+  bindCodeCopies();
+}
+
+function buildTOC() {
+  const list = document.getElementById('tocList');
+  const headings = document.querySelectorAll('#md h1, #md h2, #md h3, #md h4, #md h5, #md h6');
+  if (!headings.length) {
+    list.innerHTML = '&lt;div style=&quot;font-size:12px;color:var(--muted);text-align:center;padding:20px 10px&quot;&gt;Documento sem títulos&lt;/div&gt;';
+    return;
+  }
+  list.innerHTML = '';
+  headings.forEach(h =&gt; {
+    const lvl = h.tagName.toLowerCase();
+    const id  = h.id;
+    const txt = h.dataset.raw || h.textContent.replace(/📋.*$/,'').trim();
+    const item = document.createElement('div');
+    item.className = 'toc-item ' + lvl;
+    item.innerHTML =
+      '&lt;span class=&quot;toc-text&quot; title=&quot;'+escapeAttr(txt)+'&quot;&gt;'+escapeHTML(txt)+'&lt;/span&gt;'+
+      '&lt;button class=&quot;toc-copy&quot; title=&quot;Copiar essa seção&quot; onclick=&quot;event.stopPropagation();copySection(\''+id+'\')&quot;&gt;📋&lt;/button&gt;';
+    item.onclick = () =&gt; {
+      document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+      if (window.innerWidth &lt;= 768) toggleTOC();
+      document.querySelectorAll('.toc-item').forEach(i =&gt; i.classList.remove('active'));
+      item.classList.add('active');
+    };
+    list.appendChild(item);
+  });
+}
+
+function bindCodeCopies() {
+  document.querySelectorAll('.code-copy').forEach(btn =&gt; {
+    btn.onclick = () =&gt; {
+      const code = btn.dataset.code || '';
+      navigator.clipboard.writeText(decodeAttr(code)).then(() =&gt; {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✓ Copiado!';
+        setTimeout(() =&gt; btn.innerHTML = orig, 1500);
+      });
+    };
+  });
+}
+
+/*══════════════════════════════════════════════════════════════════
+  COPIAR SEÇÃO
+══════════════════════════════════════════════════════════════════*/
+function copySection(headingId, asMarkdown) {
+  const h = document.getElementById(headingId);
+  if (!h) return;
+  const level = parseInt(h.dataset.heading || '1');
+
+  // Coleta todos os elementos da seção (até o próximo heading de nível &lt;= )
+  const elements = [h];
+  let el = h.nextElementSibling;
+  while (el) {
+    if (/^H[1-6]$/.test(el.tagName)) {
+      const lvl = parseInt(el.dataset.heading || el.tagName[1]);
+      if (lvl &lt;= level) break;
+    }
+    elements.push(el);
+    el = el.nextElementSibling;
+  }
+
+  let text;
+  if (asMarkdown) {
+    text = extractMarkdownSection(headingId);
+  } else {
+    text = elements.map(e =&gt; extractText(e)).join('\n\n').trim();
+  }
+
+  navigator.clipboard.writeText(text).then(() =&gt; {
+    toast('✓ Seção copiada ('+text.length+' caracteres)');
+  }).catch(() =&gt; toast('Erro ao copiar','err'));
+}
+
+function copySectionMD(headingId) {
+  copySection(headingId, true);
+}
+
+function extractText(el) {
+  // Mantém quebras de bloco de código
+  if (el.classList?.contains('code-wrap')) {
+    const lang = el.querySelector('.code-lang')?.textContent || '';
+    const code = decodeAttr(el.querySelector('.code-copy')?.dataset.code || '');
+    return '```'+lang+'\n'+code+'\n```';
+  }
+  // Heading
+  if (/^H[1-6]$/.test(el.tagName)) {
+    const lvl = parseInt(el.tagName[1]);
+    const raw = el.dataset.raw || el.textContent.replace(/📋.*$/,'').trim();
+    return '#'.repeat(lvl)+' '+raw;
+  }
+  return el.innerText || el.textContent || '';
+}
+
+/* Extrai a seção do MD bruto (mais fiel) */
+function extractMarkdownSection(headingId) {
+  const lines = rawMarkdown.split('\n');
+  const headings = [];
+  lines.forEach((line, i) =&gt; {
+    const m = line.match(/^(#{1,6})\s+(.+?)\s*$/);
+    if (m) headings.push({ idx:i, level:m[1].length, text:m[2], slug:slugify(m[2]) });
+  });
+  const start = headings.find(h =&gt; h.slug === headingId);
+  if (!start) return '';
+  const next = headings.find(h =&gt; h.idx &gt; start.idx &amp;&amp; h.level &lt;= start.level);
+  const endIdx = next ? next.idx : lines.length;
+  return lines.slice(start.idx, endIdx).join('\n').trim();
+}
+
+/*══════════════════════════════════════════════════════════════════
+  EXPORTAR HTML
+══════════════════════════════════════════════════════════════════*/
+function exportHTML() {
+  if (!rawMarkdown) return;
+  const md = document.getElementById('md');
+  if (!md) return;
+
+  // CSS embutido pra o HTML ficar standalone bonito
+  const css = `
+    body{font-family:Georgia,Cambria,'Times New Roman',serif;max-width:860px;margin:30px auto;padding:0 24px;color:#222;line-height:1.7;background:#fafafa}
+    h1,h2,h3,h4{color:#2d4a1e;margin-top:28px;margin-bottom:12px}
+    h1{border-bottom:2px solid #5aab56;padding-bottom:8px}
+    h2{border-bottom:1px solid #ccc;padding-bottom:6px}
+    a{color:#0066cc}
+    code{background:#eee;padding:2px 5px;border-radius:3px;font-family:Consolas,monospace;font-size:90%}
+    pre{background:#0d1309;color:#a8d5a2;padding:14px;border-radius:6px;overflow-x:auto;font-size:13px;line-height:1.5}
+    pre code{background:transparent;color:inherit;padding:0}
+    blockquote{border-left:4px solid #5aab56;padding:6px 14px;margin:14px 0;background:#f0f7ed;color:#444}
+    table{border-collapse:collapse;margin:14px 0;width:100%}
+    th,td{border:1px solid #ccc;padding:8px 12px;text-align:left}
+    th{background:#e8f5e9}
+    .copy-btn{font-size:11px;padding:4px 10px;border:1px solid #5aab56;background:#fff;color:#2d4a1e;border-radius:5px;cursor:pointer;margin-left:8px}
+    .copy-btn:hover{background:#5aab56;color:#fff}
+    .code-wrap{position:relative;margin:14px 0}
+    .code-wrap .copy-btn{position:absolute;top:8px;right:8px}
+    @media print{.copy-btn{display:none}body{background:#fff}}
+  `;
+
+  // Clona conteúdo e adiciona botões de copiar funcionais (com JS embutido)
+  const clone = md.cloneNode(true);
+  // Remove botões antigos de seção
+  clone.querySelectorAll('.section-copy').forEach(s =&gt; s.remove());
+  // Substitui code-wrap pra simplificar
+  clone.querySelectorAll('.code-wrap').forEach(w =&gt; {
+    const code = decodeAttr(w.querySelector('.code-copy')?.dataset.code || '');
+    const lang = w.querySelector('.code-lang')?.textContent || '';
+    const newWrap = document.createElement('div');
+    newWrap.className = 'code-wrap';
+    newWrap.innerHTML =
+      '&lt;button class=&quot;copy-btn&quot; data-code=&quot;'+escapeAttr(code)+'&quot;&gt;📋 Copiar&lt;/button&gt;'+
+      '&lt;pre&gt;&lt;code class=&quot;language-'+lang+'&quot;&gt;'+escapeHTML(code)+'&lt;/code&gt;&lt;/pre&gt;';
+    w.replaceWith(newWrap);
+  });
+  // Adiciona botão em cada heading
+  clone.querySelectorAll('h1,h2,h3,h4').forEach(h =&gt; {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = '📋 Seção';
+    btn.dataset.section = h.id;
+    h.appendChild(btn);
+  });
+
+  const script = `
+    &lt;script&gt;
+    document.querySelectorAll('.copy-btn[data-code]').forEach(b=&gt;{
+      b.onclick=()=&gt;{navigator.clipboard.writeText(b.dataset.code);b.textContent='✓ Copiado!';setTimeout(()=&gt;b.textContent='📋 Copiar',1500)};
+    });
+    document.querySelectorAll('.copy-btn[data-section]').forEach(b=&gt;{
+      b.onclick=()=&gt;{
+        const h=document.getElementById(b.dataset.section);
+        const lvl=parseInt(h.tagName[1]);
+        let txt=h.innerText.replace('📋 Seção','').trim()+'\\n\\n';
+        let el=h.nextElementSibling;
+        while(el){
+          if(/^H[1-6]$/.test(el.tagName)&amp;&amp;parseInt(el.tagName[1])&lt;=lvl)break;
+          txt+=el.innerText+'\\n\\n';
+          el=el.nextElementSibling;
+        }
+        navigator.clipboard.writeText(txt.trim());
+        b.textContent='✓ Copiado!';setTimeout(()=&gt;b.textContent='📋 Seção',1500);
+      };
+    });
+    &lt;\/script&gt;
+  `;
+
+  const fullHTML =
+    '&lt;!DOCTYPE html&gt;&lt;html lang=&quot;pt-BR&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;'+
+    '&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;'+
+    '&lt;title&gt;'+escapeHTML(currentFileName||'Documento')+'&lt;/title&gt;'+
+    '&lt;style&gt;'+css+'&lt;/style&gt;&lt;/head&gt;&lt;body&gt;'+
+    '&lt;h1 style=&quot;border:none&quot;&gt;'+escapeHTML(currentFileName||'Documento')+'&lt;/h1&gt;'+
+    clone.outerHTML+
+    script+
+    '&lt;/body&gt;&lt;/html&gt;';
+
+  const blob = new Blob([fullHTML], { type:'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (currentFileName.replace(/\.(md|markdown|mdx|txt)$/i,'') || 'documento') + '.html';
+  a.click();
+  toast('💾 HTML exportado!');
+}
+
+/*══════════════════════════════════════════════════════════════════
+  BUSCA
+══════════════════════════════════════════════════════════════════*/
+function toggleSearch() {
+  const bar = document.getElementById('searchBar');
+  const show = !bar.classList.contains('show');
+  bar.classList.toggle('show', show);
+  if (show) {
+    document.getElementById('searchInput').focus();
+  } else {
+    clearSearch();
+  }
+}
+
+function clearSearch() {
+  document.querySelectorAll('mark.search-hit').forEach(m =&gt; {
+    const parent = m.parentNode;
+    parent.replaceChild(document.createTextNode(m.textContent), m);
+    parent.normalize();
+  });
+  searchHits = [];
+  searchIdx = 0;
+  document.getElementById('searchCount').textContent = '0/0';
+}
+
+function doSearch() {
+  clearSearch();
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q || q.length &lt; 2) { document.getElementById('searchCount').textContent='0/0'; return; }
+
+  const md = document.getElementById('md');
+  if (!md) return;
+
+  const re = new RegExp(escapeRegex(q), 'gi');
+  walkAndHighlight(md, re);
+  searchHits = [...document.querySelectorAll('mark.search-hit')];
+  searchIdx = 0;
+  if (searchHits.length) {
+    searchHits[0].classList.add('current');
+    searchHits[0].scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  document.getElementById('searchCount').textContent = (searchHits.length ? 1 : 0) + '/' + searchHits.length;
+}
+
+function walkAndHighlight(node, re) {
+  if (node.nodeType === 3) { // text
+    const text = node.nodeValue;
+    if (!re.test(text)) return;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index &gt; last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-hit';
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      last = m.index + m[0].length;
+    }
+    if (last &lt; text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  } else if (node.nodeType === 1 &amp;&amp; !['SCRIPT','STYLE','MARK'].includes(node.tagName)) {
+    [...node.childNodes].forEach(c =&gt; walkAndHighlight(c, re));
+  }
+}
+
+function searchKey(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (!searchHits.length) return;
+    searchHits[searchIdx].classList.remove('current');
+    searchIdx = e.shiftKey
+      ? (searchIdx - 1 + searchHits.length) % searchHits.length
+      : (searchIdx + 1) % searchHits.length;
+    searchHits[searchIdx].classList.add('current');
+    searchHits[searchIdx].scrollIntoView({ behavior:'smooth', block:'center' });
+    document.getElementById('searchCount').textContent = (searchIdx+1)+'/'+searchHits.length;
+  } else if (e.key === 'Escape') {
+    toggleSearch();
+  }
+}
+
+/*══════════════════════════════════════════════════════════════════
+  TOC TOGGLE
+══════════════════════════════════════════════════════════════════*/
+function toggleTOC() {
+  const toc = document.getElementById('toc');
+  const bd  = document.getElementById('backdrop');
+  if (window.innerWidth &lt;= 768) {
+    const show = !toc.classList.contains('show-mobile');
+    toc.classList.toggle('show-mobile', show);
+    bd.classList.toggle('show', show);
+  } else {
+    toc.classList.toggle('hidden');
+  }
+  document.getElementById('tocToggle').classList.toggle('active');
+}
+
+/*══════════════════════════════════════════════════════════════════
+  DRAG &amp; DROP / PASTE
+══════════════════════════════════════════════════════════════════*/
+const dz = document.getElementById('dropZone');
+['dragenter','dragover'].forEach(ev =&gt; {
+  document.addEventListener(ev, e =&gt; {
+    e.preventDefault();
+    dz?.classList.add('dragover');
+  });
+});
+['dragleave','drop'].forEach(ev =&gt; {
+  document.addEventListener(ev, e =&gt; {
+    e.preventDefault();
+    dz?.classList.remove('dragover');
+  });
+});
+document.addEventListener('drop', e =&gt; {
+  e.preventDefault();
+  const f = e.dataTransfer?.files?.[0];
+  if (f) readFile(f);
+});
+
+document.addEventListener('paste', e =&gt; {
+  if (document.activeElement?.tagName === 'INPUT') return;
+  const txt = e.clipboardData?.getData('text');
+  if (txt &amp;&amp; txt.length &gt; 50) {
+    rawMarkdown = txt;
+    currentFileName = 'colado.md';
+    render();
+    toast('✓ Texto colado renderizado');
+  }
+});
+
+/*══════════════════════════════════════════════════════════════════
+  ATALHOS
+══════════════════════════════════════════════════════════════════*/
+document.addEventListener('keydown', e =&gt; {
+  if ((e.ctrlKey || e.metaKey) &amp;&amp; e.key === 'f') {
+    e.preventDefault();
+    toggleSearch();
+  }
+});
+
+/*══════════════════════════════════════════════════════════════════
+  UTILS
+══════════════════════════════════════════════════════════════════*/
+function escapeHTML(s) {
+  return String(s)
+    .replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;')
+    .replace(/&gt;/g,'&amp;gt;').replace(/&quot;/g,'&amp;quot;').replace(/'/g,'&amp;#39;');
+}
+function escapeAttr(s) { return escapeHTML(s); }
+function decodeAttr(s) {
+  return String(s)
+    .replace(/&amp;#39;/g,&quot;'&quot;).replace(/&amp;quot;/g,'&quot;')
+    .replace(/&amp;gt;/g,'&gt;').replace(/&amp;lt;/g,'&lt;').replace(/&amp;amp;/g,'&amp;');
+}
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&amp;'); }
+function slugify(s) {
+  return String(s).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s-]/g,'')
+    .trim().replace(/\s+/g,'-').replace(/-+/g,'-');
+}
+
+let toastTimer;
+function toast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.toggle('err', type === 'err');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() =&gt; t.classList.remove('show'), 2200);
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+<div class="project-container " id="projeto2">
+  <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot;&gt;
+  &lt;meta name=&quot;theme-color&quot; content=&quot;#141c0d&quot;&gt;
+  &lt;title&gt;Chat IA Pro — Saulo&lt;/title&gt;
+  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js&quot;&gt;&lt;/script&gt;
+  &lt;style&gt;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#141c0d; --panel:#1c2714; --border:#2d4a1e;
+      --accent:#5aab56; --accent2:#7ec87a; --text:#e2e8f0;
+      --muted:#6b8f68; --code-bg:#0d1309; --user-bg:#1a3a14;
+      --user-bdr:#3d6e2a; --err:#f87171;
+    }
+    body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); height:100dvh; display:flex; flex-direction:column; overflow:hidden; -webkit-tap-highlight-color:transparent; }
+
+    header { flex-shrink:0; display:flex; align-items:center; gap:5px; padding:8px 10px; background:var(--panel); border-bottom:1px solid var(--border); min-height:48px; overflow-x:auto; }
+    header h1 { font-size:13px; font-weight:700; flex:1; color:var(--accent2); white-space:nowrap; }
+    .badge { font-size:10px; padding:2px 7px; border-radius:20px; border:1px solid var(--accent); color:var(--accent2); background:rgba(90,171,86,0.1); white-space:nowrap; }
+    .icon-btn { width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; border:none; background:transparent; color:var(--muted); cursor:pointer; font-size:15px; transition:all 0.15s; flex-shrink:0; }
+    .icon-btn:hover { background:rgba(255,255,255,0.06); color:var(--accent2); }
+    .icon-btn.active { background:rgba(90,171,86,0.15); color:var(--accent2); }
+    .icon-btn.danger:hover { background:rgba(248,113,113,0.1); color:var(--err); }
+    .icon-btn.web-on { background:rgba(96,165,250,0.18); color:#93c5fd; }
+
+    .panel { flex-shrink:0; background:var(--panel); border-bottom:1px solid var(--border); padding:10px 14px; display:none; flex-direction:column; gap:8px; max-height:320px; overflow-y:auto; }
+    .panel.show { display:flex; }
+    .cfg-label { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); font-weight:700; }
+    .cfg-status { font-size:11px; }
+    .cfg-status.ok { color:var(--accent2); }
+    .cfg-status.demo { color:#60a5fa; }
+    .cfg-note { font-size:11px; color:#60a5fa; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.2); border-radius:8px; padding:8px 10px; line-height:1.5; }
+    .cfg-row { display:flex; gap:6px; align-items:stretch; }
+    .cfg-input { flex:1; height:36px; padding:0 10px; background:var(--code-bg); border:1px solid var(--border); border-radius:9px; color:var(--text); font-size:12px; font-family:monospace; outline:none; }
+    .cfg-input:focus { border-color:var(--accent); }
+    .cfg-btn { height:36px; padding:0 12px; border-radius:9px; border:1px solid var(--border); background:rgba(90,171,86,0.12); color:var(--accent2); font-size:12px; cursor:pointer; white-space:nowrap; display:flex; align-items:center; gap:5px; }
+    .cfg-btn:hover { background:rgba(90,171,86,0.22); }
+    .cfg-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+    .cfg-prov-ok { font-size:11px; color:var(--accent2); }
+
+    /* SYSTEM PROMPT */
+    .sys-textarea { width:100%; min-height:90px; max-height:200px; padding:8px 10px; background:var(--code-bg); border:1px solid var(--border); border-radius:9px; color:var(--text); font-size:12px; font-family:inherit; outline:none; resize:vertical; line-height:1.5; }
+    .sys-textarea:focus { border-color:var(--accent); }
+    .sys-presets { display:flex; gap:5px; flex-wrap:wrap; }
+    .sys-preset { padding:4px 10px; border-radius:20px; border:1px solid var(--border); font-size:11px; color:var(--muted); cursor:pointer; background:var(--code-bg); transition:all 0.15s; }
+    .sys-preset:hover { border-color:var(--accent); color:var(--accent2); }
+    .sys-preset.active { border-color:var(--accent); color:var(--accent2); background:rgba(90,171,86,0.1); }
+
+    .saved-key, .conv-item { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:9px; border:1px solid var(--border); background:var(--code-bg); cursor:pointer; transition:border-color 0.15s; }
+    .saved-key:hover, .conv-item:hover { border-color:var(--accent); }
+    .saved-key.active, .conv-item.active { border-color:var(--accent); background:rgba(90,171,86,0.08); }
+    .saved-key-info, .conv-info { flex:1; min-width:0; }
+    .saved-key-label, .conv-title { font-size:12px; color:var(--text); font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .saved-key-meta, .conv-meta { font-size:10px; color:var(--muted); }
+    .active-tag { font-size:9px; font-weight:700; color:var(--accent2); }
+    .del-btn { width:26px; height:26px; border-radius:6px; border:none; background:transparent; color:var(--muted); cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; }
+    .del-btn:hover { background:rgba(248,113,113,0.1); color:var(--err); }
+    .export-menu { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; }
+
+    #chat { flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:10px; scroll-behavior:smooth; }
+    .empty-state { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; text-align:center; padding:24px; pointer-events:none; }
+    .empty-state .icon { font-size:52px; }
+    .empty-state h2 { font-size:16px; color:var(--accent2); }
+    .empty-state p { font-size:13px; color:var(--muted); line-height:1.6; max-width:320px; }
+    .chips { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; pointer-events:all; }
+    .chip { padding:6px 14px; border-radius:20px; border:1px solid var(--border); font-size:12px; color:var(--muted); cursor:pointer; background:var(--panel); transition:all 0.2s; }
+    .chip:hover { border-color:var(--accent); color:var(--accent2); }
+
+    .msg { display:flex; flex-direction:column; max-width:88%; }
+    .msg.user { align-self:flex-end; }
+    .msg.bot { align-self:flex-start; }
+    .msg-bubble { padding:10px 14px; border-radius:14px; font-size:13px; line-height:1.65; word-break:break-word; }
+    .msg.user .msg-bubble { background:var(--user-bg); border:1px solid var(--user-bdr); color:#d4f1d4; border-bottom-right-radius:4px; }
+    .msg.bot .msg-bubble { background:var(--panel); border:1px solid var(--border); border-bottom-left-radius:4px; }
+
+    /* FEEDBACK */
+    .feedback-bar { display:flex; align-items:center; gap:6px; margin-top:6px; padding:6px 10px; background:rgba(90,171,86,0.05); border:1px solid rgba(90,171,86,0.15); border-radius:8px; }
+    .feedback-bar span { font-size:11px; color:var(--muted); }
+    .fb-btn { padding:3px 8px; border-radius:12px; border:1px solid var(--border); background:transparent; color:var(--muted); font-size:12px; cursor:pointer; transition:all 0.15s; }
+    .fb-btn:hover { border-color:var(--accent); color:var(--accent2); }
+    .fb-btn.selected { background:rgba(90,171,86,0.2); border-color:var(--accent); color:var(--accent2); }
+    .fb-note { font-size:10px; color:var(--muted); margin-left:auto; }
+
+    .msg-meta { display:flex; align-items:center; gap:8px; margin-top:4px; }
+    .msg.bot .msg-meta { padding-left:4px; }
+    .msg.user .msg-meta { justify-content:flex-end; padding-right:4px; }
+    .msg-meta button { font-size:10px; color:var(--muted); background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:3px; }
+    .msg-meta button:hover { color:var(--accent2); }
+    .prov-label { font-size:10px; color:var(--muted); }
+
+    .msg-content p { margin-bottom:6px; }
+    .msg-content p:last-child { margin-bottom:0; }
+    .msg-content strong { color:var(--accent2); }
+    .msg-content em { color:#a5c8a2; font-style:italic; }
+    .msg-content a { color:#60a5fa; text-decoration:underline; word-break:break-all; }
+    .code-block { margin:8px 0; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .code-header { display:flex; align-items:center; justify-content:space-between; padding:6px 12px; background:#0a1008; font-size:10px; font-family:monospace; color:var(--muted); }
+    .copy-btn { display:flex; align-items:center; gap:4px; background:none; border:none; color:var(--muted); cursor:pointer; font-size:10px; font-family:monospace; }
+    .copy-btn:hover { color:var(--accent2); }
+    .code-body { padding:10px 12px; background:var(--code-bg); font-size:11px; font-family:'Consolas','Courier New',monospace; color:#a8d5a2; overflow-x:auto; white-space:pre; line-height:1.6; }
+    .inline-code { background:var(--code-bg); padding:1px 5px; border-radius:4px; font-family:monospace; font-size:11px; color:#a8d5a2; }
+    .cursor-blink { display:inline-block; width:2px; height:14px; background:var(--accent2); margin-left:2px; vertical-align:middle; animation:blink 1s infinite; }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+    .input-bar { flex-shrink:0; display:flex; align-items:flex-end; gap:8px; padding:10px 12px; background:var(--panel); border-top:1px solid var(--border); }
+    #msgInput { flex:1; min-height:44px; max-height:130px; padding:11px 14px; background:var(--code-bg); border:1px solid var(--border); border-radius:14px; color:var(--text); font-size:13px; font-family:inherit; resize:none; outline:none; line-height:1.5; overflow-y:auto; }
+    #msgInput:focus { border-color:var(--accent); }
+    #msgInput::placeholder { color:var(--muted); }
+    .send-btn { width:44px; height:44px; border-radius:14px; border:1px solid var(--accent); background:rgba(90,171,86,0.2); color:var(--accent2); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.15s; }
+    .send-btn:hover { background:rgba(90,171,86,0.35); }
+    .send-btn:disabled { opacity:0.3; cursor:not-allowed; }
+    .mic-btn { width:44px; height:44px; border-radius:14px; border:1px solid var(--border); background:var(--code-bg); color:var(--muted); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.2s; }
+    .mic-btn.listening { border-color:#ef4444; background:rgba(239,68,68,0.15); color:#ef4444; animation:pulse 1.5s infinite; }
+    .stop-btn { width:44px; height:44px; border-radius:14px; border:1px solid #ef4444; background:rgba(239,68,68,0.15); color:#ef4444; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.6} }
+
+    .toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:var(--panel); border:1px solid var(--accent); color:var(--accent2); padding:10px 16px; border-radius:10px; font-size:12px; z-index:1000; box-shadow:0 4px 12px rgba(0,0,0,0.4); opacity:0; transition:opacity 0.2s; pointer-events:none; white-space:nowrap; }
+    .toast.show { opacity:1; }
+    .toast.err { border-color:var(--err); color:var(--err); }
+    .progress { font-size:11px; color:#60a5fa; background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.2); padding:6px 10px; border-radius:6px; margin:4px 0; }
+
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;span style=&quot;font-size:18px&quot;&gt;💬&lt;/span&gt;
+  &lt;h1&gt;Chat IA Pro&lt;/h1&gt;
+  &lt;span class=&quot;badge&quot; id=&quot;provBadge&quot;&gt;Demo ✨&lt;/span&gt;
+  &lt;button class=&quot;icon-btn&quot; id=&quot;webBtn&quot; title=&quot;Buscar na internet&quot; onclick=&quot;toggleWeb()&quot;&gt;🌐&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;System Prompt&quot; onclick=&quot;togglePanel('sysPanel','sysBtn')&quot; id=&quot;sysBtn&quot;&gt;🧠&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Histórico&quot; onclick=&quot;togglePanel('convPanel','convBtn')&quot; id=&quot;convBtn&quot;&gt;📚&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Exportar/Importar&quot; onclick=&quot;togglePanel('ioPanel','ioBtn')&quot; id=&quot;ioBtn&quot;&gt;📂&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; id=&quot;ttsBtn&quot; title=&quot;Voz da IA&quot; onclick=&quot;toggleTTS()&quot;&gt;🔊&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; id=&quot;fbToggleBtn&quot; title=&quot;Feedback automático&quot; onclick=&quot;toggleFeedback()&quot;&gt;⭐&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Chaves salvas&quot; onclick=&quot;togglePanel('keysPanel','keysBtn')&quot; id=&quot;keysBtn&quot;&gt;🔑&lt;/button&gt;
+  &lt;button class=&quot;icon-btn&quot; title=&quot;Configurar API&quot; onclick=&quot;togglePanel('cfgPanel','cfgBtn')&quot; id=&quot;cfgBtn&quot;&gt;⚙️&lt;/button&gt;
+  &lt;button class=&quot;icon-btn danger&quot; title=&quot;Nova conversa&quot; onclick=&quot;newChat()&quot;&gt;✨&lt;/button&gt;
+&lt;/header&gt;
+
+&lt;!-- CONFIG API --&gt;
+&lt;div id=&quot;cfgPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between&quot;&gt;
+    &lt;span class=&quot;cfg-label&quot;&gt;Chave de API&lt;/span&gt;
+    &lt;span class=&quot;cfg-status&quot; id=&quot;cfgStatus&quot;&gt;Sem chave&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;cfgNote&quot; class=&quot;cfg-note&quot;&gt;
+    💡 Auto-detectado: Groq (gsk_), OpenAI (sk-), Gemini (AIza), OpenRouter (sk-or-), Perplexity (pplx-), Claude (sk-ant-), xAI (xai-), HuggingFace (hf_), Cerebras (csk-), Mistral (32 chars).
+  &lt;/div&gt;
+  &lt;div class=&quot;cfg-row&quot;&gt;
+    &lt;input class=&quot;cfg-input&quot; id=&quot;keyInput&quot; type=&quot;password&quot; placeholder=&quot;Cole sua chave de API aqui...&quot; oninput=&quot;onKeyInput(this.value)&quot;&gt;
+    &lt;button class=&quot;icon-btn&quot; onclick=&quot;toggleShowKey()&quot; title=&quot;Mostrar/ocultar&quot;&gt;👁️&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;cfg-grid&quot;&gt;
+    &lt;input class=&quot;cfg-input&quot; id=&quot;urlInput&quot; placeholder=&quot;URL do provedor&quot; value=&quot;https://api.groq.com/openai/v1&quot;&gt;
+    &lt;input class=&quot;cfg-input&quot; id=&quot;modelInput&quot; placeholder=&quot;Modelo&quot; value=&quot;llama-3.3-70b-versatile&quot;&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;cfgProvOk&quot; class=&quot;cfg-prov-ok&quot; style=&quot;display:none&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;cfg-row&quot; id=&quot;saveRow&quot; style=&quot;display:none&quot;&gt;
+    &lt;input class=&quot;cfg-input&quot; id=&quot;labelInput&quot; placeholder=&quot;Nome para salvar&quot;&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;saveKey()&quot;&gt;💾 Salvar&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- SYSTEM PROMPT --&gt;
+&lt;div id=&quot;sysPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between&quot;&gt;
+    &lt;span class=&quot;cfg-label&quot;&gt;🧠 System Prompt — Comportamento da IA&lt;/span&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;saveSystemPrompt()&quot; style=&quot;height:28px;font-size:11px;&quot;&gt;💾 Salvar&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;sys-presets&quot; id=&quot;sysPresets&quot;&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('livre')&quot; id=&quot;preset-livre&quot;&gt;🆓 Livre&lt;/button&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('juridico')&quot; id=&quot;preset-juridico&quot;&gt;⚖️ Jurídico&lt;/button&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('codigo')&quot; id=&quot;preset-codigo&quot;&gt;💻 Código&lt;/button&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('direto')&quot; id=&quot;preset-direto&quot;&gt;⚡ Direto&lt;/button&gt;
+    &lt;button class=&quot;sys-preset&quot; onclick=&quot;applyPreset('custom')&quot; id=&quot;preset-custom&quot;&gt;✏️ Custom&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;textarea class=&quot;sys-textarea&quot; id=&quot;sysPromptInput&quot; placeholder=&quot;Digite o comportamento da IA aqui...&quot;&gt;&lt;/textarea&gt;
+  &lt;div style=&quot;font-size:10px;color:var(--muted);&quot;&gt;
+    💡 Deixe em branco para IA totalmente livre. Quanto mais texto, mais restrita.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- CHAVES --&gt;
+&lt;div id=&quot;keysPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;span class=&quot;cfg-label&quot; id=&quot;keysTitle&quot;&gt;Chaves Salvas&lt;/span&gt;
+  &lt;div id=&quot;keysList&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- HISTÓRICO --&gt;
+&lt;div id=&quot;convPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;div style=&quot;display:flex;justify-content:space-between;align-items:center&quot;&gt;
+    &lt;span class=&quot;cfg-label&quot; id=&quot;convTitle&quot;&gt;Conversas Salvas&lt;/span&gt;
+    &lt;div style=&quot;display:flex;gap:5px;&quot;&gt;
+      &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('json')&quot; style=&quot;height:28px;font-size:11px;&quot;&gt;⬇️ JSON&lt;/button&gt;
+      &lt;button class=&quot;cfg-btn&quot; onclick=&quot;newChat()&quot; style=&quot;height:28px;font-size:11px;&quot;&gt;+ Nova&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;convList&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- EXPORTAR / IMPORTAR --&gt;
+&lt;div id=&quot;ioPanel&quot; class=&quot;panel&quot;&gt;
+  &lt;span class=&quot;cfg-label&quot;&gt;Exportar conversa atual&lt;/span&gt;
+  &lt;div class=&quot;export-menu&quot;&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('txt')&quot;&gt;📄 TXT&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('md')&quot;&gt;📝 Markdown&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('json')&quot;&gt;🧾 JSON&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;exportConv('pdf')&quot;&gt;📕 PDF&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;span class=&quot;cfg-label&quot; style=&quot;margin-top:6px&quot;&gt;Importar&lt;/span&gt;
+  &lt;div class=&quot;export-menu&quot;&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;document.getElementById('fileIn').click()&quot;&gt;📎 TXT/PDF/JSON&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;document.getElementById('imgIn').click()&quot;&gt;🖼️ Imagem OCR&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;input type=&quot;file&quot; id=&quot;fileIn&quot; accept=&quot;.txt,.md,.csv,.json,.pdf&quot; style=&quot;display:none&quot; onchange=&quot;importFile(event)&quot;&gt;
+  &lt;input type=&quot;file&quot; id=&quot;imgIn&quot; accept=&quot;image/*&quot; style=&quot;display:none&quot; onchange=&quot;importImage(event)&quot;&gt;
+  &lt;span class=&quot;cfg-label&quot; style=&quot;margin-top:6px&quot;&gt;Backup completo&lt;/span&gt;
+  &lt;div class=&quot;export-menu&quot;&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;backupAll()&quot;&gt;💾 Salvar tudo&lt;/button&gt;
+    &lt;button class=&quot;cfg-btn&quot; onclick=&quot;document.getElementById('backupIn').click()&quot;&gt;📥 Restaurar&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;input type=&quot;file&quot; id=&quot;backupIn&quot; accept=&quot;.json&quot; style=&quot;display:none&quot; onchange=&quot;restoreBackup(event)&quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- CHAT --&gt;
+&lt;div id=&quot;chat&quot;&gt;
+  &lt;div class=&quot;empty-state&quot; id=&quot;emptyState&quot;&gt;
+    &lt;span class=&quot;icon&quot;&gt;⚖️&lt;/span&gt;
+    &lt;h2&gt;Chat IA Pro — Saulo&lt;/h2&gt;
+    &lt;p&gt;IA livre por padrão. Configure o 🧠 System Prompt para ajustar o comportamento.&lt;/p&gt;
+    &lt;div class=&quot;chips&quot;&gt;
+      &lt;div class=&quot;chip&quot; onclick=&quot;setPrompt('Olá! Me apresente seus recursos.')&quot;&gt;Olá!&lt;/div&gt;
+      &lt;div class=&quot;chip&quot; onclick=&quot;setPrompt('Resuma a jurisprudência recente do STF sobre dano moral.')&quot;&gt;⚖️ Jurisprudência&lt;/div&gt;
+      &lt;div class=&quot;chip&quot; onclick=&quot;setPrompt('Me ajude a estruturar uma petição inicial.')&quot;&gt;📝 Petição&lt;/div&gt;
+      &lt;div class=&quot;chip&quot; onclick=&quot;setPrompt('Quais são as ferramentas de IA mais úteis em 2026?')&quot;&gt;🤖 IA atual&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;input-bar&quot;&gt;
+  &lt;textarea id=&quot;msgInput&quot; placeholder=&quot;Digite sua mensagem… (Enter envia, Shift+Enter quebra linha)&quot; onkeydown=&quot;handleKey(event)&quot; oninput=&quot;adjustHeight(this);autoSaveDraft()&quot;&gt;&lt;/textarea&gt;
+  &lt;button class=&quot;mic-btn&quot; id=&quot;micBtn&quot; title=&quot;Ditar por voz&quot; onclick=&quot;toggleVoice()&quot;&gt;🎤&lt;/button&gt;
+  &lt;button class=&quot;stop-btn&quot; id=&quot;stopBtn&quot; style=&quot;display:none&quot; onclick=&quot;abortStream()&quot; title=&quot;Parar&quot;&gt;⏹&lt;/button&gt;
+  &lt;button class=&quot;send-btn&quot; id=&quot;sendBtn&quot; onclick=&quot;send()&quot; title=&quot;Enviar&quot;&gt;➤&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+'use strict';
+
+// ═══════════════════════════════════════
+// AUTO-DETECÇÃO DE PROVEDORES
+// ═══════════════════════════════════════
+const AUTO_DETECT = [
+  { prefix:'gsk_',    url:'https://api.groq.com/openai/v1',                          model:'llama-3.3-70b-versatile',  name:'Groq' },
+  { prefix:'sk-or-',  url:'https://openrouter.ai/api/v1',                            model:'openai/gpt-4o-mini',       name:'OpenRouter' },
+  { prefix:'sk-ant-', url:'https://api.anthropic.com/v1',                            model:'claude-3-5-haiku-latest',  name:'Claude' },
+  { prefix:'pplx-',   url:'https://api.perplexity.ai',                               model:'sonar-pro',                name:'Perplexity' },
+  { prefix:'AIza',    url:'https://generativelanguage.googleapis.com/v1beta/openai', model:'gemini-2.0-flash',         name:'Gemini' },
+  { prefix:'xai-',    url:'https://api.x.ai/v1',                                     model:'grok-2-latest',            name:'xAI/Grok' },
+  { prefix:'hf_',     url:'https://api-inference.huggingface.co/v1',                 model:'meta-llama/Llama-3.3-70B-Instruct', name:'HuggingFace' },
+  { prefix:'csk-',    url:'https://api.cerebras.ai/v1',                              model:'llama-3.3-70b',            name:'Cerebras' },
+  { prefix:'fw_',     url:'https://api.fireworks.ai/inference/v1',                   model:'accounts/fireworks/models/llama-v3p3-70b-instruct', name:'Fireworks' },
+  { prefix:'tgp_',    url:'https://api.together.xyz/v1',                             model:'meta-llama/Llama-3.3-70B-Instruct-Turbo', name:'Together AI' },
+  { prefix:'sk-',     url:'https://api.openai.com/v1',                               model:'gpt-4o-mini',              name:'OpenAI' },
+];
+const REGEX_DETECT = [
+  { regex:/^[a-zA-Z0-9]{32}$/, url:'https://api.mistral.ai/v1', model:'mistral-small-latest', name:'Mistral' },
+];
+function detectProvider(key) {
+  if (!key) return null;
+  for (const p of AUTO_DETECT) if (key.startsWith(p.prefix)) return p;
+  for (const p of REGEX_DETECT) if (p.regex.test(key)) return p;
+  return null;
+}
+
+// ═══════════════════════════════════════
+// SYSTEM PROMPT PRESETS
+// ═══════════════════════════════════════
+const PRESETS = {
+  livre: '',
+  juridico: `Você é um assistente jurídico especializado no direito brasileiro.
+Responda de forma técnica, cite legislação e jurisprudência quando relevante.
+Seja objetivo e preciso. Não use linguagem informal.`,
+  codigo: `Você é um assistente de programação.
+Ao responder: entregue o código completo e funcional.
+Explique brevemente o que mudou. Seja direto.`,
+  direto: `Responda sempre de forma direta e objetiva.
+Sem introduções longas. Sem frases de empatia.
+Vá direto ao ponto. Entregue a resposta e pronto.`,
+  custom: null,
+};
+
+let currentPreset = localStorage.getItem('cia_preset') || 'livre';
+let customSysPrompt = localStorage.getItem('cia_sysprompt') || '';
+let feedbackOn = localStorage.getItem('cia_feedback') !== 'off';
+
+function getSysPrompt() {
+  if (currentPreset === 'custom') return customSysPrompt;
+  return PRESETS[currentPreset] || '';
+}
+
+function applyPreset(name) {
+  currentPreset = name;
+  localStorage.setItem('cia_preset', name);
+  document.querySelectorAll('.sys-preset').forEach(b =&gt; b.classList.remove('active'));
+  document.getElementById('preset-'+name)?.classList.add('active');
+  if (name !== 'custom') {
+    document.getElementById('sysPromptInput').value = PRESETS[name] || '';
+    toast('Preset &quot;'+name+'&quot; aplicado');
+  } else {
+    document.getElementById('sysPromptInput').value = customSysPrompt;
+  }
+}
+
+function saveSystemPrompt() {
+  const val = document.getElementById('sysPromptInput').value.trim();
+  customSysPrompt = val;
+  currentPreset = 'custom';
+  localStorage.setItem('cia_sysprompt', val);
+  localStorage.setItem('cia_preset', 'custom');
+  document.querySelectorAll('.sys-preset').forEach(b =&gt; b.classList.remove('active'));
+  document.getElementById('preset-custom')?.classList.add('active');
+  toast('System Prompt salvo ✓');
+}
+
+function initSysPanel() {
+  document.getElementById('sysPromptInput').value = getSysPrompt();
+  document.querySelectorAll('.sys-preset').forEach(b =&gt; b.classList.remove('active'));
+  document.getElementById('preset-'+currentPreset)?.classList.add('active');
+}
+
+// ═══════════════════════════════════════
+// FEEDBACK
+// ═══════════════════════════════════════
+function toggleFeedback() {
+  feedbackOn = !feedbackOn;
+  localStorage.setItem('cia_feedback', feedbackOn ? 'on' : 'off');
+  document.getElementById('fbToggleBtn').style.opacity = feedbackOn ? '1' : '0.4';
+  toast(feedbackOn ? '⭐ Feedback ATIVADO' : 'Feedback desativado');
+}
+
+function addFeedbackBar(msgEl, responseText) {
+  if (!feedbackOn) return;
+  const bar = document.createElement('div');
+  bar.className = 'feedback-bar';
+
+  const label = document.createElement('span');
+  label.textContent = 'Resposta útil?';
+
+  const btnUp = document.createElement('button');
+  btnUp.className = 'fb-btn';
+  btnUp.textContent = '👍';
+  btnUp.title = 'Boa resposta';
+
+  const btnDown = document.createElement('button');
+  btnDown.className = 'fb-btn';
+  btnDown.textContent = '👎';
+  btnDown.title = 'Resposta ruim';
+
+  const btnCopy = document.createElement('button');
+  btnCopy.className = 'fb-btn';
+  btnCopy.textContent = '📋 Copiar';
+  btnCopy.onclick = () =&gt; {
+    navigator.clipboard.writeText(responseText || '');
+    btnCopy.textContent = '✓ Copiado';
+    setTimeout(() =&gt; btnCopy.textContent = '📋 Copiar', 1800);
+  };
+
+  const note = document.createElement('span');
+  note.className = 'fb-note';
+  note.id = 'fb-note-'+Date.now();
+
+  let voted = false;
+  btnUp.onclick = () =&gt; {
+    if (voted) return;
+    voted = true;
+    btnUp.classList.add('selected');
+    note.textContent = 'Obrigado! ✓';
+    saveFeedback('up', responseText);
+  };
+  btnDown.onclick = () =&gt; {
+    if (voted) return;
+    voted = true;
+    btnDown.classList.add('selected');
+    note.textContent = 'Anotado. ✓';
+    saveFeedback('down', responseText);
+  };
+
+  bar.appendChild(label);
+  bar.appendChild(btnUp);
+  bar.appendChild(btnDown);
+  bar.appendChild(btnCopy);
+  bar.appendChild(note);
+  msgEl.appendChild(bar);
+}
+
+function saveFeedback(type, text) {
+  const feedbacks = JSON.parse(localStorage.getItem('cia_feedbacks') || '[]');
+  feedbacks.push({ type, text: text?.slice(0,200), date: new Date().toISOString(), conv: currentConvId });
+  if (feedbacks.length &gt; 200) feedbacks.splice(0, feedbacks.length - 200);
+  localStorage.setItem('cia_feedbacks', JSON.stringify(feedbacks));
+}
+
+// ═══════════════════════════════════════
+// INDEXEDDB
+// ═══════════════════════════════════════
+const DB_NAME = 'ChatIAProDB_v2';
+let db = null;
+
+function openDB() {
+  return new Promise((resolve, reject) =&gt; {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = ev =&gt; {
+      const d = ev.target.result;
+      if (!d.objectStoreNames.contains('conversations')) d.createObjectStore('conversations', { keyPath:'id' });
+    };
+    req.onsuccess = () =&gt; { db = req.result; resolve(db); };
+    req.onerror   = () =&gt; reject(req.error);
+  });
+}
+function dbPut(store, obj) {
+  return new Promise((res,rej) =&gt; { const tx=db.transaction(store,'readwrite'); tx.objectStore(store).put(obj); tx.oncomplete=res; tx.onerror=()=&gt;rej(tx.error); });
+}
+function dbGetAll(store) {
+  return new Promise((res,rej) =&gt; { const tx=db.transaction(store,'readonly'); const r=tx.objectStore(store).getAll(); r.onsuccess=()=&gt;res(r.result); r.onerror=()=&gt;rej(r.error); });
+}
+function dbGet(store, key) {
+  return new Promise((res,rej) =&gt; { const tx=db.transaction(store,'readonly'); const r=tx.objectStore(store).get(key); r.onsuccess=()=&gt;res(r.result); r.onerror=()=&gt;rej(r.error); });
+}
+function dbDelete(store, key) {
+  return new Promise((res,rej) =&gt; { const tx=db.transaction(store,'readwrite'); tx.objectStore(store).delete(key); tx.oncomplete=res; tx.onerror=()=&gt;rej(tx.error); });
+}
+
+// ═══════════════════════════════════════
+// ESTADO
+// ═══════════════════════════════════════
+let apiKey    = localStorage.getItem('cia_key')   || '';
+let apiUrl    = localStorage.getItem('cia_url')   || '';
+let apiModel  = localStorage.getItem('cia_model') || '';
+let savedKeys = JSON.parse(localStorage.getItem('cia_saved') || '[]');
+let ttsOn     = localStorage.getItem('cia_tts') !== 'off';
+let webOn     = localStorage.getItem('cia_web') === 'on';
+let showKey   = false;
+
+let history       = [];
+let currentConvId = null;
+let controller    = null;
+let isRecording   = false;
+let recog         = null;
+let silTimer      = null;
+let saveTimer     = null;
+
+// ═══════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════
+async function boot() {
+  try { await openDB(); } catch(e) { console.warn('IndexedDB indisponível:', e); }
+
+  document.getElementById('keyInput').value = apiKey;
+  if (apiKey) {
+    const d = detectProvider(apiKey);
+    document.getElementById('urlInput').value   = d ? d.url   : (apiUrl   || '');
+    document.getElementById('modelInput').value = d ? d.model : (apiModel || '');
+  }
+
+  updateProvBadge();
+  updateCfgStatus();
+  document.getElementById('ttsBtn').style.opacity    = ttsOn ? '1' : '0.4';
+  document.getElementById('fbToggleBtn').style.opacity = feedbackOn ? '1' : '0.4';
+  document.getElementById('webBtn').classList.toggle('web-on', webOn);
+
+  initSysPanel();
+  renderSavedKeys();
+  await renderConvList();
+
+  const last = localStorage.getItem('cia_current_conv');
+  if (last &amp;&amp; db) {
+    const conv = await dbGet('conversations', last);
+    if (conv?.messages?.length) {
+      currentConvId = conv.id;
+      history = conv.messages;
+      restoreUI();
+    }
+  }
+
+  const draft = localStorage.getItem('cia_draft');
+  if (draft) { document.getElementById('msgInput').value = draft; adjustHeight(document.getElementById('msgInput')); }
+
+  if (!apiKey) togglePanel('cfgPanel','cfgBtn');
+}
+
+function restoreUI() {
+  document.getElementById('emptyState')?.remove();
+  const chat = document.getElementById('chat');
+  chat.innerHTML = '';
+  history.forEach(m =&gt; appendMsg(m.role==='user'?'user':'bot', m.content, false, true));
+  addCopyListeners();
+}
+
+// ═══════════════════════════════════════
+// AUTO-SAVE
+// ═══════════════════════════════════════
+async function autoSave() {
+  if (!db || !history.length) return;
+  if (!currentConvId) currentConvId = 'conv_'+Date.now();
+  const title = (history.find(m=&gt;m.role==='user')?.content||'Conversa').slice(0,60).replace(/\n/g,' ');
+  const obj = { id:currentConvId, title, messages:history, updatedAt:Date.now(), provider:apiKey?(detectProvider(apiKey)?.name||'Custom'):'Demo' };
+  try { await dbPut('conversations', obj); localStorage.setItem('cia_current_conv', currentConvId); } catch(e) {}
+}
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(autoSave, 400); }
+function autoSaveDraft() {
+  const v = document.getElementById('msgInput').value;
+  v ? localStorage.setItem('cia_draft',v) : localStorage.removeItem('cia_draft');
+}
+
+// ═══════════════════════════════════════
+// PAINÉIS
+// ═══════════════════════════════════════
+function togglePanel(panelId, btnId) {
+  const all = ['cfgPanel','keysPanel','convPanel','ioPanel','sysPanel'];
+  const allB= ['cfgBtn','keysBtn','convBtn','ioBtn','sysBtn'];
+  const target = document.getElementById(panelId);
+  const show = !target.classList.contains('show');
+  all.forEach(id=&gt;document.getElementById(id).classList.remove('show'));
+  allB.forEach(id=&gt;document.getElementById(id)?.classList.remove('active'));
+  if (show) { target.classList.add('show'); document.getElementById(btnId)?.classList.add('active'); }
+  if (panelId==='sysPanel') initSysPanel();
+  if (panelId==='convPanel') renderConvList();
+}
+
+// ═══════════════════════════════════════
+// CHAVES
+// ═══════════════════════════════════════
+function onKeyInput(val) {
+  val = val.trim(); apiKey = val;
+  localStorage.setItem('cia_key', val);
+  const d = val ? detectProvider(val) : null;
+  if (d) {
+    document.getElementById('urlInput').value  = d.url;
+    document.getElementById('modelInput').value= d.model;
+    apiUrl=d.url; apiModel=d.model;
+    localStorage.setItem('cia_url',d.url); localStorage.setItem('cia_model',d.model);
+    document.getElementById('cfgProvOk').textContent='✓ '+d.name+' · '+d.model;
+    document.getElementById('cfgProvOk').style.display='block';
+    document.getElementById('cfgNote').style.display='none';
+  } else {
+    document.getElementById('cfgProvOk').style.display='none';
+    document.getElementById('cfgNote').style.display='';
+  }
+  document.getElementById('saveRow').style.display = val?'flex':'none';
+  updateProvBadge(); updateCfgStatus();
+}
+function updateProvBadge() {
+  const b=document.getElementById('provBadge');
+  if (apiKey) { const d=detectProvider(apiKey); b.textContent=d?d.name:'Custom'; b.style.borderColor='#5aab56'; b.style.color='#7ec87a'; }
+  else { b.textContent='Demo ✨'; b.style.borderColor='#60a5fa'; b.style.color='#93c5fd'; }
+}
+function updateCfgStatus() {
+  const el=document.getElementById('cfgStatus');
+  if (apiKey) { const d=detectProvider(apiKey); el.textContent='✓ '+(d?d.name:'Custom')+' ativa'; el.className='cfg-status ok'; }
+  else { el.textContent='Sem chave'; el.className='cfg-status demo'; }
+}
+function toggleShowKey() { showKey=!showKey; document.getElementById('keyInput').type=showKey?'text':'password'; }
+function saveKey() {
+  const key=document.getElementById('keyInput').value.trim();
+  const label=document.getElementById('labelInput').value.trim();
+  const url=document.getElementById('urlInput').value.trim();
+  const model=document.getElementById('modelInput').value.trim();
+  if (!key) return;
+  if (savedKeys.some(k=&gt;k.key===key)) { toast('Chave já salva','err'); return; }
+  const d=detectProvider(key);
+  savedKeys.push({ id:Date.now()+'', label:label||(d?d.name:'Chave '+(savedKeys.length+1)), key, url, model, provider:d?d.name:'Custom' });
+  localStorage.setItem('cia_saved',JSON.stringify(savedKeys));
+  document.getElementById('labelInput').value='';
+  renderSavedKeys(); toast('Chave salva ✓');
+}
+function renderSavedKeys() {
+  const list=document.getElementById('keysList');
+  document.getElementById('keysTitle').textContent='Chaves Salvas ('+savedKeys.length+')';
+  if (!savedKeys.length) { list.innerHTML='&lt;div style=&quot;font-size:12px;color:#6b8f68;text-align:center;padding:10px&quot;&gt;Nenhuma chave salva.&lt;/div&gt;'; return; }
+  list.innerHTML='';
+  savedKeys.forEach(sk=&gt;{
+    const div=document.createElement('div');
+    div.className='saved-key'+(sk.key===apiKey?' active':'');
+    div.innerHTML='&lt;div class=&quot;saved-key-info&quot; onclick=&quot;loadKey(\''+sk.id+'\')&quot;&gt;&lt;div class=&quot;saved-key-label&quot;&gt;'+esc(sk.label)+'&lt;/div&gt;&lt;div class=&quot;saved-key-meta&quot;&gt;'+esc(sk.provider)+' · '+sk.key.slice(0,6)+'…'+sk.key.slice(-3)+'&lt;/div&gt;&lt;/div&gt;'+(sk.key===apiKey?'&lt;span class=&quot;active-tag&quot;&gt;ATIVA&lt;/span&gt;':'')+'&lt;button class=&quot;del-btn&quot; onclick=&quot;deleteKey(\''+sk.id+'\')&quot;&gt;✕&lt;/button&gt;';
+    list.appendChild(div);
+  });
+}
+function loadKey(id) {
+  const sk=savedKeys.find(k=&gt;k.id===id); if (!sk) return;
+  apiKey=sk.key; apiUrl=sk.url; apiModel=sk.model;
+  localStorage.setItem('cia_key',sk.key); localStorage.setItem('cia_url',sk.url); localStorage.setItem('cia_model',sk.model);
+  document.getElementById('keyInput').value=sk.key; document.getElementById('urlInput').value=sk.url; document.getElementById('modelInput').value=sk.model;
+  onKeyInput(sk.key); renderSavedKeys(); togglePanel('keysPanel','keysBtn'); toast('Chave &quot;'+sk.label+'&quot; ativada');
+}
+function deleteKey(id) { savedKeys=savedKeys.filter(k=&gt;k.id!==id); localStorage.setItem('cia_saved',JSON.stringify(savedKeys)); renderSavedKeys(); }
+
+// ═══════════════════════════════════════
+// HISTÓRICO
+// ═══════════════════════════════════════
+async function renderConvList() {
+  const list=document.getElementById('convList');
+  if (!db) { list.innerHTML='&lt;div style=&quot;font-size:12px;color:#6b8f68;text-align:center;padding:10px&quot;&gt;DB indisponível&lt;/div&gt;'; return; }
+  const convs=(await dbGetAll('conversations')).sort((a,b)=&gt;b.updatedAt-a.updatedAt);
+  document.getElementById('convTitle').textContent='Conversas ('+convs.length+')';
+  if (!convs.length) { list.innerHTML='&lt;div style=&quot;font-size:12px;color:#6b8f68;text-align:center;padding:10px&quot;&gt;Nenhuma conversa salva ainda.&lt;/div&gt;'; return; }
+  list.innerHTML='';
+  convs.forEach(c=&gt;{
+    const div=document.createElement('div');
+    div.className='conv-item'+(c.id===currentConvId?' active':'');
+    const date=new Date(c.updatedAt).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    div.innerHTML='&lt;div class=&quot;conv-info&quot; onclick=&quot;loadConv(\''+c.id+'\')&quot;&gt;&lt;div class=&quot;conv-title&quot;&gt;'+esc(c.title)+'&lt;/div&gt;&lt;div class=&quot;conv-meta&quot;&gt;'+date+' · '+c.messages.length+' msgs · '+esc(c.provider||'')+'&lt;/div&gt;&lt;/div&gt;&lt;button class=&quot;del-btn&quot; onclick=&quot;deleteConv(\''+c.id+'\')&quot;&gt;✕&lt;/button&gt;';
+    list.appendChild(div);
+  });
+}
+async function loadConv(id) {
+  const c=await dbGet('conversations',id); if (!c) return;
+  currentConvId=c.id; history=c.messages;
+  localStorage.setItem('cia_current_conv',id);
+  restoreUI(); togglePanel('convPanel','convBtn'); toast('Conversa carregada');
+}
+async function deleteConv(id) {
+  if (!confirm('Excluir esta conversa?')) return;
+  await dbDelete('conversations',id);
+  if (id===currentConvId) { currentConvId=null; history=[]; restoreUI(); }
+  await renderConvList();
+}
+function newChat() {
+  if (history.length&amp;&amp;!confirm('Nova conversa? A atual já está salva.')) return;
+  abortStream(); history=[]; currentConvId=null;
+  localStorage.removeItem('cia_current_conv');
+  window.speechSynthesis?.cancel();
+  const chat=document.getElementById('chat'); chat.innerHTML='';
+  const empty=document.createElement('div'); empty.className='empty-state'; empty.id='emptyState';
+  empty.innerHTML='&lt;span class=&quot;icon&quot;&gt;⚖️&lt;/span&gt;&lt;h2&gt;Chat IA Pro&lt;/h2&gt;&lt;p&gt;Nova conversa pronta!&lt;/p&gt;&lt;div class=&quot;chips&quot;&gt;&lt;div class=&quot;chip&quot; onclick=&quot;setPrompt(\'Olá!\')&quot;&gt;Olá!&lt;/div&gt;&lt;div class=&quot;chip&quot; onclick=&quot;setPrompt(\'Me ajude com uma questão jurídica.\')&quot;&gt;⚖️ Jurídico&lt;/div&gt;&lt;/div&gt;';
+  chat.appendChild(empty);
+}
+
+// ═══════════════════════════════════════
+// WEB SEARCH
+// ═══════════════════════════════════════
+function toggleWeb() {
+  webOn=!webOn; localStorage.setItem('cia_web',webOn?'on':'off');
+  document.getElementById('webBtn').classList.toggle('web-on',webOn);
+  toast(webOn?'🌐 Busca web ATIVADA':'Busca web desativada');
+}
+async function webSearch(query) {
+  try {
+    const url='https://api.duckduckgo.com/?q='+encodeURIComponent(query)+'&amp;format=json&amp;no_html=1&amp;skip_disambig=1';
+    const r=await fetch(url); const j=await r.json();
+    const parts=[];
+    if (j.AbstractText) parts.push('RESUMO: '+j.AbstractText);
+    if (j.Answer) parts.push('RESPOSTA: '+j.Answer);
+    if (j.RelatedTopics?.length) {
+      const t=j.RelatedTopics.slice(0,5).filter(t=&gt;t.Text).map((t,i)=&gt;(i+1)+'. '+t.Text);
+      if (t.length) parts.push('TÓPICOS:\n'+t.join('\n'));
+    }
+    return parts.length?parts.join('\n\n'):null;
+  } catch { return null; }
+}
+
+// ═══════════════════════════════════════
+// ENVIAR
+// ═══════════════════════════════════════
+function handleKey(e) { if (e.key==='Enter'&amp;&amp;!e.shiftKey){e.preventDefault();send();} }
+function adjustHeight(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,130)+'px'; }
+function setPrompt(txt) { const el=document.getElementById('msgInput'); el.value=txt; adjustHeight(el); el.focus(); }
+
+async function send(textOverride) {
+  const el=document.getElementById('msgInput');
+  const text=(textOverride||el.value).trim();
+  if (!text) return;
+
+  if (window.speechSynthesis) { const u=new SpeechSynthesisUtterance(' '); u.volume=0; window.speechSynthesis.speak(u); }
+
+  document.getElementById('emptyState')?.remove();
+  el.value=''; el.style.height='44px';
+  localStorage.removeItem('cia_draft');
+
+  history.push({ role:'user', content:text });
+  appendMsg('user', text);
+  scheduleSave();
+
+  controller=new AbortController();
+  document.getElementById('sendBtn').style.display='none';
+  document.getElementById('stopBtn').style.display='flex';
+
+  const { content:contentEl, wrap:wrapEl } = appendMsg('bot','',true);
+
+  // Web search
+  let webContext='';
+  if (webOn) {
+    const note=document.createElement('div'); note.className='progress'; note.textContent='🌐 Buscando...';
+    contentEl.appendChild(note);
+    const result=await webSearch(text); note.remove();
+    if (result) { webContext='\n\n[CONTEXTO WEB]:\n'+result+'\n[FIM]'; }
+  }
+
+  try {
+    const key=apiKey.trim();
+    const url=(document.getElementById('urlInput').value||apiUrl||'https://api.groq.com/openai/v1').trim().replace(/\/$/,'');
+    const model=document.getElementById('modelInput').value||apiModel||'llama-3.3-70b-versatile';
+
+    if (!key) {
+      contentEl.innerHTML='&lt;span style=&quot;color:#60a5fa&quot;&gt;⚠️ Configure uma chave de API em ⚙️. Groq é gratuito: &lt;a href=&quot;https://console.groq.com&quot; target=&quot;_blank&quot; style=&quot;color:#7ec87a&quot;&gt;console.groq.com&lt;/a&gt;&lt;/span&gt;';
+      history.pop(); scheduleSave(); return;
+    }
+
+    // Monta mensagens com system prompt
+    const sys = getSysPrompt();
+    let msgs = sys ? [{ role:'system', content:sys }, ...history] : [...history];
+    if (webContext) {
+      const last=msgs[msgs.length-1];
+      msgs[msgs.length-1]={ role:'user', content:last.content+webContext };
+    }
+
+    const resp=await fetch(url+'/chat/completions', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+key, 'HTTP-Referer':location.origin, 'X-Title':'Chat IA Pro' },
+      body:JSON.stringify({ model, messages:msgs, stream:true, max_tokens:16384 }),
+      signal:controller.signal
+    });
+
+    if (!resp.ok) {
+      const errText=await resp.text();
+      let msg='Erro '+resp.status;
+      try { msg=JSON.parse(errText)?.error?.message||msg; } catch {}
+      contentEl.innerHTML='&lt;span style=&quot;color:var(--err)&quot;&gt;❌ '+esc(msg)+'&lt;/span&gt;';
+      history.pop(); scheduleSave(); return;
+    }
+
+    const reader=resp.body.getReader(); const decoder=new TextDecoder();
+    let full='', buf='';
+    const cursor=document.createElement('span'); cursor.className='cursor-blink';
+    contentEl.appendChild(cursor);
+
+    while (true) {
+      const { done, value }=await reader.read(); if (done) break;
+      buf+=decoder.decode(value,{stream:true});
+      const lines=buf.split('\n'); buf=lines.pop()||'';
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const j=line.slice(6).trim(); if (j==='[DONE]') continue;
+        try {
+          const p=JSON.parse(j);
+          if (p.error) throw new Error(typeof p.error==='string'?p.error:p.error.message||'Erro');
+          const delta=p.choices?.[0]?.delta?.content||p.text||p.content||'';
+          if (delta) { full+=delta; cursor.remove(); contentEl.innerHTML=renderMarkdown(full); contentEl.appendChild(cursor); scrollBottom(); }
+        } catch(e) { if (e instanceof SyntaxError) continue; throw e; }
+      }
+    }
+
+    cursor.remove();
+    if (full) {
+      contentEl.innerHTML=renderMarkdown(full);
+      history.push({ role:'assistant', content:full });
+      scheduleSave();
+      if (ttsOn) speakText(full);
+      // FEEDBACK AUTOMÁTICO
+      addFeedbackBar(wrapEl, full);
+    }
+
+  } catch(err) {
+    if (err.name==='AbortError') {
+      contentEl.innerHTML+='&lt;em style=&quot;color:var(--muted);font-size:11px&quot;&gt; [parado]&lt;/em&gt;';
+    } else {
+      contentEl.innerHTML='&lt;span style=&quot;color:var(--err)&quot;&gt;❌ '+esc(err.message)+'&lt;/span&gt;';
+      history.pop(); scheduleSave();
+    }
+  } finally {
+    controller=null;
+    document.getElementById('sendBtn').style.display='flex';
+    document.getElementById('stopBtn').style.display='none';
+    scrollBottom(); addCopyListeners();
+  }
+}
+
+function abortStream() { controller?.abort(); }
+
+// ═══════════════════════════════════════
+// RENDERIZAÇÃO
+// ═══════════════════════════════════════
+function appendMsg(role, text, streaming, isRestore) {
+  const wrap=document.createElement('div'); wrap.className='msg '+role;
+  const bubble=document.createElement('div'); bubble.className='msg-bubble';
+  const content=document.createElement('div'); content.className='msg-content';
+  if (role==='user') content.textContent=text;
+  else if (streaming) content.innerHTML='';
+  else content.innerHTML=renderMarkdown(text);
+  bubble.appendChild(content); wrap.appendChild(bubble);
+  const meta=document.createElement('div'); meta.className='msg-meta';
+  if (role==='bot') {
+    const prov=apiKey?(detectProvider(apiKey)?.name||'IA'):'IA';
+    const lbl=document.createElement('span'); lbl.className='prov-label'; lbl.textContent=prov;
+    const btn=document.createElement('button'); btn.innerHTML='📋 Copiar'; btn.onclick=function(){copyText(this,content.textContent);};
+    meta.appendChild(lbl); meta.appendChild(btn);
+  } else {
+    const btn=document.createElement('button'); btn.innerHTML='📋 Copiar'; btn.onclick=function(){copyText(this,text);};
+    meta.appendChild(btn);
+  }
+  wrap.appendChild(meta);
+  document.getElementById('chat').appendChild(wrap);
+  if (!isRestore) scrollBottom();
+  return { el:wrap, content, wrap };
+}
+
+let copyBlockId=0;
+function renderMarkdown(text) {
+  let html=esc(text);
+  html=html.replace(/```(\w*?)\n([\s\S]*?)```/g,(_,lang,code)=&gt;{
+    const id='cb'+(++copyBlockId);
+    return '&lt;div class=&quot;code-block&quot;&gt;&lt;div class=&quot;code-header&quot;&gt;&lt;span&gt;'+(lang||'código')+'&lt;/span&gt;&lt;button class=&quot;copy-btn&quot; data-copy=&quot;'+escAttr(code)+'&quot; id=&quot;'+id+'&quot;&gt;📋 Copiar&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;code-body&quot;&gt;'+code+'&lt;/div&gt;&lt;/div&gt;';
+  });
+  html=html.replace(/`([^`\n]+?)`/g,'&lt;span class=&quot;inline-code&quot;&gt;$1&lt;/span&gt;');
+  html=html.replace(/\*\*([^*]+?)\*\*/g,'&lt;strong&gt;$1&lt;/strong&gt;');
+  html=html.replace(/\*([^*]+?)\*/g,'&lt;em&gt;$1&lt;/em&gt;');
+  html=html.replace(/(https?:\/\/[^\s&lt;&gt;&quot;']+)/g,'&lt;a href=&quot;$1&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;$1&lt;/a&gt;');
+  html=html.replace(/\n/g,'&lt;br&gt;');
+  return html;
+}
+function addCopyListeners() {
+  document.querySelectorAll('.copy-btn[data-copy]').forEach(btn=&gt;{
+    if (btn.dataset.bound) return; btn.dataset.bound='1';
+    btn.onclick=function(){copyText(this,this.dataset.copy);};
+  });
+}
+function copyText(btn,text) {
+  navigator.clipboard.writeText(text||'').catch(()=&gt;{});
+  const orig=btn.innerHTML; btn.innerHTML='✓ Copiado!';
+  setTimeout(()=&gt;{btn.innerHTML=orig;},1800);
+}
+function scrollBottom() { const c=document.getElementById('chat'); c.scrollTop=c.scrollHeight; }
+
+// ═══════════════════════════════════════
+// EXPORTAR
+// ═══════════════════════════════════════
+function exportConv(format) {
+  
+
+  if (!history.length) { toast('Nada para exportar','err'); return; }
+  const date=new Date().toLocaleString('pt-BR');
+  let content='', mime='text/plain', ext=format;
+
+  if (format==='txt') {
+    const lines=['=== CONVERSA — Chat IA Pro ===','Data: '+date,''];
+    history.forEach(m=&gt;{ lines.push('['+(m.role==='user'?'VOCÊ':'IA')+']'); lines.push(m.content); lines.push(''); });
+    content=lines.join('\n');
+  }
+  else if (format==='md') {
+    const lines=['# Conversa Chat IA Pro','&gt; '+date,''];
+    history.forEach(m=&gt;{ lines.push('### '+(m.role==='user'?'🧑 Você':'🤖 IA')); lines.push(''); lines.push(m.content); lines.push(''); });
+    content=lines.join('\n'); mime='text/markdown';
+  }
+  else if (format==='json') {
+    const sys=getSysPrompt();
+    content=JSON.stringify({
+      title: (history.find(m=&gt;m.role==='user')?.content||'Conversa').slice(0,60),
+      exportedAt: date,
+      provider: apiKey?(detectProvider(apiKey)?.name||'Custom'):'Demo',
+      systemPrompt: sys||null,
+      preset: currentPreset,
+      messages: history,
+    },null,2);
+    mime='application/json';
+  }
+  else if (format==='pdf') {
+    const w=window.open('','_blank');
+    const html=['&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;Conversa&lt;/title&gt;',
+      '&lt;style&gt;body{font-family:Georgia,serif;max-width:780px;margin:30px auto;padding:0 20px;color:#222;line-height:1.6}',
+      'h1{color:#2d4a1e;border-bottom:2px solid #5aab56;padding-bottom:8px}.meta{color:#666;font-size:12px;margin-bottom:20px}',
+      '.msg{margin:16px 0;padding:12px 16px;border-radius:8px;page-break-inside:avoid}',
+      '.user{background:#e8f5e9;border-left:4px solid #5aab56}.bot{background:#f5f5f5;border-left:4px solid #888}',
+      '.role{font-weight:bold;font-size:11px;text-transform:uppercase;color:#555;margin-bottom:4px}',
+      'pre{background:#0d1309;color:#a8d5a2;padding:10px;border-radius:6px;overflow-x:auto;font-size:12px}',
+      '@media print{body{margin:0}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;',
+      '&lt;h1&gt;Conversa — Chat IA Pro&lt;/h1&gt;',
+      '&lt;div class=&quot;meta&quot;&gt;Exportado em '+date+' · '+history.length+' mensagens&lt;/div&gt;'];
+    history.forEach(m=&gt;{
+      const safe=esc(m.content).replace(/\n/g,'&lt;br&gt;');
+      html.push('&lt;div class=&quot;msg '+(m.role==='user'?'user':'bot')+'&quot;&gt;');
+      html.push('&lt;div class=&quot;role&quot;&gt;'+(m.role==='user'?'🧑 Você':'🤖 IA')+'&lt;/div&gt;');
+      html.push('&lt;div&gt;'+safe+'&lt;/div&gt;&lt;/div&gt;');
+    });
+    html.push('&lt;script&gt;window.onload=()=&gt;setTimeout(()=&gt;window.print(),300)&lt;\/script&gt;&lt;/body&gt;&lt;/html&gt;');
+    w.document.write(html.join('')); w.document.close();
+    toast('PDF: use &quot;Salvar como PDF&quot; na impressão'); return;
+  }
+
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type:mime+';charset=utf-8'}));
+  a.download='conversa-'+Date.now()+'.'+ext;
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('Exportado: '+ext.toUpperCase());
+}
+
+// ═══════════════════════════════════════
+// IMPORTAR
+// ═══════════════════════════════════════
+async function importFile(e) {
+  const file=e.target.files?.[0]; e.target.value=''; if (!file) return;
+  const name=file.name.toLowerCase();
+  const el=document.getElementById('msgInput');
+  try {
+    let txt='';
+    if (name.endsWith('.pdf')) { toast('📕 Lendo PDF...'); txt=await extractPDF(file); }
+    else if (name.endsWith('.json')) {
+      const raw=await file.text();
+      try {
+        const j=JSON.parse(raw);
+        // Conversa exportada — oferece restaurar
+        if (j.messages&amp;&amp;Array.isArray(j.messages)) {
+          if (confirm('Este JSON é uma conversa exportada. Restaurar agora?\n\n&quot;'+j.title+'&quot;')) {
+            history=j.messages; currentConvId=null;
+            // Restaura system prompt se tiver
+            if (j.systemPrompt) {
+              customSysPrompt=j.systemPrompt;
+              currentPreset='custom';
+              localStorage.setItem('cia_sysprompt',j.systemPrompt);
+              localStorage.setItem('cia_preset','custom');
+            }
+            restoreUI(); scheduleSave();
+            togglePanel('ioPanel','ioBtn');
+            toast('Conversa restaurada ✓ ('+history.length+' msgs)'); return;
+          }
+        }
+        txt=JSON.stringify(j,null,2);
+      } catch { txt=raw; }
+    }
+    else { txt=await file.text(); }
+    if (txt) {
+      el.value=el.value?el.value+'\n\n'+txt:txt;
+      adjustHeight(el); autoSaveDraft();
+      togglePanel('ioPanel','ioBtn');
+      toast('Importado ('+txt.length+' chars)');
+    }
+  } catch(err) { toast('Erro: '+err.message,'err'); }
+}
+
+async function extractPDF(file) {
+  if (typeof pdfjsLib==='undefined') throw new Error('PDF.js não carregou');
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  const pages=[];
+  for (let i=1;i&lt;=pdf.numPages;i++) {
+    const page=await pdf.getPage(i);
+    const tc=await page.getTextContent();
+    pages.push('--- Página '+i+' ---\n'+tc.items.map(it=&gt;it.str).join(' '));
+  }
+  return pages.join('\n\n');
+}
+
+// ═══════════════════════════════════════
+// OCR
+// ═══════════════════════════════════════
+async function importImage(e) {
+  const file=e.target.files?.[0]; e.target.value=''; if (!file) return;
+  if (typeof Tesseract==='undefined') { toast('Tesseract não carregou','err'); return; }
+  const el=document.getElementById('msgInput');
+  const prog=document.createElement('div');
+  prog.className='progress';
+  prog.style.cssText='position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:1000;';
+  prog.textContent='🔍 OCR iniciando...';
+  document.body.appendChild(prog);
+  try {
+    const { data }=await Tesseract.recognize(file,'por+eng',{
+      logger:m=&gt;{ if (m.status==='recognizing text') prog.textContent='🔍 OCR: '+Math.round(m.progress*100)+'%'; }
+    });
+    const txt=(data?.text||'').trim();
+    if (txt) {
+      el.value=el.value?el.value+'\n\n[OCR]\n'+txt:'[OCR]\n'+txt;
+      adjustHeight(el); autoSaveDraft();
+      togglePanel('ioPanel','ioBtn');
+      toast('OCR concluído ('+txt.length+' chars)');
+    } else { toast('Nenhum texto encontrado','err'); }
+  } catch(err) { toast('Erro OCR: '+err.message,'err'); }
+  finally { prog.remove(); }
+}
+
+// ═══════════════════════════════════════
+// BACKUP COMPLETO
+// ═══════════════════════════════════════
+async function backupAll() {
+  const convs=db?await dbGetAll('conversations'):[];
+  const feedbacks=JSON.parse(localStorage.getItem('cia_feedbacks')||'[]');
+  const data={
+    version:2,
+    exportedAt:new Date().toISOString(),
+    keys:savedKeys,
+    conversations:convs,
+    feedbacks,
+    settings:{ apiKey, apiUrl, apiModel, ttsOn, webOn, currentPreset, customSysPrompt }
+  };
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download='chatia-backup-'+Date.now()+'.json';
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('Backup completo ✓');
+}
+
+async function restoreBackup(e) {
+  const file=e.target.files?.[0]; e.target.value=''; if (!file) return;
+  if (!confirm('Restaurar backup? Dados atuais serão MESCLADOS.')) return;
+  try {
+    const data=JSON.parse(await file.text());
+    if (data.keys?.length) {
+      const existing=new Set(savedKeys.map(k=&gt;k.key));
+      data.keys.forEach(k=&gt;{ if (!existing.has(k.key)) savedKeys.push(k); });
+      localStorage.setItem('cia_saved',JSON.stringify(savedKeys));
+    }
+    if (data.conversations?.length&amp;&amp;db) {
+      for (const c of data.conversations) await dbPut('conversations',c);
+    }
+    if (data.settings?.customSysPrompt) {
+      customSysPrompt=data.settings.customSysPrompt;
+      localStorage.setItem('cia_sysprompt',customSysPrompt);
+    }
+    if (data.settings?.currentPreset) {
+      currentPreset=data.settings.currentPreset;
+      localStorage.setItem('cia_preset',currentPreset);
+    }
+    renderSavedKeys(); await renderConvList();
+    toast('Backup restaurado ✓');
+  } catch { toast('Erro: backup inválido','err'); }
+}
+
+// ═══════════════════════════════════════
+// VOZ — STT
+// ═══════════════════════════════════════
+function toggleVoice() {
+  if (isRecording) { stopVoice(); return; }
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if (!SR) { toast('Use Chrome ou Edge para voz','err'); return; }
+  recog=new SR(); recog.lang='pt-BR'; recog.continuous=true; recog.interimResults=true;
+  let fullText='';
+  const schedSend=()=&gt;{ clearTimeout(silTimer); silTimer=setTimeout(()=&gt;{ try{recog.stop();}catch{} if(fullText.trim()){setPrompt('');send(fullText.trim());} },1800); };
+  recog.onresult=ev=&gt;{
+    let final='',interim='';
+    for (let i=0;i&lt;ev.results.length;i++) { if(ev.results[i].isFinal) final+=ev.results[i][0].transcript; else interim+=ev.results[i][0].transcript; }
+    fullText=final||interim;
+    document.getElementById('msgInput').value=fullText; adjustHeight(document.getElementById('msgInput'));
+    if (fullText) schedSend();
+  };
+  recog.onerror=recog.onend=()=&gt;{ clearTimeout(silTimer); isRecording=false; recog=null; document.getElementById('micBtn').classList.remove('listening'); };
+  try { recog.start(); } catch { return; }
+  isRecording=true; document.getElementById('micBtn').classList.add('listening');
+}
+function stopVoice() { try{recog?.stop();}catch{} recog=null; isRecording=false; clearTimeout(silTimer); document.getElementById('micBtn').classList.remove('listening'); }
+
+// ═══════════════════════════════════════
+// TTS
+// ═══════════════════════════════════════
+function toggleTTS() {
+  ttsOn=!ttsOn; localStorage.setItem('cia_tts',ttsOn?'on':'off');
+  document.getElementById('ttsBtn').style.opacity=ttsOn?'1':'0.4';
+  if (!ttsOn) window.speechSynthesis?.cancel();
+  toast(ttsOn?'🔊 Voz ATIVADA':'Voz desativada');
+}
+function speakText(text) {
+  if (!ttsOn||!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const clean=text.replace(/&lt;[^&gt;]+&gt;/g,'').replace(/[`*#]/g,'').substring(0,800);
+  const u=new SpeechSynthesisUtterance(clean); u.lang='pt-BR';
+  window.speechSynthesis.speak(u);
+}
+
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function esc(s) { return String(s).replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;').replace(/&quot;/g,'&amp;quot;'); }
+function escAttr(s) { return esc(s).replace(/'/g,'&amp;#39;'); }
+
+let toastTimer;
+function toast(msg,type) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.toggle('err',type==='err');
+  t.classList.add('show'); clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=&gt;t.classList.remove('show'),2500);
+}
+
+window.addEventListener('beforeunload',()=&gt;{ if(history.length) autoSave(); autoSaveDraft(); });
+
+boot();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</div>
+
+
+<script>
+function trocarProjeto(index) {
+  // Esconde todos
+  document.querySelectorAll('.project-container').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  // Mostra o selecionado
+  document.getElementById('projeto' + index).classList.add('active');
+  document.querySelectorAll('.nav-btn')[index].classList.add('active');
+  
+  // Salva preferência
+  localStorage.setItem('ultimo-projeto', index);
+}
+
+// Restaura último projeto aberto
+window.onload = function() {
+  const ultimo = localStorage.getItem('ultimo-projeto');
+  if (ultimo !== null) trocarProjeto(parseInt(ultimo));
+};
+</script>
+</body>
+</html>

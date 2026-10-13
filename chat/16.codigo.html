@@ -1,0 +1,4659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Maikon Caldeira — Advocacia Digital</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0a0a0f; font-family:system-ui,sans-serif; }
+
+.nav {
+  position:fixed;
+  top:0; left:0; right:0;
+  background:#12121a;
+  border-bottom:2px solid #a3a082;
+  padding:10px 16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  z-index:9999;
+  box-shadow:0 3px 15px rgba(0,0,0,0.6);
+}
+
+.nav-titulo {
+  font-size:12px;
+  font-weight:700;
+  color:#a3a082;
+  letter-spacing:2px;
+  margin-right:8px;
+  white-space:nowrap;
+}
+
+.nav-btn {
+  padding:8px 16px;
+  background:#1a1a2e;
+  border:1px solid #2d2d3a;
+  border-radius:8px;
+  color:#94a3b8;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+
+.nav-btn:hover { background:#a3a082; color:#000; border-color:#a3a082; }
+.nav-btn.active { background:#a3a082; color:#000; border-color:#d4d0a8; }
+
+.projeto { display:none; padding-top:110px; min-height:100vh; }
+.projeto.ativo { display:block; }
+
+.projeto iframe {
+  width:100%;
+  min-height:calc(100vh - 110px);
+  border:none;
+  display:block;
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-titulo">⚖️ MC</span>
+  <button class="nav-btn active" onclick="trocar(0)">🔷 Debug Visual</button>
+  <button class="nav-btn " onclick="trocar(1)">🔶 Corretor Aut</button>
+  <button class="nav-btn " onclick="trocar(2)">🔸 17.Limpador</button>
+  <button class="nav-btn " onclick="trocar(3)">🟢 8.Comparador</button>
+  <button class="nav-btn " onclick="trocar(4)">🟣 Teste Api </button>
+</div>
+
+<div class="projeto ativo" id="p0"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>Analisador Automático + Debugger Visual</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 20px;
+  min-height: 100vh;
+}
+.container { max-width: 1800px; margin: 0 auto; }
+h1 { color: #a3a082; margin-bottom: 10px; text-align: center; font-size: 24px; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 13px; }
+h2 { color: #4ade80; margin: 25px 0 15px 0; font-size: 16px; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+h3 { color: #60a5fa; margin: 12px 0 8px 0; font-size: 13px; }
+
+.upload-area {
+  background: #1e293b;
+  border: 2px dashed #334155;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.upload-area:hover { border-color: #a3a082; background: #334155; }
+.upload-area.dragover { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+
+input[type=&quot;file&quot;] { display: none; }
+
+.btn {
+  background: #a3a082;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 5px;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+.btn:hover { background: #d4d0a8; transform: translateY(-2px); }
+.btn-secondary { background: #3b82f6; color: #fff; }
+.btn-secondary:hover { background: #2563eb; }
+.btn-danger { background: #f87171; color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-success { background: #4ade80; color: #000; }
+.btn-success:hover { background: #22c55e; }
+.btn-small { padding: 6px 12px; font-size: 11px; }
+
+.loading {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px;
+  font-size: 14px;
+}
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid #334155;
+  border-top-color: #a3a082;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #334155;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+
+.tab:hover { color: #e2e8f0; }
+.tab.active { color: #a3a082; border-bottom-color: #a3a082; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.results {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #0f172a;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.card-error { border-left-color: #f87171; }
+.card-warning { border-left-color: #fbbf24; }
+.card-success { border-left-color: #4ade80; }
+.card-info { border-left-color: #60a5fa; }
+.card-critical { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.05); }
+
+.card-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.card-content {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat-box {
+  background: #334155;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-box strong {
+  display: block;
+  color: #a3a082;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.stat-box span {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.issue-list {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.issue-item {
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  background: #1e293b;
+  border-left: 4px solid #fbbf24;
+}
+
+.issue-item.error { border-left-color: #f87171; }
+.issue-item.warning { border-left-color: #fbbf24; }
+.issue-item.critical { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.05); }
+.issue-item.info { border-left-color: #60a5fa; }
+
+.issue-severity {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.issue-severity.error { background: #f87171; color: #fff; }
+.issue-severity.warning { background: #fbbf24; color: #000; }
+.issue-severity.critical { background: #ef4444; color: #fff; }
+.issue-severity.info { background: #60a5fa; color: #fff; }
+
+.issue-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.issue-detail {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 5px 0;
+}
+
+.issue-file {
+  font-size: 11px;
+  color: #60a5fa;
+  margin-top: 8px;
+}
+
+.code-block {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 10px 0;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  max-height: 200px;
+  overflow-y: auto;
+  color: #60a5fa;
+}
+
+.debug-flow {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.flow-item {
+  padding: 12px;
+  margin-bottom: 10px;
+  border-left: 4px solid #60a5fa;
+  background: #1e293b;
+  border-radius: 4px;
+  position: relative;
+}
+
+.flow-item.error { border-left-color: #f87171; }
+.flow-item.warning { border-left-color: #fbbf24; }
+.flow-item.success { border-left-color: #4ade80; }
+
+.flow-arrow {
+  text-align: center;
+  color: #60a5fa;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.flow-label {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-bottom: 5px;
+}
+
+.flow-content {
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dependency-graph {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 15px 0;
+  overflow-x: auto;
+}
+
+.dep-item {
+  display: inline-block;
+  background: #334155;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 5px;
+  font-size: 11px;
+  border: 1px solid #60a5fa;
+}
+
+.dep-item.missing { border-color: #f87171; background: rgba(248, 113, 113, 0.1); }
+.dep-item.ok { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+.dep-item.broken { border-color: #fbbf24; background: rgba(251, 191, 36, 0.1); }
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.progress-bar {
+  background: #334155;
+  border-radius: 4px;
+  height: 20px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #4ade80, #60a5fa);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+@media (max-width: 1200px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class=&quot;container&quot;>
+  <h1>🔍 Analisador Automático + Debugger Visual</h1>
+  <p class=&quot;subtitle&quot;>Análise completa sem modificar nada - Gera relatório detalhado de todos os problemas</p>
+
+  <div class=&quot;upload-area&quot; id=&quot;dropZone&quot;>
+    <p style=&quot;font-size: 18px; margin-bottom: 10px;&quot;>📦 Arraste seu ZIP da Replit aqui</p>
+    <p style=&quot;color: #94a3b8; font-size: 13px; margin-bottom: 15px;&quot;>Será analisado completamente e gerará relatório detalhado</p>
+    <button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileInput').click()&quot;>Selecionar ZIP</button>
+    <input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip&quot; />
+  </div>
+
+  <div id=&quot;loading&quot; class=&quot;loading&quot; style=&quot;display:none;&quot;>
+    <div class=&quot;spinner&quot;></div>
+    <p>Analisando projeto... Isso pode levar alguns segundos...</p>
+  </div>
+
+  <div id=&quot;results&quot;></div>
+</div>
+
+<script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const resultsDiv = document.getElementById('results');
+const loadingDiv = document.getElementById('loading');
+
+let projectAnalysis = {
+  files: {},
+  issues: [],
+  endpoints: [],
+  dependencies: [],
+  replitBindings: [],
+  configFiles: {},
+  dataFlow: [],
+  warnings: []
+};
+
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener('change', e => {
+  handleFile(e.target.files[0]);
+});
+
+async function handleFile(file) {
+  if (!file) return;
+  
+  loadingDiv.style.display = 'block';
+  resultsDiv.innerHTML = '';
+  projectAnalysis = {
+    files: {},
+    issues: [],
+    endpoints: [],
+    dependencies: [],
+    replitBindings: [],
+    configFiles: {},
+    dataFlow: [],
+    warnings: []
+  };
+  
+  try {
+    const zip = new JSZip();
+    const content = await zip.loadAsync(file);
+    
+    // Extrai todos os arquivos
+    for (let [path, zipEntry] of Object.entries(content.files)) {
+      if (!zipEntry.dir) {
+        try {
+          const fileContent = await zipEntry.async('text');
+          projectAnalysis.files[path] = {
+            content: fileContent,
+            size: zipEntry._data.uncompressedSize,
+            ext: path.split('.').pop().toLowerCase()
+          };
+        } catch (e) {}
+      }
+    }
+    
+    // Executa análises
+    await analyzeProject();
+    
+    loadingDiv.style.display = 'none';
+    displayResults();
+    
+  } catch (err) {
+    loadingDiv.style.display = 'none';
+    resultsDiv.innerHTML = `<div class=&quot;card card-error&quot;>
+      <div class=&quot;card-title&quot;>❌ Erro ao processar</div>
+      <div class=&quot;card-content&quot;>${err.message}</div>
+    </div>`;
+  }
+}
+
+async function analyzeProject() {
+  // Análise de configuração
+  analyzeConfig();
+  
+  // Análise de dependências
+  analyzeDependencies();
+  
+  // Análise de endpoints
+  analyzeEndpoints();
+  
+  // Análise de vínculos Replit
+  analyzeReplitBindings();
+  
+  // Análise de erros
+  analyzeErrors();
+  
+  // Análise de fluxo de dados
+  analyzeDataFlow();
+  
+  // Análise de segurança
+  analyzeSecurity();
+}
+
+function analyzeConfig() {
+  const configFiles = ['package.json', '.replit', 'replit.nix', 'vite.config.js', 'webpack.config.js', '.env', '.env.local'];
+  
+  for (let [path, file] of Object.entries(projectAnalysis.files)) {
+    const fileName = path.split('/').pop();
+    
+    if (configFiles.includes(fileName)) {
+      projectAnalysis.configFiles[path] = file.content;
+      
+      if (fileName === 'package.json') {
+        try {
+          const pkg = JSON.parse(file.content);
+          
+          // Detecta problemas no package.json
+          if (!pkg.name) {
+            projectAnalysis.issues.push({
+              severity: 'warning',
+              type: 'config',
+              title: 'package.json sem nome',
+              detail: 'O arquivo package.json não tem um campo &quot;name&quot;',
+              file: path,
+              fix: 'Adicione um nome ao projeto'
+            });
+          }
+          
+          if (!pkg.scripts || !pkg.scripts.start) {
+            projectAnalysis.issues.push({
+              severity: 'warning',
+              type: 'config',
+              title: 'Script &quot;start&quot; não definido',
+              detail: 'Não há script de inicialização',
+              file: path,
+              fix: 'Adicione &quot;start&quot; em scripts'
+            });
+          }
+          
+          // Detecta dependências faltando
+          const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
+          Object.keys(allDeps).forEach(dep => {
+            projectAnalysis.dependencies.push({
+              name: dep,
+              version: allDeps[dep],
+              type: pkg.dependencies[dep] ? 'production' : 'development'
+            });
+          });
+          
+        } catch (e) {
+          projectAnalysis.issues.push({
+            severity: 'error',
+            type: 'config',
+            title: 'package.json inválido',
+            detail: 'JSON malformado: ' + e.message,
+            file: path,
+            fix: 'Corrija a sintaxe JSON'
+          });
+        }
+      }
+      
+      if (fileName === '.replit') {
+        projectAnalysis.issues.push({
+          severity: 'info',
+          type: 'replit',
+          title: 'Arquivo .replit detectado',
+          detail: 'Este arquivo contém configurações específicas da Replit',
+          file: path,
+          note: 'Pode precisar ser ajustado em outro ambiente'
+        });
+      }
+      
+      if (fileName === 'vite.config.js') {
+        projectAnalysis.issues.push({
+          severity: 'info',
+          type: 'build',
+          title: 'Vite detectado',
+          detail: 'Projeto usa Vite como bundler',
+          file: path
+        });
+      }
+    }
+  }
+}
+
+function analyzeDependencies() {
+  for (let [path, file] of Object.entries(projectAnalysis.files)) {
+    if (path.includes('package.json')) {
+      try {
+        const pkg = JSON.parse(file.content);
+        const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
+        
+        // Verifica dependências críticas
+        const criticalDeps = ['express', 'react', 'vue', 'angular', 'next', 'nuxt'];
+        
+        criticalDeps.forEach(dep => {
+          if (allDeps[dep]) {
+            projectAnalysis.dependencies.push({
+              name: dep,
+              version: allDeps[dep],
+              status: 'found'
+            });
+          }
+        });
+        
+      } catch (e) {}
+    }
+  }
+}
+
+function analyzeEndpoints() {
+  for (let [path, file] of Object.entries(projectAnalysis.files)) {
+    if (file.ext === 'js' || file.ext === 'ts') {
+      const content = file.content;
+      
+      // Detecta endpoints
+      const endpointPatterns = [
+        { regex: /app\.(get|post|put|delete|patch)\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g, type: 'express' },
+        { regex: /router\.(get|post|put|delete|patch)\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g, type: 'express' },
+        { regex: /fetch\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g, type: 'fetch' },
+        { regex: /axios\.(get|post|put|delete|patch)\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g, type: 'axios' }
+      ];
+      
+      endpointPatterns.forEach(pattern => {
+        let match;
+        const regex = new RegExp(pattern.regex.source, 'g');
+        
+        while ((match = regex.exec(content)) !== null) {
+          const method = match[1] || 'GET';
+          const endpoint = match[2] || match[1];
+          
+          projectAnalysis.endpoints.push({
+            method: method.toUpperCase(),
+            path: endpoint,
+            file: path,
+            type: pattern.type,
+            line: content.substring(0, match.index).split('\n').length
+          });
+          
+          // Detecta problemas em endpoints
+          if (!endpoint.startsWith('/') &amp;&amp; !endpoint.startsWith('http')) {
+            projectAnalysis.issues.push({
+              severity: 'warning',
+              type: 'endpoint',
+              title: 'Endpoint sem caminho claro',
+              detail: `Endpoint &quot;${endpoint}&quot; pode estar mal formatado`,
+              file: path,
+              line: content.substring(0, match.index).split('\n').length,
+              fix: 'Verifique se o caminho está correto'
+            });
+          }
+        }
+      });
+    }
+  }
+}
+
+function analyzeReplitBindings() {
+  for (let [path, file] of Object.entries(projectAnalysis.files)) {
+    const content = file.content.toLowerCase();
+    
+    // Detecta referências a Replit
+    const replitPatterns = [
+      { pattern: 'process.env.replit', type: 'env_var' },
+      { pattern: 'replit_db', type: 'database' },
+      { pattern: 'replit_audio', type: 'audio' },
+      { pattern: 'replit_code', type: 'code_execution' },
+      { pattern: '.replit', type: 'config' },
+      { pattern: 'replit.com', type: 'url' }
+    ];
+    
+    replitPatterns.forEach(p => {
+      if (content.includes(p.pattern)) {
+        projectAnalysis.replitBindings.push({
+          type: p.type,
+          pattern: p.pattern,
+          file: path,
+          severity: 'warning'
+        });
+        
+        projectAnalysis.issues.push({
+          severity: 'warning',
+          type: 'replit_binding',
+          title: `Vínculo Replit detectado: ${p.type}`,
+          detail: `Arquivo contém referência a &quot;${p.pattern}&quot;`,
+          file: path,
+          note: 'Este código pode não funcionar fora da Replit',
+          fix: 'Considere abstrair em variáveis de ambiente'
+        });
+      }
+    });
+  }
+}
+
+function analyzeErrors() {
+  for (let [path, file] of Object.entries(projectAnalysis.files)) {
+    if (file.ext === 'js' || file.ext === 'ts' || file.ext === 'json') {
+      const content = file.content;
+      const lines = content.split('\n');
+      
+      // Detecta erros comuns
+      lines.forEach((line, idx) => {
+        // Chaves não fechadas
+        const opens = (line.match(/[\{\[\(]/g) || []).length;
+        const closes = (line.match(/[\}\]\)]/g) || []).length;
+        if (opens !== closes &amp;&amp; opens > 0) {
+          projectAnalysis.issues.push({
+            severity: 'error',
+            type: 'syntax',
+            title: 'Possível erro de sintaxe',
+            detail: 'Chaves/parênteses não balanceados',
+            file: path,
+            line: idx + 1,
+            code: line.trim(),
+            fix: 'Verifique se todas as chaves estão fechadas'
+          });
+        }
+        
+        // Variáveis não definidas
+        if (line.includes('undefined') &amp;&amp; !line.includes('typeof')) {
+          projectAnalysis.issues.push({
+            severity: 'warning',
+            type: 'reference',
+            title: 'Possível referência indefinida',
+            detail: 'Linha contém &quot;undefined&quot;',
+            file: path,
+            line: idx + 1,
+            code: line.trim()
+          });
+        }
+        
+        // Senhas/tokens
+        if (/(password|token|secret|apikey|api_key)\s*[:=]/i.test(line) &amp;&amp; !line.includes('//')) {
+          projectAnalysis.issues.push({
+            severity: 'critical',
+            type: 'security',
+            title: '🔐 CRÍTICO: Possível credencial exposta',
+            detail: 'Linha contém possível senha/token',
+            file: path,
+            line: idx + 1,
+            fix: 'Mova para variáveis de ambiente'
+          });
+        }
+      });
+    }
+  }
+}
+
+function analyzeDataFlow() {
+  // Rastreia fluxo de dados entre componentes
+  const flows = [];
+  
+  for (let [path, file] of Object.entries(projectAnalysis.files)) {
+    if (file.ext === 'js' || file.ext === 'ts') {
+      const content = file.content;
+      
+      // Detecta imports/exports
+      const imports = content.match(/import\s+.*from\s+['&quot;`]([^'&quot;`]+)['&quot;`]/g) || [];
+      const exports = content.match(/export\s+(default\s+)?(function|const|class|interface)\s+(\w+)/g) || [];
+      
+      imports.forEach(imp => {
+        flows.push({
+          type: 'import',
+          from: path,
+          source: imp,
+          status: 'detected'
+        });
+      });
+      
+      exports.forEach(exp => {
+        flows.push({
+          type: 'export',
+          from: path,
+          source: exp,
+          status: 'detected'
+        });
+      });
+    }
+  }
+  
+  projectAnalysis.dataFlow = flows;
+}
+
+function analyzeSecurity() {
+  for (let [path, file] of Object.entries(projectAnalysis.files)) {
+    const content = file.content;
+    
+    // Detecta problemas de segurança
+    const securityPatterns = [
+      { pattern: /eval\s*\(/g, issue: 'eval() detectado - RISCO DE SEGURANÇA' },
+      { pattern: /innerHTML\s*=/g, issue: 'innerHTML detectado - Risco de XSS' },
+      { pattern: /dangerouslySetInnerHTML/g, issue: 'dangerouslySetInnerHTML - Risco de XSS' },
+      { pattern: /localStorage\.setItem/g, issue: 'localStorage - Dados sensíveis podem ser expostos' },
+      { pattern: /document\.write/g, issue: 'document.write() - Método obsoleto' }
+    ];
+    
+    securityPatterns.forEach(p => {
+      if (p.pattern.test(content)) {
+        projectAnalysis.issues.push({
+          severity: 'warning',
+          type: 'security',
+          title: p.issue,
+          detail: `Detectado em ${path}`,
+          file: path,
+          fix: 'Revise o código para possíveis vulnerabilidades'
+        });
+      }
+    });
+  }
+}
+
+function displayResults() {
+  const criticalCount = projectAnalysis.issues.filter(i => i.severity === 'critical').length;
+  const errorCount = projectAnalysis.issues.filter(i => i.severity === 'error').length;
+  const warningCount = projectAnalysis.issues.filter(i => i.severity === 'warning').length;
+  const infoCount = projectAnalysis.issues.filter(i => i.severity === 'info').length;
+  
+  let html = `
+    <div class=&quot;tabs&quot;>
+      <button class=&quot;tab active&quot; onclick=&quot;switchTab('overview')&quot;>📊 Visão Geral</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('issues')&quot;>⚠️ Problemas</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('endpoints')&quot;>🔌 Endpoints</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('replit')&quot;>🔗 Vínculos Replit</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('debug')&quot;>🔍 Debugger Visual</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('report')&quot;>📋 Relatório</button>
+    </div>
+    
+    <!-- TAB: VISÃO GERAL -->
+    <div id=&quot;tab-overview&quot; class=&quot;tab-content active&quot;>
+      <div class=&quot;results&quot;>
+        <h2>📊 Resumo da Análise</h2>
+        <div class=&quot;stats-grid&quot;>
+          <div class=&quot;stat-box&quot;>
+            <strong>${Object.keys(projectAnalysis.files).length}</strong>
+            <span>Arquivos Analisados</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong style=&quot;color: #ef4444;&quot;>${criticalCount}</strong>
+            <span>Críticos</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong style=&quot;color: #f87171;&quot;>${errorCount}</strong>
+            <span>Erros</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong style=&quot;color: #fbbf24;&quot;>${warningCount}</strong>
+            <span>Avisos</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong style=&quot;color: #60a5fa;&quot;>${infoCount}</strong>
+            <span>Informações</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${projectAnalysis.endpoints.length}</strong>
+            <span>Endpoints</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class=&quot;results&quot;>
+        <h2>🎯 Problemas Críticos Encontrados</h2>
+        ${criticalCount > 0 ? `
+          <div class=&quot;issue-list&quot;>
+            ${projectAnalysis.issues.filter(i => i.severity === 'critical').map(issue => `
+              <div class=&quot;issue-item critical&quot;>
+                <span class=&quot;issue-severity critical&quot;>CRÍTICO</span>
+                <div class=&quot;issue-title&quot;>${issue.title}</div>
+                <div class=&quot;issue-detail&quot;>${issue.detail}</div>
+                <div class=&quot;issue-file&quot;>📄 ${issue.file}${issue.line ? ` (linha ${issue.line})` : ''}</div>
+              </div>
+            `).join('')}
+          </div>
+        ` : '<p style=&quot;color: #4ade80;&quot;>✅ Nenhum problema crítico detectado!</p>'}
+      </div>
+      
+      <div class=&quot;results&quot;>
+        <h2>📦 Dependências Detectadas</h2>
+        <div style=&quot;display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;&quot;>
+          ${projectAnalysis.dependencies.map(dep => `
+            <div class=&quot;dep-item ok&quot;>
+              <strong>${dep.name}</strong><br>
+              <span style=&quot;font-size: 10px; color: #94a3b8;&quot;>${dep.version}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+    
+    <!-- TAB: PROBLEMAS -->
+    <div id=&quot;tab-issues&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>⚠️ Todos os Problemas Encontrados</h2>
+        <div class=&quot;issue-list&quot;>
+          ${projectAnalysis.issues.length > 0 ? projectAnalysis.issues.map(issue => `
+            <div class=&quot;issue-item ${issue.severity}&quot;>
+              <span class=&quot;issue-severity ${issue.severity}&quot;>
+                ${issue.severity.toUpperCase()}
+              </span>
+              <div class=&quot;issue-title&quot;>${issue.title}</div>
+              <div class=&quot;issue-detail&quot;>${issue.detail}</div>
+              ${issue.code ? `<div class=&quot;code-block&quot;>${escapeHtml(issue.code)}</div>` : ''}
+              <div class=&quot;issue-file&quot;>
+                📄 ${issue.file}${issue.line ? ` (linha ${issue.line})` : ''}
+              </div>
+              ${issue.fix ? `<div style=&quot;margin-top: 8px; padding: 8px; background: #334155; border-radius: 3px; font-size: 11px;&quot;>💡 <strong>Sugestão:</strong> ${issue.fix}</div>` : ''}
+            </div>
+          `).join('') : '<p style=&quot;color: #4ade80;&quot;>✅ Nenhum problema encontrado!</p>'}
+        </div>
+      </div>
+    </div>
+    
+    <!-- TAB: ENDPOINTS -->
+    <div id=&quot;tab-endpoints&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>🔌 Endpoints Detectados</h2>
+        <div class=&quot;issue-list&quot;>
+          ${projectAnalysis.endpoints.length > 0 ? projectAnalysis.endpoints.map(ep => `
+            <div class=&quot;issue-item info&quot;>
+              <span class=&quot;issue-severity info&quot;>${ep.method}</span>
+              <div class=&quot;issue-title&quot;>${ep.path}</div>
+              <div class=&quot;issue-detail&quot;>Tipo: ${ep.type}</div>
+              <div class=&quot;issue-file&quot;>📄 ${ep.file} (linha ${ep.line})</div>
+            </div>
+          `).join('') : '<p style=&quot;color: #94a3b8;&quot;>Nenhum endpoint detectado</p>'}
+        </div>
+      </div>
+    </div>
+    
+    <!-- TAB: VÍNCULOS REPLIT -->
+    <div id=&quot;tab-replit&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>🔗 Vínculos Replit Detectados</h2>
+        ${projectAnalysis.replitBindings.length > 0 ? `
+          <div class=&quot;issue-list&quot;>
+            ${projectAnalysis.replitBindings.map(binding => `
+              <div class=&quot;issue-item warning&quot;>
+                <span class=&quot;issue-severity warning&quot;>REPLIT</span>
+                <div class=&quot;issue-title&quot;>${binding.type.toUpperCase()}</div>
+                <div class=&quot;issue-detail&quot;>Padrão: <code>${binding.pattern}</code></div>
+                <div class=&quot;issue-file&quot;>📄 ${binding.file}</div>
+                <div style=&quot;margin-top: 8px; padding: 8px; background: #334155; border-radius: 3px; font-size: 11px;&quot;>
+                  ⚠️ Este código é específico da Replit e pode não funcionar em outro ambiente
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        ` : '<p style=&quot;color: #4ade80;&quot;>✅ Nenhum vínculo Replit detectado!</p>'}
+      </div>
+    </div>
+    
+    <!-- TAB: DEBUGGER VISUAL -->
+    <div id=&quot;tab-debug&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>🔍 Debugger Visual - Fluxo de Dados</h2>
+        <div class=&quot;debug-flow&quot;>
+          ${projectAnalysis.dataFlow.length > 0 ? projectAnalysis.dataFlow.slice(0, 20).map((flow, idx) => `
+            <div class=&quot;flow-item ${flow.status === 'error' ? 'error' : 'success'}&quot;>
+              <div class=&quot;flow-label&quot;>${flow.type.toUpperCase()}</div>
+              <div class=&quot;flow-content&quot;>${flow.source}</div>
+              <div style=&quot;font-size: 11px; color: #94a3b8; margin-top: 5px;&quot;>📄 ${flow.from}</div>
+            </div>
+            ${idx < projectAnalysis.dataFlow.length - 1 ? '<div class=&quot;flow-arrow&quot;>⬇️</div>' : ''}
+          `).join('') : '<p style=&quot;color: #94a3b8;&quot;>Nenhum fluxo de dados detectado</p>'}
+        </div>
+      </div>
+      
+      <div class=&quot;results&quot;>
+        <h2>📊 Gráfico de Dependências</h2>
+        <div class=&quot;dependency-graph&quot;>
+          ${projectAnalysis.dependencies.map(dep => `
+            <div class=&quot;dep-item ok&quot;>
+              ${dep.name}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+    
+    <!-- TAB: RELATÓRIO -->
+    <div id=&quot;tab-report&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>📋 Relatório Completo</h2>
+        <div class=&quot;export-buttons&quot;>
+          <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportReport('markdown')&quot;>📝 Markdown</button>
+          <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportReport('json')&quot;>📊 JSON</button>
+          <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportReport('html')&quot;>🌐 HTML</button>
+          <button class=&quot;btn btn-secondary&quot; onclick=&quot;exportReport('text')&quot;>📄 Texto</button>
+        </div>
+        
+        <div class=&quot;card card-info&quot; style=&quot;margin-top: 20px;&quot;>
+          <div class=&quot;card-title&quot;>📋 Resumo do Relatório</div>
+          <div class=&quot;card-content&quot;>
+            <strong>Total de Arquivos:</strong> ${Object.keys(projectAnalysis.files).length}<br>
+            <strong>Problemas Críticos:</strong> ${criticalCount}<br>
+            <strong>Erros:</strong> ${errorCount}<br>
+            <strong>Avisos:</strong> ${warningCount}<br>
+            <strong>Endpoints:</strong> ${projectAnalysis.endpoints.length}<br>
+            <strong>Vínculos Replit:</strong> ${projectAnalysis.replitBindings.length}<br>
+            <strong>Dependências:</strong> ${projectAnalysis.dependencies.length}<br>
+            <br>
+            <strong>Saúde do Projeto:</strong>
+            <div class=&quot;progress-bar&quot;>
+              <div class=&quot;progress-fill&quot; style=&quot;width: ${calculateHealth()}%&quot;>
+                ${calculateHealth()}%
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  resultsDiv.innerHTML = html;
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  
+  event.target.classList.add('active');
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+}
+
+function calculateHealth() {
+  const total = projectAnalysis.issues.length;
+  if (total === 0) return 100;
+  
+  const critical = projectAnalysis.issues.filter(i => i.severity === 'critical').length * 10;
+  const errors = projectAnalysis.issues.filter(i => i.severity === 'error').length * 5;
+  const warnings = projectAnalysis.issues.filter(i => i.severity === 'warning').length * 2;
+  
+  const health = Math.max(0, 100 - (critical + errors + warnings));
+  return Math.round(health);
+}
+
+function exportReport(format) {
+  const criticalCount = projectAnalysis.issues.filter(i => i.severity === 'critical').length;
+  const errorCount = projectAnalysis.issues.filter(i => i.severity === 'error').length;
+  const warningCount = projectAnalysis.issues.filter(i => i.severity === 'warning').length;
+  
+  if (format === 'markdown') {
+    let md = `# Relatório de Análise do Projeto\n\n`;
+    md += `**Gerado em:** ${new Date().toLocaleString('pt-BR')}\n\n`;
+    
+    md += `## 📊 Resumo\n\n`;
+    md += `- **Arquivos Analisados:** ${Object.keys(projectAnalysis.files).length}\n`;
+    md += `- **Problemas Críticos:** ${criticalCount}\n`;
+    md += `- **Erros:** ${errorCount}\n`;
+    md += `- **Avisos:** ${warningCount}\n`;
+    md += `- **Endpoints:** ${projectAnalysis.endpoints.length}\n`;
+    md += `- **Vínculos Replit:** ${projectAnalysis.replitBindings.length}\n`;
+    md += `- **Saúde do Projeto:** ${calculateHealth()}%\n\n`;
+    
+    md += `## 🔴 Problemas Críticos\n\n`;
+    projectAnalysis.issues.filter(i => i.severity === 'critical').forEach(issue => {
+      md += `### ${issue.title}\n`;
+      md += `- **Arquivo:** ${issue.file}${issue.line ? ` (linha ${issue.line})` : ''}\n`;
+      md += `- **Detalhe:** ${issue.detail}\n`;
+      if (issue.fix) md += `- **Sugestão:** ${issue.fix}\n`;
+      md += '\n';
+    });
+    
+    md += `## 🟠 Erros\n\n`;
+    projectAnalysis.issues.filter(i => i.severity === 'error').forEach(issue => {
+      md += `### ${issue.title}\n`;
+      md += `- **Arquivo:** ${issue.file}${issue.line ? ` (linha ${issue.line})` : ''}\n`;
+      md += `- **Detalhe:** ${issue.detail}\n`;
+      if (issue.fix) md += `- **Sugestão:** ${issue.fix}\n`;
+      md += '\n';
+    });
+    
+    md += `## 🟡 Avisos\n\n`;
+    projectAnalysis.issues.filter(i => i.severity === 'warning').forEach(issue => {
+      md += `### ${issue.title}\n`;
+      md += `- **Arquivo:** ${issue.file}${issue.line ? ` (linha ${issue.line})` : ''}\n`;
+      md += `- **Detalhe:** ${issue.detail}\n`;
+      if (issue.fix) md += `- **Sugestão:** ${issue.fix}\n`;
+      md += '\n';
+    });
+    
+    md += `## 🔌 Endpoints Detectados\n\n`;
+    projectAnalysis.endpoints.forEach(ep => {
+      md += `- **${ep.method}** \`${ep.path}\` (${ep.file}:${ep.line})\n`;
+    });
+    
+    md += `\n## 🔗 Vínculos Replit\n\n`;
+    projectAnalysis.replitBindings.forEach(binding => {
+      md += `- **${binding.type}:** \`${binding.pattern}\` em ${binding.file}\n`;
+    });
+    
+    downloadFile(md, `relatorio-${new Date().toISOString().split('T')[0]}.md`, 'text/markdown');
+    
+  } else if (format === 'json') {
+    const json = JSON.stringify(projectAnalysis, null, 2);
+    downloadFile(json, `relatorio-${new Date().toISOString().split('T')[0]}.json`, 'application/json');
+    
+  } else if (format === 'html') {
+    let html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=&quot;UTF-8&quot;>
+  <title>Relatório de Análise</title>
+  <style>
+    body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; }
+    h1 { color: #333; }
+    .critical { color: #ef4444; }
+    .error { color: #f87171; }
+    .warning { color: #fbbf24; }
+    .issue { margin: 15px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #fbbf24; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 20px 0; }
+    .stat { padding: 15px; background: #f0f0f0; border-radius: 4px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class=&quot;container&quot;>
+    <h1>📋 Relatório de Análise do Projeto</h1>
+    <p><strong>Gerado em:</strong> ${new Date().toLocaleString('pt-BR')}</p>
+    
+    <h2>📊 Resumo</h2>
+    <div class=&quot;stats&quot;>
+      <div class=&quot;stat&quot;>
+        <strong>${Object.keys(projectAnalysis.files).length}</strong><br>
+        Arquivos
+      </div>
+      <div class=&quot;stat&quot;>
+        <strong class=&quot;critical&quot;>${criticalCount}</strong><br>
+        Críticos
+      </div>
+      <div class=&quot;stat&quot;>
+        <strong>${calculateHealth()}%</strong><br>
+        Saúde
+      </div>
+    </div>
+    
+    <h2>🔴 Problemas Críticos</h2>
+    ${projectAnalysis.issues.filter(i => i.severity === 'critical').map(issue => `
+      <div class=&quot;issue critical&quot;>
+        <strong>${issue.title}</strong><br>
+        ${issue.detail}<br>
+        <small>${issue.file}${issue.line ? ` (linha ${issue.line})` : ''}</small>
+      </div>
+    `).join('')}
+    
+    <h2>🔌 Endpoints</h2>
+    ${projectAnalysis.endpoints.map(ep => `
+      <div class=&quot;issue&quot;>
+        <strong>${ep.method} ${ep.path}</strong><br>
+        <small>${ep.file}:${ep.line}</small>
+      </div>
+    `).join('')}
+  </div>
+</body>
+</html>`;
+    downloadFile(html, `relatorio-${new Date().toISOString().split('T')[0]}.html`, 'text/html');
+    
+  } else if (format === 'text') {
+    let text = `RELATÓRIO DE ANÁLISE DO PROJETO\n`;
+    text += `${'='.repeat(50)}\n\n`;
+    text += `Gerado em: ${new Date().toLocaleString('pt-BR')}\n\n`;
+    
+    text += `RESUMO\n`;
+    text += `${'-'.repeat(50)}\n`;
+    text += `Arquivos Analisados: ${Object.keys(projectAnalysis.files).length}\n`;
+    text += `Problemas Críticos: ${criticalCount}\n`;
+    text += `Erros: ${errorCount}\n`;
+    text += `Avisos: ${warningCount}\n`;
+    text += `Endpoints: ${projectAnalysis.endpoints.length}\n`;
+    text += `Vínculos Replit: ${projectAnalysis.replitBindings.length}\n`;
+    text += `Saúde do Projeto: ${calculateHealth()}%\n\n`;
+    
+    text += `PROBLEMAS CRÍTICOS\n`;
+    text += `${'-'.repeat(50)}\n`;
+    projectAnalysis.issues.filter(i => i.severity === 'critical').forEach(issue => {
+      text += `${issue.title}\n`;
+      text += `  Arquivo: ${issue.file}${issue.line ? ` (linha ${issue.line})` : ''}\n`;
+      text += `  Detalhe: ${issue.detail}\n\n`;
+    });
+    
+    downloadFile(text, `relatorio-${new Date().toISOString().split('T')[0]}.txt`, 'text/plain');
+  }
+}
+
+function downloadFile(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&amp;': '&amp;amp;',
+    '<': '&amp;lt;',
+    '>': '&amp;gt;',
+    '&quot;': '&amp;quot;',
+    &quot;'&quot;: '&amp;#039;'
+  };
+  return text.replace(/[&amp;<>&quot;']/g, m => map[m]);
+}
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p1"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>Corretor Automático Inteligente</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 20px;
+  min-height: 100vh;
+}
+.container { max-width: 1800px; margin: 0 auto; }
+h1 { color: #a3a082; margin-bottom: 10px; text-align: center; font-size: 24px; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 20px; font-size: 13px; }
+h2 { color: #4ade80; margin: 25px 0 15px 0; font-size: 16px; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+h3 { color: #60a5fa; margin: 12px 0 8px 0; font-size: 13px; }
+
+.upload-area {
+  background: #1e293b;
+  border: 2px dashed #334155;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.upload-area:hover { border-color: #a3a082; background: #334155; }
+.upload-area.dragover { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+
+input[type=&quot;file&quot;] { display: none; }
+
+.btn {
+  background: #a3a082;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 5px;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+.btn:hover { background: #d4d0a8; transform: translateY(-2px); }
+.btn-secondary { background: #3b82f6; color: #fff; }
+.btn-secondary:hover { background: #2563eb; }
+.btn-danger { background: #f87171; color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-success { background: #4ade80; color: #000; }
+.btn-success:hover { background: #22c55e; }
+.btn-warning { background: #fbbf24; color: #000; }
+.btn-warning:hover { background: #eab308; }
+.btn-small { padding: 6px 12px; font-size: 11px; }
+
+.loading {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px;
+  font-size: 14px;
+}
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid #334155;
+  border-top-color: #a3a082;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #334155;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 15px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+
+.tab:hover { color: #e2e8f0; }
+.tab.active { color: #a3a082; border-bottom-color: #a3a082; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.results {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #0f172a;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.card-error { border-left-color: #f87171; }
+.card-warning { border-left-color: #fbbf24; }
+.card-success { border-left-color: #4ade80; }
+.card-info { border-left-color: #60a5fa; }
+.card-critical { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.05); }
+
+.card-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.card-content {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.stat-box {
+  background: #334155;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-box strong {
+  display: block;
+  color: #a3a082;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.stat-box span {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.fix-item {
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  background: #1e293b;
+}
+
+.fix-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.fix-title {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.fix-severity {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.fix-severity.critical { background: #ef4444; color: #fff; }
+.fix-severity.error { background: #f87171; color: #fff; }
+.fix-severity.warning { background: #fbbf24; color: #000; }
+.fix-severity.info { background: #60a5fa; color: #fff; }
+
+.fix-detail {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 8px 0;
+}
+
+.code-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.code-block {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.code-before {
+  border-left: 4px solid #f87171;
+}
+
+.code-after {
+  border-left: 4px solid #4ade80;
+}
+
+.code-label {
+  font-size: 10px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #94a3b8;
+}
+
+.fix-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.fix-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.fix-checkbox input {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.progress-bar {
+  background: #334155;
+  border-radius: 4px;
+  height: 24px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #4ade80, #60a5fa);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.summary-box {
+  background: #334155;
+  border-left: 4px solid #a3a082;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+.file-list {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.file-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  background: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-item:hover {
+  background: #334155;
+  border-color: #a3a082;
+}
+
+.file-name {
+  flex: 1;
+  color: #e2e8f0;
+  font-size: 12px;
+}
+
+.file-status {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: #fbbf24;
+  color: #000;
+}
+
+.file-status.fixed {
+  background: #4ade80;
+  color: #000;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
+  width: 900px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #334155;
+}
+
+.modal-close {
+  background: #f87171;
+  color: #fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+@media (max-width: 1200px) {
+  .code-comparison { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class=&quot;container&quot;>
+  <h1>🔧 Corretor Automático Inteligente</h1>
+  <p class=&quot;subtitle&quot;>Detecta problemas e sugere correções automáticas - Você escolhe o que aplicar</p>
+
+  <div class=&quot;upload-area&quot; id=&quot;dropZone&quot;>
+    <p style=&quot;font-size: 18px; margin-bottom: 10px;&quot;>📦 Arraste seu ZIP da Replit aqui</p>
+    <p style=&quot;color: #94a3b8; font-size: 13px; margin-bottom: 15px;&quot;>Será analisado e sugerirá correções automáticas</p>
+    <button class=&quot;btn&quot; onclick=&quot;document.getElementById('fileInput').click()&quot;>Selecionar ZIP</button>
+    <input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip&quot; />
+  </div>
+
+  <div id=&quot;loading&quot; class=&quot;loading&quot; style=&quot;display:none;&quot;>
+    <div class=&quot;spinner&quot;></div>
+    <p>Analisando e gerando sugestões de correção...</p>
+  </div>
+
+  <div id=&quot;results&quot;></div>
+</div>
+
+<script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const resultsDiv = document.getElementById('results');
+const loadingDiv = document.getElementById('loading');
+
+let projectData = {
+  files: {},
+  fixes: [],
+  applied: new Set(),
+  correctedFiles: {}
+};
+
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener('change', e => {
+  handleFile(e.target.files[0]);
+});
+
+async function handleFile(file) {
+  if (!file) return;
+  
+  loadingDiv.style.display = 'block';
+  resultsDiv.innerHTML = '';
+  projectData = {
+    files: {},
+    fixes: [],
+    applied: new Set(),
+    correctedFiles: {}
+  };
+  
+  try {
+    const zip = new JSZip();
+    const content = await zip.loadAsync(file);
+    
+    // Extrai arquivos
+    for (let [path, zipEntry] of Object.entries(content.files)) {
+      if (!zipEntry.dir &amp;&amp; /\.(js|ts|jsx|tsx|json|html|css)$/.test(path)) {
+        try {
+          const fileContent = await zipEntry.async('text');
+          projectData.files[path] = fileContent;
+        } catch (e) {}
+      }
+    }
+    
+    // Gera sugestões de correção
+    generateFixes();
+    
+    loadingDiv.style.display = 'none';
+    displayResults();
+    
+  } catch (err) {
+    loadingDiv.style.display = 'none';
+    resultsDiv.innerHTML = `<div class=&quot;card card-error&quot;>
+      <div class=&quot;card-title&quot;>❌ Erro ao processar</div>
+      <div class=&quot;card-content&quot;>${err.message}</div>
+    </div>`;
+  }
+}
+
+function generateFixes() {
+  for (let [filePath, content] of Object.entries(projectData.files)) {
+    const ext = filePath.split('.').pop().toLowerCase();
+    
+    if (ext === 'js' || ext === 'ts' || ext === 'jsx' || ext === 'tsx') {
+      generateJSFixes(filePath, content);
+    } else if (ext === 'json') {
+      generateJSONFixes(filePath, content);
+    } else if (ext === 'html') {
+      generateHTMLFixes(filePath, content);
+    }
+  }
+}
+
+function generateJSFixes(filePath, content) {
+  const lines = content.split('\n');
+  
+  // 1. Adicionar try-catch em promises
+  const promisePattern = /\.then\s*\(/g;
+  if (promisePattern.test(content)) {
+    const thenCount = (content.match(/\.then\s*\(/g) || []).length;
+    const catchCount = (content.match(/\.catch\s*\(/g) || []).length;
+    
+    if (thenCount > catchCount) {
+      projectData.fixes.push({
+        id: `fix-${projectData.fixes.length}`,
+        severity: 'warning',
+        file: filePath,
+        title: 'Adicionar .catch() em promises',
+        detail: `Detectado ${thenCount} .then() mas apenas ${catchCount} .catch()`,
+        before: `.then(response => {\n  // seu código\n})`,
+        after: `.then(response => {\n  // seu código\n})\n.catch(error => {\n  console.error('Erro:', error);\n})`,
+        type: 'promise_catch',
+        autoFix: true,
+        code: `
+// Encontrar todas as promises sem catch
+const promiseRegex = /\.then\\s*\\(([^)]+)\\)(?!\\s*\\.catch)/g;
+content = content.replace(promiseRegex, '.then($1).catch(error => console.error(error))');
+        `
+      });
+    }
+  }
+  
+  // 2. Remover console.log em produção
+  const consolePattern = /console\.(log|error|warn|info|debug)\s*\(/g;
+  const consoleMatches = content.match(consolePattern) || [];
+  
+  if (consoleMatches.length > 0) {
+    projectData.fixes.push({
+      id: `fix-${projectData.fixes.length}`,
+      severity: 'warning',
+      file: filePath,
+      title: 'Remover console.log em produção',
+      detail: `Detectado ${consoleMatches.length} console statement(s)`,
+      before: `console.log('Debug:', data);`,
+      after: `// console.log('Debug:', data); // Removido em produção`,
+      type: 'console_removal',
+      autoFix: true,
+      code: `
+// Comentar console statements
+content = content.replace(/console\\.(log|error|warn|info|debug)\\s*\\(/g, '// console.$1(');
+      `
+    });
+  }
+  
+  // 3. Adicionar async/await em funções
+  const asyncPattern = /async\s+function\s+(\w+)/g;
+  const asyncFuncs = (content.match(asyncPattern) || []).length;
+  const awaitCount = (content.match(/await\s+/g) || []).length;
+  
+  if (asyncFuncs > 0 &amp;&amp; awaitCount === 0) {
+    projectData.fixes.push({
+      id: `fix-${projectData.fixes.length}`,
+      severity: 'info',
+      file: filePath,
+      title: 'Função async sem await',
+      detail: `${asyncFuncs} função(ões) async sem usar await`,
+      before: `async function getData() {\n  return fetch('/api/data');\n}`,
+      after: `async function getData() {\n  return await fetch('/api/data');\n}`,
+      type: 'async_await',
+      autoFix: false
+    });
+  }
+  
+  // 4. Adicionar validação de entrada
+  const fetchPattern = /fetch\s*\(\s*['&quot;`]([^'&quot;`]+)['&quot;`]/g;
+  const fetchMatches = content.match(fetchPattern) || [];
+  
+  if (fetchMatches.length > 0) {
+    projectData.fixes.push({
+      id: `fix-${projectData.fixes.length}`,
+      severity: 'warning',
+      file: filePath,
+      title: 'Adicionar validação em fetch',
+      detail: `${fetchMatches.length} chamada(s) fetch sem validação de resposta`,
+      before: `const response = await fetch(url);\nconst data = await response.json();`,
+      after: `const response = await fetch(url);\nif (!response.ok) throw new Error('API error');\nconst data = await response.json();`,
+      type: 'fetch_validation',
+      autoFix: false
+    });
+  }
+  
+  // 5. Adicionar try-catch em JSON.parse
+  const jsonParsePattern = /JSON\.parse\s*\(/g;
+  if (jsonParsePattern.test(content)) {
+    projectData.fixes.push({
+      id: `fix-${projectData.fixes.length}`,
+      severity: 'warning',
+      file: filePath,
+      title: 'Adicionar try-catch em JSON.parse',
+      detail: 'JSON.parse sem tratamento de erro',
+      before: `const data = JSON.parse(jsonString);`,
+      after: `let data;\ntry {\n  data = JSON.parse(jsonString);\n} catch (e) {\n  console.error('JSON inválido:', e);\n}`,
+      type: 'json_parse_try',
+      autoFix: false
+    });
+  }
+  
+  // 6. Remover variáveis não usadas
+  const varPattern = /(?:const|let|var)\s+(\w+)\s*=/g;
+  const usedVars = new Set();
+  const declaredVars = new Set();
+  
+  let match;
+  while ((match = varPattern.exec(content)) !== null) {
+    declaredVars.add(match[1]);
+  }
+  
+  declaredVars.forEach(varName => {
+    const regex = new RegExp(`\\b${varName}\\b`, 'g');
+    const occurrences = (content.match(regex) || []).length;
+    if (occurrences === 1) {
+      projectData.fixes.push({
+        id: `fix-${projectData.fixes.length}`,
+        severity: 'info',
+        file: filePath,
+        title: `Variável não usada: ${varName}`,
+        detail: `Variável &quot;${varName}&quot; é declarada mas nunca usada`,
+        before: `const ${varName} = value;`,
+        after: `// const ${varName} = value; // Não utilizada`,
+        type: 'unused_var',
+        autoFix: false
+      });
+    }
+  });
+  
+  // 7. Adicionar null checks
+  if (content.includes('.') &amp;&amp; !content.includes('?.')) {
+    projectData.fixes.push({
+      id: `fix-${projectData.fixes.length}`,
+      severity: 'info',
+      file: filePath,
+      title: 'Considerar usar optional chaining (?.)',
+      detail: 'Código pode se beneficiar de optional chaining',
+      before: `if (user &amp;&amp; user.profile &amp;&amp; user.profile.name) { ... }`,
+      after: `if (user?.profile?.name) { ... }`,
+      type: 'optional_chaining',
+      autoFix: false
+    });
+  }
+}
+
+function generateJSONFixes(filePath, content) {
+  try {
+    JSON.parse(content);
+  } catch (e) {
+    projectData.fixes.push({
+      id: `fix-${projectData.fixes.length}`,
+      severity: 'error',
+      file: filePath,
+      title: 'JSON inválido',
+      detail: `Erro de sintaxe: ${e.message}`,
+      before: content.substring(0, 100),
+      after: 'JSON válido',
+      type: 'json_syntax',
+      autoFix: false
+    });
+  }
+  
+  // Verifica package.json
+  if (filePath.includes('package.json')) {
+    try {
+      const pkg = JSON.parse(content);
+      
+      if (!pkg.name) {
+        projectData.fixes.push({
+          id: `fix-${projectData.fixes.length}`,
+          severity: 'warning',
+          file: filePath,
+          title: 'package.json sem nome',
+          detail: 'Campo &quot;name&quot; é obrigatório',
+          before: `{\n  &quot;version&quot;: &quot;1.0.0&quot;\n}`,
+          after: `{\n  &quot;name&quot;: &quot;meu-projeto&quot;,\n  &quot;version&quot;: &quot;1.0.0&quot;\n}`,
+          type: 'pkg_name',
+          autoFix: true
+        });
+      }
+      
+      if (!pkg.scripts || !pkg.scripts.start) {
+        projectData.fixes.push({
+          id: `fix-${projectData.fixes.length}`,
+          severity: 'warning',
+          file: filePath,
+          title: 'Script &quot;start&quot; não definido',
+          detail: 'Adicione um script de inicialização',
+          before: `&quot;scripts&quot;: {}`,
+          after: `&quot;scripts&quot;: { &quot;start&quot;: &quot;node index.js&quot; }`,
+          type: 'pkg_start',
+          autoFix: false
+        });
+      }
+    } catch (e) {}
+  }
+}
+
+function generateHTMLFixes(filePath, content) {
+  // Verifica meta tags
+  if (!content.includes('charset')) {
+    projectData.fixes.push({
+      id: `fix-${projectData.fixes.length}`,
+      severity: 'warning',
+      file: filePath,
+      title: 'Meta charset ausente',
+      detail: 'Adicione charset UTF-8',
+      before: `<head>\n  <title>Meu Site</title>\n</head>`,
+      after: `<head>\n  <meta charset=&quot;UTF-8&quot;>\n  <title>Meu Site</title>\n</head>`,
+      type: 'html_charset',
+      autoFix: true
+    });
+  }
+  
+  // Verifica viewport
+  if (!content.includes('viewport')) {
+    projectData.fixes.push({
+      id: `fix-${projectData.fixes.length}`,
+      severity: 'warning',
+      file: filePath,
+      title: 'Meta viewport ausente',
+      detail: 'Adicione viewport para responsividade',
+      before: `<head>\n  <meta charset=&quot;UTF-8&quot;>\n</head>`,
+      after: `<head>\n  <meta charset=&quot;UTF-8&quot;>\n  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>\n</head>`,
+      type: 'html_viewport',
+      autoFix: true
+    });
+  }
+  
+  // Verifica alt em imagens
+  const imgPattern = /<img[^>]*>/g;
+  const imgs = content.match(imgPattern) || [];
+  const imgsWithoutAlt = imgs.filter(img => !img.includes('alt='));
+  
+  if (imgsWithoutAlt.length > 0) {
+    projectData.fixes.push({
+      id: `fix-${projectData.fixes.length}`,
+      severity: 'warning',
+      file: filePath,
+      title: `${imgsWithoutAlt.length} imagem(ns) sem alt`,
+      detail: 'Adicione atributo alt para acessibilidade',
+      before: `<img src=&quot;imagem.jpg&quot;>`,
+      after: `<img src=&quot;imagem.jpg&quot; alt=&quot;Descrição da imagem&quot;>`,
+      type: 'html_img_alt',
+      autoFix: false
+    });
+  }
+}
+
+function displayResults() {
+  const critical = projectData.fixes.filter(f => f.severity === 'critical').length;
+  const error = projectData.fixes.filter(f => f.severity === 'error').length;
+  const warning = projectData.fixes.filter(f => f.severity === 'warning').length;
+  const info = projectData.fixes.filter(f => f.severity === 'info').length;
+  
+  let html = `
+    <div class=&quot;tabs&quot;>
+      <button class=&quot;tab active&quot; onclick=&quot;switchTab('overview')&quot;>📊 Visão Geral</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('fixes')&quot;>🔧 Correções</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('apply')&quot;>✅ Aplicar Fixes</button>
+      <button class=&quot;tab&quot; onclick=&quot;switchTab('preview')&quot;>👁️ Pré-visualização</button>
+    </div>
+    
+    <!-- TAB: VISÃO GERAL -->
+    <div id=&quot;tab-overview&quot; class=&quot;tab-content active&quot;>
+      <div class=&quot;results&quot;>
+        <h2>📊 Resumo de Correções</h2>
+        <div class=&quot;stats-grid&quot;>
+          <div class=&quot;stat-box&quot;>
+            <strong>${projectData.fixes.length}</strong>
+            <span>Total de Fixes</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong style=&quot;color: #ef4444;&quot;>${critical}</strong>
+            <span>Críticos</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong style=&quot;color: #f87171;&quot;>${error}</strong>
+            <span>Erros</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong style=&quot;color: #fbbf24;&quot;>${warning}</strong>
+            <span>Avisos</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong style=&quot;color: #60a5fa;&quot;>${info}</strong>
+            <span>Informações</span>
+          </div>
+          <div class=&quot;stat-box&quot;>
+            <strong>${projectData.fixes.filter(f => f.autoFix).length}</strong>
+            <span>Auto-fix</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class=&quot;results&quot;>
+        <h2>🎯 Prioridade de Correção</h2>
+        <div class=&quot;summary-box&quot;>
+          <strong>1️⃣ Críticos (${critical})</strong> - Devem ser corrigidos imediatamente
+        </div>
+        <div class=&quot;summary-box&quot;>
+          <strong>2️⃣ Erros (${error})</strong> - Podem quebrar o código
+        </div>
+        <div class=&quot;summary-box&quot;>
+          <strong>3️⃣ Avisos (${warning})</strong> - Melhoram qualidade e segurança
+        </div>
+        <div class=&quot;summary-box&quot;>
+          <strong>4️⃣ Informações (${info})</strong> - Sugestões de melhoria
+        </div>
+      </div>
+    </div>
+    
+    <!-- TAB: CORREÇÕES -->
+    <div id=&quot;tab-fixes&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>🔧 Todas as Correções Sugeridas</h2>
+        <div id=&quot;fixesList&quot;>
+          ${projectData.fixes.length > 0 ? projectData.fixes.map(fix => `
+            <div class=&quot;fix-item&quot;>
+              <div class=&quot;fix-header&quot;>
+                <div>
+                  <div class=&quot;fix-title&quot;>${fix.title}</div>
+                  <div class=&quot;fix-detail&quot;>${fix.detail}</div>
+                  <div class=&quot;fix-detail&quot;>📄 ${fix.file}</div>
+                </div>
+                <span class=&quot;fix-severity ${fix.severity}&quot;>${fix.severity.toUpperCase()}</span>
+              </div>
+              
+              <div class=&quot;code-comparison&quot;>
+                <div>
+                  <div class=&quot;code-label&quot;>❌ Antes</div>
+                  <div class=&quot;code-block code-before&quot;>${escapeHtml(fix.before)}</div>
+                </div>
+                <div>
+                  <div class=&quot;code-label&quot;>✅ Depois</div>
+                  <div class=&quot;code-block code-after&quot;>${escapeHtml(fix.after)}</div>
+                </div>
+              </div>
+              
+              <div class=&quot;fix-actions&quot;>
+                <div class=&quot;fix-checkbox&quot;>
+                  <input type=&quot;checkbox&quot; id=&quot;fix-${fix.id}&quot; onchange=&quot;toggleFix('${fix.id}')&quot;>
+                  <label for=&quot;fix-${fix.id}&quot;>Selecionar para aplicar</label>
+                </div>
+                ${fix.autoFix ? '<span style=&quot;color: #4ade80; font-size: 11px;&quot;>🤖 Auto-fix disponível</span>' : ''}
+              </div>
+            </div>
+          `).join('') : '<p style=&quot;color: #4ade80;&quot;>✅ Nenhuma correção necessária!</p>'}
+        </div>
+      </div>
+    </div>
+    
+    <!-- TAB: APLICAR FIXES -->
+    <div id=&quot;tab-apply&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>✅ Aplicar Correções</h2>
+        
+        <div class=&quot;summary-box&quot;>
+          <strong>Correções Selecionadas:</strong> <span id=&quot;selectedCount&quot;>0</span>
+        </div>
+        
+        <div style=&quot;display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;&quot;>
+          <button class=&quot;btn btn-success&quot; onclick=&quot;selectAllFixes()&quot;>✅ Selecionar Tudo</button>
+          <button class=&quot;btn btn-danger&quot; onclick=&quot;deselectAllFixes()&quot;>❌ Desselecionar Tudo</button>
+          <button class=&quot;btn btn-warning&quot; onclick=&quot;selectAutoFixes()&quot;>🤖 Apenas Auto-fix</button>
+          <button class=&quot;btn btn-secondary&quot; onclick=&quot;applySelectedFixes()&quot;>🚀 Aplicar Selecionadas</button>
+        </div>
+        
+        <div id=&quot;applyResults&quot;></div>
+      </div>
+    </div>
+    
+    <!-- TAB: PRÉ-VISUALIZAÇÃO -->
+    <div id=&quot;tab-preview&quot; class=&quot;tab-content&quot;>
+      <div class=&quot;results&quot;>
+        <h2>👁️ Pré-visualização de Arquivos Corrigidos</h2>
+        
+        <div class=&quot;file-list&quot; id=&quot;filePreviewList&quot;>
+          ${Object.keys(projectData.files).map(file => `
+            <div class=&quot;file-item&quot; onclick=&quot;previewFile('${escapeHtml(file)}')&quot;>
+              <div class=&quot;file-name&quot;>${file}</div>
+              <div class=&quot;file-status&quot;>Visualizar</div>
+            </div>
+          `).join('')}
+        </div>
+        
+        <div id=&quot;filePreview&quot; style=&quot;margin-top: 20px;&quot;></div>
+      </div>
+    </div>
+  `;
+  
+  resultsDiv.innerHTML = html;
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  
+  event.target.classList.add('active');
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+}
+
+function toggleFix(fixId) {
+  const checkbox = document.getElementById(`fix-${fixId}`);
+  if (checkbox.checked) {
+    projectData.applied.add(fixId);
+  } else {
+    projectData.applied.delete(fixId);
+  }
+  updateSelectedCount();
+}
+
+function updateSelectedCount() {
+  document.getElementById('selectedCount').textContent = projectData.applied.size;
+}
+
+function selectAllFixes() {
+  projectData.fixes.forEach(fix => {
+    projectData.applied.add(fix.id);
+    const checkbox = document.getElementById(`fix-${fix.id}`);
+    if (checkbox) checkbox.checked = true;
+  });
+  updateSelectedCount();
+}
+
+function deselectAllFixes() {
+  projectData.applied.clear();
+  document.querySelectorAll('input[type=&quot;checkbox&quot;]').forEach(cb => cb.checked = false);
+  updateSelectedCount();
+}
+
+function selectAutoFixes() {
+  projectData.applied.clear();
+  projectData.fixes.forEach(fix => {
+    if (fix.autoFix) {
+      projectData.applied.add(fix.id);
+      const checkbox = document.getElementById(`fix-${fix.id}`);
+      if (checkbox) checkbox.checked = true;
+    }
+  });
+  updateSelectedCount();
+}
+
+function applySelectedFixes() {
+  const selectedFixes = projectData.fixes.filter(f => projectData.applied.has(f.id));
+  
+  if (selectedFixes.length === 0) {
+    alert('❌ Selecione pelo menos uma correção!');
+    return;
+  }
+  
+  projectData.correctedFiles = JSON.parse(JSON.stringify(projectData.files));
+  
+  selectedFixes.forEach(fix => {
+    if (fix.file in projectData.correctedFiles) {
+      let content = projectData.correctedFiles[fix.file];
+      
+      // Aplica a correção baseada no tipo
+      switch (fix.type) {
+        case 'promise_catch':
+          content = content.replace(/\.then\s*\(([^)]+)\)(?!\s*\.catch)/g, '.then($1).catch(error => console.error(error))');
+          break;
+        case 'console_removal':
+          content = content.replace(/console\.(log|error|warn|info|debug)\s*\(/g, '// console.$1(');
+          break;
+        case 'html_charset':
+          content = content.replace(/<head>/i, '<head>\n  <meta charset=&quot;UTF-8&quot;>');
+          break;
+        case 'html_viewport':
+          content = content.replace(/<head>/i, '<head>\n  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>');
+          break;
+      }
+      
+      projectData.correctedFiles[fix.file] = content;
+    }
+  });
+  
+  displayApplyResults(selectedFixes);
+}
+
+function displayApplyResults(applied) {
+  let html = `
+    <div class=&quot;card card-success&quot;>
+      <div class=&quot;card-title&quot;>✅ Correções Aplicadas!</div>
+      <div class=&quot;card-content&quot;>
+        <strong>${applied.length} correção(ões) aplicada(s)</strong><br>
+        <br>
+        Arquivos afetados:
+        <ul style=&quot;margin-left: 20px; margin-top: 8px;&quot;>
+  `;
+  
+  const affectedFiles = new Set(applied.map(f => f.file));
+  affectedFiles.forEach(file => {
+    html += `<li>${file}</li>`;
+  });
+  
+  html += `
+        </ul>
+      </div>
+    </div>
+    
+    <div class=&quot;results&quot; style=&quot;margin-top: 20px;&quot;>
+      <h3>📥 Baixar Arquivos Corrigidos</h3>
+      <button class=&quot;btn btn-success&quot; onclick=&quot;downloadCorrectedFiles()&quot;>
+        ⬇️ Baixar ZIP com Correções
+      </button>
+      <button class=&quot;btn btn-secondary&quot; onclick=&quot;downloadCorrectionReport()&quot;>
+        📋 Relatório de Correções
+      </button>
+    </div>
+  `;
+  
+  document.getElementById('applyResults').innerHTML = html;
+}
+
+function downloadCorrectedFiles() {
+  const zip = new JSZip();
+  
+  Object.entries(projectData.correctedFiles).forEach(([path, content]) => {
+    zip.file(path, content);
+  });
+  
+  zip.generateAsync({ type: 'blob' }).then(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `projeto-corrigido-${new Date().toISOString().split('T')[0]}.zip`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
+function downloadCorrectionReport() {
+  const applied = projectData.fixes.filter(f => projectData.applied.has(f.id));
+  
+  let md = `# Relatório de Correções Aplicadas\n\n`;
+  md += `**Data:** ${new Date().toLocaleString('pt-BR')}\n\n`;
+  md += `**Total de Correções:** ${applied.length}\n\n`;
+  
+  md += `## Correções Aplicadas\n\n`;
+  applied.forEach((fix, idx) => {
+    md += `### ${idx + 1}. ${fix.title}\n`;
+    md += `- **Arquivo:** ${fix.file}\n`;
+    md += `- **Severidade:** ${fix.severity}\n`;
+    md += `- **Detalhe:** ${fix.detail}\n\n`;
+  });
+  
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `relatorio-correcoes-${new Date().toISOString().split('T')[0]}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function previewFile(filePath) {
+  const original = projectData.files[filePath];
+  const corrected = projectData.correctedFiles[filePath] || original;
+  
+  let html = `
+    <div class=&quot;results&quot;>
+      <h3>📄 ${filePath}</h3>
+      
+      <div class=&quot;code-comparison&quot;>
+        <div>
+          <div class=&quot;code-label&quot;>Original</div>
+          <div class=&quot;code-block code-before&quot; style=&quot;max-height: 400px;&quot;>
+            ${escapeHtml(original).substring(0, 1000)}
+          </div>
+        </div>
+        <div>
+          <div class=&quot;code-label&quot;>Corrigido</div>
+          <div class=&quot;code-block code-after&quot; style=&quot;max-height: 400px;&quot;>
+            ${escapeHtml(corrected).substring(0, 1000)}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('filePreview').innerHTML = html;
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&amp;': '&amp;amp;',
+    '<': '&amp;lt;',
+    '>': '&amp;gt;',
+    '&quot;': '&amp;quot;',
+    &quot;'&quot;: '&amp;#039;'
+  };
+  return text.replace(/[&amp;<>&quot;']/g, m => map[m]);
+}
+</script>
+
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p2"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>🧹 Limpador de Replit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Consolas', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #252526;
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #0e639c;
+            margin-bottom: 20px;
+        }
+
+        .upload-area {
+            background: #1e1e1e;
+            border: 2px dashed #3e3e42;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background: #1177bb;
+        }
+
+        input[type=&quot;file&quot;] {
+            display: none;
+        }
+
+        .log {
+            background: #1e1e1e;
+            border-radius: 5px;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .log-line {
+            margin-bottom: 5px;
+        }
+
+        .success {
+            color: #4ec9b0;
+        }
+
+        .error {
+            color: #f48771;
+        }
+
+        .warning {
+            color: #ffaa00;
+        }
+
+        .info {
+            color: #569cd6;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0e639c;
+        }
+
+        .stat-label {
+            color: #888;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class=&quot;container&quot;>
+        <h1>🧹 Limpador de Vínculos Replit</h1>
+        
+        <div class=&quot;upload-area&quot;>
+            <h2 style=&quot;color: #888; margin-bottom: 20px;&quot;>
+                📦 Faça upload do seu projeto ZIP
+            </h2>
+            <label for=&quot;fileInput&quot; class=&quot;btn&quot;>
+                📁 Escolher ZIP
+            </label>
+            <input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;.zip&quot; onchange=&quot;processarZip(event)&quot;>
+        </div>
+
+        <div class=&quot;stats&quot; id=&quot;stats&quot; style=&quot;display: none;&quot;>
+            <div class=&quot;stat-card&quot;>
+                <div class=&quot;stat-number&quot; id=&quot;totalArquivos&quot;>0</div>
+                <div class=&quot;stat-label&quot;>Arquivos</div>
+            </div>
+            <div class=&quot;stat-card&quot;>
+                <div class=&quot;stat-number&quot; id=&quot;vinculosEncontrados&quot;>0</div>
+                <div class=&quot;stat-label&quot;>Vínculos Replit</div>
+            </div>
+            <div class=&quot;stat-card&quot;>
+                <div class=&quot;stat-number&quot; id=&quot;vinculosRemovidos&quot;>0</div>
+                <div class=&quot;stat-label&quot;>Removidos</div>
+            </div>
+            <div class=&quot;stat-card&quot;>
+                <div class=&quot;stat-number&quot; id=&quot;endpointsCorrigidos&quot;>0</div>
+                <div class=&quot;stat-label&quot;>Endpoints Corrigidos</div>
+            </div>
+        </div>
+
+        <div class=&quot;log&quot; id=&quot;log&quot; style=&quot;display: none;&quot;></div>
+
+        <div style=&quot;text-align: center;&quot;>
+            <button class=&quot;btn&quot; id=&quot;btnBaixar&quot; style=&quot;display: none;&quot; onclick=&quot;baixarZipLimpo()&quot;>
+                📦 Baixar ZIP Limpo
+            </button>
+        </div>
+    </div>
+
+    <script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+    <script>
+        let arquivosLimpos = {};
+        let estatisticas = {
+            totalArquivos: 0,
+            vinculosEncontrados: 0,
+            vinculosRemovidos: 0,
+            endpointsCorrigidos: 0
+        };
+
+        // ========================================
+        // PADRÕES PARA DETECTAR E REMOVER
+        // ========================================
+        const padroes = {
+            // URLs Replit
+            urlsReplit: [
+                /https?:\/\/[^\/]*replit\.com[^\s\&quot;\'\)>]*/gi,
+                /https?:\/\/[^\/]*repl\.co[^\s\&quot;\'\)>]*/gi,
+                /https?:\/\/[^\/]*replitusercontent\.com[^\s\&quot;\'\)>]*/gi,
+            ],
+
+            // Imports Replit
+            importsReplit: [
+                /import\s+.*from\s+['&quot;]@replit\/[^'&quot;]+['&quot;]/gi,
+                /require\s*\(\s*['&quot;]@replit\/[^'&quot;]+['&quot;]\s*\)/gi,
+            ],
+
+            // Endpoints API
+            endpointsAPI: [
+                /fetch\s*\(\s*['&quot;]\/api\/[^'&quot;]+['&quot;]/gi,
+                /axios\.[a-z]+\s*\(\s*['&quot;]\/api\/[^'&quot;]+['&quot;]/gi,
+            ],
+
+            // Comentários com TODO/FIXME
+            comentarios: [
+                /\/\/\s*TODO:.*$/gmi,
+                /\/\/\s*FIXME:.*$/gmi,
+                /\/\*\s*TODO:[\s\S]*?\*\//gi,
+            ],
+
+            // Console.log desnecessários
+            consoleLogs: [
+                /console\.log\([^)]*replit[^)]*\);?/gi,
+            ]
+        };
+
+        // ========================================
+        // PROCESSAR ZIP
+        // ========================================
+        async function processarZip(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            mostrarLog();
+            log('🚀 Iniciando limpeza...', 'info');
+            log('');
+
+            const zip = new JSZip();
+            const conteudo = await zip.loadAsync(file);
+
+            arquivosLimpos = {};
+            estatisticas = {
+                totalArquivos: 0,
+                vinculosEncontrados: 0,
+                vinculosRemovidos: 0,
+                endpointsCorrigidos: 0
+            };
+
+            for (const [caminho, arquivo] of Object.entries(conteudo.files)) {
+                if (arquivo.dir) continue;
+
+                estatisticas.totalArquivos++;
+                
+                // Ignora node_modules, .git, etc
+                if (caminho.includes('node_modules/') || 
+                    caminho.includes('.git/') ||
+                    caminho.startsWith('.')) {
+                    continue;
+                }
+
+                const conteudoOriginal = await arquivo.async('text');
+                const conteudoLimpo = limparArquivo(caminho, conteudoOriginal);
+                
+                arquivosLimpos[caminho] = conteudoLimpo;
+            }
+
+            log('');
+            log('✅ Limpeza concluída!', 'success');
+            log('');
+            log(`📊 Estatísticas:`, 'info');
+            log(`   • Arquivos processados: ${estatisticas.totalArquivos}`);
+            log(`   • Vínculos encontrados: ${estatisticas.vinculosEncontrados}`);
+            log(`   • Vínculos removidos: ${estatisticas.vinculosRemovidos}`);
+            log(`   • Endpoints corrigidos: ${estatisticas.endpointsCorrigidos}`);
+
+            atualizarEstatisticas();
+            document.getElementById('btnBaixar').style.display = 'inline-block';
+        }
+
+        // ========================================
+        // LIMPAR ARQUIVO
+        // ========================================
+        function limparArquivo(caminho, conteudo) {
+            let conteudoLimpo = conteudo;
+            let mudancas = 0;
+
+            log(`🔍 Analisando: ${caminho}`, 'info');
+
+            // 1. Remover URLs Replit
+            padroes.urlsReplit.forEach(padrao => {
+                const matches = conteudo.match(padrao);
+                if (matches) {
+                    matches.forEach(match => {
+                        log(`   ❌ Removendo URL: ${match}`, 'warning');
+                        conteudoLimpo = conteudoLimpo.replace(match, '');
+                        mudancas++;
+                        estatisticas.vinculosEncontrados++;
+                        estatisticas.vinculosRemovidos++;
+                    });
+                }
+            });
+
+            // 2. Remover Imports Replit
+            padroes.importsReplit.forEach(padrao => {
+                const matches = conteudo.match(padrao);
+                if (matches) {
+                    matches.forEach(match => {
+                        log(`   ❌ Removendo import: ${match}`, 'warning');
+                        conteudoLimpo = conteudoLimpo.replace(match, '// Import removido');
+                        mudancas++;
+                        estatisticas.vinculosEncontrados++;
+                        estatisticas.vinculosRemovidos++;
+                    });
+                }
+            });
+
+            // 3. Corrigir Endpoints API
+            padroes.endpointsAPI.forEach(padrao => {
+                const matches = conteudo.match(padrao);
+                if (matches) {
+                    matches.forEach(match => {
+                        log(`   🔧 Corrigindo endpoint: ${match}`, 'warning');
+                        // Comentar o fetch
+                        conteudoLimpo = conteudoLimpo.replace(
+                            match, 
+                            `// ${match} // ⚠️ Endpoint removido - configure seu backend`
+                        );
+                        mudancas++;
+                        estatisticas.endpointsCorrigidos++;
+                    });
+                }
+            });
+
+            // 4. Remover comentários TODO/FIXME
+            padroes.comentarios.forEach(padrao => {
+                conteudoLimpo = conteudoLimpo.replace(padrao, '');
+            });
+
+            // 5. Remover console.log com &quot;replit&quot;
+            padroes.consoleLogs.forEach(padrao => {
+                conteudoLimpo = conteudoLimpo.replace(padrao, '');
+            });
+
+            if (mudancas > 0) {
+                log(`   ✅ ${mudancas} alterações feitas`, 'success');
+            } else {
+                log(`   ✓ Arquivo limpo`, 'success');
+            }
+
+            return conteudoLimpo;
+        }
+
+        // ========================================
+        // BAIXAR ZIP LIMPO
+        // ========================================
+        async function baixarZipLimpo() {
+            log('');
+            log('📦 Gerando ZIP limpo...', 'info');
+
+            const zip = new JSZip();
+
+            Object.entries(arquivosLimpos).forEach(([caminho, conteudo]) => {
+                zip.file(caminho, conteudo);
+            });
+
+            // Adicionar README com instruções
+            const readme = `# Projeto Limpo
+
+✅ Este projeto foi limpo de vínculos com Replit.
+
+## Alterações feitas:
+- ${estatisticas.vinculosRemovidos} vínculos Replit removidos
+- ${estatisticas.endpointsCorrigidos} endpoints comentados
+
+## ⚠️ Próximos passos:
+1. Revise os arquivos marcados com &quot;⚠️&quot;
+2. Configure seu próprio backend se necessário
+3. Teste o projeto localmente
+4. Publique no GitHub Pages ou Netlify
+
+---
+Limpo por: Limpador de Replit
+Data: ${new Date().toLocaleString('pt-BR')}
+`;
+
+            zip.file('README-LIMPEZA.md', readme);
+
+            const blob = await zip.generateAsync({ type: 'blob' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'projeto-limpo.zip';
+            a.click();
+
+            log('✅ ZIP baixado com sucesso!', 'success');
+        }
+
+        // ========================================
+        // FUNÇÕES AUXILIARES
+        // ========================================
+        function log(texto, tipo = '') {
+            const logDiv = document.getElementById('log');
+            const linha = document.createElement('div');
+            linha.className = `log-line ${tipo}`;
+            linha.textContent = texto;
+            logDiv.appendChild(linha);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function mostrarLog() {
+            document.getElementById('stats').style.display = 'grid';
+            document.getElementById('log').style.display = 'block';
+        }
+
+        function atualizarEstatisticas() {
+            document.getElementById('totalArquivos').textContent = estatisticas.totalArquivos;
+            document.getElementById('vinculosEncontrados').textContent = estatisticas.vinculosEncontrados;
+            document.getElementById('vinculosRemovidos').textContent = estatisticas.vinculosRemovidos;
+            document.getElementById('endpointsCorrigidos').textContent = estatisticas.endpointsCorrigidos;
+        }
+    </script>
+</body>
+</html>" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p3"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>🔍 Comparador de Projetos</title>
+    <script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js&quot;></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0f1e 0%, #1a1f3a 100%);
+            color: #e2e8f0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #1e3a5f;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            color: #7dd3fc;
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upload-area {
+            background: #0f172a;
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 12px;
+        }
+
+        .upload-area:hover {
+            border-color: #38bdf8;
+            background: #1e293b;
+        }
+
+        .upload-area.dragover {
+            border-color: #4ade80;
+            background: #064e3b;
+        }
+
+        input[type=&quot;file&quot;] {
+            display: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+            width: 100%;
+            margin: 6px 0;
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 78, 216, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-verde {
+            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+        }
+
+        .btn-vermelho {
+            background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+        }
+
+        .btn-roxo {
+            background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%);
+        }
+
+        .projeto-info {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .projeto-info div {
+            margin: 4px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .projeto-info .label {
+            color: #64748b;
+        }
+
+        .projeto-info .valor {
+            color: #38bdf8;
+            font-weight: bold;
+        }
+
+        .resultado {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #1e3a5f;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .resultado h2 {
+            color: #7dd3fc;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: #0f172a;
+            border: 1px solid #1e3a5f;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .tab:hover {
+            background: #1e293b;
+        }
+
+        .tab.ativo {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            border-color: #2563eb;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.ativo {
+            display: block;
+        }
+
+        .diff-container {
+            background: #020617;
+            border-radius: 8px;
+            padding: 16px;
+            max-height: 600px;
+            overflow-y: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .diff-linha {
+            padding: 2px 8px;
+            margin: 1px 0;
+            border-radius: 3px;
+        }
+
+        .diff-igual {
+            color: #94a3b8;
+        }
+
+        .diff-add {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border-left: 3px solid #22c55e;
+        }
+
+        .diff-remove {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border-left: 3px solid #ef4444;
+        }
+
+        .diff-modify {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+            border-left: 3px solid #f59e0b;
+        }
+
+        .arquivo-item {
+            background: #0f172a;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 6px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .arquivo-item:hover {
+            background: #1e293b;
+            border-color: #38bdf8;
+        }
+
+        .arquivo-icon {
+            font-size: 24px;
+        }
+
+        .arquivo-info {
+            flex: 1;
+        }
+
+        .arquivo-nome {
+            color: #e2e8f0;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .arquivo-status {
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .status-novo {
+            color: #4ade80;
+        }
+
+        .status-modificado {
+            color: #fbbf24;
+        }
+
+        .status-deletado {
+            color: #f87171;
+        }
+
+        .status-igual {
+            color: #64748b;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #0f172a;
+            border: 1px solid #1e3a5f;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-numero {
+            font-size: 28px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .sugestao {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid #38bdf8;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+        }
+
+        .sugestao-titulo {
+            color: #38bdf8;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .sugestao-texto {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #1e3a5f;
+            border-top-color: #38bdf8;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body>
+    <div class=&quot;container&quot;>
+        <h1>🔍 Comparador de Projetos</h1>
+        <p class=&quot;subtitulo&quot;>Compare 2 ou mais projetos · Detecte diferenças · Veja o que funciona em cada um · Gere relatório completo</p>
+
+        <div class=&quot;grid&quot;>
+            <!-- PROJETO 1 -->
+            <div class=&quot;card&quot;>
+                <h2>📦 Projeto 1 (Original)</h2>
+                <div class=&quot;upload-area&quot; id=&quot;upload1&quot; onclick=&quot;document.getElementById('file1').click()&quot;>
+                    <div style=&quot;font-size: 48px; margin-bottom: 12px;&quot;>📁</div>
+                    <div style=&quot;color: #38bdf8; font-weight: bold; margin-bottom: 8px;&quot;>Clique ou arraste o projeto aqui</div>
+                    <div style=&quot;color: #64748b; font-size: 12px;&quot;>ZIP, HTML, JS, JSON ou pasta completa</div>
+                </div>
+                <input type=&quot;file&quot; id=&quot;file1&quot; accept=&quot;.zip,.html,.js,.json,.txt&quot; onchange=&quot;carregarProjeto(1, event)&quot;>
+                <div id=&quot;info1&quot; class=&quot;projeto-info&quot; style=&quot;display: none;&quot;></div>
+            </div>
+
+            <!-- PROJETO 2 -->
+            <div class=&quot;card&quot;>
+                <h2>📦 Projeto 2 (Novo/Atualizado)</h2>
+                <div class=&quot;upload-area&quot; id=&quot;upload2&quot; onclick=&quot;document.getElementById('file2').click()&quot;>
+                    <div style=&quot;font-size: 48px; margin-bottom: 12px;&quot;>📁</div>
+                    <div style=&quot;color: #38bdf8; font-weight: bold; margin-bottom: 8px;&quot;>Clique ou arraste o projeto aqui</div>
+                    <div style=&quot;color: #64748b; font-size: 12px;&quot;>ZIP, HTML, JS, JSON ou pasta completa</div>
+                </div>
+                <input type=&quot;file&quot; id=&quot;file2&quot; accept=&quot;.zip,.html,.js,.json,.txt&quot; onchange=&quot;carregarProjeto(2, event)&quot;>
+                <div id=&quot;info2&quot; class=&quot;projeto-info&quot; style=&quot;display: none;&quot;></div>
+            </div>
+        </div>
+
+        <!-- AÇÕES -->
+        <div class=&quot;card&quot;>
+            <h2>⚡ Ações</h2>
+            <button class=&quot;btn btn-verde&quot; onclick=&quot;compararProjetos()&quot; id=&quot;btnComparar&quot; disabled>
+                🔍 Comparar Projetos
+            </button>
+            <button class=&quot;btn btn-roxo&quot; onclick=&quot;gerarRelatorio()&quot; id=&quot;btnRelatorio&quot; disabled>
+                📄 Gerar Relatório Completo
+            </button>
+            <button class=&quot;btn btn-vermelho&quot; onclick=&quot;limparTudo()&quot;>
+                🗑️ Limpar Tudo
+            </button>
+        </div>
+
+        <!-- RESULTADO -->
+        <div class=&quot;resultado&quot; id=&quot;resultado&quot; style=&quot;display: none;&quot;>
+            <h2>📊 Resultado da Comparação</h2>
+            
+            <div class=&quot;stats&quot; id=&quot;stats&quot;></div>
+
+            <div class=&quot;tabs&quot;>
+                <div class=&quot;tab ativo&quot; onclick=&quot;mudarTab('resumo')&quot;>📋 Resumo</div>
+                <div class=&quot;tab&quot; onclick=&quot;mudarTab('arquivos')&quot;>📁 Arquivos</div>
+                <div class=&quot;tab&quot; onclick=&quot;mudarTab('codigo')&quot;>💻 Código</div>
+                <div class=&quot;tab&quot; onclick=&quot;mudarTab('dependencias')&quot;>📦 Dependências</div>
+                <div class=&quot;tab&quot; onclick=&quot;mudarTab('sugestoes')&quot;>💡 Sugestões</div>
+            </div>
+
+            <div class=&quot;tab-content ativo&quot; id=&quot;tab-resumo&quot;></div>
+            <div class=&quot;tab-content&quot; id=&quot;tab-arquivos&quot;></div>
+            <div class=&quot;tab-content&quot; id=&quot;tab-codigo&quot;></div>
+            <div class=&quot;tab-content&quot; id=&quot;tab-dependencias&quot;></div>
+            <div class=&quot;tab-content&quot; id=&quot;tab-sugestoes&quot;></div>
+        </div>
+    </div>
+
+    <script>
+        // =====================
+        // ESTADO GLOBAL
+        // =====================
+        let projetos = {
+            1: null,
+            2: null
+        };
+
+        let comparacao = null;
+
+        // =====================
+        // DRAG &amp; DROP
+        // =====================
+        ['upload1', 'upload2'].forEach((id, idx) => {
+            const el = document.getElementById(id);
+            
+            el.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                el.classList.add('dragover');
+            });
+
+            el.addEventListener('dragleave', () => {
+                el.classList.remove('dragover');
+            });
+
+            el.addEventListener('drop', (e) => {
+                e.preventDefault();
+                el.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    document.getElementById(`file${idx + 1}`).files = e.dataTransfer.files;
+                    carregarProjeto(idx + 1, { target: { files: [file] } });
+                }
+            });
+        });
+
+        // =====================
+        // CARREGAR PROJETO
+        // =====================
+        async function carregarProjeto(num, event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const ext = file.name.split('.').pop().toLowerCase();
+            let projeto = {
+                nome: file.name,
+                tamanho: file.size,
+                arquivos: {},
+                tipo: ext
+            };
+
+            if (ext === 'zip') {
+                projeto = await carregarZIP(file, projeto);
+            } else {
+                const conteudo = await file.text();
+                projeto.arquivos[file.name] = {
+                    nome: file.name,
+                    conteudo: conteudo,
+                    tamanho: file.size,
+                    tipo: ext
+                };
+            }
+
+            projetos[num] = projeto;
+            mostrarInfo(num, projeto);
+            verificarBotaoComparar();
+        }
+
+        async function carregarZIP(file, projeto) {
+            const zip = await JSZip.loadAsync(file);
+            const arquivos = {};
+
+            for (const [caminho, entrada] of Object.entries(zip.files)) {
+                if (!entrada.dir) {
+                    const ext = caminho.split('.').pop().toLowerCase();
+                    const legivel = ['js','ts','tsx','jsx','html','htm','css','json','txt','md','xml'].includes(ext);
+                    
+                    if (legivel) {
+                        try {
+                            const conteudo = await entrada.async('text');
+                            arquivos[caminho] = {
+                                nome: caminho,
+                                conteudo: conteudo,
+                                tamanho: conteudo.length,
+                                tipo: ext
+                            };
+                        } catch(e) {}
+                    }
+                }
+            }
+
+            projeto.arquivos = arquivos;
+            return projeto;
+        }
+
+        function mostrarInfo(num, projeto) {
+            const el = document.getElementById(`info${num}`);
+            const totalArquivos = Object.keys(projeto.arquivos).length;
+            const tamanhoTotal = Object.values(projeto.arquivos).reduce((sum, arq) => sum + arq.tamanho, 0);
+
+            el.style.display = 'block';
+            el.innerHTML = `
+                <div><span class=&quot;label&quot;>Nome:</span> <span class=&quot;valor&quot;>${projeto.nome}</span></div>
+                <div><span class=&quot;label&quot;>Arquivos:</span> <span class=&quot;valor&quot;>${totalArquivos}</span></div>
+                <div><span class=&quot;label&quot;>Tamanho:</span> <span class=&quot;valor&quot;>${(tamanhoTotal / 1024).toFixed(1)} KB</span></div>
+                <div><span class=&quot;label&quot;>Status:</span> <span class=&quot;valor&quot;>✅ Carregado</span></div>
+            `;
+        }
+
+        function verificarBotaoComparar() {
+            const btn = document.getElementById('btnComparar');
+            btn.disabled = !(projetos[1] &amp;&amp; projetos[2]);
+        }
+
+        // =====================
+        // COMPARAR PROJETOS
+        // =====================
+        function compararProjetos() {
+            if (!projetos[1] || !projetos[2]) {
+                alert('Carregue os 2 projetos primeiro!');
+                return;
+            }
+
+            document.getElementById('resultado').style.display = 'block';
+            document.getElementById('tab-resumo').innerHTML = '<div class=&quot;loading&quot;><div class=&quot;spinner&quot;></div><div style=&quot;margin-top:16px;&quot;>Comparando projetos...</div></div>';
+
+            setTimeout(() => {
+                comparacao = realizarComparacao();
+                mostrarResultado();
+                document.getElementById('btnRelatorio').disabled = false;
+            }, 500);
+        }
+
+        function realizarComparacao() {
+            const arq1 = projetos[1].arquivos;
+            const arq2 = projetos[2].arquivos;
+
+            const nomes1 = new Set(Object.keys(arq1));
+            const nomes2 = new Set(Object.keys(arq2));
+
+            const novos = [];
+            const deletados = [];
+            const modificados = [];
+            const iguais = [];
+
+            // Arquivos novos (só no projeto 2)
+            for (const nome of nomes2) {
+                if (!nomes1.has(nome)) {
+                    novos.push({
+                        nome,
+                        arquivo: arq2[nome]
+                    });
+                }
+            }
+
+            // Arquivos deletados (só no projeto 1)
+            for (const nome of nomes1) {
+                if (!nomes2.has(nome)) {
+                    deletados.push({
+                        nome,
+                        arquivo: arq1[nome]
+                    });
+                }
+            }
+
+            // Arquivos em ambos (comparar conteúdo)
+            for (const nome of nomes1) {
+                if (nomes2.has(nome)) {
+                    const diff = compararArquivos(arq1[nome], arq2[nome]);
+                    if (diff.modificado) {
+                        modificados.push({
+                            nome,
+                            arquivo1: arq1[nome],
+                            arquivo2: arq2[nome],
+                            diff
+                        });
+                    } else {
+                        iguais.push({
+                            nome,
+                            arquivo: arq1[nome]
+                        });
+                    }
+                }
+            }
+
+            return {
+                novos,
+                deletados,
+                modificados,
+                iguais,
+                total: nomes1.size + nomes2.size - iguais.length
+            };
+        }
+
+        function compararArquivos(arq1, arq2) {
+            const linhas1 = arq1.conteudo.split('\n');
+            const linhas2 = arq2.conteudo.split('\n');
+
+            if (arq1.conteudo === arq2.conteudo) {
+                return { modificado: false };
+            }
+
+            const diff = [];
+            const maxLen = Math.max(linhas1.length, linhas2.length);
+
+            for (let i = 0; i < maxLen; i++) {
+                const l1 = linhas1[i];
+                const l2 = linhas2[i];
+
+                if (l1 === undefined) {
+                    diff.push({ tipo: 'add', linha: i + 1, conteudo: l2 });
+                } else if (l2 === undefined) {
+                    diff.push({ tipo: 'remove', linha: i + 1, conteudo: l1 });
+                } else if (l1 !== l2) {
+                    diff.push({ tipo: 'modify', linha: i + 1, antes: l1, depois: l2 });
+                } else {
+                    diff.push({ tipo: 'igual', linha: i + 1, conteudo: l1 });
+                }
+            }
+
+            return {
+                modificado: true,
+                diff,
+                linhasAdicionadas: diff.filter(d => d.tipo === 'add').length,
+                linhasRemovidas: diff.filter(d => d.tipo === 'remove').length,
+                linhasModificadas: diff.filter(d => d.tipo === 'modify').length
+            };
+        }
+
+        // =====================
+        // MOSTRAR RESULTADO
+        // =====================
+        function mostrarResultado() {
+            // STATS
+            document.getElementById('stats').innerHTML = `
+                <div class=&quot;stat-card&quot;>
+                    <div class=&quot;stat-numero&quot; style=&quot;color: #4ade80;&quot;>${comparacao.novos.length}</div>
+                    <div class=&quot;stat-label&quot;>Novos</div>
+                </div>
+                <div class=&quot;stat-card&quot;>
+                    <div class=&quot;stat-numero&quot; style=&quot;color: #fbbf24;&quot;>${comparacao.modificados.length}</div>
+                    <div class=&quot;stat-label&quot;>Modificados</div>
+                </div>
+                <div class=&quot;stat-card&quot;>
+                    <div class=&quot;stat-numero&quot; style=&quot;color: #f87171;&quot;>${comparacao.deletados.length}</div>
+                    <div class=&quot;stat-label&quot;>Deletados</div>
+                </div>
+                <div class=&quot;stat-card&quot;>
+                    <div class=&quot;stat-numero&quot; style=&quot;color: #64748b;&quot;>${comparacao.iguais.length}</div>
+                    <div class=&quot;stat-label&quot;>Iguais</div>
+                </div>
+            `;
+
+            // RESUMO
+            mostrarResumo();
+
+            // ARQUIVOS
+            mostrarArquivos();
+
+            // SUGESTÕES
+            gerarSugestoes();
+        }
+
+        function mostrarResumo() {
+            let html = '<div class=&quot;diff-container&quot;>';
+            
+            html += `<div style=&quot;color: #38bdf8; font-weight: bold; font-size: 16px; margin-bottom: 16px;&quot;>📊 RESUMO DA COMPARAÇÃO</div>`;
+            
+            html += `<div style=&quot;margin-bottom: 20px;&quot;>`;
+            html += `<div style=&quot;color: #94a3b8; margin-bottom: 8px;&quot;>PROJETO 1: ${projetos[1].nome}</div>`;
+            html += `<div style=&quot;color: #94a3b8;&quot;>PROJETO 2: ${projetos[2].nome}</div>`;
+            html += `</div>`;
+
+            if (comparacao.novos.length > 0) {
+                html += `<div style=&quot;color: #4ade80; font-weight: bold; margin-top: 16px;&quot;>✅ ARQUIVOS NOVOS (${comparacao.novos.length}):</div>`;
+                comparacao.novos.slice(0, 10).forEach(item => {
+                    html += `<div class=&quot;diff-linha diff-add&quot;>+ ${item.nome}</div>`;
+                });
+                if (comparacao.novos.length > 10) {
+                    html += `<div style=&quot;color: #64748b; margin: 8px 0;&quot;>... e mais ${comparacao.novos.length - 10} arquivos</div>`;
+                }
+            }
+
+            if (comparacao.modificados.length > 0) {
+                html += `<div style=&quot;color: #fbbf24; font-weight: bold; margin-top: 16px;&quot;>⚠️ ARQUIVOS MODIFICADOS (${comparacao.modificados.length}):</div>`;
+                comparacao.modificados.slice(0, 10).forEach(item => {
+                    html += `<div class=&quot;diff-linha diff-modify&quot;>~ ${item.nome}</div>`;
+                });
+                if (comparacao.modificados.length > 10) {
+                    html += `<div style=&quot;color: #64748b; margin: 8px 0;&quot;>... e mais ${comparacao.modificados.length - 10} arquivos</div>`;
+                }
+            }
+
+            if (comparacao.deletados.length > 0) {
+                html += `<div style=&quot;color: #f87171; font-weight: bold; margin-top: 16px;&quot;>❌ ARQUIVOS DELETADOS (${comparacao.deletados.length}):</div>`;
+                comparacao.deletados.slice(0, 10).forEach(item => {
+                    html += `<div class=&quot;diff-linha diff-remove&quot;>- ${item.nome}</div>`;
+                });
+                if (comparacao.deletados.length > 10) {
+                    html += `<div style=&quot;color: #64748b; margin: 8px 0;&quot;>... e mais ${comparacao.deletados.length - 10} arquivos</div>`;
+                }
+            }
+
+            html += '</div>';
+            document.getElementById('tab-resumo').innerHTML = html;
+        }
+
+        function mostrarArquivos() {
+            let html = '';
+
+            // Novos
+            if (comparacao.novos.length > 0) {
+                html += `<div style=&quot;color: #4ade80; font-weight: bold; margin-bottom: 12px;&quot;>✅ ARQUIVOS NOVOS:</div>`;
+                comparacao.novos.forEach((item, idx) => {
+                    html += `
+                        <div class=&quot;arquivo-item&quot; onclick=&quot;verArquivo('novo', ${idx})&quot;>
+                            <div class=&quot;arquivo-icon&quot;>📄</div>
+                            <div class=&quot;arquivo-info&quot;>
+                                <div class=&quot;arquivo-nome&quot;>${item.nome}</div>
+                                <div class=&quot;arquivo-status status-novo&quot;>Novo · ${(item.arquivo.tamanho / 1024).toFixed(1)} KB</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Modificados
+            if (comparacao.modificados.length > 0) {
+                html += `<div style=&quot;color: #fbbf24; font-weight: bold; margin: 20px 0 12px;&quot;>⚠️ ARQUIVOS MODIFICADOS:</div>`;
+                comparacao.modificados.forEach((item, idx) => {
+                    html += `
+                        <div class=&quot;arquivo-item&quot; onclick=&quot;verArquivo('modificado', ${idx})&quot;>
+                            <div class=&quot;arquivo-icon&quot;>📝</div>
+                            <div class=&quot;arquivo-info&quot;>
+                                <div class=&quot;arquivo-nome&quot;>${item.nome}</div>
+                                <div class=&quot;arquivo-status status-modificado&quot;>
+                                    +${item.diff.linhasAdicionadas} -${item.diff.linhasRemovidas} ~${item.diff.linhasModificadas} linhas
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Deletados
+            if (comparacao.deletados.length > 0) {
+                html += `<div style=&quot;color: #f87171; font-weight: bold; margin: 20px 0 12px;&quot;>❌ ARQUIVOS DELETADOS:</div>`;
+                comparacao.deletados.forEach((item, idx) => {
+                    html += `
+                        <div class=&quot;arquivo-item&quot; onclick=&quot;verArquivo('deletado', ${idx})&quot;>
+                            <div class=&quot;arquivo-icon&quot;>🗑️</div>
+                            <div class=&quot;arquivo-info&quot;>
+                                <div class=&quot;arquivo-nome&quot;>${item.nome}</div>
+                                <div class=&quot;arquivo-status status-deletado&quot;>Deletado</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('tab-arquivos').innerHTML = html;
+        }
+
+        function verArquivo(tipo, idx) {
+            let item, diff;
+
+            if (tipo === 'novo') {
+                item = comparacao.novos[idx];
+                diff = `<div style=&quot;color: #4ade80; font-weight: bold; margin-bottom: 12px;&quot;>✅ ARQUIVO NOVO: ${item.nome}</div>`;
+                diff += '<div class=&quot;diff-container&quot;>';
+                item.arquivo.conteudo.split('\n').slice(0, 100).forEach((linha, i) => {
+                    diff += `<div class=&quot;diff-linha diff-add&quot;>${i + 1} | ${linha}</div>`;
+                });
+                diff += '</div>';
+            } else if (tipo === 'modificado') {
+                item = comparacao.modificados[idx];
+                diff = `<div style=&quot;color: #fbbf24; font-weight: bold; margin-bottom: 12px;&quot;>⚠️ ARQUIVO MODIFICADO: ${item.nome}</div>`;
+                diff += '<div class=&quot;diff-container&quot;>';
+                item.diff.diff.slice(0, 200).forEach(d => {
+                    if (d.tipo === 'add') {
+                        diff += `<div class=&quot;diff-linha diff-add&quot;>${d.linha} | + ${d.conteudo}</div>`;
+                    } else if (d.tipo === 'remove') {
+                        diff += `<div class=&quot;diff-linha diff-remove&quot;>${d.linha} | - ${d.conteudo}</div>`;
+                    } else if (d.tipo === 'modify') {
+                        diff += `<div class=&quot;diff-linha diff-remove&quot;>${d.linha} | - ${d.antes}</div>`;
+                        diff += `<div class=&quot;diff-linha diff-add&quot;>${d.linha} | + ${d.depois}</div>`;
+                    } else if (Math.random() > 0.7) { // Mostrar só algumas linhas iguais
+                        diff += `<div class=&quot;diff-linha diff-igual&quot;>${d.linha} | ${d.conteudo}</div>`;
+                    }
+                });
+                diff += '</div>';
+            } else {
+                item = comparacao.deletados[idx];
+                diff = `<div style=&quot;color: #f87171; font-weight: bold; margin-bottom: 12px;&quot;>❌ ARQUIVO DELETADO: ${item.nome}</div>`;
+                diff += '<div class=&quot;diff-container&quot;>';
+                item.arquivo.conteudo.split('\n').slice(0, 100).forEach((linha, i) => {
+                    diff += `<div class=&quot;diff-linha diff-remove&quot;>${i + 1} | ${linha}</div>`;
+                });
+                diff += '</div>';
+            }
+
+            document.getElementById('tab-codigo').innerHTML = diff;
+            mudarTab('codigo');
+        }
+
+        function gerarSugestoes() {
+            let html = '<div style=&quot;margin-bottom: 16px; color: #38bdf8; font-weight: bold; font-size: 16px;&quot;>💡 SUGESTÕES INTELIGENTES</div>';
+
+            // Sugestão 1: Arquivos novos
+            if (comparacao.novos.length > 0) {
+                html += `
+                    <div class=&quot;sugestao&quot;>
+                        <div class=&quot;sugestao-titulo&quot;>✅ ${comparacao.novos.length} arquivo(s) novo(s) no Projeto 2</div>
+                        <div class=&quot;sugestao-texto&quot;>
+                            Estes arquivos foram adicionados no projeto atualizado. Se o Projeto 1 não funciona e o 2 funciona, 
+                            pode ser porque estes arquivos são necessários. Considere copiar para o Projeto 1:
+                            <ul style=&quot;margin-top: 8px;&quot;>
+                                ${comparacao.novos.slice(0, 5).map(n => `<li>${n.nome}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Sugestão 2: Arquivos modificados
+            if (comparacao.modificados.length > 0) {
+                const maisModificado = comparacao.modificados.reduce((max, item) => 
+                    (item.diff.linhasAdicionadas + item.diff.linhasRemovidas) > 
+                    (max.diff.linhasAdicionadas + max.diff.linhasRemovidas) ? item : max
+                );
+
+                html += `
+                    <div class=&quot;sugestao&quot;>
+                        <div class=&quot;sugestao-titulo&quot;>⚠️ Arquivo mais modificado: ${maisModificado.nome}</div>
+                        <div class=&quot;sugestao-texto&quot;>
+                            Este arquivo teve ${maisModificado.diff.linhasAdicionadas + maisModificado.diff.linhasRemovidas} linhas alteradas.
+                            Se algo não funciona no Projeto 1, provavelmente a correção está neste arquivo.
+                            Clique em &quot;📁 Arquivos&quot; para ver as diferenças linha por linha.
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Sugestão 3: Dependências (se tiver package.json)
+            const pkg1 = projetos[1].arquivos['package.json'];
+            const pkg2 = projetos[2].arquivos['package.json'];
+
+            if (pkg1 &amp;&amp; pkg2) {
+                try {
+                    const deps1 = JSON.parse(pkg1.conteudo).dependencies || {};
+                    const deps2 = JSON.parse(pkg2.conteudo).dependencies || {};
+                    const novasDeps = Object.keys(deps2).filter(k => !deps1[k]);
+
+                    if (novasDeps.length > 0) {
+                        html += `
+                            <div class=&quot;sugestao&quot;>
+                                <div class=&quot;sugestao-titulo&quot;>📦 ${novasDeps.length} dependência(s) nova(s)</div>
+                                <div class=&quot;sugestao-texto&quot;>
+                                    O Projeto 2 usa pacotes que não existem no Projeto 1:
+                                    <ul style=&quot;margin-top: 8px;&quot;>
+                                        ${novasDeps.slice(0, 5).map(d => `<li>${d}: ${deps2[d]}</li>`).join('')}
+                                    </ul>
+                                    Instale com: <code style=&quot;background: #0f172a; padding: 2px 6px; border-radius: 4px;&quot;>npm install ${novasDeps.join(' ')}</code>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } catch(e) {}
+            }
+
+            // Sugestão 4: Arquivos deletados
+            if (comparacao.deletados.length > 0) {
+                html += `
+                    <div class=&quot;sugestao&quot;>
+                        <div class=&quot;sugestao-titulo&quot;>❌ ${comparacao.deletados.length} arquivo(s) removido(s)</div>
+                        <div class=&quot;sugestao-texto&quot;>
+                            Estes arquivos existiam no Projeto 1 mas foram removidos no Projeto 2. 
+                            Se eram necessários, o Projeto 2 pode não funcionar corretamente. 
+                            Se não eram necessários, você pode remover do Projeto 1 também para limpar.
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('tab-sugestoes').innerHTML = html;
+        }
+
+        // =====================
+        // GERAR RELATÓRIO
+        // =====================
+        function gerarRelatorio() {
+            if (!comparacao) return;
+
+            let relatorio = `RELATÓRIO DE COMPARAÇÃO DE PROJETOS
+${&quot;═&quot;.repeat(80)}
+
+PROJETO 1: ${projetos[1].nome}
+PROJETO 2: ${projetos[2].nome}
+DATA: ${new Date().toLocaleString('pt-BR')}
+
+${&quot;═&quot;.repeat(80)}
+ESTATÍSTICAS:
+${&quot;─&quot;.repeat(80)}
+
+Arquivos Novos:       ${comparacao.novos.length}
+Arquivos Modificados: ${comparacao.modificados.length}
+Arquivos Deletados:   ${comparacao.deletados.length}
+Arquivos Iguais:      ${comparacao.iguais.length}
+
+${&quot;═&quot;.repeat(80)}
+ARQUIVOS NOVOS:
+${&quot;─&quot;.repeat(80)}
+
+${comparacao.novos.map(n => `+ ${n.nome}`).join('\n') || 'Nenhum'}
+
+${&quot;═&quot;.repeat(80)}
+ARQUIVOS MODIFICADOS:
+${&quot;─&quot;.repeat(80)}
+
+${comparacao.modificados.map(m => `~ ${m.nome} (+${m.diff.linhasAdicionadas} -${m.diff.linhasRemovidas})`).join('\n') || 'Nenhum'}
+
+${&quot;═&quot;.repeat(80)}
+ARQUIVOS DELETADOS:
+${&quot;─&quot;.repeat(80)}
+
+${comparacao.deletados.map(d => `- ${d.nome}`).join('\n') || 'Nenhum'}
+
+${&quot;═&quot;.repeat(80)}
+RECOMENDAÇÕES:
+${&quot;─&quot;.repeat(80)}
+
+${comparacao.novos.length > 0 ? `1. Copie os ${comparacao.novos.length} arquivo(s) novo(s) para o Projeto 1\n` : ''}${comparacao.modificados.length > 0 ? `2. Revise os ${comparacao.modificados.length} arquivo(s) modificado(s)\n` : ''}${comparacao.deletados.length > 0 ? `3. Verifique se os ${comparacao.deletados.length} arquivo(s) deletado(s) eram necessários\n` : ''}
+${&quot;═&quot;.repeat(80)}
+Gerado por: Comparador de Projetos
+`;
+
+            baixarTexto(relatorio, `comparacao-${Date.now()}.txt`);
+        }
+
+        // =====================
+        // UTILITÁRIOS
+        // =====================
+        function mudarTab(nome) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('ativo'));
+            
+            event.target.classList.add('ativo');
+            document.getElementById(`tab-${nome}`).classList.add('ativo');
+        }
+
+        function limparTudo() {
+            projetos = { 1: null, 2: null };
+            comparacao = null;
+            document.getElementById('file1').value = '';
+            document.getElementById('file2').value = '';
+            document.getElementById('info1').style.display = 'none';
+            document.getElementById('info2').style.display = 'none';
+            document.getElementById('resultado').style.display = 'none';
+            document.getElementById('btnComparar').disabled = true;
+            document.getElementById('btnRelatorio').disabled = true;
+        }
+
+        function baixarTexto(conteudo, nome) {
+            const blob = new Blob([conteudo], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nome;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+<div class="projeto " id="p4"><iframe srcdoc="<!DOCTYPE html>
+<html lang=&quot;pt-BR&quot;>
+<head>
+  <meta charset=&quot;UTF-8&quot;>
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+  <title>🔌 Testador de API — Com Proxy em Cascata</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif;
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(76, 175, 80, 0.2);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #4caf50;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(76, 175, 80, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .section h2 {
+      color: #4caf50;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(76, 175, 80, 0.2);
+      border-radius: 6px;
+      color: #e0e0e0;
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #4caf50;
+      background: rgba(76, 175, 80, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #4caf50;
+      color: white;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background: #66bb6a;
+    }
+
+    .btn-primary:disabled {
+      background: #666;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: rgba(76, 175, 80, 0.2);
+      color: #4caf50;
+      border: 1px solid #4caf50;
+      padding: 8px 12px;
+      font-size: 12px;
+      margin-right: 5px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(76, 175, 80, 0.3);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 12px 20px;
+      background: transparent;
+      border: none;
+      color: #888;
+      cursor: pointer;
+      font-weight: bold;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+      font-size: 13px;
+    }
+
+    .tab.active {
+      color: #4caf50;
+      border-bottom-color: #4caf50;
+    }
+
+    .content {
+      display: none;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    .status {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.success {
+      background: rgba(76, 175, 80, 0.2);
+      border: 1px solid #4caf50;
+      color: #4caf50;
+    }
+
+    .status.error {
+      background: rgba(244, 67, 54, 0.2);
+      border: 1px solid #f44336;
+      color: #f44336;
+    }
+
+    .status.info {
+      background: rgba(33, 150, 243, 0.2);
+      border: 1px solid #2196f3;
+      color: #2196f3;
+    }
+
+    .status.warning {
+      background: rgba(255, 152, 0, 0.2);
+      border: 1px solid #ff9800;
+      color: #ff9800;
+    }
+
+    .response {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      font-family: monospace;
+      font-size: 11px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #4caf50;
+    }
+
+    .proxy-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(76, 175, 80, 0.2);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .proxy-status {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .proxy-status.ok {
+      background: #4caf50;
+    }
+
+    .proxy-status.error {
+      background: #f44336;
+    }
+
+    .proxy-status.testing {
+      background: #ff9800;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .templates {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .template-btn {
+      padding: 10px;
+      background: rgba(76, 175, 80, 0.1);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 12px;
+      transition: all 0.3s;
+    }
+
+    .template-btn:hover {
+      background: rgba(76, 175, 80, 0.2);
+      border-color: #4caf50;
+    }
+
+    .cascade-info {
+      background: rgba(33, 150, 243, 0.1);
+      border: 1px solid rgba(33, 150, 243, 0.3);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .cascade-info strong {
+      color: #2196f3;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class=&quot;container&quot;>
+    <header>
+      <h1>🔌 Testador de API</h1>
+      <p>Teste APIs com proxy em cascata (gratuito)</p>
+    </header>
+
+    <div class=&quot;status&quot; id=&quot;status&quot;></div>
+
+    <div class=&quot;tabs&quot;>
+      <button class=&quot;tab active&quot; data-tab=&quot;teste&quot;>🧪 Teste Rápido</button>
+      <button class=&quot;tab&quot; data-tab=&quot;proxies&quot;>🌐 Proxies</button>
+      <button class=&quot;tab&quot; data-tab=&quot;templates&quot;>📋 Templates</button>
+      <button class=&quot;tab&quot; data-tab=&quot;playground&quot;>🎮 Playground</button>
+      <button class=&quot;tab&quot; data-tab=&quot;guia&quot;>📖 Guia</button>
+    </div>
+
+    <!-- Teste Rápido -->
+    <div class=&quot;content active&quot; id=&quot;teste&quot;>
+      <div class=&quot;grid&quot;>
+        <div class=&quot;section&quot;>
+          <h2>🔧 Configuração</h2>
+
+          <div class=&quot;form-group&quot;>
+            <label>URL da API</label>
+            <input type=&quot;text&quot; id=&quot;apiUrl&quot; placeholder=&quot;https://api.groq.com/...&quot; />
+          </div>
+
+          <div class=&quot;form-group&quot;>
+            <label>Método</label>
+            <select id=&quot;method&quot;>
+              <option value=&quot;GET&quot;>GET</option>
+              <option value=&quot;POST&quot;>POST</option>
+              <option value=&quot;PUT&quot;>PUT</option>
+              <option value=&quot;DELETE&quot;>DELETE</option>
+            </select>
+          </div>
+
+          <div class=&quot;form-group&quot;>
+            <label>Headers (JSON)</label>
+            <textarea id=&quot;headers&quot; placeholder='{&quot;Authorization&quot;: &quot;Bearer TOKEN&quot;, &quot;Content-Type&quot;: &quot;application/json&quot;}'>{}</textarea>
+          </div>
+
+          <div class=&quot;form-group&quot;>
+            <label>Body (JSON)</label>
+            <textarea id=&quot;body&quot; placeholder='{&quot;prompt&quot;: &quot;Olá&quot;}'>{}</textarea>
+          </div>
+
+          <div class=&quot;form-group&quot;>
+            <label>
+              <input type=&quot;checkbox&quot; id=&quot;usarProxy&quot; onchange=&quot;atualizarUI()&quot; />
+              Usar Proxy em Cascata
+            </label>
+          </div>
+
+          <div id=&quot;proxySelect&quot; style=&quot;display: none;&quot;>
+            <label>Selecione um Proxy</label>
+            <select id=&quot;proxyEscolhido&quot;>
+              <option value=&quot;&quot;>-- Automático (tenta todos) --</option>
+            </select>
+          </div>
+
+          <button class=&quot;btn-primary&quot; onclick=&quot;testarAPI()&quot;>🚀 Testar API</button>
+        </div>
+
+        <div class=&quot;section&quot;>
+          <h2>📊 Resposta</h2>
+          <div class=&quot;response&quot; id=&quot;response&quot;>Aguardando teste...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proxies -->
+    <div class=&quot;content&quot; id=&quot;proxies&quot;>
+      <div class=&quot;section&quot;>
+        <h2>🌐 Proxies Disponíveis</h2>
+
+        <div class=&quot;cascade-info&quot;>
+          <strong>💡 Como funciona:</strong>
+          <br>1. Tenta o primeiro proxy
+          <br>2. Se falhar, tenta o próximo (cascata)
+          <br>3. Continua até conseguir
+          <br>4. Todos são GRATUITOS
+        </div>
+
+        <button class=&quot;btn-secondary&quot; onclick=&quot;testarTodosProxies()&quot;>
+          🔍 Testar Todos
+        </button>
+
+        <div id=&quot;proxiesList&quot; style=&quot;margin-top: 20px;&quot;></div>
+      </div>
+    </div>
+
+    <!-- Templates -->
+    <div class=&quot;content&quot; id=&quot;templates&quot;>
+      <div class=&quot;section&quot;>
+        <h2>📋 Templates de API</h2>
+
+        <div class=&quot;templates&quot; id=&quot;templatesList&quot;></div>
+
+        <h2 style=&quot;margin-top: 30px;&quot;>📝 Código para Usar</h2>
+        <div class=&quot;response&quot; id=&quot;templateCode&quot;>Selecione um template</div>
+      </div>
+    </div>
+
+    <!-- Playground -->
+    <div class=&quot;content&quot; id=&quot;playground&quot;>
+      <div class=&quot;section&quot;>
+        <h2>🎮 Playground (Teste em Tempo Real)</h2>
+
+        <div class=&quot;form-group&quot;>
+          <label>Sua Chave de API (Groq)</label>
+          <input type=&quot;password&quot; id=&quot;apiKey&quot; placeholder=&quot;gsk_...&quot; />
+        </div>
+
+        <div class=&quot;form-group&quot;>
+          <label>Prompt</label>
+          <textarea id=&quot;prompt&quot; placeholder=&quot;Digite sua pergunta jurídica aqui...&quot;>Qual é a diferença entre crime doloso e culposo?</textarea>
+        </div>
+
+        <button class=&quot;btn-primary&quot; onclick=&quot;testarPlayground()&quot;>🎯 Executar</button>
+
+        <h3 style=&quot;color: #4caf50; margin-top: 20px; margin-bottom: 10px;&quot;>Resposta:</h3>
+        <div class=&quot;response&quot; id=&quot;playgroundResponse&quot;>Aguardando execução...</div>
+      </div>
+    </div>
+
+    <!-- Guia -->
+    <div class=&quot;content&quot; id=&quot;guia&quot;>
+      <div class=&quot;section&quot;>
+        <h2>📖 Guia de Uso</h2>
+        <div style=&quot;font-size: 13px; line-height: 1.8; color: #ccc;&quot;>
+          <h3 style=&quot;color: #4caf50; margin: 20px 0 10px 0;&quot;>🔌 O que é Proxy em Cascata?</h3>
+          <p>
+            É uma técnica onde você tenta chamar a API através de múltiplos servidores intermediários (proxies).
+            Se um falhar, tenta o próximo automaticamente.
+            <br><br>
+            <strong>Vantagens:</strong>
+            <br>• Aumenta confiabilidade
+            <br>• Contorna bloqueios geográficos
+            <br>• Gratuito
+            <br>• Sem limites de requisições
+          </p>
+
+          <h3 style=&quot;color: #4caf50; margin: 20px 0 10px 0;&quot;>🌐 Proxies Gratuitos</h3>
+          <p>
+            Este testador usa proxies públicos gratuitos:
+            <br>• cors-anywhere.herokuapp.com
+            <br>• api.allorigins.win
+            <br>• proxy.cors.sh
+            <br>• thingproxy.freeboard.io
+          </p>
+
+          <h3 style=&quot;color: #4caf50; margin: 20px 0 10px 0;&quot;>🧪 Como Testar sua API</h3>
+          <p>
+            1. Coloque a URL da API
+            <br>2. Escolha o método (GET, POST, etc)
+            <br>3. Adicione headers e body se precisar
+            <br>4. Marque &quot;Usar Proxy em Cascata&quot;
+            <br>5. Clique em &quot;Testar API&quot;
+          </p>
+
+          <h3 style=&quot;color: #4caf50; margin: 20px 0 10px 0;&quot;>⚖️ Para Seu Projeto Jurídico</h3>
+          <p>
+            Use o Playground para testar a IA Groq:
+            <br>1. Coloque sua chave de API Groq
+            <br>2. Digite uma pergunta jurídica
+            <br>3. Veja a resposta em tempo real
+            <br>4. Copie o código para seu projeto
+          </p>
+
+          <h3 style=&quot;color: #4caf50; margin: 20px 0 10px 0;&quot;>⚠️ Limitações</h3>
+          <p>
+            • Alguns proxies têm limite de requisições
+            <br>• Alguns podem estar offline
+            <br>• Use em desenvolvimento, não em produção
+            <br>• Para produção, use um proxy pago ou sua própria API
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ─── Proxies Gratuitos ────────────────────────────────────────────────────
+
+    const proxies = [
+      {
+        name: &quot;CORS Anywhere&quot;,
+        url: &quot;https://cors-anywhere.herokuapp.com/&quot;,
+        tipo: &quot;cors&quot;,
+        gratuito: true,
+      },
+      {
+        name: &quot;AllOrigins&quot;,
+        url: &quot;https://api.allorigins.win/raw?url=&quot;,
+        tipo: &quot;raw&quot;,
+        gratuito: true,
+      },
+      {
+        name: &quot;Proxy CORS&quot;,
+        url: &quot;https://proxy.cors.sh/&quot;,
+        tipo: &quot;cors&quot;,
+        gratuito: true,
+      },
+      {
+        name: &quot;ThingProxy&quot;,
+        url: &quot;https://thingproxy.freeboard.io/fetch/&quot;,
+        tipo: &quot;raw&quot;,
+        gratuito: true,
+      },
+      {
+        name: &quot;Direto (sem proxy)&quot;,
+        url: &quot;&quot;,
+        tipo: &quot;direto&quot;,
+        gratuito: true,
+      },
+    ];
+
+    const templates = {
+      groq: {
+        nome: &quot;Groq IA&quot;,
+        url: &quot;https://api.groq.com/openai/v1/chat/completions&quot;,
+        method: &quot;POST&quot;,
+        headers: {
+          Authorization: &quot;Bearer gsk_YOUR_API_KEY&quot;,
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
+        },
+        body: {
+          model: &quot;mixtral-8x7b-32768&quot;,
+          messages: [
+            {
+              role: &quot;user&quot;,
+              content: &quot;Qual é a diferença entre crime doloso e culposo?&quot;,
+            },
+          ],
+          temperature: 0.7,
+          max_tokens: 1024,
+        },
+        codigo: `
+// Usar Groq IA
+const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer gsk_YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    model: 'mixtral-8x7b-32768',
+    messages: [{
+      role: 'user',
+      content: 'Sua pergunta aqui'
+    }],
+    temperature: 0.7,
+    max_tokens: 1024
+  })
+});
+
+const data = await response.json();
+console.log(data.choices[0].message.content);
+        `,
+      },
+      neon: {
+        nome: &quot;Neon Database&quot;,
+        url: &quot;https://api.neon.tech/v1/databases&quot;,
+        method: &quot;GET&quot;,
+        headers: {
+          Authorization: &quot;Bearer YOUR_NEON_API_KEY&quot;,
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
+        },
+        body: {},
+        codigo: `
+// Usar Neon Database
+const response = await fetch('https://api.neon.tech/v1/databases', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_NEON_API_KEY',
+    'Content-Type': 'application/json'
+  }
+});
+
+const databases = await response.json();
+console.log(databases);
+        `,
+      },
+      openai: {
+        nome: &quot;OpenAI&quot;,
+        url: &quot;https://api.openai.com/v1/chat/completions&quot;,
+        method: &quot;POST&quot;,
+        headers: {
+          Authorization: &quot;Bearer sk_YOUR_API_KEY&quot;,
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
+        },
+        body: {
+          model: &quot;gpt-3.5-turbo&quot;,
+          messages: [
+            {
+              role: &quot;user&quot;,
+              content: &quot;Olá&quot;,
+            },
+          ],
+        },
+        codigo: `
+// Usar OpenAI
+const response = await fetch('https://api.openai.com/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer sk_YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    model: 'gpt-3.5-turbo',
+    messages: [{
+      role: 'user',
+      content: 'Sua pergunta'
+    }]
+  })
+});
+
+const data = await response.json();
+console.log(data.choices[0].message.content);
+        `,
+      },
+    };
+
+    // ─── Carregar Templates ────────────────────────────────────────────────────
+
+    function carregarTemplates() {
+      const list = document.getElementById(&quot;templatesList&quot;);
+      list.innerHTML = Object.entries(templates)
+        .map(
+          ([key, template]) => `
+        <button class=&quot;template-btn&quot; onclick=&quot;selecionarTemplate('${key}')&quot;>
+          ${template.nome}
+        </button>
+      `
+        )
+        .join(&quot;&quot;);
+
+      const proxySelect = document.getElementById(&quot;proxyEscolhido&quot;);
+      proxySelect.innerHTML = proxies
+        .map(
+          (proxy) => `
+        <option value=&quot;${proxy.url}&quot;>${proxy.name}</option>
+      `
+        )
+        .join(&quot;&quot;);
+    }
+
+    function selecionarTemplate(key) {
+      const template = templates[key];
+      document.getElementById(&quot;apiUrl&quot;).value = template.url;
+      document.getElementById(&quot;method&quot;).value = template.method;
+      document.getElementById(&quot;headers&quot;).value = JSON.stringify(template.headers, null, 2);
+      document.getElementById(&quot;body&quot;).value = JSON.stringify(template.body, null, 2);
+      document.getElementById(&quot;templateCode&quot;).textContent = template.codigo;
+
+      // Ir para aba teste
+      document.querySelectorAll(&quot;.tab&quot;).forEach((t) => t.classList.remove(&quot;active&quot;));
+      document.querySelectorAll(&quot;.content&quot;).forEach((c) => c.classList.remove(&quot;active&quot;));
+      document.querySelector('[data-tab=&quot;teste&quot;]').classList.add(&quot;active&quot;);
+      document.getElementById(&quot;teste&quot;).classList.add(&quot;active&quot;);
+    }
+
+    // ─── Testar API ───────────────────────────────────────────────────────────
+
+    async function testarAPI() {
+      const url = document.getElementById(&quot;apiUrl&quot;).value;
+      const method = document.getElementById(&quot;method&quot;).value;
+      const headers = JSON.parse(document.getElementById(&quot;headers&quot;).value || &quot;{}&quot;);
+      const body = document.getElementById(&quot;body&quot;).value;
+      const usarProxy = document.getElementById(&quot;usarProxy&quot;).checked;
+      const proxyEscolhido = document.getElementById(&quot;proxyEscolhido&quot;).value;
+
+      if (!url) {
+        mostrarStatus(&quot;❌ Digite uma URL&quot;, &quot;error&quot;);
+        return;
+      }
+
+      mostrarStatus(&quot;🔄 Testando API...&quot;, &quot;info&quot;);
+
+      let proxiesParaTentar = [];
+
+      if (usarProxy) {
+        if (proxyEscolhido) {
+          proxiesParaTentar = [proxyEscolhido];
+        } else {
+          proxiesParaTentar = proxies.map((p) => p.url);
+        }
+      } else {
+        proxiesParaTentar = [&quot;&quot;];
+      }
+
+      let ultimoErro = null;
+
+      for (const proxy of proxiesParaTentar) {
+        try {
+          let urlFinal = url;
+
+          if (proxy === &quot;&quot;) {
+            // Sem proxy
+            urlFinal = url;
+          } else if (proxy.includes(&quot;allorigins&quot;)) {
+            urlFinal = proxy + encodeURIComponent(url);
+          } else if (proxy.includes(&quot;cors.sh&quot;)) {
+            urlFinal = proxy + url;
+          } else if (proxy.includes(&quot;thingproxy&quot;)) {
+            urlFinal = proxy + url;
+          } else {
+            urlFinal = proxy + url;
+          }
+
+          mostrarStatus(`🔄 Tentando: ${proxy || &quot;direto&quot;}...`, &quot;info&quot;);
+
+          const options = {
+            method,
+            headers: {
+              ...headers,
+              &quot;Content-Type&quot;: &quot;application/json&quot;,
+            },
+          };
+
+          if (method !== &quot;GET&quot; &amp;&amp; body) {
+            options.body = body;
+          }
+
+          const response = await fetch(urlFinal, options);
+          const data = await response.json();
+
+          document.getElementById(&quot;response&quot;).textContent = JSON.stringify(data, null, 2);
+          mostrarStatus(`✅ Sucesso! Proxy: ${proxy || &quot;direto&quot;}`, &quot;success&quot;);
+          return;
+        } catch (err) {
+          ultimoErro = err.message;
+          continue;
+        }
+      }
+
+      document.getElementById(&quot;response&quot;).textContent = `❌ Erro: ${ultimoErro}`;
+      mostrarStatus(`❌ Todos os proxies falharam: ${ultimoErro}`, &quot;error&quot;);
+    }
+
+    // ─── Testar Todos os Proxies ──────────────────────────────────────────────
+
+    async function testarTodosProxies() {
+      const list = document.getElementById(&quot;proxiesList&quot;);
+      list.innerHTML = &quot;&quot;;
+
+      mostrarStatus(&quot;🔍 Testando proxies...&quot;, &quot;info&quot;);
+
+      for (const proxy of proxies) {
+        const item = document.createElement(&quot;div&quot;);
+        item.className = &quot;proxy-item&quot;;
+        item.innerHTML = `
+          <div>
+            <span class=&quot;proxy-status testing&quot;></span>
+            <strong>${proxy.name}</strong>
+          </div>
+          <span>Testando...</span>
+        `;
+        list.appendChild(item);
+
+        try {
+          const response = await fetch(proxy.url + &quot;https://api.groq.com/&quot;, {
+            method: &quot;HEAD&quot;,
+            mode: &quot;no-cors&quot;,
+          });
+
+          item.innerHTML = `
+            <div>
+              <span class=&quot;proxy-status ok&quot;></span>
+              <strong>${proxy.name}</strong>
+            </div>
+            <span style=&quot;color: #4caf50;&quot;>✅ OK</span>
+          `;
+        } catch (err) {
+          item.innerHTML = `
+            <div>
+              <span class=&quot;proxy-status error&quot;></span>
+              <strong>${proxy.name}</strong>
+            </div>
+            <span style=&quot;color: #f44336;&quot;>❌ Erro</span>
+          `;
+        }
+      }
+
+      mostrarStatus(&quot;✅ Teste de proxies concluído&quot;, &quot;success&quot;);
+    }
+
+    // ─── Playground ───────────────────────────────────────────────────────────
+
+    async function testarPlayground() {
+      const apiKey = document.getElementById(&quot;apiKey&quot;).value;
+      const prompt = document.getElementById(&quot;prompt&quot;).value;
+
+      if (!apiKey) {
+        mostrarStatus(&quot;❌ Digite sua chave de API Groq&quot;, &quot;error&quot;);
+        return;
+      }
+
+      if (!prompt) {
+        mostrarStatus(&quot;❌ Digite um prompt&quot;, &quot;error&quot;);
+        return;
+      }
+
+      mostrarStatus(&quot;🎯 Executando no Playground...&quot;, &quot;info&quot;);
+
+      try {
+        const response = await fetch(&quot;https://api.groq.com/openai/v1/chat/completions&quot;, {
+          method: &quot;POST&quot;,
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            &quot;Content-Type&quot;: &quot;application/json&quot;,
+          },
+          body: JSON.stringify({
+            model: &quot;mixtral-8x7b-32768&quot;,
+            messages: [
+              {
+                role: &quot;user&quot;,
+                content: prompt,
+              },
+            ],
+            temperature: 0.7,
+            max_tokens: 1024,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          document.getElementById(&quot;playgroundResponse&quot;).textContent = `❌ Erro: ${data.error.message}`;
+          mostrarStatus(`❌ Erro: ${data.error.message}`, &quot;error&quot;);
+        } else {
+          const resposta = data.choices[0].message.content;
+          document.getElementById(&quot;playgroundResponse&quot;).textContent = resposta;
+          mostrarStatus(&quot;✅ Sucesso!&quot;, &quot;success&quot;);
+        }
+      } catch (err) {
+        document.getElementById(&quot;playgroundResponse&quot;).textContent = `❌ Erro: ${err.message}`;
+        mostrarStatus(`❌ Erro: ${err.message}`, &quot;error&quot;);
+      }
+    }
+
+    // ─── Abas ─────────────────────────────────────────────────────────────────
+
+    document.querySelectorAll(&quot;.tab&quot;).forEach((tab) => {
+      tab.addEventListener(&quot;click&quot;, () => {
+        document.querySelectorAll(&quot;.tab&quot;).forEach((t) => t.classList.remove(&quot;active&quot;));
+        document.querySelectorAll(&quot;.content&quot;).forEach((c) => c.classList.remove(&quot;active&quot;));
+
+        tab.classList.add(&quot;active&quot;);
+        document.getElementById(tab.dataset.tab).classList.add(&quot;active&quot;);
+      });
+    });
+
+    // ─── UI ───────────────────────────────────────────────────────────────────
+
+    function atualizarUI() {
+      const usarProxy = document.getElementById(&quot;usarProxy&quot;).checked;
+      document.getElementById(&quot;proxySelect&quot;).style.display = usarProxy ? &quot;block&quot; : &quot;none&quot;;
+    }
+
+    function mostrarStatus(mensagem, tipo) {
+      const status = document.getElementById(&quot;status&quot;);
+      status.textContent = mensagem;
+      status.className = `status show ${tipo}`;
+    }
+
+    // ─── Inicializar ──────────────────────────────────────────────────────────
+
+    carregarTemplates();
+  </script>
+</body>
+</html>
+" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe></div>
+
+<script>
+function trocar(i) {
+  document.querySelectorAll('.projeto').forEach(function(el){ el.classList.remove('ativo'); });
+  document.querySelectorAll('.nav-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('p'+i).classList.add('ativo');
+  document.querySelectorAll('.nav-btn')[i].classList.add('active');
+  localStorage.setItem('mc-ultimo', i);
+}
+window.onload = function() {
+  var u = localStorage.getItem('mc-ultimo');
+  if (u !== null) trocar(parseInt(u));
+};
+</script>
+</body>
+</html>
